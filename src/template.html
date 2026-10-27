@@ -52,11 +52,18 @@
   [hidden] { display:none !important; }
   #anos { position:relative; flex-wrap:nowrap; overflow-x:auto; gap:4px; margin:0 0 8px; padding-bottom:4px; scrollbar-width:thin; }
   #anos .tab { flex:none; padding:3px 10px; font-size:13px; font-weight:500; }
+  .comp { position:relative; display:inline-flex; }
+  button.icone { padding:7px 10px; display:inline-flex; align-items:center; }
+  button.icone svg { width:18px; height:18px; display:block; }
+  .menu { position:absolute; right:0; top:calc(100% + 6px); z-index:10; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:6px; min-width:210px; box-shadow:0 6px 22px rgba(0,0,0,.18); }
+  .menu button { display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:transparent; color:var(--fg); border:0; border-radius:6px; padding:9px 10px; font:inherit; cursor:pointer; }
+  .menu button:hover, .menu button:focus-visible { background:var(--line); outline:none; }
+  .menu svg { width:18px; height:18px; flex:none; }
   footer { margin-top:28px; color:var(--mut); font-size:12.5px; text-align:center; }
   footer a { color:inherit; }
-  #colecoes .tab { position:relative; z-index:1; }
-  #colecoes .tab.on { z-index:3; }
-  #colecoes .tab .mais { margin-left:8px; font-size:12px; opacity:.8; white-space:nowrap; }
+  #colecoes .tab, #grupos .tab { position:relative; z-index:1; }
+  #colecoes .tab.on, #grupos .tab.on { z-index:3; }
+  .tab .mais { margin-left:8px; font-size:12px; opacity:.8; white-space:nowrap; }
   .busca { position:relative; margin:0 0 12px; }
   .busca input.filtro { margin:0; padding-right:44px; }
   .busca input.filtro::-webkit-search-cancel-button { -webkit-appearance:none; display:none; }
@@ -86,6 +93,12 @@
   <div class="panel">
     <div class="row">
       <strong id="titulo" class="grow"></strong>
+      <span class="comp">
+        <button class="ghost icone" id="btnComp" aria-haspopup="true" aria-expanded="false" aria-label="Compartilhar deck" title="Compartilhar deck"></button>
+        <div class="menu" id="menuComp" role="menu" hidden>
+          <button type="button" role="menuitem" id="btnLink"><svg id="icLink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg><span id="txtLink">Copiar link do deck</span></button>
+        </div>
+      </span>
       <button class="ghost" id="btnBaixar">Baixar .txt</button>
       <button class="go" id="btnCopiar">Copiar lista</button>
     </div>
@@ -106,7 +119,8 @@ var SEM_COLECAO = ["Secret Lair"]; // grupos com uma unica colecao: lista os dec
 
 var colAtual = 0, deckAtual = 0;
 var anoFiltro = "";
-var recolhido = false, animando = false; // coleções recolhidas sob o botão escolhido
+var recolhido = true, animando = false; // coleções recolhidas sob o botão escolhido (só em RECOLHEM)
+var gRecolhido = true; // grupos recolhidos sob o botão escolhido: a página abre assim
 function $(id) { return document.getElementById(id); }
 
 function contar(texto) {
@@ -152,12 +166,11 @@ function destacar(deck) {
   esp.scrollTop = ta.scrollTop; esp.scrollLeft = 0;
 }
 
-// Link direto (#pasta/deck) e memória da última seleção (localStorage, só neste aparelho).
+// Link direto: o endereço (#pasta/deck) acompanha o deck escolhido.
 function idDe(deck) { return deck._col.id + "/" + deck.arquivo.replace(/\.txt$/, ""); }
 function guardarSelecao(deck) {
   var id = idDe(deck);
   try { if (location.hash !== "#" + id) history.replaceState(null, "", "#" + id); } catch (e) {}
-  if (!q) { try { localStorage.setItem("precons-sel", id); } catch (e) {} }
 }
 function aplicarId(id) {
   var ok = false;
@@ -165,7 +178,7 @@ function aplicarId(id) {
     col.decks.forEach(function (dk, di) {
       if (ok || idDe(dk) !== id) return;
       ok = true; grpAtual = col.grupo; colAtual = ci; deckAtual = di; anoFiltro = "";
-      recolhido = RECOLHEM.indexOf(col.grupo) >= 0;
+      recolhido = RECOLHEM.indexOf(col.grupo) >= 0; gRecolhido = true;
     });
   });
   return ok;
@@ -182,13 +195,27 @@ function desenhar() {
   var gvis = GRUPOS.filter(function (g) { return cont[g]; });
   var gEl = $("grupos"); gEl.innerHTML = "";
   if (gvis.length && gvis.indexOf(grpAtual) < 0) { grpAtual = gvis[0]; colAtual = -1; }
+  var gRec = gRecolhido && gvis.length > 1;
   gvis.forEach(function (g) {
+    if (gRec && g !== grpAtual) return;
     var b = document.createElement("button");
     b.className = "tab" + (g === grpAtual ? " on" : "");
     if (GRP_ICONE[g]) { var gi = document.createElement("img"); gi.className = "ic"; gi.alt = ""; gi.src = "icons/" + GRP_ICONE[g] + ".svg"; gi.onerror = function () { this.style.display = "none"; }; b.appendChild(gi); }
     b.appendChild(document.createTextNode(g));
-    var gn = document.createElement("span"); gn.className = "n"; gn.textContent = cont[g]; b.appendChild(gn);
-    b.onclick = function () { if (grpAtual !== g) { grpAtual = g; colAtual = -1; deckAtual = 0; recolhido = false; desenhar(); } };
+    if (!(gRecolhido && gvis.length > 1)) { var gn = document.createElement("span"); gn.className = "n"; gn.textContent = cont[g]; b.appendChild(gn); }
+    if (gRec) {
+      var gm = document.createElement("span"); gm.className = "mais"; gm.textContent = "▾ +" + (gvis.length - 1); b.appendChild(gm);
+      b.title = "Mostrar os outros grupos";
+    }
+    b.setAttribute("aria-expanded", gRec ? "false" : "true");
+    b.onclick = function () {
+      if (animando || gvis.length < 2) return;
+      if (gRecolhido) { expandirEm(gEl, function () { gRecolhido = false; desenhar(); }); return; }
+      recolherEm(gEl, b, function () {
+        if (g !== grpAtual) { grpAtual = g; colAtual = -1; deckAtual = 0; recolhido = false; }
+        gRecolhido = true; desenhar();
+      });
+    };
     gEl.appendChild(b);
   });
   var comAno = RECOLHEM.indexOf(grpAtual) >= 0, base = [], anos = [];
@@ -229,12 +256,13 @@ function desenhar() {
     return;
   }
   if (vis.indexOf(colAtual) < 0) { colAtual = vis[0]; deckAtual = 0; recolhido = false; }
+  var colRec = recolhido && comAno;
   var decks = COLECOES[colAtual].decks;
   if (!decks[deckAtual] || !casa(decks[deckAtual])) {
     for (var k = 0; k < decks.length; k++) { if (casa(decks[k])) { deckAtual = k; break; } }
   }
   vis.forEach(function (i) {
-    if (recolhido && i !== colAtual) return;
+    if (colRec && i !== colAtual) return;
     var col = COLECOES[i];
     var b = document.createElement("button");
     b.className = "tab" + (i === colAtual ? " on" : "");
@@ -244,15 +272,16 @@ function desenhar() {
     if (col.ano && col.nome.indexOf(col.ano) < 0) partes.push(col.ano);
     partes.push(nk + (nk === 1 ? " deck" : " decks"));
     var y = document.createElement("span"); y.className = "n"; y.textContent = partes.join(" · "); b.appendChild(y);
-    if (recolhido && vis.length > 1) {
+    if (colRec && vis.length > 1) {
       var m = document.createElement("span"); m.className = "mais"; m.textContent = "▾ +" + (vis.length - 1); b.appendChild(m);
       b.title = "Mostrar as outras coleções";
     }
-    b.setAttribute("aria-expanded", recolhido ? "false" : "true");
+    b.setAttribute("aria-expanded", colRec ? "false" : "true");
     b.onclick = function () {
       if (animando) return;
       if (RECOLHEM.indexOf(grpAtual) < 0) { colAtual = i; deckAtual = 0; desenhar(); return; }
-      if (recolhido) expandir(); else recolher(i, b);
+      if (colRec) expandirEm(c, function () { recolhido = false; desenhar(); });
+      else recolherEm(c, b, function () { colAtual = i; deckAtual = 0; recolhido = true; desenhar(); });
     };
     c.appendChild(b);
   });
@@ -292,9 +321,9 @@ function manter(el, rAnt) {
 // Encolher: numa só etapa curta, o botão escolhido sobe ao topo da área e os outros convergem sobre ele
 // (o inverso de expandir) enquanto a área diminui; no fim a lista é redesenhada já recolhida.
 var DUR_REC = 260;
-function recolher(i, alvo) {
-  var c = $("colecoes"), btns = [].slice.call(c.children);
-  if (semAnim() || btns.length < 2) { colAtual = i; deckAtual = 0; recolhido = true; desenhar(); return; }
+function recolherEm(c, alvo, aplicar) {
+  var btns = [].slice.call(c.children);
+  if (semAnim() || btns.length < 2) { aplicar(); return; }
   animando = true;
   btns.forEach(function (x) { x.classList.toggle("on", x === alvo); });
   var cr = c.getBoundingClientRect(), ar = alvo.getBoundingClientRect();
@@ -319,17 +348,17 @@ function recolher(i, alvo) {
     if (performance.now() - t0 < DUR_REC + 20) requestAnimationFrame(passo);
   })();
   setTimeout(function () {
-    colAtual = i; deckAtual = 0; recolhido = true; desenhar();
+    aplicar();
     manter(c.querySelector(".on"), ar);
     html.style.overflowAnchor = "";
     limpar([c]);
   }, DUR_REC + 20);
 }
 
-function expandir() {
-  var c = $("colecoes"), sel = c.querySelector(".on");
+function expandirEm(c, aplicar) {
+  var sel = c.querySelector(".on");
   var rAnt = sel.getBoundingClientRect(), hAnt = c.offsetHeight;
-  recolhido = false; desenhar();
+  aplicar();
   var novo = c.querySelector(".on"), rolou = manter(novo, rAnt);
   if (semAnim()) return;
   animando = true;
@@ -350,7 +379,7 @@ function expandir() {
 }
 
 $("saida").addEventListener("scroll", function () { $("espelho").scrollTop = this.scrollTop; $("espelho").scrollLeft = this.scrollLeft; });
-$("filtro").oninput = function () { q = this.value.trim().toLowerCase(); recolhido = false; $("limpar").hidden = !this.value; desenhar(); };
+$("filtro").oninput = function () { q = this.value.trim().toLowerCase(); recolhido = false; gRecolhido = false; $("limpar").hidden = !this.value; desenhar(); };
 $("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; desenhar(); f.focus(); };
 
 $("btnCopiar").onclick = function () {
@@ -358,6 +387,44 @@ $("btnCopiar").onclick = function () {
   function feito() { var b = $("btnCopiar"); b.textContent = "Copiado ✓"; setTimeout(function () { b.textContent = "Copiar lista"; }, 1500); }
   function alt() { ta.focus(); ta.select(); try { document.execCommand("copy"); feito(); } catch (e) { alert("Selecione o texto e use Cmd+C."); } }
   if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(feito, alt); else alt();
+};
+
+// Compartilhar: ícone do sistema (iOS, Android ou genérico) e menu para copiar o link do deck.
+var ICONES = {
+  ios: '<path d="M12 15V3"/><path d="M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/>',
+  android: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>',
+  generico: '<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>'
+};
+function sistema() {
+  var ua = navigator.userAgent || "", pl = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "";
+  if (/Android/i.test(ua) || /Android/i.test(pl)) return "android";
+  if (/iPhone|iPad|iPod/i.test(ua) || (/Mac/i.test(pl) && navigator.maxTouchPoints > 1)) return "ios";
+  return "generico";
+}
+var SO = sistema();
+(function () {
+  var svg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONES[SO] + '</svg>';
+  $("btnComp").innerHTML = svg; $("btnComp").setAttribute("data-so", SO);
+  $("icLink").innerHTML = ICONES.generico;
+})();
+function menuComp(abrir) {
+  $("menuComp").hidden = !abrir; $("btnComp").setAttribute("aria-expanded", abrir ? "true" : "false");
+  if (abrir) $("btnLink").focus();
+}
+function linkDoDeck() { var d = COLECOES[colAtual].decks[deckAtual]; return location.href.split("#")[0] + "#" + idDe(d); }
+$("btnComp").onclick = function (e) { e.stopPropagation(); menuComp($("menuComp").hidden); };
+document.addEventListener("click", function (e) { if (!$("menuComp").hidden && !$("menuComp").contains(e.target)) menuComp(false); });
+document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("menuComp").hidden) { menuComp(false); $("btnComp").focus(); } });
+$("btnLink").onclick = function () {
+  var url = linkDoDeck();
+  function feito() { $("txtLink").textContent = "Link copiado ✓"; setTimeout(function () { menuComp(false); $("txtLink").textContent = "Copiar link do deck"; }, 1100); }
+  function alt() {
+    var t = document.createElement("textarea"); t.value = url; t.setAttribute("readonly", ""); t.style.cssText = "position:fixed;opacity:0;top:0;left:0";
+    document.body.appendChild(t); t.select();
+    try { document.execCommand("copy"); feito(); } catch (e) { prompt("Copie o link:", url); }
+    document.body.removeChild(t);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(feito, alt); else alt();
 };
 
 $("btnBaixar").onclick = function () {
@@ -369,9 +436,8 @@ $("btnBaixar").onclick = function () {
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
 };
 
-var salvo = "";
-try { salvo = localStorage.getItem("precons-sel") || ""; } catch (e) {}
-if (!aplicarId(idDoEndereco())) aplicarId(salvo);
+try { localStorage.removeItem("precons-sel"); } catch (e) {} // limpeza da memória antiga do último deck
+aplicarId(idDoEndereco());
 desenhar();
 window.addEventListener("hashchange", function () {
   var id = idDoEndereco(), d = COLECOES[colAtual] && COLECOES[colAtual].decks[deckAtual];
