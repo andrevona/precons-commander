@@ -1,0 +1,93 @@
+1 Morska, Undersea Sleuth (MKC) 3
+
+1 Academy Manufactor (MKC) 221
+1 Adrix and Nev, Twincasters (MKC) 198
+1 Aerial Extortionist (MKC) 54
+1 Alandra, Sky Dreamer (MKC) 94
+1 Arcane Signet (MKC) 223
+1 Armed with Proof (MKC) 9
+1 Azorius Chancery (MKC) 249
+1 Azorius Signet (MKC) 224
+1 Bennie Bracks, Zoologist (MKC) 57
+1 Canopy Vista (MKC) 252
+1 Chulane, Teller of Tales (MKC) 202
+1 Command Tower (MKC) 256
+1 Confirm Suspicions (MKC) 97
+1 Detective of the Month (MKC) 21
+1 Disorder in the Court (MKC) 209
+1 Erdwal Illuminator (MKC) 104
+1 Esix, Fractal Bloom (MKC) 210
+1 Ethereal Investigator (MKC) 105
+1 Exotic Orchard (MKC) 260
+1 Farewell (MKC) 64
+1 Finale of Revelation (MKC) 106
+1 Follow the Bodies (MKC) 23
+2 Forest (MKM) 286
+3 Forest (MKM) 285
+1 Fumigate (MKC) 66
+1 Graf Mole (MKC) 170
+1 Hornet Queen (MKC) 172
+1 Hydroid Krasis (MKC) 212
+1 Idol of Oblivion (MKC) 229
+1 Innocuous Researcher (MKC) 38
+1 Inspiring Statuary (MKC) 230
+1 Irrigated Farmland (MKC) 267
+3 Island (MKM) 279
+3 Island (MKM) 280
+1 Jolrael, Mwonvuli Recluse (MKC) 173
+1 Junk Winder (MKC) 107
+1 Kappa Cannoneer (MKC) 108
+1 Killer Service (MKC) 174
+1 Knowledge Is Power (MKC) 42
+1 Koma, Cosmos Serpent (MKC) 213
+1 Krosan Verge (MKC) 271
+1 Lonely Sandbar (MKC) 273
+1 Lonis, Cryptozoologist (MKC) 215
+1 Magnifying Glass (MKM) 255
+1 Mechanized Production (MKC) 109
+1 Merchant of Truth (MKC) 11
+1 Nadir Kraken (MKC) 112
+1 Nettlecyst (MKC) 233
+1 On the Trail (MKC) 39
+1 Ongoing Investigation (MKC) 114
+1 Organic Extinction (MKC) 76
+1 Path of Ancestry (MKC) 279
+1 Plains (MKM) 278
+2 Plains (MKM) 277
+1 Prairie Stream (MKC) 281
+1 Psychosis Crawler (MKC) 234
+1 Ransom Note (MKC) 46
+1 Reliquary Tower (MKC) 282
+1 Scattered Groves (MKC) 286
+1 Search the Premises (MKC) 81
+1 Seaside Citadel (MKC) 288
+1 Secluded Steppe (MKC) 289
+1 Selesnya Sanctuary (MKC) 290
+1 Selvala, Explorer Returned (MKC) 218
+1 Serene Sleuth (MKC) 14
+1 Shimmer Dragon (MKC) 117
+1 Simic Growth Chamber (MKC) 293
+1 Simic Signet (MKC) 236
+1 Skycloud Expanse (MKC) 294
+1 Sol Ring (MKC) 237
+1 Sophia, Dogged Detective (MKC) 8
+1 Spire of Industry (MKC) 296
+1 Sungrass Prairie (MKC) 297
+1 Swords to Plowshares (MKC) 88
+1 Talisman of Curiosity (MKC) 241
+1 Talisman of Progress (MKC) 243
+1 Talisman of Unity (MKC) 244
+1 Tangletrove Kelp (MKC) 24
+1 Teferi's Ageless Insight (MKC) 119
+1 Temple of Enlightenment (MKC) 302
+1 Temple of Mystery (MKC) 303
+1 Temple of Plenty (MKC) 304
+1 Temple of the False God (MKC) 305
+1 Tezzeret, Betrayer of Flesh (MKC) 120
+1 Thought Monitor (MKC) 121
+1 Tireless Tracker (MKC) 190
+1 Tranquil Thicket (MKC) 309
+1 Ulvenwald Mysteries (MKC) 193
+1 Wavesifter (MKC) 220
+1 Whirler Rogue (MKC) 124
+1 Wilderness Reclamation (MKC) 196

@@ -29,10 +29,13 @@ C=[("Commander (2011)","c11",[("Counterpunch","counterpunch"),("Devour for Power
    ("Wilds of Eldraine Commander","woc",[("Fae Dominion","fae_dominion"),("Virtue and Valor","virtue_and_valor")]),
    ("Doctor Who","who",[("Blast from the Past","blast_from_the_past"),("Masters of Evil","masters_of_evil"),("Paradox Power","paradox_power"),("Timey-Wimey","timey_wimey")]),
    ("The Lost Caverns of Ixalan Commander","lcc",[("Ahoy Mateys","ahoy_mateys"),("Blood Rites","blood_rites"),("Explorers of the Deep","explorers_of_the_deep"),("Veloci-Ramp-Tor","veloci_ramp_tor")]),
+   ("Murders at Karlov Manor Commander","mkc",[("Blame Game","blame_game"),("Deadly Disguise","deadly_disguise"),("Deep Clue Sea","deep_clue_sea"),("Revenant Recon","revenant_recon")]),
+   ("Fallout","pip",[("Hail, Caesar","hail_caesar"),("Mutant Menace","mutant_menace"),("Science!","science"),("Scrappy Survivors","scrappy_survivors")]),
+   ("Outlaws of Thunder Junction Commander","otc",[("Desert Bloom","desert_bloom"),("Grand Larceny","grand_larceny"),("Most Wanted","most_wanted"),("Quick Draw","quick_draw")]),
    ("Secret Lair","sld",[("Heads I Win, Tails You Lose (2021)","heads_i_win_tails_you_lose"),("From Cute to Brute (2023)","from_cute_to_brute"),("Angels: They're Just Like Us but Cooler and with Wings (2023)","angels_they_re_just_like_us_but_cooler_and_with_wings")])]
-ANOS={"c11":"2011","c13":"2013","c14":"2014","c15":"2015","c16":"2016","c17":"2017","c18":"2018","c19":"2019","c20":"2020","znc":"2020","cmr":"2020","khc":"2021","c21":"2021","sld":"","afc":"2021","mic":"2021","voc":"2021","nec":"2022","ncc":"2022","clb":"2022","dmc":"2022","40k":"2022","brc":"2022","scd":"2022","onc":"2023","moc":"2023","ltc":"2023","cmm":"2023","woc":"2023","who":"2023","lcc":"2023"}
+ANOS={"c11":"2011","c13":"2013","c14":"2014","c15":"2015","c16":"2016","c17":"2017","c18":"2018","c19":"2019","c20":"2020","znc":"2020","cmr":"2020","khc":"2021","c21":"2021","sld":"","afc":"2021","mic":"2021","voc":"2021","nec":"2022","ncc":"2022","clb":"2022","dmc":"2022","40k":"2022","brc":"2022","scd":"2022","onc":"2023","moc":"2023","ltc":"2023","cmm":"2023","woc":"2023","who":"2023","lcc":"2023","mkc":"2024","pip":"2024","otc":"2024"}
 # Grupos de topo; o resto e Universes Within.
-GRUPO={"40k":"Universes Beyond","ltc":"Universes Beyond","who":"Universes Beyond","scd":"Starters","sld":"Secret Lair"}
+GRUPO={"40k":"Universes Beyond","ltc":"Universes Beyond","who":"Universes Beyond","pip":"Universes Beyond","scd":"Starters","sld":"Secret Lair"}
 GRUPOS=["Universes Within","Universes Beyond","Starters","Secret Lair"]
 data=[]
 for nome,pasta,decks in C:

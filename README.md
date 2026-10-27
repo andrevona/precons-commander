@@ -18,4 +18,4 @@ Abra a página, escolha o grupo (Universes Within, Universes Beyond, Starters ou
 
 ## Cobertura atual
 
-Commander 2011 e 2013 a 2023 completos (113 decks, 31 coleções), incluindo os Starter Commander Decks de 2022 e os Secret Lair commander decks de 2021 e 2023 (anos seguintes serão adicionados aos poucos).
+Commander 2011 e 2013 a 2023 completos, incluindo os Starter Commander Decks de 2022 e os Secret Lair commander decks de 2021 e 2023. De 2024 já estão Murders at Karlov Manor, Fallout e Outlaws of Thunder Junction (125 decks, 34 coleções); o restante do ano será adicionado aos poucos. As edições Collector's Edition não são incluídas (repetem as listas dos decks normais, mudando só a aparência das cartas).
