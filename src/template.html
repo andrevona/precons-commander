@@ -52,13 +52,18 @@
   [hidden] { display:none !important; }
   #anos { position:relative; flex-wrap:nowrap; overflow-x:auto; gap:4px; margin:0 0 8px; padding-bottom:4px; scrollbar-width:thin; }
   #anos .tab { flex:none; padding:3px 10px; font-size:13px; font-weight:500; }
-  .comp { position:relative; display:inline-flex; }
   button.icone { padding:7px 10px; display:inline-flex; align-items:center; }
   button.icone svg { width:18px; height:18px; display:block; }
-  .menu { position:absolute; right:0; top:calc(100% + 6px); z-index:10; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:6px; min-width:210px; box-shadow:0 6px 22px rgba(0,0,0,.18); }
-  .menu button { display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:transparent; color:var(--fg); border:0; border-radius:6px; padding:9px 10px; font:inherit; cursor:pointer; }
-  .menu button:hover, .menu button:focus-visible { background:var(--line); outline:none; }
-  .menu svg { width:18px; height:18px; flex:none; }
+  .acoes { margin-bottom:8px; }
+  .modal { position:fixed; inset:0; z-index:50; background:rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center; padding:16px; }
+  .modal-caixa { background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:14px; padding:20px; width:100%; max-width:430px; box-shadow:0 12px 40px rgba(0,0,0,.35); }
+  .modal-caixa h2 { font-size:18px; margin:0 0 6px; }
+  .modal-caixa h2.ok { color:var(--ok); } .modal-caixa h2.erro { color:var(--warn); }
+  .guia-sub { color:var(--mut); margin:0 0 10px; }
+  .passos { margin:0 0 14px; padding-left:22px; } .passos li { margin:7px 0; }
+  .guia-check { display:flex; gap:8px; align-items:center; color:var(--mut); font-size:14px; margin-bottom:16px; cursor:pointer; }
+  .guia-botoes { display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; }
+  .aviso { position:fixed; left:50%; bottom:24px; transform:translateX(-50%); z-index:60; max-width:calc(100% - 32px); background:var(--fg); color:var(--bg); padding:10px 16px; border-radius:12px; font-size:14px; box-shadow:0 6px 22px rgba(0,0,0,.25); text-align:center; }
   footer { margin-top:28px; color:var(--mut); font-size:12.5px; text-align:center; }
   footer a { color:inherit; }
   #colecoes .tab, #grupos .tab { position:relative; z-index:1; }
@@ -95,14 +100,11 @@
   <div class="panel">
     <div class="row">
       <strong id="titulo" class="grow"></strong>
-      <span class="comp">
-        <button class="ghost icone" id="btnComp" aria-haspopup="true" aria-expanded="false" aria-label="Compartilhar deck" title="Compartilhar deck"></button>
-        <div class="menu" id="menuComp" role="menu" hidden>
-          <button type="button" role="menuitem" id="btnLink"><svg id="icLink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg><span id="txtLink">Copiar link do deck</span></button>
-          <button type="button" role="menuitem" id="btnEndstep"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg><span id="txtEndstep">Copiar lista e criar deck no endstep.cc</span></button>
-        </div>
-      </span>
-      <button class="go" id="btnCopiar">Copiar lista</button>
+      <button class="ghost icone" id="btnComp" aria-label="Compartilhar o link do deck" title="Compartilhar o link do deck"></button>
+    </div>
+    <div class="row acoes">
+      <button class="go" id="btnEndstep">Criar no endstep.cc</button>
+      <button class="ghost" id="btnCopiar">Copiar lista</button>
     </div>
     <div class="status" id="status"></div>
     <div class="lista"><div class="espelho" id="espelho" aria-hidden="true"></div><textarea id="saida" readonly spellcheck="false" wrap="off"></textarea></div>
@@ -110,6 +112,21 @@
   </div>
   <footer>__RODAPE__</footer>
 </main>
+<div class="modal" id="guia" hidden>
+  <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="guiaTitulo">
+    <h2 id="guiaTitulo" class="ok">Lista copiada ✓</h2>
+    <p class="guia-sub">O endstep.cc vai abrir com um deck novo (é preciso estar logado lá). Na página do deck:</p>
+    <ol class="passos">
+      <li>Toque em <b>Paste a list</b>.</li>
+      <li>Cole a lista (<span id="guiaColar">Ctrl+V</span>).</li>
+      <li>Toque em <b>Apply</b>: o nome, as 100 cartas e o comandante entram sozinhos.</li>
+      <li>Em <b>Set format</b>, escolha <b>Commander</b>.</li>
+    </ol>
+    <label class="guia-check"><input type="checkbox" id="guiaNaoMostrar"> Não mostrar de novo</label>
+    <div class="guia-botoes"><button class="ghost" id="guiaFechar">Fechar</button><button class="go" id="guiaAbrir">Abrir endstep.cc</button></div>
+  </div>
+</div>
+<div class="aviso" id="aviso" role="status" hidden></div>
 
 <script>
 // Dados embutidos: cada deck ja vem pronto (comandante, linha em branco, resto em ordem alfabetica).
@@ -391,7 +408,7 @@ function abrirConteudo() {
 function fecharConteudo() {
   var el = $("conteudo");
   function fim() {
-    aberto = false; menuComp(false); desenhar();
+    aberto = false; desenhar();
     try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
   }
   if (semAnim()) { fim(); return; }
@@ -414,7 +431,8 @@ $("btnCopiar").onclick = function () {
   if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(feito, alt); else alt();
 };
 
-// Compartilhar: ícone do sistema (iOS, Android ou genérico) e menu para copiar o link do deck.
+// Compartilhar: ícone do sistema (iOS, Android ou genérico). No celular abre a folha de compartilhamento
+// do sistema com o link do deck; nos demais aparelhos copia o link.
 var ICONES = {
   ios: '<path d="M12 15V3"/><path d="M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/>',
   android: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>',
@@ -428,15 +446,13 @@ function sistema() {
 }
 var SO = sistema();
 (function () {
-  var svg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONES[SO] + '</svg>';
-  $("btnComp").innerHTML = svg; $("btnComp").setAttribute("data-so", SO);
-  $("icLink").innerHTML = ICONES.generico;
+  $("btnComp").innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONES[SO] + '</svg>';
+  $("btnComp").setAttribute("data-so", SO);
+  var mac = /Mac/i.test((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "");
+  $("guiaColar").textContent = SO === "generico" ? (mac ? "⌘V" : "Ctrl+V") : "toque longo › Colar";
 })();
-function menuComp(abrir) {
-  $("menuComp").hidden = !abrir; $("btnComp").setAttribute("aria-expanded", abrir ? "true" : "false");
-  if (abrir) $("btnLink").focus();
-}
-function linkDoDeck() { var d = COLECOES[colAtual].decks[deckAtual]; return location.href.split("#")[0] + "#" + idDe(d); }
+function deckAtualObj() { return COLECOES[colAtual].decks[deckAtual]; }
+function linkDoDeck() { return location.href.split("#")[0] + "#" + idDe(deckAtualObj()); }
 // Copia na hora (dentro do clique), funciona também no iOS.
 function copiarSync(texto) {
   var t = document.createElement("textarea"); t.value = texto; t.setAttribute("readonly", "");
@@ -447,33 +463,58 @@ function copiarSync(texto) {
   document.body.removeChild(t);
   return ok;
 }
+// Copia e avisa: ok() se deu certo, falhou() se não deu.
+function copiar(texto, ok, falhou) {
+  if (copiarSync(texto)) { ok(); return; }
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(texto).then(ok, falhou); else falhou();
+}
+function aviso(txt) {
+  var a = $("aviso"); a.textContent = txt; a.hidden = false;
+  clearTimeout(aviso.t); aviso.t = setTimeout(function () { a.hidden = true; }, 2800);
+}
+$("btnComp").onclick = function () {
+  var d = deckAtualObj(), url = linkDoDeck();
+  function copiaLink() { copiar(url, function () { aviso("Link do deck copiado ✓"); }, function () { prompt("Copie o link do deck:", url); }); }
+  if (SO !== "generico" && navigator.share) {
+    navigator.share({ title: d.nome + " · Precons Commander", url: url }).catch(function (e) { if (!e || e.name !== "AbortError") copiaLink(); });
+  } else copiaLink();
+};
+
+// Criar no endstep.cc: copia a lista no formato de exportação do MTG Arena e mostra os passos antes de abrir o site.
 var ENDSTEP = "https://endstep.cc/decks/new"; // editor de deck novo do endstep.cc
-// Texto no formato de exportação do MTG Arena: ao colar ("Paste a list" > Apply), o endstep.cc já
-// troca o "Untitled" pelo nome do deck, carrega as cartas e põe o(s) comandante(s) no trono.
-// (O formato "Commander" do menu Set format não é preenchido pela colagem: é um clique a mais lá.)
+// Ao colar esse texto ("Paste a list" > Apply), o endstep.cc já troca o "Untitled" pelo nome do deck,
+// carrega as cartas e põe o(s) comandante(s) no trono. O formato "Commander" (Set format) é um clique a mais lá.
 function textoEndstep(deck) {
   var blocos = deck.lista.split("\n\n");
   var nome = deck.nome.replace(/\s*\(\d{4}\)$/, ""); // Secret Lair: sem o ano
   return "About\nName " + nome + "\n\nCommander\n" + blocos[0].trim() + "\n\nDeck\n" + blocos.slice(1).join("\n").trim() + "\n";
 }
+var CHAVE_DIRETO = "precons-endstep-direto"; // "Não mostrar de novo" (só neste aparelho)
+function direto() { try { return localStorage.getItem(CHAVE_DIRETO) === "1"; } catch (e) { return false; } }
+var focoAntes = null;
+function guia(abrir) {
+  $("guia").hidden = !abrir;
+  if (abrir) { focoAntes = document.activeElement; $("guiaAbrir").focus(); }
+  else if (focoAntes && focoAntes.focus) focoAntes.focus();
+}
+function abrirEndstep() { window.open(ENDSTEP, "_blank", "noopener"); }
 $("btnEndstep").onclick = function () {
-  var texto = textoEndstep(COLECOES[colAtual].decks[deckAtual]);
-  var ok = copiarSync(texto);
-  if (!ok && navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(texto).catch(function () {});
-  window.open(ENDSTEP, "_blank", "noopener");
-  $("txtEndstep").textContent = "Lista copiada ✓ lá: Paste a list, colar e Apply";
-  setTimeout(function () { menuComp(false); $("txtEndstep").textContent = "Copiar lista e criar deck no endstep.cc"; }, 2000);
+  var texto = textoEndstep(deckAtualObj());
+  if (direto()) {
+    copiar(texto, function () { aviso("Lista copiada ✓ No endstep.cc: Paste a list › colar › Apply"); }, function () { aviso("Não consegui copiar: use Copiar lista"); });
+    abrirEndstep();
+    return;
+  }
+  $("guiaNaoMostrar").checked = false;
+  $("guiaTitulo").textContent = "Lista copiada ✓"; $("guiaTitulo").className = "ok";
+  copiar(texto, function () {}, function () { $("guiaTitulo").textContent = "Não consegui copiar a lista"; $("guiaTitulo").className = "erro"; });
+  guia(true);
 };
-$("btnComp").onclick = function (e) { e.stopPropagation(); menuComp($("menuComp").hidden); };
-document.addEventListener("click", function (e) { if (!$("menuComp").hidden && !$("menuComp").contains(e.target)) menuComp(false); });
-document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("menuComp").hidden) { menuComp(false); $("btnComp").focus(); } });
-$("btnLink").onclick = function () {
-  var url = linkDoDeck();
-  function feito() { $("txtLink").textContent = "Link copiado ✓"; setTimeout(function () { menuComp(false); $("txtLink").textContent = "Copiar link do deck"; }, 1100); }
-  function alt() { if (copiarSync(url)) feito(); else prompt("Copie o link:", url); }
-  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(feito, alt); else alt();
-};
-
+function guardarPreferencia() { if ($("guiaNaoMostrar").checked) { try { localStorage.setItem(CHAVE_DIRETO, "1"); } catch (e) {} } }
+$("guiaAbrir").onclick = function () { guardarPreferencia(); guia(false); abrirEndstep(); };
+$("guiaFechar").onclick = function () { guardarPreferencia(); guia(false); };
+$("guia").onclick = function (e) { if (e.target === this) guia(false); };
+document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("guia").hidden) guia(false); });
 
 try { localStorage.removeItem("precons-sel"); } catch (e) {} // limpeza da memória antiga do último deck
 aplicarId(idDoEndereco());
