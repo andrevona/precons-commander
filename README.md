@@ -1,6 +1,6 @@
 # Precons Commander
 
-Página simples para consultar e copiar as listas dos decks pré-construídos (precons) de Commander de Magic: The Gathering, no formato `quantidade Nome (SET) número`, pronto para colar na importação do [endstep.cc](https://endstep.cc).
+**Um facilitador para quem usa o [endstep.cc](https://endstep.cc).** Página simples para consultar e copiar as listas dos decks pré-construídos (precons) de Commander de Magic: The Gathering e levá-las para o endstep.cc: com um botão, a lista é copiada no formato que o endstep.cc importa já com o nome do deck e o comandante definidos. A lista exibida usa o formato `quantidade Nome (SET) número`.
 
 ## Formato da lista
 
