@@ -49,9 +49,15 @@
   #grupos { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px; }
   #grupos .tab { border-radius:8px; text-align:center; padding:10px 8px; display:flex; align-items:center; justify-content:center; }
   @media (min-width:640px) { #grupos { grid-template-columns:repeat(4,1fr); } }
+  @media (max-width:439px) { #grupos .tab { padding:10px 4px; font-size:14px; } #grupos .tab .n, #grupos .tab .mais { margin-left:4px; } }
   [hidden] { display:none !important; }
-  #anos { position:relative; flex-wrap:nowrap; overflow-x:auto; gap:4px; margin:0 0 8px; padding-bottom:4px; scrollbar-width:thin; }
-  #anos .tab { flex:none; padding:3px 10px; font-size:13px; font-weight:500; }
+  .sec-col { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:30px; }
+  .anos-caixa { position:relative; display:inline-flex; }
+  .anos-caixa select { -webkit-appearance:none; appearance:none; font:inherit; font-size:13px; font-weight:500; letter-spacing:0; text-transform:none; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:4px 28px 4px 12px; cursor:pointer; }
+  .anos-caixa select:hover { border-color:var(--acc); }
+  .anos-caixa::after { content:"▾"; position:absolute; right:11px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:12px; color:var(--mut); }
+  .anos-caixa.on select { background:var(--acc); color:var(--accfg); border-color:var(--acc); }
+  .anos-caixa.on::after { color:var(--accfg); }
   button.icone { padding:7px 10px; display:inline-flex; align-items:center; }
   button.icone svg { width:18px; height:18px; display:block; }
   .acoes { margin-bottom:8px; }
@@ -89,8 +95,7 @@
   </div>
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
   <div id="conteudo" hidden>
-  <div class="sec" id="secCol">Coleções</div>
-  <div class="tabs" id="anos"></div>
+  <div class="sec sec-col" id="secCol"><span>Coleções</span><span class="anos-caixa" id="anosCaixa"><select id="anos" aria-label="Filtrar as coleções por ano"></select></span></div>
   <div class="tabs" id="colecoes"></div>
   <hr class="div">
   <div class="sec">Decks</div>
@@ -223,6 +228,7 @@ function desenhar() {
     if (GRP_ICONE[g]) { var gi = document.createElement("img"); gi.className = "ic"; gi.alt = ""; gi.src = "icons/" + GRP_ICONE[g] + ".svg"; gi.onerror = function () { this.style.display = "none"; }; b.appendChild(gi); }
     b.appendChild(document.createTextNode(g));
     var gn = document.createElement("span"); gn.className = "n"; gn.textContent = cont[g]; b.appendChild(gn);
+    if (ativo) { var gt = document.createElement("span"); gt.className = "mais"; gt.textContent = "▾"; gt.setAttribute("aria-hidden", "true"); b.appendChild(gt); }
     b.setAttribute("aria-expanded", ativo ? "true" : "false");
     b.onclick = function () {
       if (animando) return;
@@ -242,23 +248,15 @@ function desenhar() {
   base.forEach(function (i) { if (!anoFiltro || COLECOES[i].ano === anoFiltro) vis.push(i); });
   var semCol = SEM_COLECAO.indexOf(grpAtual) >= 0;
   $("secCol").hidden = semCol; $("colecoes").hidden = semCol;
-  var aEl = $("anos"), sl = aEl.scrollLeft; aEl.innerHTML = "";
-  aEl.hidden = semCol || !comAno || anos.length < 2;
-  if (!aEl.hidden) {
-    var ativo = null;
-    [""].concat(anos).forEach(function (a) {
-      var ab = document.createElement("button");
-      ab.className = "tab" + (a === anoFiltro ? " on" : "");
-      ab.textContent = a || "Todos";
-      ab.onclick = function () { if (animando) return; anoFiltro = (a && a === anoFiltro) ? "" : a; recolhido = false; desenhar(); };
-      if (a === anoFiltro) ativo = ab;
-      aEl.appendChild(ab);
+  var aEl = $("anos"), aCx = $("anosCaixa");
+  aCx.hidden = semCol || !comAno || anos.length < 2;
+  if (!aCx.hidden) {
+    aEl.innerHTML = "";
+    [""].concat(anos.slice().reverse()).forEach(function (a) { // mais recentes primeiro
+      var op = document.createElement("option"); op.value = a; op.textContent = a || "Todos os anos"; aEl.appendChild(op);
     });
-    aEl.scrollLeft = sl;
-    if (ativo) {
-      if (ativo.offsetLeft < aEl.scrollLeft) aEl.scrollLeft = ativo.offsetLeft - 8;
-      else if (ativo.offsetLeft + ativo.offsetWidth > aEl.scrollLeft + aEl.clientWidth) aEl.scrollLeft = ativo.offsetLeft + ativo.offsetWidth - aEl.clientWidth + 8;
-    }
+    aEl.value = anoFiltro;
+    aCx.classList.toggle("on", !!anoFiltro);
   }
   var c = $("colecoes"); c.innerHTML = "";
   var d = $("decks"); d.innerHTML = "";
@@ -422,6 +420,7 @@ function fecharConteudo() {
 
 $("saida").addEventListener("scroll", function () { $("espelho").scrollTop = this.scrollTop; $("espelho").scrollLeft = this.scrollLeft; });
 $("filtro").oninput = function () { q = this.value.trim().toLowerCase(); recolhido = false; $("limpar").hidden = !this.value; if (q && !aberto) abrirConteudo(); else desenhar(); };
+$("anos").onchange = function () { if (animando) { this.value = anoFiltro; return; } anoFiltro = this.value; recolhido = false; desenhar(); };
 $("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; desenhar(); f.focus(); };
 
 $("btnCopiar").onclick = function () {
