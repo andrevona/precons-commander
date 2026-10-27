@@ -18,4 +18,4 @@ Abra a página, escolha a coleção e o deck (ou digite o nome de uma carta para
 
 ## Cobertura atual
 
-Commander 2011, 2013 a 2019 e 2020 a 2021 (em andamento, anos seguintes serão adicionados aos poucos).
+Commander 2011, 2013 a 2021 completos; 2022 em andamento (anos seguintes serão adicionados aos poucos).
