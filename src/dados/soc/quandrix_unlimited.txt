@@ -1,0 +1,92 @@
+1 Zimone, Infinite Analyst (SOC) 10
+
+1 Alchemist's Refuge (SOC) 360
+1 Altered Ego (SOC) 292
+1 Animist's Awakening (SOC) 261
+1 Arcane Signet (SOC) 127
+1 Astral Cornucopia (SOC) 342
+1 Beast Within (SOC) 263
+1 Benevolent Hydra (SOC) 124
+1 Biomass Mutation (SOC) 297
+1 Brass Infiniscope (SOC) 51
+1 Command Tower (SOC) 129
+1 Commander's Insight (SOC) 113
+1 Curse of the Swine (SOC) 192
+1 Decisive Denial (SOC) 304
+1 Deekah, Fractal Theorist (SOC) 193
+1 Elementalist's Palette (SOC) 346
+1 Elusive Otter // Grove's Bounty (SOC) 306a
+1 Entrancing Melody (SOC) 196
+1 Eureka Moment (SOC) 308
+1 Exotic Orchard (SOC) 369
+1 Expansion Algorithm (SOC) 19
+1 Fabled Passage (SOC) 130
+1 Flooded Grove (SOC) 373
+3 Forest (SOS) 280
+3 Forest (SOS) 281
+1 Forgotten Ancient (SOC) 267
+1 Fractal Harness (SOC) 268
+1 Goldvein Hydra (SOC) 270
+1 Guardian Augmenter (SOC) 271
+1 Hangarback Walker (SOC) 348
+1 Hardened Scales (SOC) 272
+1 Hinterland Harbor (SOC) 381
+1 Hydroid Krasis (SOC) 315
+1 Ingenious Prodigy (SOC) 115
+3 Island (SOS) 275
+4 Island (SOS) 274
+1 Kami of Whispered Hopes (SOC) 273
+1 Kinetic Ooze (SOC) 39
+1 Lattice Library (SOC) 40
+1 Lifeblood Hydra (SOC) 274
+1 Mana Bloom (SOC) 275
+1 Nature's Lore (SOC) 278
+1 Nev, the Practical Dean (SOC) 41
+1 Nexus Mentality (SOC) 21
+1 Opal Palace (SOC) 390
+1 Open the Way (SOC) 280
+1 Oran-Rief, the Vastwood (SOC) 391
+1 Overflowing Basin (SOC) 392
+1 Oversimplify (SOC) 322
+1 Owlin Spiralmancer (SOC) 22
+1 Ozolith, the Shattered Spire (SOC) 281
+1 Paradox Gardens (SOS) 258
+1 Path of Ancestry (SOC) 393
+1 Perplexing Test (SOC) 197
+1 Primal Might (SOC) 283
+1 Primo, the Unbounded (SOC) 6
+1 Primordial Hydra (SOC) 284
+1 Pull from Tomorrow (SOC) 116
+1 Quandrix Apprentice (SOC) 324
+1 Quandrix Campus (SOC) 395
+1 Quandrix Charm (SOS) 217
+1 Quandrix Command (SOC) 325
+1 Rain-Slicked Copse (SOC) 397
+1 Rapid Hybridization (SOC) 198
+1 Reliquary Tower (SOC) 398
+1 Rogue's Passage (SOC) 400
+1 Silkguard (SOC) 286
+1 Sodden Verdure (SOC) 406
+1 Sol Ring (SOC) 128
+1 Steelbane Hydra (SOC) 288
+1 Stonecoil Serpent (SOC) 356
+1 Striding Shotcaller // Run the Play (SOC) 50a
+1 Stroke of Genius (SOC) 203
+1 Study Hall (SOC) 407
+1 Tanazir Quandrix (SOC) 332
+1 Tangled Islet (SOC) 411
+1 Temple of Mystery (SOC) 414
+1 Temple of the False God (SOC) 416
+1 Terramorphic Expanse (SOS) 265
+1 The Goose Mother (SOC) 312
+1 Three Visits (SOC) 289
+1 Troyan, Gutsy Explorer (SOC) 334
+1 Turbulent Wilderness (SOC) 59
+1 Tyvar's Stand (SOC) 291
+1 Unbound Flourishing (SOC) 126
+1 Vineglimmer Snarl (SOC) 420
+1 Yavimaya Bloomsage // Channel (Prepared) (SOC) 44a
+1 Yavimaya Coast (SOC) 425
+1 Zimone's Hypothesis (SOC) 206
+1 Zimone, All-Questioning (SOC) 340
+1 Zimone, Quandrix Prodigy (SOC) 341

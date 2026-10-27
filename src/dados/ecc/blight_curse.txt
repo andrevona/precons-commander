@@ -1,0 +1,86 @@
+1 Auntie Ool, Cursewretch (ECC) 2
+
+1 Aberrant Return (ECC) 7
+1 Arcane Signet (ECC) 56
+1 Archfiend of Ifnir (ECC) 70
+1 Assassin's Trophy (ECC) 119
+1 Binding the Old Gods (ECC) 120
+1 Black Sun's Zenith (ECC) 71
+1 Blowfly Infestation (ECC) 46
+1 Burning Curiosity (ECL) 129
+1 Canyon Slough (ECC) 145
+1 Carnifex Demon (ECC) 72
+1 Cathartic Pyre (ECC) 90
+1 Cathartic Reunion (ECC) 91
+1 Chain Reaction (ECC) 92
+1 Channeler Initiate (ECC) 101
+1 Chimil, the Inner Sun (ECC) 137
+1 Cinder Glade (ECC) 146
+1 Command Tower (ECC) 60
+1 Commander's Sphere (ECC) 139
+1 Contagion Clasp (ECC) 140
+1 Devoted Druid (ECC) 104
+1 Dragonskull Summit (ECC) 147
+1 Dread Tiller (ECC) 20
+1 Dusk Urchins (ECC) 73
+1 Eventide's Shadow (ECC) 8
+1 Everlasting Torment (ECC) 121
+1 Evolution Sage (ECC) 105
+1 Evolving Wilds (ECL) 264
+1 Exotic Orchard (ECC) 148
+1 Ferrafor, Young Yew (ECC) 16
+1 Festering Thicket (ECC) 61
+1 Fire Covenant (ECC) 54
+1 Flourishing Defenses (ECC) 107
+6 Forest (ECL) 273
+1 Glissa Sunslayer (ECC) 122
+1 Golgari Rot Farm (ECC) 151
+1 Grave Titan (ECC) 74
+1 Grave Venerations (ECC) 9
+1 Grim Poppet (ECC) 142
+1 Gruul Turf (ECC) 152
+1 Hapatra, Vizier of Poisons (ECC) 123
+1 Harmonize (ECC) 111
+1 Hoarder's Greed (ECC) 47
+1 Ifnir Deadlands (ECC) 153
+1 Ignoble Hierarch (ECC) 52
+1 Incremental Blight (ECC) 76
+1 Infernal Grasp (ECC) 77
+1 Kulrath Knight (ECC) 126
+1 Lasting Tarfire (ECL) 149
+1 Liliana, Death Wielder (ECC) 78
+1 Massacre Girl, Known Killer (ECC) 79
+1 Midnight Banshee (ECC) 80
+4 Mountain (ECL) 272
+1 Necroskitter (ECC) 48
+1 Nesting Grounds (ECC) 155
+1 Night's Whisper (ECC) 81
+1 Oft-Nabbed Goat (ECC) 11
+1 Painful Truths (ECC) 82
+1 Path of Ancestry (ECC) 158
+1 Persist (ECC) 83
+1 Puca's Covenant (ECC) 18
+1 Puppeteer Clique (ECC) 84
+1 Putrefy (ECC) 131
+1 Rakdos Carnarium (ECC) 161
+1 Riveteers Overlook (ECC) 162
+1 Rootbound Crag (ECC) 163
+1 Savage Lands (ECC) 165
+1 Sheltered Thicket (ECC) 167
+1 Sinister Gnarlbark (ECC) 12
+1 Skinrender (ECC) 86
+1 Smoldering Marsh (ECC) 168
+1 Sol Ring (ECC) 58
+1 Soul Snuffers (ECC) 87
+8 Swamp (ECL) 271
+1 Terminate (ECC) 134
+1 Terramorphic Expanse (ECC) 169
+1 The Reaper, King No More (ECC) 4
+1 The Scorpion God (ECC) 133
+1 Tree of Perdition (ECC) 49
+1 Vernal Fen (ECC) 63
+1 Village Pillagers (ECC) 14
+1 Vraska, Betrayal's Sting (ECC) 88
+1 Wickerbough Elder (ECC) 118
+1 Wickersmith's Tools (ECC) 21
+1 Woodland Cemetery (ECC) 176
