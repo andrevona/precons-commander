@@ -29,7 +29,12 @@
   .grow { flex:1; min-width:180px; }
   button.go { background:var(--acc); color:var(--accfg); border:0; padding:8px 16px; border-radius:8px; font:inherit; font-weight:600; cursor:pointer; }
   button.ghost { background:transparent; color:var(--acc); border:1px solid var(--line); padding:7px 12px; border-radius:8px; font:inherit; cursor:pointer; }
-  textarea { width:100%; min-height:420px; background:var(--bg); color:var(--fg); border:1px solid var(--line); border-radius:8px; padding:10px; font:13px/1.45 ui-monospace, Menlo, Consolas, monospace; resize:vertical; }
+  .lista { position:relative; background:var(--bg); border-radius:8px; }
+  textarea { display:block; position:relative; z-index:1; width:100%; min-height:420px; margin:0; background:transparent; -webkit-appearance:none; appearance:none; color:var(--fg); border:1px solid var(--line); border-radius:8px; padding:10px; font:13px/1.45 ui-monospace, Menlo, Consolas, monospace; resize:vertical; white-space:pre; overflow:auto; }
+  .espelho { position:absolute; inset:0; overflow:hidden; border:1px solid transparent; border-radius:8px; padding:10px; font:13px/1.45 ui-monospace, Menlo, Consolas, monospace; white-space:pre; color:transparent; pointer-events:none; }
+  .espelho div { height:1.45em; }
+  .espelho div.hl { background:#ffe58a; border-radius:3px; }
+  @media (prefers-color-scheme: dark) { .espelho div.hl { background:#5c4a00; } }
   input.filtro { width:100%; margin:0 0 12px; padding:9px 12px; background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:8px; font:inherit; }
   .status { color:var(--mut); margin-bottom:8px; }
   .status.ok { color:var(--ok); } .status.warn { color:var(--warn); }
@@ -53,15 +58,17 @@
   <h1>Precons Commander</h1>
   <p class="sub">Escolha a coleção e o deck. A lista está no formato <code>quantidade Nome (SET) número</code>, pronta para colar no endstep.cc.</p>
 
-  <div class="busca">
-    <input class="filtro" id="filtro" type="search" placeholder="Filtrar decks pelo nome de uma carta…" autocomplete="off" spellcheck="false">
-    <button type="button" class="limpar" id="limpar" aria-label="Apagar busca" title="Apagar busca" hidden>×</button>
-  </div>
-  <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
+  <div class="tabs" id="grupos"></div>
   <div class="sec">Coleções</div>
   <div class="tabs" id="colecoes"></div>
   <hr class="div">
   <div class="sec">Decks</div>
+  <div class="busca">
+    <input class="filtro" id="filtro" type="search" placeholder="Filtrar por carta, deck ou comandante…" autocomplete="off" spellcheck="false">
+    <button type="button" class="limpar" id="limpar" aria-label="Apagar busca" title="Apagar busca" hidden>×</button>
+  </div>
+  <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
+
   <div class="tabs" id="decks"></div>
 
   <div class="panel">
@@ -71,13 +78,15 @@
       <button class="go" id="btnCopiar">Copiar lista</button>
     </div>
     <div class="status" id="status"></div>
-    <textarea id="saida" readonly spellcheck="false"></textarea>
+    <div class="lista"><div class="espelho" id="espelho" aria-hidden="true"></div><textarea id="saida" readonly spellcheck="false" wrap="off"></textarea></div>
   </div>
 </main>
 
 <script>
 // Dados embutidos: cada deck ja vem pronto (comandante, linha em branco, resto em ordem alfabetica).
 var COLECOES = __DATA__;
+var GRUPOS = __GRUPOS__;
+var grpAtual = GRUPOS[0];
 
 var colAtual = 0, deckAtual = 0;
 function $(id) { return document.getElementById(id); }
@@ -100,21 +109,50 @@ function acertos(deck) {
   if (!q) return [];
   return nomesDe(deck).filter(function (n) { return n.toLowerCase().indexOf(q) >= 0; });
 }
-function casa(deck) { return !q || acertos(deck).length > 0; }
+function casa(deck) {
+  return !q || deck.nome.toLowerCase().indexOf(q) >= 0 || deck.comandante.toLowerCase().indexOf(q) >= 0 || acertos(deck).length > 0;
+}
+
+function esc(t) { return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+// Destaca as linhas cujo nome de carta contem a busca e rola a lista ate a primeira.
+function destacar(deck) {
+  var ta = $("saida"), esp = $("espelho");
+  var linhas = deck.lista.split("\n"), primeira = -1;
+  esp.innerHTML = linhas.map(function (l, i) {
+    var m = /^\d+\s+(.+?)\s+\(\w+\)\s+\S+$/.exec(l);
+    var hit = q && m && m[1].toLowerCase().indexOf(q) >= 0;
+    if (hit && primeira < 0) primeira = i;
+    return '<div' + (hit ? ' class="hl"' : '') + '>' + (l ? esc(l) : "&nbsp;") + '</div>';
+  }).join("");
+  var lh = parseFloat(getComputedStyle(ta).lineHeight) || 18.85;
+  ta.scrollTop = primeira < 0 ? 0 : Math.max(0, primeira * lh - (ta.clientHeight - lh) / 2);
+  ta.scrollLeft = 0;
+  esp.scrollTop = ta.scrollTop; esp.scrollLeft = 0;
+}
 
 function desenhar() {
   var vis = [];
   var nd = 0;
   COLECOES.forEach(function (col) { col.decks.forEach(function (dk) { if (casa(dk)) nd++; }); });
-  $("contagem").textContent = q ? (nd === 0 ? "0 decks" : nd + (nd === 1 ? " deck contém" : " decks contêm") + " essa carta") : "";
-  COLECOES.forEach(function (col, i) { if (col.decks.some(casa)) vis.push(i); });
+  $("contagem").textContent = q ? (nd === 1 ? "1 deck encontrado" : nd + " decks encontrados") : "";
+  var gvis = GRUPOS.filter(function (g) { return COLECOES.some(function (col) { return col.grupo === g && col.decks.some(casa); }); });
+  var gEl = $("grupos"); gEl.innerHTML = "";
+  if (gvis.length && gvis.indexOf(grpAtual) < 0) { grpAtual = gvis[0]; colAtual = -1; }
+  gvis.forEach(function (g) {
+    var b = document.createElement("button");
+    b.className = "tab" + (g === grpAtual ? " on" : "");
+    b.textContent = g;
+    b.onclick = function () { if (grpAtual !== g) { grpAtual = g; colAtual = -1; deckAtual = 0; desenhar(); } };
+    gEl.appendChild(b);
+  });
+  COLECOES.forEach(function (col, i) { if (col.grupo === grpAtual && col.decks.some(casa)) vis.push(i); });
   var c = $("colecoes"); c.innerHTML = "";
   var d = $("decks"); d.innerHTML = "";
   var s = $("status");
   if (!vis.length) {
     $("titulo").textContent = "Nenhum deck encontrado";
     $("saida").value = "";
-    s.textContent = "Nenhum deck contém uma carta com esse nome."; s.className = "status warn";
+    s.textContent = "Nenhum deck, comandante ou carta com esse nome."; s.className = "status warn"; $("espelho").innerHTML = "";
     return;
   }
   if (vis.indexOf(colAtual) < 0) { colAtual = vis[0]; deckAtual = 0; }
@@ -144,12 +182,14 @@ function desenhar() {
   var total = contar(deck.lista);
   $("titulo").textContent = deck.nome + " · " + deck.comandante;
   $("saida").value = deck.lista;
+  destacar(deck);
   s.textContent = total + " cartas" + (total === 100 ? " ✓" : " (atenção: o esperado era 100)");
   var ac = acertos(deck);
   if (ac.length) s.textContent += " · encontrado: " + ac.join(", ");
   s.className = "status " + (total === 100 ? "ok" : "warn");
 }
 
+$("saida").addEventListener("scroll", function () { $("espelho").scrollTop = this.scrollTop; $("espelho").scrollLeft = this.scrollLeft; });
 $("filtro").oninput = function () { q = this.value.trim().toLowerCase(); $("limpar").hidden = !this.value; desenhar(); };
 $("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; desenhar(); f.focus(); };
 

@@ -24,6 +24,9 @@ C=[("Commander (2011)","c11",[("Counterpunch","counterpunch"),("Devour for Power
    ("Starter Commander Decks","scd",[("Chaos Incarnate","chaos_incarnate"),("Draconic Destruction","draconic_destruction"),("First Flight","first_flight"),("Grave Danger","grave_danger"),("Token Triumph","token_triumph")]),
    ("Secret Lair","sld",[("Heads I Win, Tails You Lose (2021)","heads_i_win_tails_you_lose")])]
 ANOS={"c11":"2011","c13":"2013","c14":"2014","c15":"2015","c16":"2016","c17":"2017","c18":"2018","c19":"2019","c20":"2020","znc":"2020","cmr":"2020","khc":"2021","c21":"2021","sld":"","afc":"2021","mic":"2021","voc":"2021","nec":"2022","ncc":"2022","clb":"2022","dmc":"2022","40k":"2022","brc":"2022","scd":"2022"}
+# Grupos de topo; o resto e Universes Within.
+GRUPO={"40k":"Universes Beyond","scd":"Starters","sld":"Secret Lair"}
+GRUPOS=["Universes Within","Universes Beyond","Starters","Secret Lair"]
 data=[]
 for nome,pasta,decks in C:
     ds=[]
@@ -31,7 +34,7 @@ for nome,pasta,decks in C:
         t=open(f"{pasta}/{f}.txt",encoding="utf-8").read()
         cmd=" / ".join(l.split(" ",1)[1].rsplit(" (",1)[0] for l in t.split("\n\n")[0].split("\n"))
         ds.append({"nome":dn,"comandante":cmd,"arquivo":f+".txt","lista":t})
-    data.append({"nome":nome,"ano":ANOS[pasta],"icone":{"c11":"cmd","sld":"star"}.get(pasta,pasta),"decks":ds})
-html=open("template.html",encoding="utf-8").read().replace("__DATA__",json.dumps(data,ensure_ascii=False).replace("</","<\\/"))
+    data.append({"nome":nome,"ano":ANOS[pasta],"grupo":GRUPO.get(pasta,"Universes Within"),"icone":{"c11":"cmd","sld":"star"}.get(pasta,pasta),"decks":ds})
+html=open("template.html",encoding="utf-8").read().replace("__GRUPOS__",json.dumps(GRUPOS)).replace("__DATA__",json.dumps(data,ensure_ascii=False).replace("</","<\\/"))
 open("precons_offline.html","w",encoding="utf-8").write(html)
 print(len(html))
