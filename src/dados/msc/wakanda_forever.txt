@@ -5,7 +5,6 @@
 1 Bast, Panther Goddess (MSC) 75
 1 Beast Within (MSC) 169
 1 Birds of Paradise (MSC) 170
-1 Black Panther's Claws (Hammer of Nazahn) (MSC) 286
 1 Bountiful Promenade (MSC) 226
 1 Canopy Vista (MSC) 227
 1 Command Tower (MSC) 236
@@ -17,12 +16,14 @@
 1 Everett K. Ross, Hapless Attaché (MSC) 13
 1 Evolving Wilds (MSC) 240
 1 Fight for the Throne (MSC) 65
+1 Fleecemane Lion (MSC) 282
 6 Forest (MSH) 295
 6 Forest (MSH) 296
 1 Fortified Village (MSC) 245
 1 Generous Gift (MSC) 133
 1 Gilded Lotus (MSC) 199
 1 Greater Good (MSC) 174
+1 Hammer of Nazahn (MSC) 286
 1 Harmonize (MSC) 175
 1 Hatut Zeraze Strike Force (MSC) 15
 1 Heart-Shaped Herb (MSC) 105
@@ -37,15 +38,14 @@
 1 Metalwork Colossus (MSC) 204
 1 Meteor Golem (MSC) 205
 1 Midnight Angel Armor (MSC) 22
+1 Mind's Eye (MSC) 288
 1 N'Yami-Class Mother Ship (MSC) 110
 1 Nakia, Wakandan Operative (MSC) 69
 1 Nature's Lore (MSC) 177
 1 Okoye, Mighty and Adored (MSC) 89
-1 Orbital Vibranium Bomb (Scourglass) (MSC) 276
 1 Overwhelming Stampede (MSC) 178
 1 Palace Jailer (MSC) 140
 1 Panther Habit (MSC) 112
-1 Panther Idol (Mind's Eye) (MSC) 288
 1 Panther Robot (MSC) 113
 1 Path of Ancestry (MSC) 254
 6 Plains (MSH) 287
@@ -55,27 +55,27 @@
 1 Royal Talon Fighter Jet (MSC) 24
 1 Scattered Groves (MSC) 262
 1 Scavenger Grounds (MSC) 263
+1 Scourglass (MSC) 276
 1 Shuri's Fabricator (MSC) 114
 1 Shuri, the Black Panther (MSC) 95
-1 Skybreaker, Sword of Bashenga (Sword of the Animist) (MSC) 289
 1 Sol Ring (MSC) 214
 1 Solemn Simulacrum (MSC) 215
 1 Storm, Queen of Wakanda (MSC) 97
 1 Sungrass Prairie (MSC) 270
 1 Sunpetal Grove (MSC) 272
+1 Sword of the Animist (MSC) 289
 1 T'Chaka, Venerable King (MSC) 98
 1 Terramorphic Expanse (MSC) 273
 1 The Great Mound (MSC) 120
 1 The Spear of Bashenga (MSC) 25
+1 Thran Dynamo (MSC) 290
 1 Throne of the High City (MSC) 274
 1 Trading Post (MSC) 224
 1 Valorous Stance (MSC) 145
 1 Vanquish the Horde (MSC) 146
-1 Vibranium Dynamo (Thran Dynamo) (MSC) 290
 1 Vibranium Mining Mech (MSC) 117
 1 Vibranium Strike Gauntlets (MSC) 118
 1 W'Kabi, Shield of the Nation (MSC) 70
 1 Wakanda Forever! (MSC) 71
-1 Wakandan War Panther (Fleecemane Lion) (MSC) 282
 1 Whispersilk Cloak (MSC) 225
 1 Zuri, Warrior of Wakanda (MSC) 72

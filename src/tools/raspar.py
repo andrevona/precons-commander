@@ -10,11 +10,16 @@ for g in grupos:
     if not m: continue
     nome,cab=m[1].strip(),int(m[2])
     if nome.lower().startswith(("display","token","sideboard","bonus","planar","scheme")): continue
-    ents=re.findall(r'<div class="card_entry">\s*(\d+)\s*<span[^>]*>\s*<a href="/card/([^/]+)/([^/"]+)/[^"]*">([^<\n]+)',g)
-    s=sum(int(q) for q,_,_,_ in ents)
+    ents=re.findall(r'<div class="card_entry">\s*(\d+)\s*<span[^>]*>\s*<a href="/card/([^/]+)/([^/"]+)/([^"]*)">([^<\n]+)',g)
+    s=sum(int(q) for q,_,_,_,_ in ents)
     if s!=cab: avisos.append(f"{nome}: soma {s} != cabeçalho {cab}")
-    for q,se,nu,nm in ents:
-        l=f"{q} {html.unescape(nm).strip()} ({se.upper()}) {nu}"
+    for q,se,nu,slug,nm in ents:
+        carta=html.unescape(nm).strip()
+        # Nome alternativo: o mtg.wtf mostra "Nome de exibição (Carta original)"; o endstep.cc só reconhece a carta original.
+        # Troca só quando o texto entre parênteses é o mesmo nome do link da carta (evita cartas com parênteses no nome real).
+        m=re.match(r"^(.+?) \(([^()]+)\)$",carta)
+        if m and re.sub(r"[^a-z0-9]","",m[2].lower())==re.sub(r"[^a-z0-9]","",slug.lower()): carta=m[2]
+        l=f"{q} {carta} ({se.upper()}) {nu}"
         (cmd if nome.lower()=="commander" else rest).append(l)
 os.makedirs(f"/home/claude/raw/{pasta}",exist_ok=True)
 open(f"/home/claude/raw/{pasta}/{stem}.txt","w",encoding="utf-8").write("\n".join(cmd+["--"]+rest)+"\n")

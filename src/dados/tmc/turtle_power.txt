@@ -1,6 +1,6 @@
 1 Heroes in a Half Shell (TMC) 6
 
-1 Aggro Amalgam (Voracious Hydra) (TMC) 54
+1 Acidic Slime (TMC) 48
 1 April O'Neil, Live on the Scene (TMC) 9
 1 Arcade Cabinet (TMC) 36
 1 Arcane Signet (TMC) 57
@@ -19,6 +19,7 @@
 1 Coin of Mastery (TMC) 38
 1 Command Tower (TMC) 63
 1 Continue? (TMC) 7
+1 Corpsejack Menace (TMC) 56
 1 Cultivate (TMC) 50
 1 Dimension X Pizzasaur (TMC) 16
 1 Donatello, the Brains (TMC) 2
@@ -38,12 +39,10 @@
 1 Game Over (TMC) 18
 1 Grand Coliseum (TMC) 68
 1 Harmonize (TMC) 51
-1 Heralds of the Shredder (Vigor) (TMC) 53
 1 Here Comes a New Hero! (TMC) 11
 1 Hidden Hideout (TMC) 43
 1 High Score (TMC) 29
 1 Hinterland Harbor (TMC) 69
-1 Humongous Fungus (Corpsejack Menace) (TMC) 56
 1 Irma, Part-Time Mutant (TMC) 12
 2 Island (TMT) 316
 1 Krang, the All-Powerful (TMC) 13
@@ -52,7 +51,6 @@
 1 Lessons from Life (TMT) 155
 1 Level Up (TMC) 31
 1 Lita, Little Orphan Amphibian (TMT) 19
-1 Marauding Mutagen (Acidic Slime) (TMC) 48
 1 Michelangelo, the Heart (TMC) 5
 1 Mole Module (TMC) 40
 1 Mona Lisa, Science Geek (TMT) 123
@@ -69,13 +67,13 @@
 1 Rootbound Crag (TMC) 72
 1 Shellshock (TMC) 25
 1 Shredder, Shadow Master (TMC) 20
-1 Slash Clone (Steelbane Hydra) (TMC) 52
 1 Smoldering Marsh (TMC) 73
 1 Sodden Verdure (TMC) 74
 1 Sol Ring (TMC) 59
 1 Special Move (TMC) 26
 1 Spire Garden (TMC) 75
 1 Splinter, the Mentor (TMC) 3
+1 Steelbane Hydra (TMC) 52
 1 Sunken Hollow (TMC) 76
 1 Super Combo (TMC) 34
 2 Swamp (TMT) 317
@@ -91,4 +89,6 @@
 1 Vanquish the Horde (TMC) 45
 1 Vernal Fen (TMC) 81
 1 Vibrant Cityscape (TMC) 82
+1 Vigor (TMC) 53
+1 Voracious Hydra (TMC) 54
 1 Wave Goodbye (TMC) 46

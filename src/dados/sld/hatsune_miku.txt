@@ -1,4 +1,4 @@
-1 Miku, Song of the People (Trostani, Selesnya's Voice) (SLD) 2429
+1 Trostani, Selesnya's Voice (SLD) 2429
 
 1 Aetherflux Reservoir (PLST) KLD-192
 1 Ajani's Pridemate (PLST) FDN-135
@@ -6,7 +6,7 @@
 1 Angel of Indemnity (PLST) OTC-9
 1 Angelic Chorus (PLST) BBD-87
 1 Arasta of the Endless Web (PLST) BLC-205
-1 Archangel of Tunes (Archangel of Thune) (SLD) 2430
+1 Archangel of Thune (SLD) 2430
 1 Avacyn's Pilgrim (PLST) MIC-132
 1 Blossoming Bogbeast (PLST) C21-59
 1 Blossoming Sands (PLST) NEO-265
@@ -17,7 +17,6 @@
 1 Brokers Hideout (PLST) SNC-248
 1 Camaraderie (PLST) GRN-157
 1 Canopy Vista (PLST) LCC-321
-1 Cascade of Song (Halo Fountain) (SLD) 2431
 1 Cleric Class (PLST) AFR-6
 1 Command Tower (PLST) DSC-96
 1 Conclave Evangelist (PLST) CLU-27
@@ -39,6 +38,7 @@
 1 Grove of the Guardian (PLST) GK1-124
 1 Growing Ranks (SLD) 2444
 1 Gruff Triplets (PLST) WOE-172
+1 Halo Fountain (SLD) 2431
 1 Healing Technique (PLST) C21-63
 1 Hour of Reckoning (PLST) MOC-190
 1 Idol of Oblivion (PLST) M3C-297
@@ -47,8 +47,6 @@
 1 Lathiel, the Bounteous Dawn (PLST) CMR-285
 1 Lazotep Quarry (PLST) M3C-131
 1 Llanowar Elves (PLST) GNT-46
-1 Miku, the Complete Performer (Vorinclex, Voice of Hunger) (SLD) 2439
-1 Miku, Voice Over All (Shalai, Voice of Plenty) (SLD) 2433
 1 Mirari's Wake (PLST) MH2-291
 1 Nature's Lore (PLST) CMM-904
 1 Nykthos Paragon (PLST) MH2-22
@@ -68,6 +66,7 @@
 1 Selesnya Sanctuary (PLST) CMM-1031
 1 Selesnya Signet (PLST) RVR-267
 1 Seraph Sanctuary (PLST) DDQ-33
+1 Shalai, Voice of Plenty (SLD) 2433
 1 Shamanic Revelation (PLST) BLC-237
 1 Silverquill Lecturer (PLST) M3C-96
 1 Skullclamp (PLST) MOC-379
@@ -87,3 +86,4 @@
 1 Temple of Plenty (PLST) BLC-343
 1 Voice of Resurgence (PLST) 2XM-227
 1 Voice of the Blessed (PLST) INR-50
+1 Vorinclex, Voice of Hunger (SLD) 2439

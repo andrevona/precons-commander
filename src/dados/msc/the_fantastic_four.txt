@@ -1,6 +1,7 @@
 1 Invisible Woman (MSC) 1
 
 1 Alicia Masters, Skilled Sculptor (MSC) 48
+1 Annie Joins Up (MSC) 281
 1 Arcane Signet (MSC) 192
 1 Baxter Building (MSH) 261
 1 Black Bolt, Inhuman King (MSC) 76
@@ -31,9 +32,9 @@
 2 Forest (MSH) 296
 3 Forest (MSH) 295
 1 Franklin Richards, Ascendant (MSC) 52
-1 Franklin's Finality (Annie Joins Up) (MSC) 281
 1 Galactus, Devourer of Worlds (MSC) 8
 1 Galvanic Iteration (MSC) 184
+1 Genesis Ultimatum (MSC) 283
 1 Glacial Fortress (MSC) 248
 1 H.E.R.B.I.E., Lovable Robot (MSC) 106
 1 Hinterland Harbor (MSC) 250
@@ -47,6 +48,7 @@
 1 Lightning Greaves (MSC) 202
 1 Lockjaw, Slobbering Teleporter (MSC) 36
 1 Medusa, Inhuman Queen (MSC) 68
+1 Mind's Dilation (MSC) 277
 1 Mirage Mirror (MSC) 206
 1 Mister Fantastic (MSC) 2
 1 Mister Fantastic, Reed Richards (MSH) 66
@@ -80,9 +82,7 @@
 1 Terramorph (MSC) 180
 1 Terramorphic Expanse (MSC) 273
 1 The Fantasticar (MSC) 104
-1 The Five Arrive (Genesis Ultimatum) (MSC) 283
 1 The Thing (MSC) 4
-1 The Watcher's Warning (Mind's Dilation) (MSC) 277
 1 Three Visits (MSC) 181
 1 Tragic Arrogance (MSC) 144
 1 Ultimate Nullification (MSC) 26

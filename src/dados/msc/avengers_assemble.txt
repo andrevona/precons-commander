@@ -5,7 +5,6 @@
 1 Arcane Signet (MSC) 191
 1 Austere Command (MSC) 121
 1 Avenge (MSC) 11
-1 Avengers Monitoring Station (Herald's Horn) (MSC) 287
 1 Avengers Quinjet (MSC) 102
 1 Avengers Tower (MSH) 260
 1 Bastion Protector (MSC) 122
@@ -22,6 +21,7 @@
 1 Door of Destinies (MSC) 198
 1 Exotic Orchard (MSC) 241
 1 Falcon and Redwing (MSC) 14
+1 Fellwar Stone (MSC) 285
 1 Firebird, Blazing Ranger (MSC) 50
 1 Folk Hero (MSC) 132
 1 Frostboil Snarl (MSC) 246
@@ -30,6 +30,7 @@
 1 Glacial Fortress (MSC) 248
 1 Glittering Massif (MSC) 249
 1 Hawkeye, Avenging Archer (MSC) 84
+1 Herald's Horn (MSC) 287
 1 Hercules, Olympian Hero (MSC) 16
 1 Hero's Blade (MSC) 201
 1 Heroic Return (MSC) 17
@@ -60,12 +61,11 @@
 1 Professor Hulk (MSC) 37
 1 Quicksilver, Speedster (MSC) 91
 1 Radiant Summit (MSC) 258
-1 Raise Repulsor Shields (Raise the Palisade) (MSC) 278
+1 Raise the Palisade (MSC) 278
 1 Reconnaissance Mission (MSC) 153
 1 Relic of Legends (MSC) 209
 1 Rescue, Pepper Potts (MSC) 755
 1 Rip Apart (MSC) 187
-1 S.H.I.E.L.D. Spy Satellite (Fellwar Stone) (MSC) 285
 1 Scarlet Witch, Chaotic Avenger (MSC) 93
 1 Scavenger Grounds (MSC) 263
 1 Scorched Geyser (MSC) 264

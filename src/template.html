@@ -447,14 +447,22 @@ function copiarSync(texto) {
   document.body.removeChild(t);
   return ok;
 }
-var ENDSTEP = "https://endstep.cc/decks/new"; // editor de deck novo do endstep.cc; lá, use "Paste from the clipboard"
+var ENDSTEP = "https://endstep.cc/decks/new"; // editor de deck novo do endstep.cc
+// Texto no formato de exportação do MTG Arena: ao colar ("Paste a list" > Apply), o endstep.cc já
+// troca o "Untitled" pelo nome do deck, carrega as cartas e põe o(s) comandante(s) no trono.
+// (O formato "Commander" do menu Set format não é preenchido pela colagem: é um clique a mais lá.)
+function textoEndstep(deck) {
+  var blocos = deck.lista.split("\n\n");
+  var nome = deck.nome.replace(/\s*\(\d{4}\)$/, ""); // Secret Lair: sem o ano
+  return "About\nName " + nome + "\n\nCommander\n" + blocos[0].trim() + "\n\nDeck\n" + blocos.slice(1).join("\n").trim() + "\n";
+}
 $("btnEndstep").onclick = function () {
-  var lista = COLECOES[colAtual].decks[deckAtual].lista;
-  var ok = copiarSync(lista);
-  if (!ok && navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(lista).catch(function () {});
+  var texto = textoEndstep(COLECOES[colAtual].decks[deckAtual]);
+  var ok = copiarSync(texto);
+  if (!ok && navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(texto).catch(function () {});
   window.open(ENDSTEP, "_blank", "noopener");
-  $("txtEndstep").textContent = "Lista copiada ✓ cole com Paste from the clipboard";
-  setTimeout(function () { menuComp(false); $("txtEndstep").textContent = "Copiar lista e criar deck no endstep.cc"; }, 1500);
+  $("txtEndstep").textContent = "Lista copiada ✓ lá: Paste a list, colar e Apply";
+  setTimeout(function () { menuComp(false); $("txtEndstep").textContent = "Copiar lista e criar deck no endstep.cc"; }, 2000);
 };
 $("btnComp").onclick = function (e) { e.stopPropagation(); menuComp($("menuComp").hidden); };
 document.addEventListener("click", function (e) { if (!$("menuComp").hidden && !$("menuComp").contains(e.target)) menuComp(false); });
