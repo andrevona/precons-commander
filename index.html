@@ -221,31 +221,41 @@ function manter(el, rAnt) {
   return window.scrollY - y0;
 }
 
+// Encolher: numa só etapa curta, o botão escolhido sobe ao topo da área e os outros convergem sobre ele
+// (o inverso de expandir) enquanto a área diminui; no fim a lista é redesenhada já recolhida.
+var DUR_REC = 260;
 function recolher(i, alvo) {
   var c = $("colecoes"), btns = [].slice.call(c.children);
   if (semAnim() || btns.length < 2) { colAtual = i; deckAtual = 0; recolhido = true; desenhar(); return; }
   animando = true;
   btns.forEach(function (x) { x.classList.toggle("on", x === alvo); });
-  var a = centro(alvo.getBoundingClientRect());
-  btns.forEach(function (x) {
-    if (x === alvo) return;
-    var b = centro(x.getBoundingClientRect());
-    x.style.transition = "transform " + DUR + "ms " + CURVA + ", opacity " + DUR + "ms " + CURVA;
-    x.style.transform = "translate(" + (a.x - b.x) + "px," + (a.y - b.y) + "px) scale(.5)";
-    x.style.opacity = "0";
+  var cr = c.getBoundingClientRect(), ar = alvo.getBoundingClientRect();
+  var dx = cr.left - ar.left, dy = cr.top - ar.top;
+  var dest = { x: ar.left + ar.width / 2 + dx, y: ar.top + ar.height / 2 + dy };
+  var pos = btns.map(function (x) { return centro(x.getBoundingClientRect()); });
+  c.style.height = c.offsetHeight + "px";
+  c.offsetHeight;
+  var t = "transform " + DUR_REC + "ms " + CURVA + ", opacity " + DUR_REC + "ms " + CURVA;
+  btns.forEach(function (x, k) {
+    x.style.transition = t;
+    if (x === alvo) { x.style.transform = "translate(" + dx + "px," + dy + "px)"; }
+    else { x.style.transform = "translate(" + (dest.x - pos[k].x) + "px," + (dest.y - pos[k].y) + "px) scale(.5)"; x.style.opacity = "0"; }
   });
+  c.style.transition = "height " + DUR_REC + "ms " + CURVA; c.style.height = alvo.offsetHeight + "px";
+  // mantém o botão escolhido parado na tela enquanto a área encolhe (a página rola junto)
+  var html = document.documentElement, t0 = performance.now();
+  html.style.overflowAnchor = "none";
+  (function passo() {
+    var d = alvo.getBoundingClientRect().top - ar.top;
+    if (d) window.scrollBy(0, d);
+    if (performance.now() - t0 < DUR_REC + 20) requestAnimationFrame(passo);
+  })();
   setTimeout(function () {
-    var hAnt = c.offsetHeight, rAnt = alvo.getBoundingClientRect();
     colAtual = i; deckAtual = 0; recolhido = true; desenhar();
-    var sel = c.querySelector(".on"), hNov = c.offsetHeight;
-    var rolou = manter(sel, rAnt), rNov = sel.getBoundingClientRect();
-    sel.style.transform = "translate(" + (rAnt.left - rNov.left) + "px," + (rAnt.top - rNov.top) + "px)";
-    c.style.height = Math.max(hNov, hAnt + rolou) + "px";
-    c.offsetHeight;
-    sel.style.transition = "transform " + DUR + "ms " + CURVA; sel.style.transform = "";
-    c.style.transition = "height " + DUR + "ms " + CURVA; c.style.height = hNov + "px";
-    setTimeout(function () { limpar([sel, c]); }, DUR + 20);
-  }, DUR);
+    manter(c.querySelector(".on"), ar);
+    html.style.overflowAnchor = "";
+    limpar([c]);
+  }, DUR_REC + 20);
 }
 
 function expandir() {
