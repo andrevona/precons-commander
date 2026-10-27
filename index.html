@@ -41,6 +41,11 @@
   .tab img.ic { width:18px; height:18px; vertical-align:-4px; margin-right:8px; object-fit:contain; }
   .tab.on img.ic { filter:invert(1); }
   @media (prefers-color-scheme: dark) { .tab img.ic { filter:invert(.92); } .tab.on img.ic { filter:none; } }
+  .busca { position:relative; margin:0 0 12px; }
+  .busca input.filtro { margin:0; padding-right:44px; }
+  .busca input.filtro::-webkit-search-cancel-button { -webkit-appearance:none; display:none; }
+  .limpar { position:absolute; right:6px; top:50%; transform:translateY(-50%); width:32px; height:32px; border:0; border-radius:999px; background:var(--line); color:var(--fg); font-size:20px; line-height:1; font-family:inherit; cursor:pointer; padding:0; }
+  .limpar:hover { background:var(--acc); color:var(--accfg); }
 </style>
 </head>
 <body>
@@ -48,7 +53,10 @@
   <h1>Precons Commander</h1>
   <p class="sub">Escolha a coleção e o deck. A lista está no formato <code>quantidade Nome (SET) número</code>, pronta para colar no endstep.cc.</p>
 
-  <input class="filtro" id="filtro" type="search" placeholder="Filtrar decks pelo nome de uma carta…" autocomplete="off" spellcheck="false">
+  <div class="busca">
+    <input class="filtro" id="filtro" type="search" placeholder="Filtrar decks pelo nome de uma carta…" autocomplete="off" spellcheck="false">
+    <button type="button" class="limpar" id="limpar" aria-label="Apagar busca" title="Apagar busca" hidden>×</button>
+  </div>
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
   <div class="sec">Coleções</div>
   <div class="tabs" id="colecoes"></div>
@@ -118,7 +126,7 @@ function desenhar() {
     var col = COLECOES[i];
     var b = document.createElement("button");
     b.className = "tab" + (i === colAtual ? " on" : "");
-    if (col.icone) { var im = document.createElement("img"); im.className = "ic"; im.alt = ""; im.src = "https://svgs.scryfall.io/sets/" + col.icone + ".svg"; im.onerror = function () { this.style.display = "none"; }; b.appendChild(im); }
+    if (col.icone) { var im = document.createElement("img"); im.className = "ic"; im.alt = ""; im.src = "icons/" + col.icone + ".svg"; im.onerror = function () { this.style.display = "none"; }; b.appendChild(im); }
     b.appendChild(document.createTextNode(col.nome));
     if (col.ano && col.nome.indexOf(col.ano) < 0) { var y = document.createElement("span"); y.className = "n"; y.textContent = col.ano; b.appendChild(y); }
     b.onclick = function () { colAtual = i; deckAtual = 0; desenhar(); };
@@ -142,7 +150,8 @@ function desenhar() {
   s.className = "status " + (total === 100 ? "ok" : "warn");
 }
 
-$("filtro").oninput = function () { q = this.value.trim().toLowerCase(); desenhar(); };
+$("filtro").oninput = function () { q = this.value.trim().toLowerCase(); $("limpar").hidden = !this.value; desenhar(); };
+$("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; desenhar(); f.focus(); };
 
 $("btnCopiar").onclick = function () {
   var ta = $("saida");
