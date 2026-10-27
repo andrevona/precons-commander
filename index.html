@@ -115,7 +115,7 @@
     <div class="lista"><div class="espelho" id="espelho" aria-hidden="true"></div><textarea id="saida" readonly spellcheck="false" wrap="off"></textarea></div>
   </div>
   </div>
-  <footer>174 decks em 47 coleções · listas conferidas com o <a href="https://mtg.wtf">mtg.wtf</a> em 27/10/2026 · <a href="https://github.com/andrevona/precons-commander">sobre o projeto</a></footer>
+  <footer>174 decks em 47 coleções · listas conferidas com o <a href="https://mtg.wtf">mtg.wtf</a> em 27/10/2026 · <a href="https://github.com/andrevona/precons-commander">sobre o projeto</a><br>Ao copiar, a lista sai no formato de exportação do MTG Arena, com o nome do deck e a seção do comandante: colada no endstep.cc, o deck já fica com nome e comandante.</footer>
 </main>
 <div class="modal" id="guia" hidden>
   <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="guiaTitulo">
@@ -423,11 +423,12 @@ $("filtro").oninput = function () { q = this.value.trim().toLowerCase(); recolhi
 $("anos").onchange = function () { if (animando) { this.value = anoFiltro; return; } anoFiltro = this.value; recolhido = false; desenhar(); };
 $("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; desenhar(); f.focus(); };
 
+// Copiar lista: copia no formato de exportação do MTG Arena (About/Name + Commander + Deck), o mesmo de
+// "Criar no endstep.cc" (decisão do usuário em 27/10/2026); a lista na tela continua no formato do site.
 $("btnCopiar").onclick = function () {
-  var ta = $("saida");
+  var texto = textoEndstep(deckAtualObj());
   function feito() { var b = $("btnCopiar"); b.textContent = "Copiado ✓"; setTimeout(function () { b.textContent = "Copiar lista"; }, 1500); }
-  function alt() { ta.focus(); ta.select(); try { document.execCommand("copy"); feito(); } catch (e) { alert("Selecione o texto e use Cmd+C."); } }
-  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(feito, alt); else alt();
+  copiar(texto, feito, function () { var ta = $("saida"); ta.focus(); ta.select(); alert("Não consegui copiar: selecione o texto e copie manualmente."); });
 };
 
 // Compartilhar: ícone do sistema (iOS, Android ou genérico). No celular abre a folha de compartilhamento
