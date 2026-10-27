@@ -14,7 +14,9 @@ As listas dos decks vêm do [mtg.wtf](https://mtg.wtf) (página de cada deck). C
 
 ## Como usar
 
-Abra a página, escolha o grupo (Universes Within, Universes Beyond, Starters ou Secret Lair), a coleção (em Universes Within, as demais se recolhem sob ela; toque nela de novo para ver as outras) e o deck (ou digite o nome de uma carta, de um deck ou de um comandante para filtrar; a carta pesquisada fica destacada na lista) e use **Copiar lista** ou **Baixar .txt**. No celular, use "Adicionar à tela inicial" para abrir como app. A página funciona offline depois do primeiro acesso.
+Abra a página, escolha o grupo (Universes Within, Universes Beyond, Starters ou Secret Lair), a coleção (em Universes Within, as demais se recolhem sob ela; toque nela de novo para ver as outras) e o deck (ou digite o nome de uma carta, de um deck, de um comandante, de uma coleção ou um ano para filtrar; a carta pesquisada fica destacada na lista) e use **Copiar lista** ou **Baixar .txt**. No celular, use "Adicionar à tela inicial" para abrir como app. A página funciona offline depois do primeiro acesso.
+
+Em Universes Within, a faixa de anos acima das coleções mostra só as coleções de um ano. Os botões indicam quantos decks há em cada grupo e coleção (com a busca ativa, quantos batem com ela). O endereço da página muda a cada deck escolhido (por exemplo `#mkc/blame_game`), então dá para copiar o link de um deck específico; o site também lembra, neste aparelho, o último deck aberto. O rodapé mostra a data da última conferência das listas com o mtg.wtf.
 
 ## Cobertura atual
 

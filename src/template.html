@@ -23,7 +23,7 @@
   .tab:hover { border-color: var(--acc); }
   .tab.on { background:var(--acc); color:var(--accfg); border-color:var(--acc); }
   .tab.small { padding:4px 10px; font-size:14px; border-radius:8px; }
-  .tab .n { opacity:.65; font-size:12px; margin-left:6px; }
+  .tab .n { opacity:.65; font-size:12px; margin-left:6px; white-space:nowrap; }
   .panel { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:12px; }
   .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
   .grow { flex:1; min-width:180px; }
@@ -50,9 +50,13 @@
   #grupos .tab { border-radius:8px; text-align:center; padding:10px 8px; display:flex; align-items:center; justify-content:center; }
   @media (min-width:640px) { #grupos { grid-template-columns:repeat(4,1fr); } }
   [hidden] { display:none !important; }
+  #anos { position:relative; flex-wrap:nowrap; overflow-x:auto; gap:4px; margin:0 0 8px; padding-bottom:4px; scrollbar-width:thin; }
+  #anos .tab { flex:none; padding:3px 10px; font-size:13px; font-weight:500; }
+  footer { margin-top:28px; color:var(--mut); font-size:12.5px; text-align:center; }
+  footer a { color:inherit; }
   #colecoes .tab { position:relative; z-index:1; }
   #colecoes .tab.on { z-index:3; }
-  #colecoes .tab .mais { margin-left:8px; font-size:12px; opacity:.8; }
+  #colecoes .tab .mais { margin-left:8px; font-size:12px; opacity:.8; white-space:nowrap; }
   .busca { position:relative; margin:0 0 12px; }
   .busca input.filtro { margin:0; padding-right:44px; }
   .busca input.filtro::-webkit-search-cancel-button { -webkit-appearance:none; display:none; }
@@ -67,11 +71,12 @@
 
   <div class="tabs" id="grupos"></div>
   <div class="sec" id="secCol">Coleções</div>
+  <div class="tabs" id="anos"></div>
   <div class="tabs" id="colecoes"></div>
   <hr class="div">
   <div class="sec">Decks</div>
   <div class="busca">
-    <input class="filtro" id="filtro" type="search" placeholder="Filtrar por carta, deck ou comandante…" autocomplete="off" spellcheck="false">
+    <input class="filtro" id="filtro" type="search" placeholder="Carta, deck, comandante ou coleção…" autocomplete="off" spellcheck="false">
     <button type="button" class="limpar" id="limpar" aria-label="Apagar busca" title="Apagar busca" hidden>×</button>
   </div>
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
@@ -87,6 +92,7 @@
     <div class="status" id="status"></div>
     <div class="lista"><div class="espelho" id="espelho" aria-hidden="true"></div><textarea id="saida" readonly spellcheck="false" wrap="off"></textarea></div>
   </div>
+  <footer>__RODAPE__</footer>
 </main>
 
 <script>
@@ -99,6 +105,7 @@ var RECOLHEM = ["Universes Within"]; // só este grupo tem tantas coleções a p
 var SEM_COLECAO = ["Secret Lair"]; // grupos com uma unica colecao: lista os decks direto
 
 var colAtual = 0, deckAtual = 0;
+var anoFiltro = "";
 var recolhido = false, animando = false; // coleções recolhidas sob o botão escolhido
 function $(id) { return document.getElementById(id); }
 
@@ -107,6 +114,8 @@ function contar(texto) {
   texto.split("\n").forEach(function (l) { var m = /^(\d+)\s/.exec(l); if (m) total += parseInt(m[1], 10); });
   return total;
 }
+
+COLECOES.forEach(function (col) { col.decks.forEach(function (d) { d._col = col; }); });
 
 var q = "";
 function nomesDe(deck) {
@@ -121,7 +130,9 @@ function acertos(deck) {
   return nomesDe(deck).filter(function (n) { return n.toLowerCase().indexOf(q) >= 0; });
 }
 function casa(deck) {
-  return !q || deck.nome.toLowerCase().indexOf(q) >= 0 || deck.comandante.toLowerCase().indexOf(q) >= 0 || acertos(deck).length > 0;
+  if (!q) return true;
+  var col = deck._col;
+  return deck.nome.toLowerCase().indexOf(q) >= 0 || deck.comandante.toLowerCase().indexOf(q) >= 0 || col.nome.toLowerCase().indexOf(q) >= 0 || (col.ano && col.ano.indexOf(q) >= 0) || acertos(deck).length > 0;
 }
 
 function esc(t) { return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
@@ -141,12 +152,34 @@ function destacar(deck) {
   esp.scrollTop = ta.scrollTop; esp.scrollLeft = 0;
 }
 
+// Link direto (#pasta/deck) e memória da última seleção (localStorage, só neste aparelho).
+function idDe(deck) { return deck._col.id + "/" + deck.arquivo.replace(/\.txt$/, ""); }
+function guardarSelecao(deck) {
+  var id = idDe(deck);
+  try { if (location.hash !== "#" + id) history.replaceState(null, "", "#" + id); } catch (e) {}
+  if (!q) { try { localStorage.setItem("precons-sel", id); } catch (e) {} }
+}
+function aplicarId(id) {
+  var ok = false;
+  COLECOES.forEach(function (col, ci) {
+    col.decks.forEach(function (dk, di) {
+      if (ok || idDe(dk) !== id) return;
+      ok = true; grpAtual = col.grupo; colAtual = ci; deckAtual = di; anoFiltro = "";
+      recolhido = RECOLHEM.indexOf(col.grupo) >= 0;
+    });
+  });
+  return ok;
+}
+function idDoEndereco() { try { return decodeURIComponent(location.hash.replace(/^#/, "")); } catch (e) { return ""; } }
+
 function desenhar() {
   var vis = [];
   var nd = 0;
   COLECOES.forEach(function (col) { col.decks.forEach(function (dk) { if (casa(dk)) nd++; }); });
   $("contagem").textContent = q ? (nd === 1 ? "1 deck encontrado" : nd + " decks encontrados") : "";
-  var gvis = GRUPOS.filter(function (g) { return COLECOES.some(function (col) { return col.grupo === g && col.decks.some(casa); }); });
+  var cont = {};
+  COLECOES.forEach(function (col) { var k = col.decks.filter(casa).length; if (k) cont[col.grupo] = (cont[col.grupo] || 0) + k; });
+  var gvis = GRUPOS.filter(function (g) { return cont[g]; });
   var gEl = $("grupos"); gEl.innerHTML = "";
   if (gvis.length && gvis.indexOf(grpAtual) < 0) { grpAtual = gvis[0]; colAtual = -1; }
   gvis.forEach(function (g) {
@@ -154,12 +187,38 @@ function desenhar() {
     b.className = "tab" + (g === grpAtual ? " on" : "");
     if (GRP_ICONE[g]) { var gi = document.createElement("img"); gi.className = "ic"; gi.alt = ""; gi.src = "icons/" + GRP_ICONE[g] + ".svg"; gi.onerror = function () { this.style.display = "none"; }; b.appendChild(gi); }
     b.appendChild(document.createTextNode(g));
+    var gn = document.createElement("span"); gn.className = "n"; gn.textContent = cont[g]; b.appendChild(gn);
     b.onclick = function () { if (grpAtual !== g) { grpAtual = g; colAtual = -1; deckAtual = 0; recolhido = false; desenhar(); } };
     gEl.appendChild(b);
   });
-  COLECOES.forEach(function (col, i) { if (col.grupo === grpAtual && col.decks.some(casa)) vis.push(i); });
+  var comAno = RECOLHEM.indexOf(grpAtual) >= 0, base = [], anos = [];
+  COLECOES.forEach(function (col, i) {
+    if (col.grupo !== grpAtual || !col.decks.some(casa)) return;
+    base.push(i);
+    if (col.ano && anos.indexOf(col.ano) < 0) anos.push(col.ano);
+  });
+  if (!comAno || anos.indexOf(anoFiltro) < 0) anoFiltro = "";
+  base.forEach(function (i) { if (!anoFiltro || COLECOES[i].ano === anoFiltro) vis.push(i); });
   var semCol = SEM_COLECAO.indexOf(grpAtual) >= 0;
   $("secCol").hidden = semCol; $("colecoes").hidden = semCol;
+  var aEl = $("anos"), sl = aEl.scrollLeft; aEl.innerHTML = "";
+  aEl.hidden = semCol || !comAno || anos.length < 2;
+  if (!aEl.hidden) {
+    var ativo = null;
+    [""].concat(anos).forEach(function (a) {
+      var ab = document.createElement("button");
+      ab.className = "tab" + (a === anoFiltro ? " on" : "");
+      ab.textContent = a || "Todos";
+      ab.onclick = function () { if (animando) return; anoFiltro = (a && a === anoFiltro) ? "" : a; recolhido = false; desenhar(); };
+      if (a === anoFiltro) ativo = ab;
+      aEl.appendChild(ab);
+    });
+    aEl.scrollLeft = sl;
+    if (ativo) {
+      if (ativo.offsetLeft < aEl.scrollLeft) aEl.scrollLeft = ativo.offsetLeft - 8;
+      else if (ativo.offsetLeft + ativo.offsetWidth > aEl.scrollLeft + aEl.clientWidth) aEl.scrollLeft = ativo.offsetLeft + ativo.offsetWidth - aEl.clientWidth + 8;
+    }
+  }
   var c = $("colecoes"); c.innerHTML = "";
   var d = $("decks"); d.innerHTML = "";
   var s = $("status");
@@ -181,7 +240,10 @@ function desenhar() {
     b.className = "tab" + (i === colAtual ? " on" : "");
     if (col.icone) { var im = document.createElement("img"); im.className = "ic"; im.alt = ""; im.src = "icons/" + col.icone + ".svg"; im.onerror = function () { this.style.display = "none"; }; b.appendChild(im); }
     b.appendChild(document.createTextNode(col.nome));
-    if (col.ano && col.nome.indexOf(col.ano) < 0) { var y = document.createElement("span"); y.className = "n"; y.textContent = col.ano; b.appendChild(y); }
+    var partes = [], nk = col.decks.filter(casa).length;
+    if (col.ano && col.nome.indexOf(col.ano) < 0) partes.push(col.ano);
+    partes.push(nk + (nk === 1 ? " deck" : " decks"));
+    var y = document.createElement("span"); y.className = "n"; y.textContent = partes.join(" · "); b.appendChild(y);
     if (recolhido && vis.length > 1) {
       var m = document.createElement("span"); m.className = "mais"; m.textContent = "▾ +" + (vis.length - 1); b.appendChild(m);
       b.title = "Mostrar as outras coleções";
@@ -203,6 +265,7 @@ function desenhar() {
     d.appendChild(b);
   });
   var deck = decks[deckAtual];
+  guardarSelecao(deck);
   var total = contar(deck.lista);
   $("titulo").textContent = deck.nome + " · " + deck.comandante;
   $("saida").value = deck.lista;
@@ -306,7 +369,14 @@ $("btnBaixar").onclick = function () {
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
 };
 
+var salvo = "";
+try { salvo = localStorage.getItem("precons-sel") || ""; } catch (e) {}
+if (!aplicarId(idDoEndereco())) aplicarId(salvo);
 desenhar();
+window.addEventListener("hashchange", function () {
+  var id = idDoEndereco(), d = COLECOES[colAtual] && COLECOES[colAtual].decks[deckAtual];
+  if (id && (!d || idDe(d) !== id) && aplicarId(id)) { q = ""; $("filtro").value = ""; $("limpar").hidden = true; desenhar(); }
+});
 if ("serviceWorker" in navigator && /^https?:/.test(location.protocol)) { navigator.serviceWorker.register("sw.js").catch(function () {}); }
 </script>
 </body>
