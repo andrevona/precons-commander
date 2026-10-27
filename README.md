@@ -10,7 +10,7 @@ Página simples para consultar e copiar as listas dos decks pré-construídos (p
 
 ## Fonte dos dados
 
-As listas dos decks vêm do [mtg.wtf](https://mtg.wtf) (página de cada deck). Cada carta usa a edição e o número indicados lá; decks mais recentes misturam várias edições. Cartas "Display Commander" (versão oversized, fora das 100 cartas) não foram incluídas. Decks Secret Lair ficam agrupados na coleção "Secret Lair", com o ano no nome do deck.
+As listas dos decks vêm do [mtg.wtf](https://mtg.wtf) (página de cada deck). Cada carta usa a edição e o número indicados lá; decks mais recentes misturam várias edições. Os códigos depois do nome de cada carta, como `(KHC) 81`, são a sigla da edição e o número da carta; servem para o endstep.cc localizar exatamente a versão (a arte e a edição) desejada. Cartas "Display Commander" (versão oversized, fora das 100 cartas) não foram incluídas. Decks Secret Lair ficam agrupados na coleção "Secret Lair", com o ano no nome do deck.
 
 ## Como usar
 

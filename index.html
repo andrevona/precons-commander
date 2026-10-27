@@ -33,6 +33,11 @@
   input.filtro { width:100%; margin:0 0 12px; padding:9px 12px; background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:8px; font:inherit; }
   .status { color:var(--mut); margin-bottom:8px; }
   .status.ok { color:var(--ok); } .status.warn { color:var(--warn); }
+  .sec { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--mut); font-weight:600; margin:16px 0 8px; }
+  hr.div { border:0; border-top:2px solid var(--line); margin:18px 0 0; }
+  .tab:not(.small) { font-weight:600; padding:8px 16px; }
+  .tab.small { border-radius:6px; background:transparent; }
+  .tab.small.on { background:var(--card); color:var(--acc); border-color:var(--acc); box-shadow:inset 0 -3px 0 var(--acc); font-weight:600; }
 </style>
 </head>
 <body>
@@ -42,7 +47,10 @@
 
   <input class="filtro" id="filtro" type="search" placeholder="Filtrar decks pelo nome de uma carta…" autocomplete="off" spellcheck="false">
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
+  <div class="sec">Coleções</div>
   <div class="tabs" id="colecoes"></div>
+  <hr class="div">
+  <div class="sec">Decks</div>
   <div class="tabs" id="decks"></div>
 
   <div class="panel">
