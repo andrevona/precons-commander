@@ -46,6 +46,10 @@
   .tab img.ic { width:18px; height:18px; vertical-align:-4px; margin-right:8px; object-fit:contain; }
   .tab.on img.ic { filter:invert(1); }
   @media (prefers-color-scheme: dark) { .tab img.ic { filter:invert(.92); } .tab.on img.ic { filter:none; } }
+  #grupos { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px; }
+  #grupos .tab { border-radius:8px; text-align:center; padding:10px 8px; display:flex; align-items:center; justify-content:center; }
+  @media (min-width:640px) { #grupos { grid-template-columns:repeat(4,1fr); } }
+  [hidden] { display:none !important; }
   .busca { position:relative; margin:0 0 12px; }
   .busca input.filtro { margin:0; padding-right:44px; }
   .busca input.filtro::-webkit-search-cancel-button { -webkit-appearance:none; display:none; }
@@ -59,7 +63,7 @@
   <p class="sub">Escolha a coleção e o deck. A lista está no formato <code>quantidade Nome (SET) número</code>, pronta para colar no endstep.cc.</p>
 
   <div class="tabs" id="grupos"></div>
-  <div class="sec">Coleções</div>
+  <div class="sec" id="secCol">Coleções</div>
   <div class="tabs" id="colecoes"></div>
   <hr class="div">
   <div class="sec">Decks</div>
@@ -87,6 +91,8 @@
 var COLECOES = __DATA__;
 var GRUPOS = __GRUPOS__;
 var grpAtual = GRUPOS[0];
+var GRP_ICONE = { "Secret Lair": "star" };
+var SEM_COLECAO = ["Secret Lair"]; // grupos com uma unica colecao: lista os decks direto
 
 var colAtual = 0, deckAtual = 0;
 function $(id) { return document.getElementById(id); }
@@ -141,11 +147,14 @@ function desenhar() {
   gvis.forEach(function (g) {
     var b = document.createElement("button");
     b.className = "tab" + (g === grpAtual ? " on" : "");
-    b.textContent = g;
+    if (GRP_ICONE[g]) { var gi = document.createElement("img"); gi.className = "ic"; gi.alt = ""; gi.src = "icons/" + GRP_ICONE[g] + ".svg"; gi.onerror = function () { this.style.display = "none"; }; b.appendChild(gi); }
+    b.appendChild(document.createTextNode(g));
     b.onclick = function () { if (grpAtual !== g) { grpAtual = g; colAtual = -1; deckAtual = 0; desenhar(); } };
     gEl.appendChild(b);
   });
   COLECOES.forEach(function (col, i) { if (col.grupo === grpAtual && col.decks.some(casa)) vis.push(i); });
+  var semCol = SEM_COLECAO.indexOf(grpAtual) >= 0;
+  $("secCol").hidden = semCol; $("colecoes").hidden = semCol;
   var c = $("colecoes"); c.innerHTML = "";
   var d = $("decks"); d.innerHTML = "";
   var s = $("status");

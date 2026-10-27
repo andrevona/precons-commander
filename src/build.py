@@ -34,7 +34,7 @@ for nome,pasta,decks in C:
         t=open(f"{pasta}/{f}.txt",encoding="utf-8").read()
         cmd=" / ".join(l.split(" ",1)[1].rsplit(" (",1)[0] for l in t.split("\n\n")[0].split("\n"))
         ds.append({"nome":dn,"comandante":cmd,"arquivo":f+".txt","lista":t})
-    data.append({"nome":nome,"ano":ANOS[pasta],"grupo":GRUPO.get(pasta,"Universes Within"),"icone":{"c11":"cmd","sld":"star"}.get(pasta,pasta),"decks":ds})
+    data.append({"nome":nome,"ano":ANOS[pasta],"grupo":GRUPO.get(pasta,"Universes Within"),"icone":{"c11":"cmd"}.get(pasta,pasta),"decks":ds})
 html=open("template.html",encoding="utf-8").read().replace("__GRUPOS__",json.dumps(GRUPOS)).replace("__DATA__",json.dumps(data,ensure_ascii=False).replace("</","<\\/"))
 open("precons_offline.html","w",encoding="utf-8").write(html)
 print(len(html))
