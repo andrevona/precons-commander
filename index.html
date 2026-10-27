@@ -77,6 +77,7 @@
   <p class="sub">Escolha a coleção e o deck. A lista está no formato <code>quantidade Nome (SET) número</code>, pronta para colar no endstep.cc.</p>
 
   <div class="tabs" id="grupos"></div>
+  <div id="conteudo" hidden>
   <div class="sec" id="secCol">Coleções</div>
   <div class="tabs" id="anos"></div>
   <div class="tabs" id="colecoes"></div>
@@ -97,13 +98,14 @@
         <button class="ghost icone" id="btnComp" aria-haspopup="true" aria-expanded="false" aria-label="Compartilhar deck" title="Compartilhar deck"></button>
         <div class="menu" id="menuComp" role="menu" hidden>
           <button type="button" role="menuitem" id="btnLink"><svg id="icLink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg><span id="txtLink">Copiar link do deck</span></button>
+          <button type="button" role="menuitem" id="btnEndstep"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg><span id="txtEndstep">Copiar lista e abrir o endstep.cc</span></button>
         </div>
       </span>
-      <button class="ghost" id="btnBaixar">Baixar .txt</button>
       <button class="go" id="btnCopiar">Copiar lista</button>
     </div>
     <div class="status" id="status"></div>
     <div class="lista"><div class="espelho" id="espelho" aria-hidden="true"></div><textarea id="saida" readonly spellcheck="false" wrap="off"></textarea></div>
+  </div>
   </div>
   <footer>174 decks em 47 coleções · listas conferidas com o <a href="https://mtg.wtf">mtg.wtf</a> em 27/10/2026 · <a href="https://github.com/andrevona/precons-commander">sobre o projeto</a></footer>
 </main>
@@ -119,8 +121,8 @@ var SEM_COLECAO = ["Secret Lair"]; // grupos com uma unica colecao: lista os dec
 
 var colAtual = 0, deckAtual = 0;
 var anoFiltro = "";
-var recolhido = true, animando = false; // coleções recolhidas sob o botão escolhido (só em RECOLHEM)
-var gRecolhido = true; // grupos recolhidos sob o botão escolhido: a página abre assim
+var recolhido = false, animando = false; // coleções recolhidas sob o botão escolhido (só em RECOLHEM)
+var aberto = false; // conteúdo abaixo dos grupos: a página abre só com os 4 grupos
 function $(id) { return document.getElementById(id); }
 
 function contar(texto) {
@@ -178,7 +180,7 @@ function aplicarId(id) {
     col.decks.forEach(function (dk, di) {
       if (ok || idDe(dk) !== id) return;
       ok = true; grpAtual = col.grupo; colAtual = ci; deckAtual = di; anoFiltro = "";
-      recolhido = RECOLHEM.indexOf(col.grupo) >= 0; gRecolhido = true;
+      recolhido = RECOLHEM.indexOf(col.grupo) >= 0; aberto = true;
     });
   });
   return ok;
@@ -186,6 +188,7 @@ function aplicarId(id) {
 function idDoEndereco() { try { return decodeURIComponent(location.hash.replace(/^#/, "")); } catch (e) { return ""; } }
 
 function desenhar() {
+  $("conteudo").hidden = !aberto;
   var vis = [];
   var nd = 0;
   COLECOES.forEach(function (col) { col.decks.forEach(function (dk) { if (casa(dk)) nd++; }); });
@@ -195,26 +198,19 @@ function desenhar() {
   var gvis = GRUPOS.filter(function (g) { return cont[g]; });
   var gEl = $("grupos"); gEl.innerHTML = "";
   if (gvis.length && gvis.indexOf(grpAtual) < 0) { grpAtual = gvis[0]; colAtual = -1; }
-  var gRec = gRecolhido && gvis.length > 1;
   gvis.forEach(function (g) {
-    if (gRec && g !== grpAtual) return;
     var b = document.createElement("button");
-    b.className = "tab" + (g === grpAtual ? " on" : "");
+    var ativo = aberto && g === grpAtual;
+    b.className = "tab" + (ativo ? " on" : "");
     if (GRP_ICONE[g]) { var gi = document.createElement("img"); gi.className = "ic"; gi.alt = ""; gi.src = "icons/" + GRP_ICONE[g] + ".svg"; gi.onerror = function () { this.style.display = "none"; }; b.appendChild(gi); }
     b.appendChild(document.createTextNode(g));
-    if (!(gRecolhido && gvis.length > 1)) { var gn = document.createElement("span"); gn.className = "n"; gn.textContent = cont[g]; b.appendChild(gn); }
-    if (gRec) {
-      var gm = document.createElement("span"); gm.className = "mais"; gm.textContent = "▾ +" + (gvis.length - 1); b.appendChild(gm);
-      b.title = "Mostrar os outros grupos";
-    }
-    b.setAttribute("aria-expanded", gRec ? "false" : "true");
+    var gn = document.createElement("span"); gn.className = "n"; gn.textContent = cont[g]; b.appendChild(gn);
+    b.setAttribute("aria-expanded", ativo ? "true" : "false");
     b.onclick = function () {
-      if (animando || gvis.length < 2) return;
-      if (gRecolhido) { expandirEm(gEl, function () { gRecolhido = false; desenhar(); }); return; }
-      recolherEm(gEl, b, function () {
-        if (g !== grpAtual) { grpAtual = g; colAtual = -1; deckAtual = 0; recolhido = false; }
-        gRecolhido = true; desenhar();
-      });
+      if (animando) return;
+      if (ativo) { fecharConteudo(); return; }
+      if (g !== grpAtual) { grpAtual = g; colAtual = -1; deckAtual = 0; recolhido = false; anoFiltro = ""; }
+      if (aberto) desenhar(); else abrirConteudo();
     };
     gEl.appendChild(b);
   });
@@ -294,7 +290,7 @@ function desenhar() {
     d.appendChild(b);
   });
   var deck = decks[deckAtual];
-  guardarSelecao(deck);
+  if (aberto) guardarSelecao(deck);
   var total = contar(deck.lista);
   $("titulo").textContent = deck.nome + " · " + deck.comandante;
   $("saida").value = deck.lista;
@@ -378,8 +374,36 @@ function expandirEm(c, aplicar) {
   setTimeout(function () { limpar(btns.concat([c])); }, DUR + 20);
 }
 
+// Conteúdo abaixo dos grupos: abre deslizando de baixo dos grupos e recolhe para baixo deles.
+function abrirConteudo() {
+  var el = $("conteudo");
+  aberto = true; desenhar();
+  if (semAnim()) return;
+  animando = true;
+  var h = el.scrollHeight;
+  el.style.overflow = "hidden"; el.style.height = "0px"; el.style.opacity = "0"; el.style.transform = "translateY(-8px)";
+  el.offsetHeight;
+  el.style.transition = "height " + DUR + "ms " + CURVA + ", opacity " + DUR + "ms " + CURVA + ", transform " + DUR + "ms " + CURVA;
+  el.style.height = h + "px"; el.style.opacity = "1"; el.style.transform = "";
+  setTimeout(function () { limpar([el]); }, DUR + 20);
+}
+function fecharConteudo() {
+  var el = $("conteudo");
+  function fim() {
+    aberto = false; menuComp(false); desenhar();
+    try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+  }
+  if (semAnim()) { fim(); return; }
+  animando = true;
+  el.style.overflow = "hidden"; el.style.height = el.offsetHeight + "px";
+  el.offsetHeight;
+  el.style.transition = "height " + DUR_REC + "ms " + CURVA + ", opacity " + DUR_REC + "ms " + CURVA + ", transform " + DUR_REC + "ms " + CURVA;
+  el.style.height = "0px"; el.style.opacity = "0"; el.style.transform = "translateY(-8px)";
+  setTimeout(function () { fim(); limpar([el]); }, DUR_REC + 20);
+}
+
 $("saida").addEventListener("scroll", function () { $("espelho").scrollTop = this.scrollTop; $("espelho").scrollLeft = this.scrollLeft; });
-$("filtro").oninput = function () { q = this.value.trim().toLowerCase(); recolhido = false; gRecolhido = false; $("limpar").hidden = !this.value; desenhar(); };
+$("filtro").oninput = function () { q = this.value.trim().toLowerCase(); recolhido = false; $("limpar").hidden = !this.value; desenhar(); };
 $("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; desenhar(); f.focus(); };
 
 $("btnCopiar").onclick = function () {
@@ -412,29 +436,35 @@ function menuComp(abrir) {
   if (abrir) $("btnLink").focus();
 }
 function linkDoDeck() { var d = COLECOES[colAtual].decks[deckAtual]; return location.href.split("#")[0] + "#" + idDe(d); }
+// Copia na hora (dentro do clique), funciona também no iOS.
+function copiarSync(texto) {
+  var t = document.createElement("textarea"); t.value = texto; t.setAttribute("readonly", "");
+  t.style.cssText = "position:fixed;top:0;left:0;opacity:0;font-size:16px";
+  document.body.appendChild(t); t.focus(); t.select();
+  try { t.setSelectionRange(0, texto.length); } catch (e) {}
+  var ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+  document.body.removeChild(t);
+  return ok;
+}
+var ENDSTEP = "https://endstep.cc/decks";
+$("btnEndstep").onclick = function () {
+  var lista = COLECOES[colAtual].decks[deckAtual].lista;
+  var ok = copiarSync(lista);
+  if (!ok && navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(lista).catch(function () {});
+  window.open(ENDSTEP, "_blank", "noopener");
+  $("txtEndstep").textContent = "Lista copiada ✓ cole no endstep.cc";
+  setTimeout(function () { menuComp(false); $("txtEndstep").textContent = "Copiar lista e abrir o endstep.cc"; }, 1500);
+};
 $("btnComp").onclick = function (e) { e.stopPropagation(); menuComp($("menuComp").hidden); };
 document.addEventListener("click", function (e) { if (!$("menuComp").hidden && !$("menuComp").contains(e.target)) menuComp(false); });
 document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("menuComp").hidden) { menuComp(false); $("btnComp").focus(); } });
 $("btnLink").onclick = function () {
   var url = linkDoDeck();
   function feito() { $("txtLink").textContent = "Link copiado ✓"; setTimeout(function () { menuComp(false); $("txtLink").textContent = "Copiar link do deck"; }, 1100); }
-  function alt() {
-    var t = document.createElement("textarea"); t.value = url; t.setAttribute("readonly", ""); t.style.cssText = "position:fixed;opacity:0;top:0;left:0";
-    document.body.appendChild(t); t.select();
-    try { document.execCommand("copy"); feito(); } catch (e) { prompt("Copie o link:", url); }
-    document.body.removeChild(t);
-  }
+  function alt() { if (copiarSync(url)) feito(); else prompt("Copie o link:", url); }
   if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(feito, alt); else alt();
 };
 
-$("btnBaixar").onclick = function () {
-  var deck = COLECOES[colAtual].decks[deckAtual];
-  var blob = new Blob([deck.lista], { type: "text/plain;charset=utf-8" });
-  var a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = deck.arquivo;
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-};
 
 try { localStorage.removeItem("precons-sel"); } catch (e) {} // limpeza da memória antiga do último deck
 aplicarId(idDoEndereco());
