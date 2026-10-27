@@ -98,7 +98,7 @@
         <button class="ghost icone" id="btnComp" aria-haspopup="true" aria-expanded="false" aria-label="Compartilhar deck" title="Compartilhar deck"></button>
         <div class="menu" id="menuComp" role="menu" hidden>
           <button type="button" role="menuitem" id="btnLink"><svg id="icLink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg><span id="txtLink">Copiar link do deck</span></button>
-          <button type="button" role="menuitem" id="btnEndstep"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg><span id="txtEndstep">Copiar lista e abrir o endstep.cc</span></button>
+          <button type="button" role="menuitem" id="btnEndstep"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg><span id="txtEndstep">Copiar lista e criar deck no endstep.cc</span></button>
         </div>
       </span>
       <button class="go" id="btnCopiar">Copiar lista</button>
@@ -446,14 +446,14 @@ function copiarSync(texto) {
   document.body.removeChild(t);
   return ok;
 }
-var ENDSTEP = "https://endstep.cc/decks";
+var ENDSTEP = "https://endstep.cc/decks/new"; // editor de deck novo do endstep.cc; lá, use "Paste from the clipboard"
 $("btnEndstep").onclick = function () {
   var lista = COLECOES[colAtual].decks[deckAtual].lista;
   var ok = copiarSync(lista);
   if (!ok && navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(lista).catch(function () {});
   window.open(ENDSTEP, "_blank", "noopener");
-  $("txtEndstep").textContent = "Lista copiada ✓ cole no endstep.cc";
-  setTimeout(function () { menuComp(false); $("txtEndstep").textContent = "Copiar lista e abrir o endstep.cc"; }, 1500);
+  $("txtEndstep").textContent = "Lista copiada ✓ cole com Paste from the clipboard";
+  setTimeout(function () { menuComp(false); $("txtEndstep").textContent = "Copiar lista e criar deck no endstep.cc"; }, 1500);
 };
 $("btnComp").onclick = function (e) { e.stopPropagation(); menuComp($("menuComp").hidden); };
 document.addEventListener("click", function (e) { if (!$("menuComp").hidden && !$("menuComp").contains(e.target)) menuComp(false); });
