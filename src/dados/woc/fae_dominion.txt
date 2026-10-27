@@ -1,0 +1,80 @@
+1 Tegwyll, Duke of Splendor (WOC) 1
+
+1 Alela, Cunning Conqueror (WOC) 3
+1 Arcane Denial (WOC) 84
+1 Arcane Signet (WOC) 145
+1 Archmage of Echoes (WOC) 9
+1 Blightwing Bandit (WOC) 13
+1 Bojuka Bog (WOC) 152
+1 Brazen Borrower // Petty Theft (WOC) 85a
+1 Choked Estuary (WOC) 155
+1 Cloud of Faeries (WOC) 86
+1 Command Tower (WOC) 156
+1 Consider (WOC) 87
+1 Darkwater Catacombs (WOC) 157
+1 Dig Through Time (WOC) 88
+1 Dimir Aqueduct (WOC) 158
+1 Dimir Signet (WOC) 146
+1 Distant Melody (WOC) 89
+1 Exotic Orchard (WOC) 159
+1 Fact or Fiction (WOC) 90
+1 Faerie Bladecrafter (WOC) 14
+1 Faerie Conclave (WOC) 160
+1 Faerie Formation (WOC) 91
+1 Faerie Seer (WOC) 92
+1 Fellwar Stone (WOC) 147
+1 Frantic Search (WOC) 93
+1 Glen Elendra Archmage (WOC) 94
+1 Glen Elendra Liege (WOC) 138
+1 Halo Forager (WOC) 139
+1 Hullbreaker Horror (WOC) 95
+1 Hypnotic Sprite // Mesmeric Glare (WOC) 96a
+1 Illusionist's Gambit (WOC) 97
+6 Island (WOE) 270
+7 Island (WOE) 269
+1 Keep Watch (WOC) 98
+1 Kindred Dominance (WOC) 113
+1 Malleable Impostor (WOC) 10
+1 Midnight Clock (WOC) 99
+1 Mind Stone (WOC) 148
+1 Misleading Signpost (WOC) 11
+1 Mocking Sprite (WOE) 62
+1 Myriad Landscape (WOC) 164
+1 Nettling Nuisance (WOC) 15
+1 Nightmare Unmaking (WOC) 114
+1 Nightveil Sprite (WOC) 100
+1 Nymris, Oona's Trickster (WOC) 141
+1 Obyra, Dreaming Duelist (WOE) 210
+1 Oona, Queen of the Fae (WOC) 142
+1 Opt (WOC) 101
+1 Path of Ancestry (WOC) 165
+1 Perplexing Test (WOC) 102
+1 Picklock Prankster // Free the Fae (WOE) 64a
+1 Puppeteer Clique (WOC) 115
+1 Quickling (WOC) 103
+1 Rankle, Master of Pranks (WOC) 116
+1 Reality Shift (WOC) 104
+1 Reckless Spite (WOC) 117
+1 Reconnaissance Mission (WOC) 105
+1 Reflections of Littjara (WOC) 106
+1 Repulse (WOC) 107
+1 Run Away Together (WOC) 108
+1 Scion of Oona (WOC) 109
+1 Secluded Glen (WOC) 166
+1 Shadow Puppeteers (WOC) 12
+1 Snap (WOC) 110
+1 Sol Ring (WOC) 149
+1 Sower of Temptation (WOC) 111
+1 Spell Stutter (WOE) 69
+1 Spellscorn Coven // Take It Back (WOE) 237a
+1 Sunken Hollow (WOC) 168
+6 Swamp (WOE) 271
+6 Swamp (WOE) 272
+1 Tainted Isle (WOC) 169
+1 Talisman of Dominance (WOC) 150
+1 Tegwyll's Scouring (WOC) 16
+1 Temple of Deceit (WOC) 170
+1 Temple of the False God (WOC) 172
+1 Theoretical Duplication (WOC) 112
+1 Thrilling Encore (WOC) 118
+1 Wayfarer's Bauble (WOC) 151

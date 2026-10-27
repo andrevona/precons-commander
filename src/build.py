@@ -22,10 +22,17 @@ C=[("Commander (2011)","c11",[("Counterpunch","counterpunch"),("Devour for Power
    ("Warhammer 40,000 Commander","40k",[("Forces of the Imperium","forces_of_the_imperium"),("Necron Dynasties","necron_dynasties"),("The Ruinous Powers","the_ruinous_powers"),("Tyranid Swarm","tyranid_swarm")]),
    ("The Brothers' War Commander","brc",[("Mishra's Burnished Banner","mishras_burnished_banner"),("Urza's Iron Alliance","urzas_iron_alliance")]),
    ("Starter Commander Decks","scd",[("Chaos Incarnate","chaos_incarnate"),("Draconic Destruction","draconic_destruction"),("First Flight","first_flight"),("Grave Danger","grave_danger"),("Token Triumph","token_triumph")]),
-   ("Secret Lair","sld",[("Heads I Win, Tails You Lose (2021)","heads_i_win_tails_you_lose")])]
-ANOS={"c11":"2011","c13":"2013","c14":"2014","c15":"2015","c16":"2016","c17":"2017","c18":"2018","c19":"2019","c20":"2020","znc":"2020","cmr":"2020","khc":"2021","c21":"2021","sld":"","afc":"2021","mic":"2021","voc":"2021","nec":"2022","ncc":"2022","clb":"2022","dmc":"2022","40k":"2022","brc":"2022","scd":"2022"}
+   ("Phyrexia: All Will Be One Commander","onc",[("Corrupting Influence","corrupting_influence"),("Rebellion Rising","rebellion_rising")]),
+   ("March of the Machine Commander","moc",[("Call for Backup","call_for_backup"),("Cavalry Charge","cavalry_charge"),("Divine Convocation","divine_convocation"),("Growing Threat","growing_threat"),("Tinker Time","tinker_time")]),
+   ("Tales of Middle-earth Commander","ltc",[("Elven Council","elven_council"),("Food and Fellowship","food_and_fellowship"),("Riders of Rohan","riders_of_rohan"),("The Hosts of Mordor","the_hosts_of_mordor")]),
+   ("Commander Masters","cmm",[("Eldrazi Unbound","eldrazi_unbound"),("Enduring Enchantments","enduring_enchantments"),("Planeswalker Party","planeswalker_party"),("Sliver Swarm","sliver_swarm")]),
+   ("Wilds of Eldraine Commander","woc",[("Fae Dominion","fae_dominion"),("Virtue and Valor","virtue_and_valor")]),
+   ("Doctor Who","who",[("Blast from the Past","blast_from_the_past"),("Masters of Evil","masters_of_evil"),("Paradox Power","paradox_power"),("Timey-Wimey","timey_wimey")]),
+   ("The Lost Caverns of Ixalan Commander","lcc",[("Ahoy Mateys","ahoy_mateys"),("Blood Rites","blood_rites"),("Explorers of the Deep","explorers_of_the_deep"),("Veloci-Ramp-Tor","veloci_ramp_tor")]),
+   ("Secret Lair","sld",[("Heads I Win, Tails You Lose (2021)","heads_i_win_tails_you_lose"),("From Cute to Brute (2023)","from_cute_to_brute"),("Angels: They're Just Like Us but Cooler and with Wings (2023)","angels_they_re_just_like_us_but_cooler_and_with_wings")])]
+ANOS={"c11":"2011","c13":"2013","c14":"2014","c15":"2015","c16":"2016","c17":"2017","c18":"2018","c19":"2019","c20":"2020","znc":"2020","cmr":"2020","khc":"2021","c21":"2021","sld":"","afc":"2021","mic":"2021","voc":"2021","nec":"2022","ncc":"2022","clb":"2022","dmc":"2022","40k":"2022","brc":"2022","scd":"2022","onc":"2023","moc":"2023","ltc":"2023","cmm":"2023","woc":"2023","who":"2023","lcc":"2023"}
 # Grupos de topo; o resto e Universes Within.
-GRUPO={"40k":"Universes Beyond","scd":"Starters","sld":"Secret Lair"}
+GRUPO={"40k":"Universes Beyond","ltc":"Universes Beyond","who":"Universes Beyond","scd":"Starters","sld":"Secret Lair"}
 GRUPOS=["Universes Within","Universes Beyond","Starters","Secret Lair"]
 data=[]
 for nome,pasta,decks in C:

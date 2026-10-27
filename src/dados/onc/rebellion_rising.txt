@@ -1,0 +1,81 @@
+1 Neyali, Suns' Vanguard (ONC) 2
+
+1 Adriana, Captain of the Guard (ONC) 114
+1 Arcane Signet (ONC) 125
+1 Assemble the Legion (ONC) 115
+1 Battle Screech (ONC) 59
+1 Boros Charm (ONC) 116
+1 Boros Garrison (ONC) 146
+1 Boros Signet (ONC) 126
+1 Buried Ruin (ONC) 147
+1 Call the Coppercoats (ONC) 60
+1 Castle Ardenvale (ONC) 149
+1 Castle Embereth (ONC) 150
+1 Chain Reaction (ONC) 97
+1 Clever Concealment (ONC) 5
+1 Collective Effort (ONC) 61
+1 Command Tower (ONC) 151
+1 Commander's Sphere (ONC) 128
+1 Court of Grace (ONC) 62
+1 Cut a Deal (ONC) 63
+1 Dragonmaster Outcast (ONC) 98
+1 Elspeth Tirel (ONC) 64
+1 Emeria Angel (ONC) 65
+1 Exotic Orchard (ONC) 152
+1 Felidar Retreat (ONC) 66
+1 Fellwar Stone (ONC) 130
+1 Finale of Glory (ONC) 67
+1 Flawless Maneuver (ONC) 68
+1 Forgotten Cave (ONC) 153
+1 Furycalm Snarl (ONC) 155
+1 Generous Gift (ONC) 70
+1 Glimmer Lens (ONC) 6
+1 Goldnight Commander (ONC) 72
+1 Goldwardens' Gambit (ONC) 13
+1 Harmonious Archon (ONC) 74
+1 Hate Mirage (ONC) 99
+1 Heroic Reinforcements (ONC) 118
+1 Hexplate Wallbreaker (ONC) 14
+1 Hordeling Outburst (ONC) 100
+1 Hour of Reckoning (ONC) 75
+1 Idol of Oblivion (ONC) 134
+1 Increasing Devotion (ONC) 76
+1 Intangible Virtue (ONC) 77
+1 Jor Kadeen, the Prevailer (ONC) 119
+1 Kemba's Banner (ONC) 7
+1 Kher Keep (ONC) 157
+1 Legion Warboss (ONC) 101
+1 Loxodon Warhammer (ONC) 135
+1 Loyal Apprentice (ONC) 102
+1 Mace of the Valiant (ONC) 78
+1 Martial Coup (ONC) 79
+1 Mask of Memory (ONC) 136
+1 Maul of the Skyclaves (ONC) 80
+1 Mentor of the Meek (ONC) 81
+1 Midnight Haunting (ONC) 82
+1 Mind Stone (ONC) 137
+11 Mountain (ONE) 275
+1 Myr Battlesphere (ONC) 138
+1 Myriad Landscape (ONC) 159
+1 Otharri, Suns' Glory (ONC) 3
+1 Path of Ancestry (ONC) 161
+1 Path to Exile (ONC) 84
+1 Phantom General (ONC) 85
+11 Plains (ONE) 272
+1 Prava of the Steel Legion (ONC) 87
+1 Rip Apart (ONC) 124
+1 Roar of Resistance (ONC) 15
+1 Secluded Steppe (ONC) 163
+1 Siege-Gang Commander (ONC) 103
+1 Silverwing Squadron (ONC) 88
+1 Slayers' Stronghold (ONC) 165
+1 Sol Ring (ONC) 140
+1 Solemn Simulacrum (ONC) 141
+1 Soul-Guide Lantern (ONC) 142
+1 Staff of the Storyteller (ONC) 10
+1 Talisman of Conviction (ONC) 143
+1 Temple of the False God (ONC) 172
+1 Temple of Triumph (ONC) 173
+1 Vulshok Factory (ONC) 16
+1 White Sun's Zenith (ONC) 90
+1 Windbrisk Heights (ONC) 174

@@ -9,7 +9,7 @@ for g in grupos:
     m=re.search(r"<h6>([^<(]+)\((\d+)\)</h6>",g)
     if not m: continue
     nome,cab=m[1].strip(),int(m[2])
-    if nome.lower().startswith(("display","token","sideboard","bonus")): continue
+    if nome.lower().startswith(("display","token","sideboard","bonus","planar")): continue
     ents=re.findall(r'<div class="card_entry">\s*(\d+)\s*<span[^>]*>\s*<a href="/card/([^/]+)/([^/"]+)/[^"]*">([^<\n]+)',g)
     s=sum(int(q) for q,_,_,_ in ents)
     if s!=cab: avisos.append(f"{nome}: soma {s} != cabeçalho {cab}")

@@ -1,0 +1,89 @@
+1 Commodore Guff (CMM) 706
+
+1 Ajani Steadfast (CMM) 813
+1 Arcane Signet (CMM) 367
+1 Azorius Signet (CMM) 941
+1 Blasphemous Act (CMM) 872
+1 Boros Signet (CMM) 942
+1 Cartographer's Hawk (CMM) 18
+1 Cascade Bluffs (CMM) 990
+1 Chandra, Awakened Inferno (CMM) 875
+1 Chandra, Legacy of Fire (CMM) 735
+1 Chandra, Torch of Defiance (CMM) 876
+1 Command Tower (CMM) 420
+1 Deepglow Skate (CMM) 844
+1 Deploy the Gatewatch (CMM) 819
+1 Elspeth, Sun's Champion (CMM) 820
+1 Exotic Orchard (CMM) 993
+1 Fellwar Stone (CMM) 382
+1 Flux Channeler (CMM) 847
+1 Fog Bank (CMM) 848
+1 Forge of Heroes (CMM) 995
+1 Frostboil Snarl (CMM) 998
+1 Furycalm Snarl (CMM) 999
+1 Gatewatch Beacon (CMM) 721
+1 Gideon Jura (CMM) 822
+1 Grateful Apparition (CMM) 824
+1 Guff Rewrites History (CMM) 737
+1 Honor-Worn Shaku (CMM) 954
+1 Interplanar Beacon (CMM) 1004
+3 Island (CMM) 790
+4 Island (CMM) 788
+1 Izzet Signet (CMM) 957
+1 Jace Beleren (CMM) 850
+1 Jace, Architect of Thought (CMM) 851
+1 Jace, Mirror Mage (CMM) 852
+1 Jaya's Phoenix (CMM) 738
+1 Karn's Bastion (CMM) 1007
+1 Kazuul, Tyrant of the Cliffs (CMM) 237
+1 Leori, Sparktouched Hunter (CMM) 709
+1 Mangara, the Diplomat (CMM) 42
+1 Mobilized District (CMM) 1011
+2 Mountain (CMM) 794
+2 Mountain (CMM) 795
+1 Myriad Landscape (CMM) 421
+1 Mystic Gate (CMM) 1013
+1 Mystic Monastery (CMM) 1014
+1 Nahiri, the Harbinger (CMM) 929
+1 Narset of the Ancient Way (CMM) 930
+1 Narset, Enlightened Master (CMM) 931
+1 Narset, Parter of Veils (CMM) 853
+1 Nevinyrral's Disk (CMM) 965
+1 Norn's Annex (CMM) 829
+1 Oath of Gideon (CMM) 830
+1 Oath of Jace (CMM) 854
+1 Oath of Teferi (CMM) 934
+1 Onakke Oathkeeper (CMM) 722
+1 Oreskos Explorer (CMM) 832
+1 Path to Exile (CMM) 49
+3 Plains (CMM) 787
+4 Plains (CMM) 785
+1 Port Town (CMM) 1019
+1 Prairie Stream (CMM) 1020
+1 Promise of Loyalty (CMM) 833
+1 Reliquary Tower (CMM) 425
+1 Repeated Reverberation (CMM) 879
+1 Rugged Prairie (CMM) 1022
+1 Saheeli, Sublime Artificer (CMM) 935
+1 Sarkhan the Masterless (CMM) 880
+1 Semester's End (CMM) 834
+1 Silent Arbiter (CMM) 972
+1 Skycloud Expanse (CMM) 1035
+1 Sol Ring (CMM) 410
+1 Spark Double (CMM) 856
+1 Sparkshaper Visionary (CMM) 726
+1 Swords to Plowshares (CMM) 841
+1 Talisman of Conviction (CMM) 978
+1 Talisman of Creativity (CMM) 979
+1 Talisman of Progress (CMM) 980
+1 Temple of Enlightenment (CMM) 1041
+1 Temple of Epiphany (CMM) 1042
+1 Temple of Triumph (CMM) 1047
+1 Teyo, Geometric Tactician (CMM) 725
+1 The Chain Veil (CMM) 943
+1 The Wanderer (CMM) 843
+1 Thrummingbird (CMM) 858
+1 Urza's Ruinous Blast (CMM) 842
+1 Vronos, Masked Inquisitor (CMM) 729
+1 Wall of Denial (CMM) 939
+1 Wayfarer's Bauble (CMM) 983

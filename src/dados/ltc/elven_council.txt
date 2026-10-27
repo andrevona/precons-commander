@@ -1,0 +1,79 @@
+1 Galadriel, Elven-Queen (LTC) 3
+
+1 Arbor Elf (LTC) 232
+1 Arcane Signet (LTC) 273
+1 Arwen, Weaver of Hope (LTC) 35
+1 Asceticism (LTC) 233
+1 Ash Barrens (LTC) 295
+1 Beast Within (LTC) 234
+1 Celeborn the Wise (LTR) 156
+1 Colossal Whale (LTC) 186
+1 Command Tower (LTC) 301
+1 Commander's Sphere (LTC) 276
+1 Cultivate (LTC) 236
+1 Círdan the Shipwright (LTC) 50
+1 Devastation Tide (LTC) 189
+1 Elrond of the White Council (LTC) 51
+1 Elven Farsight (LTR) 161
+1 Elvish Archdruid (LTC) 237
+1 Elvish Mystic (LTC) 238
+1 Elvish Piper (LTC) 239
+1 Elvish Visionary (LTC) 240
+1 Elvish Warmaster (LTC) 241
+1 Erestor of the Council (LTC) 53
+1 Exotic Orchard (LTC) 307
+1 Farhaven Elf (LTC) 243
+1 Field of Ruin (LTC) 308
+1 Flooded Grove (LTC) 309
+7 Forest (LTR) 271
+8 Forest (LTR) 270
+1 Galadhrim Ambush (LTC) 38
+1 Gandalf, Westward Voyager (LTC) 6
+1 Genesis Wave (LTC) 245
+1 Growth Spiral (LTC) 267
+1 Haldir, Lórien Lieutenant (LTC) 39
+1 Heroic Intervention (LTC) 249
+1 Hinterland Harbor (LTC) 317
+1 Hornet Queen (LTC) 250
+1 Inscription of Abundance (LTC) 251
+5 Island (LTR) 265
+6 Island (LTR) 264
+1 Learn from the Past (LTC) 192
+1 Legolas Greenleaf (LTC) 40
+1 Lightning Greaves (LTC) 281
+1 Lignify (LTC) 252
+1 Lonely Sandbar (LTC) 319
+1 Lothlórien Blade (LTC) 77
+1 Lórien Revealed (LTR) 60
+1 Mirkwood Elk (LTC) 41
+1 Mirkwood Trapper (LTC) 62
+1 Mirror of Galadriel (LTR) 244
+1 Model of Unity (LTC) 78
+1 Mystic Confluence (LTC) 193
+1 Opt (LTC) 194
+1 Overwhelming Stampede (LTC) 254
+1 Paradise Druid (LTC) 255
+1 Plea for Power (LTC) 195
+1 Preordain (LTC) 196
+1 Radagast, Wizard of Wilds (LTC) 66
+1 Raise the Palisade (LTC) 23
+1 Rampant Growth (LTC) 257
+1 Realm Seekers (LTC) 258
+1 Reclamation Sage (LTC) 259
+1 Rejuvenating Springs (LTC) 325
+1 Sail into the West (LTC) 68
+1 Seeds of Renewal (LTC) 260
+1 Sol Ring (LTC) 284
+1 Song of Eärendil (LTC) 69
+1 Swan Song (LTC) 197
+1 Sylvan Offering (LTC) 261
+1 Thornwood Falls (LTC) 338
+1 Tranquil Thicket (LTC) 341
+1 Trap the Trespassers (LTC) 25
+1 Travel Through Caradhras (LTC) 44
+1 Vineglimmer Snarl (LTC) 343
+1 Whispersilk Cloak (LTC) 292
+1 Windswift Slice (LTC) 45
+1 Wood Elves (LTC) 263
+1 Woodland Stream (LTC) 347
+1 Wose Pathfinder (LTR) 190

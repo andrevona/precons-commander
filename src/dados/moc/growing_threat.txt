@@ -1,0 +1,80 @@
+1 Brimaz, Blight of Oreskos (MOC) 2
+
+1 Ambition's Cost (MOC) 246
+1 Ancient Stone Idol (MOC) 347
+1 Angel of the Ruins (MOC) 171
+1 Arcane Signet (MOC) 348
+1 Bitterthorn, Nissa's Animus (MOC) 45
+1 Blade Splicer (MOC) 175
+1 Blight Titan (MOC) 25
+1 Bloodline Pretender (MOC) 350
+1 Bojuka Bog (MOC) 391
+1 Bone Shredder (MOC) 247
+1 Burnished Hart (MOC) 351
+1 Cataclysmic Gearhulk (MOC) 176
+1 Command Tower (MOC) 396
+1 Commander's Sphere (MOC) 352
+1 Compleated Huntmaster (MOM) 96
+1 Coveted Jewel (MOC) 353
+1 Darksteel Splicer (MOC) 13
+1 Despark (MOC) 322
+1 Duplicant (MOC) 355
+1 Evolving Wilds (MOC) 397
+1 Excise the Imperfect (MOC) 14
+1 Exotic Orchard (MOC) 398
+1 Fetid Heath (MOC) 399
+1 Filigree Vector (MOC) 15
+1 First-Sphere Gargantua (MOC) 248
+1 Fractured Powerstone (MOC) 357
+1 Go for the Throat (MOC) 250
+1 Goldmire Bridge (MOC) 407
+1 Graveshifter (MOC) 251
+1 Hedron Archive (MOC) 359
+1 Ichor Elixir (MOC) 46
+1 Karn's Bastion (MOC) 409
+1 Keskit, the Flesh Sculptor (MOC) 254
+1 Massacre Wurm (MOC) 256
+1 Master Splicer (MOC) 194
+1 Meteor Golem (MOC) 363
+1 Mind Stone (MOC) 364
+1 Moira and Teshar (MOC) 7
+1 Mortify (MOC) 337
+1 Myr Battlesphere (MOC) 366
+1 Nettlecyst (MOC) 367
+1 Night's Whisper (MOC) 259
+1 Noxious Gearhulk (MOC) 260
+1 Orzhov Locket (MOC) 368
+1 Orzhov Signet (MOC) 369
+1 Path of Ancestry (MOC) 418
+1 Path of the Schemer (MOC) 28
+1 Phyrexian Delver (MOC) 263
+1 Phyrexian Gargantua (MOM) 121
+1 Phyrexian Ghoul (MOC) 264
+1 Phyrexian Rager (MOC) 265
+1 Phyrexian Rebirth (MOC) 199
+1 Phyrexian Scriptures (MOC) 266
+1 Phyrexian Triniform (MOC) 370
+10 Plains (MOM) 277
+1 Psychosis Crawler (MOC) 371
+1 Scrap Trawler (MOC) 373
+1 Sculpting Steel (MOC) 374
+1 Scytheclaw (MOC) 375
+1 Shattered Angel (MOC) 206
+1 Shimmer Myr (MOC) 376
+1 Shineshadow Snarl (MOC) 422
+1 Silverquill Campus (MOC) 423
+1 Sol Ring (MOC) 381
+1 Soul of New Phyrexia (MOC) 382
+1 Spire of Industry (MOC) 426
+13 Swamp (MOM) 279
+1 Swords to Plowshares (MOC) 211
+1 Tainted Field (MOC) 429
+1 Talisman of Hierarchy (MOC) 385
+1 Temple of Silence (MOC) 436
+1 Terramorphic Expanse (MOC) 439
+1 Utter End (MOC) 341
+1 Vault of the Archangel (MOC) 443
+1 Victimize (MOC) 270
+1 Vulpine Harvester (MOC) 19
+1 Wayfarer's Bauble (MOC) 389
+1 Yawgmoth's Vile Offering (MOC) 271

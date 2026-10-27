@@ -1,0 +1,84 @@
+1 Ixhel, Scion of Atraxa (ONC) 1
+
+1 Arcane Signet (ONC) 125
+1 Beast Within (ONC) 104
+1 Bilious Skulldweller (ONE) 83
+1 Blight Mamba (ONC) 105
+1 Blightbelly Rat (ONE) 85
+1 Bojuka Bog (ONC) 145
+1 Cankerbloom (ONE) 161
+1 Canopy Vista (ONC) 148
+1 Caress of Phyrexia (ONC) 92
+1 Carrion Call (ONC) 106
+1 Chromatic Lantern (ONC) 127
+1 Command Tower (ONC) 151
+1 Commander's Sphere (ONC) 128
+1 Contagion Clasp (ONC) 129
+1 Contaminant Grafter (ONC) 17
+1 Culling Ritual (ONC) 117
+1 Cultivate (ONC) 107
+1 Evolution Sage (ONC) 108
+1 Exotic Orchard (ONC) 152
+1 Expand the Sphere (ONE) 168
+1 Feed the Infection (ONE) 93
+1 Fellwar Stone (ONC) 130
+8 Forest (ONE) 276
+1 Fortified Village (ONC) 154
+1 Fumigate (ONC) 69
+1 Geth's Summons (ONC) 11
+1 Ghostly Prison (ONC) 71
+1 Glissa's Retriever (ONC) 18
+1 Glistening Sphere (ONC) 20
+1 Golgari Signet (ONC) 131
+1 Grafted Exoskeleton (ONC) 132
+1 Grateful Apparition (ONC) 73
+1 Ichor Rats (ONC) 93
+1 Ichorclaw Myr (ONC) 133
+1 Infectious Inquiry (ONE) 97
+1 Karn's Bastion (ONC) 156
+1 Krosan Verge (ONC) 158
+1 Merciless Eviction (ONC) 120
+1 Moldervine Reclamation (ONC) 121
+1 Mortify (ONC) 122
+1 Mycosynth Fiend (ONC) 109
+1 Myr Convert (ONE) 234
+1 Myriad Landscape (ONC) 159
+1 Necroblossom Snarl (ONC) 160
+1 Night's Whisper (ONC) 94
+1 Norn's Annex (ONC) 83
+1 Norn's Choirmaster (ONC) 8
+1 Norn's Decree (ONC) 9
+1 Noxious Assault (ONE) 176
+1 Noxious Revival (ONC) 110
+1 Painful Truths (ONC) 95
+1 Path of Ancestry (ONC) 161
+1 Pestilent Syphoner (ONE) 103
+1 Phyresis Outbreak (ONC) 12
+1 Phyrexian Atlas (ONE) 237
+1 Phyrexian Rebirth (ONC) 86
+1 Phyrexian Swarmlord (ONC) 111
+1 Plague Myr (ONC) 139
+1 Plague Stinger (ONC) 96
+6 Plains (ONE) 272
+1 Putrefy (ONC) 123
+1 Sandsteppe Citadel (ONC) 162
+1 Scavenging Ooze (ONC) 112
+1 Shineshadow Snarl (ONC) 164
+1 Sol Ring (ONC) 140
+1 Sungrass Prairie (ONC) 166
+6 Swamp (ONE) 274
+1 Swords to Plowshares (ONC) 89
+1 Tainted Field (ONC) 167
+1 Tainted Wood (ONC) 168
+1 Temple of Malady (ONC) 169
+1 Temple of Plenty (ONC) 170
+1 Temple of Silence (ONC) 171
+1 Trailblazer's Boots (ONC) 144
+1 Unnatural Restoration (ONE) 191
+1 Vat Emergence (ONE) 112
+1 Venomous Brutalizer (ONE) 193
+1 Viridian Corrupter (ONC) 113
+1 Vishgraz, the Doomhive (ONC) 4
+1 Vraska's Fall (ONE) 116
+1 Windborn Muse (ONC) 91
+1 Wurmquake (ONC) 19

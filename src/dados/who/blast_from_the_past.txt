@@ -1,0 +1,100 @@
+1 Sarah Jane Smith (WHO) 6
+1 The Fourth Doctor (WHO) 2
+
+1 Ace's Baseball Bat (WHO) 170
+1 Ace, Fearless Rebel (WHO) 98
+1 Adric, Mathematical Genius (WHO) 33
+1 Alistair, the Brigadier (WHO) 112
+1 An Unearthly Child (WHO) 35
+1 Arcane Signet (WHO) 239
+1 Ash Barrens (WHO) 257
+1 Banish to Another Universe (WHO) 13
+1 Barbara Wright (WHO) 14
+1 Bessie, the Doctor's Roadster (WHO) 171
+1 Canopy Vista (WHO) 258
+1 Celestial Colonnade (WHO) 260
+1 City of Death (WHO) 99
+1 Command Tower (WHO) 263
+1 Crisis of Conscience (WHO) 17
+1 Day of Destiny (WHO) 206
+1 Deserted Beach (WHO) 270
+1 Displaced Dinosaurs (WHO) 100
+1 Dreamroot Cascade (WHO) 273
+1 Duggan, Private Detective (WHO) 123
+1 Exotic Orchard (WHO) 276
+1 Explore (WHO) 231
+1 Five Hundred Year Diary (WHO) 42
+1 Forest (WHO) 205
+2 Forest (WHO) 204
+1 Fortified Village (WHO) 280
+1 Gallifrey Council Chamber (WHO) 188
+1 Gallifrey Stands (WHO) 132
+1 Glacial Fortress (WHO) 285
+1 Hero's Blade (WHO) 241
+1 Heroes' Podium (WHO) 242
+1 Heroic Intervention (WHO) 233
+1 Horizon Canopy (WHO) 287
+1 Ian Chesterton (WHO) 22
+1 Irrigated Farmland (WHO) 288
+1 Island (WHO) 198
+1 Island (WHO) 199
+1 Jamie McCrimmon (WHO) 105
+1 Jo Grant (WHO) 23
+1 K-9, Mark I (WHO) 47
+1 Leela, Sevateem Warrior (WHO) 107
+1 Mind Stone (WHO) 244
+1 Nyssa of Traken (WHO) 51
+1 Overgrown Farmland (WHO) 292
+1 Path of Ancestry (WHO) 293
+1 Path to Exile (WHO) 210
+1 Peri Brown (WHO) 26
+1 Plains (WHO) 196
+1 Plains (WHO) 197
+1 Port Town (WHO) 294
+1 Prairie Stream (WHO) 295
+1 Return to Dust (WHO) 211
+1 Reverse the Polarity (WHO) 54
+1 Romana II (WHO) 27
+1 Scattered Groves (WHO) 301
+1 Seaside Citadel (WHO) 302
+1 Sergeant John Benton (WHO) 157
+1 Skycloud Expanse (WHO) 306
+1 Sol Ring (WHO) 245
+1 Sonic Screwdriver (WHO) 184
+1 Sungrass Prairie (WHO) 311
+1 Susan Foreman (WHO) 110
+1 Swords to Plowshares (WHO) 212
+1 Talisman of Progress (WHO) 253
+1 Talisman of Unity (WHO) 254
+1 TARDIS (WHO) 187
+1 Tegan Jovanka (WHO) 28
+1 Temple of Enlightenment (WHO) 315
+1 Temple of Mystery (WHO) 318
+1 Temple of Plenty (WHO) 319
+1 The Caves of Androzani (WHO) 15
+1 The Curse of Fenric (WHO) 118
+1 The Eighth Doctor (WHO) 124
+1 The Fifth Doctor (WHO) 127
+1 The First Doctor (WHO) 128
+1 The Five Doctors (WHO) 101
+1 The Night of the Doctor (WHO) 24
+1 The Sea Devils (WHO) 108
+1 The Second Doctor (WHO) 156
+1 The Seventh Doctor (WHO) 158
+1 The Sixth Doctor (WHO) 159
+1 The Third Doctor (WHO) 162
+1 The War Games (WHO) 30
+1 Thought Vessel (WHO) 255
+1 Three Visits (WHO) 235
+1 Thriving Grove (WHO) 325
+1 Thriving Heath (WHO) 326
+1 Thriving Isle (WHO) 327
+1 Time Lord Regeneration (WHO) 59
+1 Time Wipe (WHO) 238
+1 Traverse Eternity (WHO) 60
+1 Trenzalore Clocktower (WHO) 190
+1 Trial of a Time Lord (WHO) 29
+1 Twice Upon a Time // Unlikely Meeting (WHO) 61a
+1 Vineglimmer Snarl (WHO) 329
+1 Vrestin, Menoptra Leader (WHO) 166
+1 Waterlogged Grove (WHO) 331
