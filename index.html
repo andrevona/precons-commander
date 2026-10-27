@@ -50,6 +50,9 @@
   #grupos .tab { border-radius:8px; text-align:center; padding:10px 8px; display:flex; align-items:center; justify-content:center; }
   @media (min-width:640px) { #grupos { grid-template-columns:repeat(4,1fr); } }
   [hidden] { display:none !important; }
+  #colecoes .tab { position:relative; z-index:1; }
+  #colecoes .tab.on { z-index:3; }
+  #colecoes .tab .mais { margin-left:8px; font-size:12px; opacity:.8; }
   .busca { position:relative; margin:0 0 12px; }
   .busca input.filtro { margin:0; padding-right:44px; }
   .busca input.filtro::-webkit-search-cancel-button { -webkit-appearance:none; display:none; }
@@ -95,6 +98,7 @@ var GRP_ICONE = { "Secret Lair": "star" };
 var SEM_COLECAO = ["Secret Lair"]; // grupos com uma unica colecao: lista os decks direto
 
 var colAtual = 0, deckAtual = 0;
+var recolhido = false, animando = false; // coleções recolhidas sob o botão escolhido
 function $(id) { return document.getElementById(id); }
 
 function contar(texto) {
@@ -149,7 +153,7 @@ function desenhar() {
     b.className = "tab" + (g === grpAtual ? " on" : "");
     if (GRP_ICONE[g]) { var gi = document.createElement("img"); gi.className = "ic"; gi.alt = ""; gi.src = "icons/" + GRP_ICONE[g] + ".svg"; gi.onerror = function () { this.style.display = "none"; }; b.appendChild(gi); }
     b.appendChild(document.createTextNode(g));
-    b.onclick = function () { if (grpAtual !== g) { grpAtual = g; colAtual = -1; deckAtual = 0; desenhar(); } };
+    b.onclick = function () { if (grpAtual !== g) { grpAtual = g; colAtual = -1; deckAtual = 0; recolhido = false; desenhar(); } };
     gEl.appendChild(b);
   });
   COLECOES.forEach(function (col, i) { if (col.grupo === grpAtual && col.decks.some(casa)) vis.push(i); });
@@ -164,19 +168,25 @@ function desenhar() {
     s.textContent = "Nenhum deck, comandante ou carta com esse nome."; s.className = "status warn"; $("espelho").innerHTML = "";
     return;
   }
-  if (vis.indexOf(colAtual) < 0) { colAtual = vis[0]; deckAtual = 0; }
+  if (vis.indexOf(colAtual) < 0) { colAtual = vis[0]; deckAtual = 0; recolhido = false; }
   var decks = COLECOES[colAtual].decks;
   if (!decks[deckAtual] || !casa(decks[deckAtual])) {
     for (var k = 0; k < decks.length; k++) { if (casa(decks[k])) { deckAtual = k; break; } }
   }
   vis.forEach(function (i) {
+    if (recolhido && i !== colAtual) return;
     var col = COLECOES[i];
     var b = document.createElement("button");
     b.className = "tab" + (i === colAtual ? " on" : "");
     if (col.icone) { var im = document.createElement("img"); im.className = "ic"; im.alt = ""; im.src = "icons/" + col.icone + ".svg"; im.onerror = function () { this.style.display = "none"; }; b.appendChild(im); }
     b.appendChild(document.createTextNode(col.nome));
     if (col.ano && col.nome.indexOf(col.ano) < 0) { var y = document.createElement("span"); y.className = "n"; y.textContent = col.ano; b.appendChild(y); }
-    b.onclick = function () { colAtual = i; deckAtual = 0; desenhar(); };
+    if (recolhido && vis.length > 1) {
+      var m = document.createElement("span"); m.className = "mais"; m.textContent = "▾ +" + (vis.length - 1); b.appendChild(m);
+      b.title = "Mostrar as outras coleções";
+    }
+    b.setAttribute("aria-expanded", recolhido ? "false" : "true");
+    b.onclick = function () { if (animando) return; if (recolhido) expandir(); else recolher(i, b); };
     c.appendChild(b);
   });
   decks.forEach(function (deck, i) {
@@ -198,8 +208,71 @@ function desenhar() {
   s.className = "status " + (total === 100 ? "ok" : "warn");
 }
 
+// Animação das coleções: as outras entram por baixo do botão clicado (recolher) e saem de baixo dele (expandir).
+var DUR = 340, CURVA = "cubic-bezier(.4,0,.2,1)";
+function semAnim() { return window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches; }
+function centro(r) { return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; }
+function limpar(els) { els.forEach(function (x) { x.style.transition = x.style.transform = x.style.opacity = x.style.height = x.style.overflow = ""; }); animando = false; }
+
+// Rola a página para o botão escolhido ficar onde estava na tela; devolve quanto rolou de fato.
+function manter(el, rAnt) {
+  var y0 = window.scrollY;
+  window.scrollBy(0, el.getBoundingClientRect().top - rAnt.top);
+  return window.scrollY - y0;
+}
+
+function recolher(i, alvo) {
+  var c = $("colecoes"), btns = [].slice.call(c.children);
+  if (semAnim() || btns.length < 2) { colAtual = i; deckAtual = 0; recolhido = true; desenhar(); return; }
+  animando = true;
+  btns.forEach(function (x) { x.classList.toggle("on", x === alvo); });
+  var a = centro(alvo.getBoundingClientRect());
+  btns.forEach(function (x) {
+    if (x === alvo) return;
+    var b = centro(x.getBoundingClientRect());
+    x.style.transition = "transform " + DUR + "ms " + CURVA + ", opacity " + DUR + "ms " + CURVA;
+    x.style.transform = "translate(" + (a.x - b.x) + "px," + (a.y - b.y) + "px) scale(.5)";
+    x.style.opacity = "0";
+  });
+  setTimeout(function () {
+    var hAnt = c.offsetHeight, rAnt = alvo.getBoundingClientRect();
+    colAtual = i; deckAtual = 0; recolhido = true; desenhar();
+    var sel = c.querySelector(".on"), hNov = c.offsetHeight;
+    var rolou = manter(sel, rAnt), rNov = sel.getBoundingClientRect();
+    sel.style.transform = "translate(" + (rAnt.left - rNov.left) + "px," + (rAnt.top - rNov.top) + "px)";
+    c.style.height = Math.max(hNov, hAnt + rolou) + "px";
+    c.offsetHeight;
+    sel.style.transition = "transform " + DUR + "ms " + CURVA; sel.style.transform = "";
+    c.style.transition = "height " + DUR + "ms " + CURVA; c.style.height = hNov + "px";
+    setTimeout(function () { limpar([sel, c]); }, DUR + 20);
+  }, DUR);
+}
+
+function expandir() {
+  var c = $("colecoes"), sel = c.querySelector(".on");
+  var rAnt = sel.getBoundingClientRect(), hAnt = c.offsetHeight;
+  recolhido = false; desenhar();
+  var novo = c.querySelector(".on"), rolou = manter(novo, rAnt);
+  if (semAnim()) return;
+  animando = true;
+  var btns = [].slice.call(c.children), a = centro(rAnt), hNov = c.offsetHeight;
+  btns.forEach(function (x) {
+    var r = x.getBoundingClientRect();
+    if (x === novo) { x.style.transform = "translate(" + (rAnt.left - r.left) + "px," + (rAnt.top - r.top) + "px)"; }
+    else { var b = centro(r); x.style.transform = "translate(" + (a.x - b.x) + "px," + (a.y - b.y) + "px) scale(.5)"; x.style.opacity = "0"; }
+  });
+  c.style.height = Math.min(hNov, hAnt + rolou) + "px"; c.style.overflow = "hidden";
+  c.offsetHeight;
+  btns.forEach(function (x) {
+    x.style.transition = "transform " + DUR + "ms " + CURVA + ", opacity " + DUR + "ms " + CURVA;
+    x.style.transform = ""; x.style.opacity = "";
+  });
+  c.style.transition = "height " + DUR + "ms " + CURVA; c.style.height = hNov + "px";
+  setTimeout(function () { limpar(btns.concat([c])); }, DUR + 20);
+}
+
 $("saida").addEventListener("scroll", function () { $("espelho").scrollTop = this.scrollTop; $("espelho").scrollLeft = this.scrollLeft; });
-$("filtro").oninput = function () { q = this.value.trim().toLowerCase(); $("limpar").hidden = !this.value; desenhar(); };
+$("filtro").oninput = function () { q = this.value.trim().toLowerCase(); recolhido = false; $("limpar").hidden = !this.value; desenhar(); };
 $("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; desenhar(); f.focus(); };
 
 $("btnCopiar").onclick = function () {
