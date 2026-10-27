@@ -1,0 +1,92 @@
+1 Zurgo Stormrender (TDC) 10
+
+1 Abrade (TDC) 203
+1 Adeline, Resplendent Cathar (TDC) 108
+1 Ainok Strike Leader (TDC) 11
+1 Angel of Invention (TDC) 109
+1 Arcane Signet (TDC) 105
+1 Aron, Benalia's Ruin (TDC) 280
+1 Bastion of Remembrance (TDC) 171
+1 Battlefield Forge (TDC) 340
+1 Beetleback Chief (TDC) 205
+1 Bitter Triumph (TDC) 173
+1 Blade of Selves (TDC) 313
+1 Bojuka Bog (TDC) 341
+1 Bone Devourer (TDC) 26
+1 Canyon Slough (TDC) 344
+1 Castle Ardenvale (TDC) 346
+1 Castle Embereth (TDC) 347
+1 Caves of Koilos (TDC) 348
+1 Chittering Witch (TDC) 175
+1 Clifftop Retreat (TDC) 351
+1 Command Tower (TDC) 107
+1 Commander's Insignia (TDC) 111
+1 Deadly Dispute (TDC) 177
+1 Divine Visitation (TDC) 113
+1 Dragonskull Summit (TDC) 357
+1 Eliminate the Competition (TDC) 179
+1 Emeria Angel (TDC) 114
+1 Exotic Orchard (TDC) 360
+1 Fellwar Stone (TDC) 318
+1 Fetid Heath (TDC) 362
+1 Gix, Yawgmoth Praetor (TDC) 181
+1 Goldlust Triad (TDC) 34
+1 Goldnight Commander (TDC) 117
+1 Grand Crescendo (TDC) 118
+1 Grenzo, Havoc Raiser (TDC) 216
+1 Hero of Bladehold (TDC) 119
+1 Hour of Reckoning (TDC) 120
+1 Idol of Oblivion (TDC) 319
+1 Infantry Shield (TDC) 35
+1 Ironwill Forger (TDC) 13
+1 Isolated Chapel (TDC) 373
+1 Kaya, Geist Hunter (TDC) 294
+1 Legion Loyalty (TDC) 122
+1 Legion Warboss (TDC) 220
+1 Lightning Greaves (TDC) 102
+1 Lingering Souls (TDC) 123
+1 Loyal Apprentice (TDC) 222
+1 Mindblade Render (TDC) 187
+1 Morbid Opportunist (TDC) 188
+2 Mountain (TDM) 284
+3 Mountain (TDM) 283
+1 Myr Battlesphere (TDC) 322
+1 Neriv, Crackling Vanguard (TDC) 6
+1 Nomad Outpost (TDM) 263
+1 Ogre Battledriver (TDC) 227
+1 Ophiomancer (TDC) 193
+1 Path of Ancestry (TDC) 382
+2 Plains (TDM) 278
+3 Plains (TDM) 277
+1 Redoubled Stormsinger (TDC) 37
+1 Release the Dogs (TDC) 127
+1 Selfless Spirit (TDC) 129
+1 Shadow Summoning (TDC) 101
+1 Shattered Landscape (TDC) 390
+1 Shattered Sanctum (TDC) 391
+1 Siege-Gang Commander (TDC) 232
+1 Skullclamp (TDC) 103
+1 Smoldering Marsh (TDC) 395
+1 Sol Ring (TDC) 106
+1 Solemn Simulacrum (TDC) 325
+1 Stroke of Midnight (TDC) 132
+1 Sun Titan (TDC) 133
+2 Swamp (TDM) 282
+3 Swamp (TDM) 281
+1 Swords to Plowshares (TDC) 134
+1 Talisman of Conviction (TDC) 329
+1 Talisman of Hierarchy (TDC) 331
+1 Temple of Silence (TDC) 406
+1 Temple of Triumph (TDC) 407
+1 Tempt with Vengeance (TDC) 239
+1 Terramorphic Expanse (TDC) 408
+1 Thalisse, Reverent Medium (TDC) 306
+1 Tocasia's Welcome (TDC) 135
+1 Twilight Drover (TDC) 136
+1 Vault of the Archangel (TDC) 410
+1 Viscera Seer (TDC) 199
+1 Wayfarer's Bauble (TDC) 335
+1 Will of the Mardu (TDC) 17
+1 Windbrisk Heights (TDC) 411
+1 Within Range (TDC) 32
+1 Yahenni, Undying Partisan (TDC) 202

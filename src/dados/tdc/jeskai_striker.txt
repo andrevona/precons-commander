@@ -1,0 +1,93 @@
+1 Shiko and Narset, Unified (TDC) 7
+
+1 Abrade (TDC) 203
+1 Adaptive Training Post (TDC) 18
+1 Adarkar Wastes (TDC) 338
+1 Aligned Heart (TDC) 12
+1 Ancestral Vision (TDC) 144
+1 Arcane Signet (TDC) 105
+1 Archmage Emeritus (TDC) 145
+1 Ash Barrens (TDC) 339
+1 Azorius Signet (TDC) 312
+1 Baral and Kari Zev (TDC) 282
+1 Baral's Expertise (TDC) 146
+1 Battlefield Forge (TDC) 340
+1 Big Score (TDC) 206
+1 Boros Signet (TDC) 314
+1 Caldera Pyremaw (TDC) 33
+1 Cascade Bluffs (TDC) 345
+1 Clifftop Retreat (TDC) 351
+1 Command Tower (TDC) 107
+1 Compulsive Research (TDC) 147
+1 Consider (TDC) 148
+1 Curse of Opulence (TDC) 209
+1 Curse of the Swine (TDC) 149
+1 Deep Analysis (TDC) 150
+1 Dismantling Wave (TDC) 112
+1 Electrodominance (TDC) 212
+1 Elsha, Threefold Master (TDC) 2
+1 Evolving Wilds (TDM) 255
+1 Exotic Orchard (TDC) 360
+1 Expansion // Explosion (TDC) 287a
+1 Expressive Iteration (TDC) 288
+1 Faithless Looting (TDC) 213
+1 Fellwar Stone (TDC) 318
+1 Ferrous Lake (TDC) 361
+1 Frantic Search (TDC) 153
+1 Ghostly Prison (TDC) 116
+1 Glacial Fortress (TDC) 367
+1 Goblin Electromancer (TDC) 99
+1 Guttersnipe (TDC) 217
+1 Haughty Djinn (TDC) 154
+1 Irrigated Farmland (TDC) 372
+2 Island (TDM) 280
+3 Island (TDM) 279
+1 Izzet Signet (TDC) 320
+1 Lier, Disciple of the Drowned (TDC) 157
+1 Magma Opus (TDC) 296
+1 Mana Geyser (TDC) 223
+1 Manaform Hellkite (TDC) 224
+1 Mangara, the Diplomat (TDC) 124
+1 Monastery Mentor (TDC) 125
+2 Mountain (TDM) 284
+3 Mountain (TDM) 283
+1 Mystic Monastery (TDM) 262
+1 Narset's Reversal (TDC) 92
+1 Opt (TDC) 158
+1 Path of Ancestry (TDC) 382
+1 Perilous Landscape (TDC) 383
+2 Plains (TDM) 277
+2 Plains (TDM) 278
+1 Ponder (TDC) 159
+1 Pongify (TDC) 160
+1 Prairie Stream (TDC) 384
+1 Preordain (TDC) 161
+1 Prismari Command (TDC) 299
+1 Reliquary Tower (TDC) 386
+1 Rite of Replication (TDC) 165
+1 Rugged Prairie (TDC) 389
+1 Shiny Impetus (TDC) 231
+1 Shivan Reef (TDC) 393
+1 Skycloud Expanse (TDC) 394
+1 Sol Ring (TDC) 106
+1 Storm-Kiln Artist (TDC) 235
+1 Sublime Epiphany (TDC) 167
+1 Sulfur Falls (TDC) 396
+1 Swords to Plowshares (TDC) 134
+1 Talisman of Progress (TDC) 333
+1 Tempest Technique (TDC) 16
+1 Temple of Enlightenment (TDC) 401
+1 Temple of Epiphany (TDC) 402
+1 Temple of Triumph (TDC) 407
+1 Think Twice (TDC) 168
+1 Third Path Iconoclast (TDC) 307
+1 Time Wipe (TDC) 308
+1 Transcendent Dragon (TDC) 22
+1 Transforming Flourish (TDC) 39
+1 Vanquish the Horde (TDC) 91
+1 Velomachus Lorehold (TDC) 309
+1 Veyran, Voice of Duality (TDC) 310
+1 Voracious Bibliophile (TDC) 23
+1 Whirlwind of Thought (TDC) 311
+1 Will of the Jeskai (TDC) 40
+1 Young Pyromancer (TDC) 95

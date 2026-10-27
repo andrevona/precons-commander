@@ -1,0 +1,92 @@
+1 Teval, the Balanced Scale (TDC) 8
+
+1 Afterlife from the Loam (TDC) 25
+1 Amphin Mutineer (TDC) 143
+1 Arcane Signet (TDC) 105
+1 Avenger of Zendikar (TDC) 247
+1 Casualties of War (TDC) 98
+1 Cephalid Coliseum (TDC) 349
+1 Colossal Grave-Reaver (TDC) 50
+1 Command Beacon (TDC) 352
+1 Command Tower (TDC) 107
+1 Conduit of Worlds (TDC) 251
+1 Consuming Aberration (TDC) 283
+1 Contaminated Aquifer (TDC) 353
+1 Crawling Sensation (TDC) 252
+1 Crypt of Agadeem (TDC) 354
+1 Cultivate (TDC) 253
+1 Darkwater Catacombs (TDC) 355
+1 Dauthi Voidwalker (TDC) 176
+1 Disciple of Bolas (TDC) 178
+1 Diviner of Mist (TDC) 20
+1 Dreamroot Cascade (TDC) 358
+1 Drownyard Temple (TDC) 359
+1 Essence Anchor (TDM) 44
+1 Exotic Orchard (TDC) 360
+1 Farseek (TDC) 255
+1 Fetid Pools (TDC) 363
+1 Floral Evoker (TDC) 46
+1 Forbidden Alchemy (TDC) 152
+1 Foreboding Landscape (TDC) 365
+3 Forest (TDM) 285
+3 Forest (TDM) 286
+1 Golgari Rot Farm (TDC) 368
+1 Grapple with the Past (TDC) 257
+1 Gravecrawler (TDC) 93
+1 Grisly Salvage (TDC) 290
+1 Harrow (TDC) 258
+1 Haunted Mire (TDC) 369
+1 Hedron Crab (TDC) 155
+1 Hinterland Harbor (TDC) 371
+2 Island (TDM) 279
+2 Island (TDM) 280
+1 Jarad, Golgari Lich Lord (TDC) 293
+1 Junji, the Midnight Sky (TDC) 183
+1 Kishla Skimmer (TDM) 201
+1 Kotis, Sibsig Champion (TDC) 5
+1 Lethal Scheme (TDC) 184
+1 Life from the Loam (TDC) 96
+1 Living Death (TDC) 185
+1 Llanowar Wastes (TDC) 376
+1 Lord of Extinction (TDC) 295
+1 Lord of the Forsaken (TDC) 186
+1 Memorial to Folly (TDC) 377
+1 Meren of Clan Nel Toth (TDC) 297
+1 Millikin (TDC) 321
+1 Multani, Yavimaya's Avatar (TDC) 263
+1 Myriad Landscape (TDC) 380
+1 Necromantic Selection (TDC) 189
+1 Necropolis Fiend (TDC) 190
+1 Noxious Gearhulk (TDC) 191
+1 Nyx Weaver (TDC) 298
+1 Ob Nixilis, the Fallen (TDC) 192
+1 Opulent Palace (TDM) 264
+1 Phyrexian Reclamation (TDC) 194
+1 Putrefy (TDC) 300
+1 Rampant Growth (TDC) 265
+1 Reassembling Skeleton (TDC) 195
+1 River Kelpie (TDC) 166
+1 Sakura-Tribe Elder (TDC) 266
+1 Satyr Wayfinder (TDC) 267
+1 Shigeki, Jukai Visionary (TDC) 270
+1 Skull Prophet (TDC) 304
+1 Sol Ring (TDC) 106
+1 Springbloom Druid (TDC) 271
+1 Steward of the Harvest (TDC) 48
+1 Stitcher's Supplier (TDC) 196
+1 Sunken Hollow (TDC) 398
+2 Swamp (TDM) 282
+3 Swamp (TDM) 281
+1 Tasigur, the Golden Fang (TDC) 197
+1 Tear Asunder (TDC) 273
+1 Temple of Malady (TDC) 403
+1 Terramorphic Expanse (TDC) 408
+1 Teval's Judgment (TDC) 28
+1 Timeless Witness (TDC) 274
+1 Treasure Cruise (TDC) 169
+1 Victimize (TDC) 198
+1 Welcome the Dead (TDC) 30
+1 Will of the Sultai (TDC) 49
+1 Woe Strider (TDC) 201
+1 Wonder (TDC) 170
+1 Woodland Cemetery (TDC) 412

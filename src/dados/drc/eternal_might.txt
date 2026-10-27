@@ -1,0 +1,90 @@
+1 Temmet, Naktamun's Will (DRC) 4
+
+1 Accursed Duneyard (DRC) 20
+1 Adarkar Wastes (DRC) 144
+1 Angel of Sanctions (DRC) 62
+1 Arcane Sanctum (DRC) 146
+1 Arcane Signet (DRC) 51
+1 Archfiend of Ifnir (DRC) 86
+1 Ash Barrens (DRC) 147
+1 Binding Mummy (DRC) 63
+1 Bontu's Monument (DRC) 124
+1 Cast Out (DRC) 64
+1 Caves of Koilos (DRC) 148
+1 Cemetery Reaper (DRC) 87
+1 Champion of Wits (DRC) 72
+1 Command Tower (DRC) 59
+1 Commander's Sphere (DRC) 125
+1 Commence the Endgame (DRC) 38
+1 Corpse Augur (DRC) 40
+1 Corpse Knight (DRC) 50
+1 Crowded Crypt (DRC) 88
+1 Cryptbreaker (DRC) 41
+1 Damn (DRC) 89
+1 Desert of the Glorified (DRC) 149
+1 Desert of the Mindful (DRC) 150
+1 Desert of the True (DRC) 151
+1 Despark (DRC) 115
+1 Dimir Signet (DRC) 129
+1 Dread Summons (DRC) 90
+1 Dreadhorde Invasion (DRC) 91
+1 Drowned Catacomb (DRC) 152
+1 Dusk // Dawn (DRC) 65a
+1 Eternal Skylord (DRC) 76
+1 Evolving Wilds (DRC) 153
+1 Exotic Orchard (DRC) 155
+1 Fetid Pools (DRC) 156
+1 Fleshbag Marauder (DRC) 92
+1 Forgotten Creation (DRC) 77
+1 Gate to the Afterlife (DRC) 130
+1 Gempalm Polluter (DRC) 93
+1 Glacial Fortress (DRC) 159
+1 Gleaming Overseer (DRC) 116
+1 God-Eternal Oketra (DRC) 66
+1 God-Pharaoh's Gift (DRC) 131
+1 Grave Titan (DRC) 42
+1 Gravecrawler (DRC) 43
+1 Hashaton, Scarab's Fist (DRC) 1
+1 Irrigated Farmland (DRC) 161
+4 Island (DFT) 280
+1 Isolated Chapel (DRC) 162
+1 Lazotep Chancellor (DRC) 117
+1 Liliana, Death's Majesty (DRC) 94
+1 Lord of the Accursed (DRC) 95
+1 Lost Monarch of Ifnir (DRC) 11
+1 Maskwood Nexus (DRC) 132
+1 Midnight Reaper (DRC) 44
+1 Murderous Rider // Swift End (DRC) 45a
+1 Never // Return (DRC) 96a
+1 On Wings of Gold (DRC) 5
+1 Orzhov Basilica (DRC) 164
+1 Orzhov Signet (DRC) 134
+1 Path of Ancestry (DRC) 61
+1 Plague Belcher (DRC) 97
+5 Plains (DFT) 277
+1 Prairie Stream (DRC) 167
+1 Priest of the Crossing (DRC) 6
+1 Prophet of the Scarab (DRC) 9
+1 Pull from Tomorrow (DRC) 81
+1 Renewed Solidarity (DRC) 7
+1 Rhet-Tomb Mystic (DRC) 10
+1 Rot Hulk (DRC) 98
+1 Sol Ring (DRC) 56
+1 Sunken Hollow (DRC) 174
+5 Swamp (DFT) 283
+1 Swords to Plowshares (DRC) 37
+1 Talisman of Dominance (DRC) 141
+1 Talisman of Hierarchy (DRC) 142
+1 Temple of Deceit (DRC) 176
+1 Temple of Silence (DRC) 178
+1 Terramorphic Expanse (DRC) 179
+1 The Scarab God (DRC) 120
+1 Timeless Dragon (DRC) 67
+1 Twisted Abomination (DRC) 99
+1 Undead Augur (DRC) 100
+1 Underground River (DRC) 181
+1 Unholy Grotto (DRC) 182
+1 Vizier of Many Faces (DRC) 84
+1 Wayward Servant (DRC) 121
+1 Wizened Mentor (DRC) 8
+1 Zombie Master (DRC) 46
