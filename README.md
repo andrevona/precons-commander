@@ -10,7 +10,7 @@ Página simples para consultar e copiar as listas dos decks pré-construídos (p
 
 ## Fonte dos dados
 
-As listas dos decks vêm do [mtg.wtf](https://mtg.wtf) (página de cada deck). Cada carta usa a edição e o número indicados lá; decks mais recentes misturam várias edições. Os códigos depois do nome de cada carta, como `(KHC) 81`, são a sigla da edição e o número da carta; servem para o endstep.cc localizar exatamente a versão (a arte e a edição) desejada. Cartas "Display Commander" (versão oversized, fora das 100 cartas) não foram incluídas. Os ícones das coleções são os símbolos de edição servidos pelo [Scryfall](https://scryfall.com) (propriedade da Wizards of the Coast). Decks Secret Lair ficam agrupados na coleção "Secret Lair", com o ano no nome do deck.
+As listas dos decks vêm do [mtg.wtf](https://mtg.wtf) (página de cada deck). Cada carta usa a edição e o número indicados lá; decks mais recentes misturam várias edições. Os códigos depois do nome de cada carta, como `(KHC) 81`, são a sigla da edição e o número da carta; servem para o endstep.cc localizar exatamente a versão (a arte e a edição) desejada. Cartas "Display Commander" (versão oversized), tokens e os baralhos extras que acompanham alguns produtos (Planar Deck, Scheme Deck), todos fora das 100 cartas, não foram incluídos. Os ícones das coleções são os símbolos de edição servidos pelo [Scryfall](https://scryfall.com) (propriedade da Wizards of the Coast). Decks Secret Lair ficam agrupados na coleção "Secret Lair", com o ano no nome do deck.
 
 ## Como usar
 
@@ -18,4 +18,4 @@ Abra a página, escolha o grupo (Universes Within, Universes Beyond, Starters ou
 
 ## Cobertura atual
 
-Commander 2011 e 2013 a 2023 completos, incluindo os Starter Commander Decks de 2022 e os Secret Lair commander decks de 2021 e 2023. De 2024 já estão Murders at Karlov Manor, Fallout e Outlaws of Thunder Junction (125 decks, 34 coleções); o restante do ano será adicionado aos poucos. As edições Collector's Edition não são incluídas (repetem as listas dos decks normais, mudando só a aparência das cartas).
+Commander 2011 e 2013 a 2023 completos, incluindo os Starter Commander Decks de 2022 e os Secret Lair commander decks de 2021 e 2023. De 2024 já estão Murders at Karlov Manor, Fallout, Outlaws of Thunder Junction, Modern Horizons 3, Bloomburrow e Duskmourn (137 decks, 37 coleções); os Secret Lair de 2024 serão adicionados em seguida. As edições Collector's Edition não são incluídas (repetem as listas dos decks normais, mudando só a aparência das cartas).

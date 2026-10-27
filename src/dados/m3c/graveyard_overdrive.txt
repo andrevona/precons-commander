@@ -1,0 +1,95 @@
+1 Disa the Restless (M3C) 1
+
+1 Accursed Marauder (MH3) 80
+1 Altar of the Goyf (M3C) 282
+1 Anger (M3C) 208
+1 Arcane Signet (M3C) 283
+1 Archon of Cruelty (M3C) 197
+1 Barrowgoyf (M3C) 102
+1 Bituminous Blast (M3C) 255
+1 Bloodbraid Challenger (M3C) 122
+1 Bloodbraid Elf (M3C) 256
+1 Brawn (M3C) 224
+1 Broodmate Tyrant (M3C) 123
+1 Burnished Hart (M3C) 284
+1 Canyon Slough (M3C) 325
+1 Chandra's Ignition (M3C) 209
+1 Cinder Glade (M3C) 329
+1 Command Tower (M3C) 331
+1 Coram, the Undertaker (M3C) 7
+1 Dakmor Salvage (M3C) 333
+1 Deadbridge Chant (M3C) 258
+1 Deathreap Ritual (M3C) 259
+1 Demolition Field (M3C) 335
+1 Eternal Witness (M3C) 227
+1 Evolving Wilds (M3C) 340
+1 Exotic Orchard (M3C) 341
+1 Exterminator Magmarch (M3C) 124
+1 Faithless Looting (M3C) 211
+1 Final Act (M3C) 104
+1 Find // Finality (M3C) 261a
+2 Forest (MH3) 319
+3 Forest (MH3) 318
+1 Forgotten Cave (M3C) 343
+1 Garruk, Apex Predator (M3C) 262
+1 Gluttonous Hellkite (M3C) 125
+1 Grapple with the Past (M3C) 230
+1 Graveshifter (M3C) 198
+1 Grisly Salvage (M3C) 263
+1 Grist, the Hunger Tide (M3C) 264
+1 Ignoble Hierarch (M3C) 234
+1 Infested Thrinax (M3C) 126
+1 Izoni, Thousand-Eyed (M3C) 267
+1 Junji, the Midnight Sky (M3C) 199
+1 Kessig Wolf Run (M3C) 352
+1 Kolaghan's Command (M3C) 268
+1 Lhurgoyf (M3C) 235
+1 Lightning Greaves (M3C) 298
+1 Liliana, Death's Majesty (M3C) 200
+1 Maelstrom Pulse (M3C) 269
+1 Maskwood Nexus (M3C) 299
+1 Mortivore (M3C) 201
+1 Mossfire Valley (M3C) 357
+1 Mountain (MH3) 317
+2 Mountain (MH3) 316
+1 Myriad Landscape (M3C) 358
+1 Necrogoyf (M3C) 202
+1 Path of Ancestry (M3C) 363
+1 Polygoyf (M3C) 117
+1 Pyrogoyf (M3C) 111
+1 Raging Ravine (M3C) 367
+1 Rampant Growth (M3C) 240
+1 Riveteers Charm (M3C) 271
+1 Riveteers Overlook (M3C) 369
+1 Sakura-Tribe Elder (M3C) 243
+1 Savage Lands (M3C) 371
+1 Sawhorn Nemesis (M3C) 112
+1 Selvala, Heart of the Wilds (M3C) 246
+1 Shadowblood Ridge (M3C) 373
+1 Sheltered Thicket (M3C) 374
+1 Siege-Gang Lieutenant (M3C) 113
+1 Smoldering Marsh (M3C) 379
+1 Sol Ring (M3C) 305
+1 Stitcher's Supplier (M3C) 204
+2 Swamp (MH3) 314
+2 Swamp (MH3) 315
+1 Syphon Mind (M3C) 206
+1 Syr Konrad, the Grim (M3C) 207
+1 Tainted Peak (M3C) 382
+1 Tainted Wood (M3C) 383
+1 Talisman of Impulse (M3C) 311
+1 Talisman of Indulgence (M3C) 312
+1 Talisman of Resilience (M3C) 314
+1 Tarmogoyf Nest (M3C) 120
+1 Temple of Abandon (M3C) 385
+1 Temple of Malady (M3C) 388
+1 Temple of Malice (M3C) 389
+1 Tempt with Mayhem (M3C) 114
+1 Terminate (M3C) 274
+1 Terramorphic Expanse (M3C) 394
+1 The Reaver Cleaver (M3C) 217
+1 Tranquil Thicket (M3C) 398
+1 Twisted Landscape (MH3) 232
+1 Viridescent Bog (M3C) 406
+1 Yavimaya Elder (M3C) 254
+1 Ziatora, the Incinerator (M3C) 279

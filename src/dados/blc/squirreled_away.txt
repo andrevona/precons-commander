@@ -1,0 +1,88 @@
+1 Hazel of the Rootbloom (BLC) 2
+
+1 Academy Manufactor (BLC) 264
+1 Arasta of the Endless Web (BLC) 205
+1 Arcane Signet (BLC) 127
+1 Barren Moor (BLC) 292
+1 Bastion of Remembrance (BLC) 179
+1 Beastmaster Ascension (BLC) 118
+1 Beledros Witherbloom (BLC) 247
+1 Binding the Old Gods (BLC) 248
+1 Bojuka Bog (BLC) 294
+1 Cache Grab (BLB) 167
+1 Casualties of War (BLC) 125
+1 Chatterfang, Squirrel General (BLC) 209
+1 Chatterstorm (BLC) 210
+1 Chittering Witch (BLC) 180
+1 Chitterspitter (BLC) 211
+1 Command Tower (BLC) 130
+1 Deadly Dispute (BLC) 181
+1 Decree of Pain (BLC) 182
+1 Deep Forest Hermit (BLC) 213
+1 End-Raze Forerunners (BLC) 214
+1 Evolving Wilds (BLC) 302
+1 Exotic Orchard (BLC) 131
+4 Forest (BLB) 378
+5 Forest (BLB) 377
+1 Garruk, Cursed Huntsman (BLC) 99
+1 Gilded Goose (BLC) 221
+1 Golgari Rot Farm (BLC) 308
+1 Golgari Signet (BLC) 272
+1 Gourmand's Talent (BLC) 31
+1 Grim Backwoods (BLC) 309
+1 Haunted Mire (BLC) 311
+1 Haywire Mite (BLC) 274
+1 Hazel's Brewmaster (BLC) 17
+1 Honored Dreyleader (BLB) 178
+1 Idol of Oblivion (BLC) 277
+1 Insatiable Frugivore (BLC) 18
+1 Jungle Hollow (BLC) 313
+1 Llanowar Wastes (BLC) 315
+1 Maelstrom Pulse (BLC) 126
+1 Maskwood Nexus (BLC) 279
+1 Moldervine Reclamation (BLC) 255
+1 Moonstone Eulogist (BLC) 19
+1 Morbid Opportunist (BLC) 183
+1 Nadier's Nightblade (BLC) 184
+1 Necroblossom Snarl (BLC) 319
+1 Nested Shambler (BLC) 185
+1 Ogre Slumlord (BLC) 186
+1 Oran-Rief, the Vastwood (BLC) 320
+1 Path of Ancestry (BLC) 322
+1 Plaguecrafter (BLC) 187
+1 Plumb the Forbidden (BLC) 188
+1 Poison-Tip Archer (BLC) 256
+1 Prosperous Innkeeper (BLC) 121
+1 Putrefy (BLC) 257
+1 Ravenous Squirrel (BLC) 258
+1 Rootcast Apprenticeship (BLC) 32
+1 Saw in Half (BLC) 113
+1 Scurry of Squirrels (BLC) 33
+1 Second Harvest (BLC) 123
+1 Shamanic Revelation (BLC) 237
+1 Skullclamp (BLC) 283
+1 Skyfisher Spider (BLC) 261
+1 Sol Ring (BLC) 129
+1 Squirrel Nest (BLC) 239
+1 Squirrel Sovereign (BLC) 240
+4 Swamp (BLB) 373
+4 Swamp (BLB) 374
+1 Swarmyard (BLC) 133
+1 Swarmyard Massacre (BLC) 20
+1 Sword of the Squeak (BLC) 40
+1 Tainted Wood (BLC) 337
+1 Talisman of Resilience (BLC) 288
+1 Tear Asunder (BLC) 241
+1 Temple of Malady (BLC) 341
+1 Terramorphic Expanse (BLC) 345
+1 The Odd Acorn Gang (BLC) 7
+1 Tireless Provisioner (BLC) 243
+1 Toski, Bearer of Secrets (BLC) 244
+1 Tranquil Thicket (BLC) 350
+1 Twilight Mire (BLC) 351
+1 Viridescent Bog (BLC) 352
+1 Windgrace's Judgment (BLC) 263
+1 Woe Strider (BLC) 189
+1 Wolfwillow Haven (BLC) 246
+1 Woodland Cemetery (BLC) 354
+1 Zulaport Cutthroat (BLC) 190

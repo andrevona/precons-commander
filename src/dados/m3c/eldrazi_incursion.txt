@@ -1,0 +1,101 @@
+1 Ulalek, Fused Atrocity (M3C) 4
+
+1 Adarkar Wastes (M3C) 316
+1 All Is Dust (M3C) 152
+1 Ancient Stirrings (M3C) 219
+1 Angelic Aberration (M3C) 39
+1 Arcane Signet (M3C) 283
+1 Artisan of Kozilek (M3C) 153
+1 Ash Barrens (M3C) 318
+1 Awakening Zone (M3C) 222
+1 Azlask, the Swelling Scourge (M3C) 5
+1 Battlefield Forge (M3C) 321
+1 Benthic Anomaly (M3C) 46
+1 Bismuth Mindrender (M3C) 51
+1 Bonders' Enclave (M3C) 323
+1 Brushland (M3C) 324
+1 Cascading Cataracts (M3C) 326
+1 Caves of Koilos (M3C) 328
+1 Chittering Dispatcher (M3C) 63
+1 Command Tower (M3C) 331
+1 Corrupted Crossroads (M3C) 332
+1 Crib Swap (M3C) 168
+1 Deepfathom Skulker (M3C) 180
+1 Dreamstone Hedron (M3C) 289
+1 Drowner of Hope (M3C) 182
+1 Elder Deep-Fiend (M3C) 154
+1 Eldrazi Confluence (M3C) 32
+1 Eldrazi Conscription (M3C) 155
+1 Eldrazi Displacer (M3C) 169
+1 Eldrazi Monument (M3C) 290
+1 Eldrazi Temple (M3C) 339
+1 Eldritch Immunity (M3C) 33
+1 Endbringer (M3C) 156
+1 Everflowing Chalice (M3C) 291
+1 Exotic Orchard (M3C) 341
+1 Forest (MH3) 318
+1 Forsaken Monument (M3C) 293
+1 Garruk's Uprising (M3C) 229
+1 Glaring Fleshraker (MH3) 7
+1 Hedron Archive (M3C) 295
+1 Herald's Horn (M3C) 296
+1 Hideous Taskmaster (M3C) 57
+1 Idol of Oblivion (M3C) 297
+1 Imprisoned in the Moon (M3C) 188
+1 Inversion Behemoth (M3C) 34
+1 Island (MH3) 312
+1 Karplusan Forest (M3C) 351
+1 Kozilek's Return (M3C) 214
+1 Llanowar Wastes (M3C) 354
+1 Morophon, the Boundless (M3C) 157
+1 Mountain (MH3) 316
+1 Mutated Cultist (M3C) 53
+1 Mystic Forge (M3C) 302
+1 Oblivion Sower (M3C) 158
+1 Opal Palace (M3C) 361
+1 Path of Ancestry (M3C) 363
+1 Plains (MH3) 310
+1 Reliquary Tower (M3C) 368
+1 Return of the Wildspeaker (M3C) 242
+1 Rishkar's Expertise (M3C) 411
+1 Ruins of Oran-Rief (M3C) 370
+1 Secluded Courtyard (M3C) 372
+1 Selective Obliteration (M3C) 35
+1 Shivan Reef (M3C) 375
+1 Shrine of the Forsaken Gods (M3C) 376
+1 Sifter of Skulls (M3C) 203
+1 Sire of Stagnation (M3C) 272
+1 Skittering Invasion (M3C) 159
+1 Snapping Voidcraw (MH3) 204
+1 Sol Ring (M3C) 305
+1 Spawnbed Protector (M3C) 36
+1 Spawning Bed (M3C) 380
+1 Suffer the Past (M3C) 205
+1 Sulfurous Springs (M3C) 381
+1 Swamp (MH3) 314
+1 Talisman of Curiosity (M3C) 309
+1 Talisman of Dominance (M3C) 310
+1 Talisman of Impulse (M3C) 311
+1 Talisman of Resilience (M3C) 314
+1 Tectonic Edge (M3C) 384
+1 Temple of Malady (M3C) 388
+1 Temple of Silence (M3C) 391
+1 Tendo Ice Bridge (M3C) 393
+1 Titans' Vanguard (MH3) 206
+1 Tomb of the Spirit Dragon (M3C) 397
+1 Tranquil Landscape (MH3) 231
+1 Twins of Discord (M3C) 37
+1 Twisted Landscape (MH3) 232
+1 Ugin's Insight (M3C) 196
+1 Ugin, the Ineffable (M3C) 160
+1 Ulamog's Crusher (M3C) 161
+1 Ulamog's Dreadsire (M3C) 38
+1 Ulamog's Nullifier (M3C) 275
+1 Unclaimed Territory (M3C) 399
+1 Underground River (M3C) 400
+1 Vile Redeemer (M3C) 251
+1 Warping Wail (M3C) 162
+1 Wastes (M3C) 408
+1 Wastescape Battlemage (MH3) 17
+1 World Breaker (M3C) 253
+1 Yavimaya Coast (M3C) 410

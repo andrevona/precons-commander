@@ -1,0 +1,91 @@
+1 Winter, Cynical Opportunist (DSC) 7
+
+1 Arachnogenesis (DSC) 169
+1 Arcane Signet (DSC) 92
+1 Ash Barrens (DSC) 260
+1 Barren Moor (DSC) 262
+1 Binding the Old Gods (DSC) 213
+1 Bojuka Bog (DSC) 265
+1 Burnished Hart (DSC) 243
+1 Carrion Grub (DSC) 134
+1 Cemetery Tampering (DSC) 135
+1 Command Tower (DSC) 96
+1 Commander's Sphere (DSC) 244
+1 Convert to Slime (DSC) 37
+1 Crawling Sensation (DSC) 173
+1 Culling Ritual (DSC) 85
+1 Darkmoss Bridge (DSC) 269
+1 Deadbridge Chant (DSC) 215
+1 Deathcap Cultivator (DSC) 175
+1 Deathreap Ritual (DSC) 86
+1 Deluge of Doom (DSC) 18
+1 Demolisher Spawn (DSC) 31
+1 Demonic Covenant (DSC) 19
+1 Dryad Arbor (DSC) 273
+1 Evolving Wilds (DSC) 274
+1 Exotic Orchard (DSC) 275
+3 Forest (DSK) 286
+4 Forest (DSK) 285
+1 Formless Genesis (DSC) 34
+1 Giant Adephage (DSC) 179
+1 Gnarlwood Dryad (DSC) 180
+1 Golgari Rot Farm (DSC) 279
+1 Golgari Signet (DSC) 246
+1 Grapple with the Past (DSC) 82
+1 Grim Backwoods (DSC) 281
+1 Grim Flayer (DSC) 218
+1 Grisly Salvage (DSC) 219
+1 Grist, the Hunger Tide (DSC) 220
+1 Harmonize (DSC) 182
+1 Harrow (DSC) 183
+1 Haywire Mite (DSC) 247
+1 Hornet Queen (DSC) 184
+1 Inscription of Abundance (DSC) 186
+1 Into the Pit (DSC) 20
+1 Ishkanah, Grafwidow (DSC) 187
+1 Jungle Hollow (DSC) 285
+1 Llanowar Wastes (DSC) 287
+1 Mind Stone (DSC) 248
+1 Moldgraf Millipede (DSC) 188
+1 Moldgraf Monstrosity (DSC) 83
+1 Mulch (DSC) 189
+1 Necroblossom Snarl (DSC) 290
+1 Night's Whisper (DSC) 79
+1 Noxious Gearhulk (DSC) 151
+1 Nyx Weaver (DSC) 226
+1 Ob Nixilis Reignited (DSC) 152
+1 Obsessive Skinner (DSC) 191
+1 Old Stickfingers (DSC) 227
+1 Polluted Cistern // Dim Oubliette (DSC) 23a
+1 Professor Onyx (DSC) 153
+1 Putrefy (DSC) 90
+1 Rampant Growth (DSC) 193
+1 Reanimate (DSC) 155
+1 Reliquary Tower (DSC) 295
+1 Rendmaw, Creaking Nest (DSC) 5
+1 Sakura-Tribe Elder (DSC) 194
+1 Scavenging Ooze (DSC) 196
+1 Skola Grovedancer (DSC) 199
+1 Sol Ring (DSC) 94
+1 Solemn Simulacrum (DSC) 253
+1 Stitcher's Supplier (DSC) 157
+1 Suspicious Bookcase (DSC) 95
+3 Swamp (DSK) 282
+4 Swamp (DSK) 281
+1 Tainted Wood (DSC) 305
+1 Talisman of Resilience (DSC) 255
+1 Temple of Malady (DSC) 309
+1 Temple of the False God (DSC) 313
+1 Terramorphic Expanse (DSK) 269
+1 Titania, Nature's Force (DSC) 202
+1 Tranquil Thicket (DSC) 318
+1 Tree of Tales (DSC) 319
+1 Twilight Mire (DSC) 320
+1 Ursine Monstrosity (DSC) 36
+1 Vault of Whispers (DSC) 322
+1 Vile Mutilator (DSK) 122
+1 Viridescent Bog (DSC) 324
+1 Whip of Erebos (DSC) 159
+1 Whispersilk Cloak (DSC) 257
+1 Woodland Cemetery (DSC) 326
+1 Wrenn and Seven (DSC) 207
