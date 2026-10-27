@@ -65,6 +65,7 @@
   #colecoes .tab.on, #grupos .tab.on { z-index:3; }
   .tab .mais { margin-left:8px; font-size:12px; opacity:.8; white-space:nowrap; }
   .busca { position:relative; margin:0 0 12px; }
+  #caixaBusca { margin-top:12px; }
   .busca input.filtro { margin:0; padding-right:44px; }
   .busca input.filtro::-webkit-search-cancel-button { -webkit-appearance:none; display:none; }
   .limpar { position:absolute; right:6px; top:50%; transform:translateY(-50%); width:32px; height:32px; border:0; border-radius:999px; background:var(--line); color:var(--fg); font-size:20px; line-height:1; font-family:inherit; cursor:pointer; padding:0; }
@@ -74,20 +75,20 @@
 <body>
 <main>
   <h1>Precons Commander</h1>
-  <p class="sub">Escolha a coleção e o deck. A lista está no formato <code>quantidade Nome (SET) número</code>, pronta para colar no endstep.cc.</p>
+  <p class="sub">Escolha a coleção e o deck ou utilize o filtro. A lista está no formato <code>quantidade Nome (SET) número</code>, pronta para colar no endstep.cc.</p>
 
   <div class="tabs" id="grupos"></div>
+  <div class="busca" id="caixaBusca">
+    <input class="filtro" id="filtro" type="search" placeholder="Carta, deck, comandante ou coleção…" autocomplete="off" spellcheck="false">
+    <button type="button" class="limpar" id="limpar" aria-label="Apagar busca" title="Apagar busca" hidden>×</button>
+  </div>
+  <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
   <div id="conteudo" hidden>
   <div class="sec" id="secCol">Coleções</div>
   <div class="tabs" id="anos"></div>
   <div class="tabs" id="colecoes"></div>
   <hr class="div">
   <div class="sec">Decks</div>
-  <div class="busca">
-    <input class="filtro" id="filtro" type="search" placeholder="Carta, deck, comandante ou coleção…" autocomplete="off" spellcheck="false">
-    <button type="button" class="limpar" id="limpar" aria-label="Apagar busca" title="Apagar busca" hidden>×</button>
-  </div>
-  <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
 
   <div class="tabs" id="decks"></div>
 
@@ -252,7 +253,7 @@ function desenhar() {
     return;
   }
   if (vis.indexOf(colAtual) < 0) { colAtual = vis[0]; deckAtual = 0; recolhido = false; }
-  var colRec = recolhido && comAno;
+  var colRec = recolhido && comAno && !anoFiltro; // num ano específico as coleções não recolhem
   var decks = COLECOES[colAtual].decks;
   if (!decks[deckAtual] || !casa(decks[deckAtual])) {
     for (var k = 0; k < decks.length; k++) { if (casa(decks[k])) { deckAtual = k; break; } }
@@ -275,7 +276,7 @@ function desenhar() {
     b.setAttribute("aria-expanded", colRec ? "false" : "true");
     b.onclick = function () {
       if (animando) return;
-      if (RECOLHEM.indexOf(grpAtual) < 0) { colAtual = i; deckAtual = 0; desenhar(); return; }
+      if (RECOLHEM.indexOf(grpAtual) < 0 || anoFiltro) { colAtual = i; deckAtual = 0; desenhar(); return; }
       if (colRec) expandirEm(c, function () { recolhido = false; desenhar(); });
       else recolherEm(c, b, function () { colAtual = i; deckAtual = 0; recolhido = true; desenhar(); });
     };
@@ -403,7 +404,7 @@ function fecharConteudo() {
 }
 
 $("saida").addEventListener("scroll", function () { $("espelho").scrollTop = this.scrollTop; $("espelho").scrollLeft = this.scrollLeft; });
-$("filtro").oninput = function () { q = this.value.trim().toLowerCase(); recolhido = false; $("limpar").hidden = !this.value; desenhar(); };
+$("filtro").oninput = function () { q = this.value.trim().toLowerCase(); recolhido = false; $("limpar").hidden = !this.value; if (q && !aberto) abrirConteudo(); else desenhar(); };
 $("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; desenhar(); f.focus(); };
 
 $("btnCopiar").onclick = function () {
