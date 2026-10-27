@@ -1,0 +1,78 @@
+1 Strefan, Maurer Progenitor (VOC) 2
+
+1 Ancient Craving (VOC) 117
+1 Anje's Ravager (VOC) 141
+1 Anowon, the Ruin Sage (VOC) 118
+1 Arcane Signet (VOC) 159
+1 Arterial Alchemy (VOC) 23
+1 Avacyn's Judgment (VOC) 142
+1 Blasphemous Act (VOC) 143
+1 Blood Artist (VOC) 119
+1 Bloodline Necromancer (VOC) 120
+1 Bloodlord of Vaasgoth (VOC) 121
+1 Bloodsworn Steward (VOC) 144
+1 Bloodtithe Harvester (VOW) 232
+1 Bloodtracker (VOC) 122
+1 Butcher of Malakir (VOC) 123
+1 Champion of Dusk (VOC) 124
+1 Charcoal Diamond (VOC) 162
+1 Command Tower (VOC) 172
+1 Commander's Sphere (VOC) 163
+1 Cordial Vampire (VOC) 125
+1 Crimson Honor Guard (VOC) 145
+1 Crossway Troublemakers (VOC) 17
+1 Damnable Pact (VOC) 126
+1 Dark Impostor (VOC) 127
+1 Exotic Orchard (VOC) 173
+1 Falkenrath Gorger (VOC) 146
+1 Falkenrath Noble (VOC) 128
+1 Feed the Swarm (VOC) 129
+1 Fire Diamond (VOC) 164
+1 Foreboding Ruins (VOC) 174
+1 Glass-Cast Heart (VOC) 18
+1 Imposing Grandeur (VOC) 24
+1 Indulgent Aristocrat (VOC) 130
+1 Kamber, the Plunderer (VOC) 19
+1 Laurine, the Diversion (VOC) 25
+1 Malakir Bloodwitch (VOC) 131
+1 Markov Enforcer (VOC) 26
+1 Midnight Arsonist (VOC) 27
+1 Mob Rule (VOC) 147
+1 Molten Echoes (VOC) 148
+11 Mountain (VOW) 401
+1 Myriad Landscape (VOC) 176
+1 Necropolis Regent (VOC) 132
+1 Night's Whisper (VOC) 133
+1 Nirkana Revenant (VOC) 134
+1 Olivia's Wrath (VOC) 20
+1 Path of Ancestry (VOC) 177
+1 Patron of the Vein (VOC) 135
+1 Predators' Hour (VOC) 21
+1 Rakdos Carnarium (VOC) 180
+1 Rakdos Charm (VOC) 156
+1 Rakdos Signet (VOC) 166
+1 Rakish Heir (VOC) 149
+1 Sanctum Seeker (VOC) 136
+1 Scion of Opulence (VOC) 28
+1 Shadowblood Ridge (VOC) 181
+1 Shadowgrange Archfiend (VOC) 22
+1 Sinister Waltz (VOC) 30
+1 Smoldering Marsh (VOC) 183
+1 Sol Ring (VOC) 168
+1 Stensia Masquerade (VOC) 150
+1 Stromkirk Captain (VOC) 157
+1 Stromkirk Condemned (VOC) 137
+1 Stromkirk Occultist (VOC) 151
+14 Swamp (VOW) 400
+1 Swiftfoot Boots (VOC) 169
+1 Tainted Peak (VOC) 184
+1 Temple of Malice (VOC) 186
+1 Temple of the False God (VOC) 187
+1 Timothar, Baron of Bats (VOC) 4
+1 Underworld Connections (VOC) 138
+1 Unclaimed Territory (VOC) 188
+1 Unstable Obelisk (VOC) 170
+1 Urge to Feed (VOC) 139
+1 Vampire Nighthawk (VOC) 140
+1 Vampiric Dragon (VOC) 158
+1 Vandalblast (VOC) 152

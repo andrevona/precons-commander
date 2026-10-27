@@ -1,0 +1,95 @@
+1 Gavi, Nest Warden (C20) 7
+
+1 Abandoned Sarcophagus (C20) 236
+1 Agitator Ant (C20) 49
+1 Akim, the Soaring Wind (C20) 6
+1 Akroma's Vengeance (C20) 74
+1 Arcane Signet (C20) 237
+1 Ash Barrens (C20) 255
+1 Astral Drift (C20) 76
+1 Azorius Chancery (C20) 256
+1 Azorius Signet (C20) 238
+1 Bonder's Ornament (C20) 67
+1 Boon of the Wish-Giver (IKO) 43
+1 Boros Garrison (C20) 260
+1 Boros Signet (C20) 239
+1 Brallin, Skyshark Rider (C20) 4
+1 Cast Out (C20) 79
+1 Chandra, Flamecaller (C20) 145
+1 Command Tower (C20) 264
+1 Commander's Sphere (C20) 240
+1 Cryptic Trilobite (C20) 21
+1 Crystalline Resonance (C20) 31
+1 Curator of Mysteries (C20) 109
+1 Decree of Justice (C20) 85
+1 Descend upon the Sinful (C20) 86
+1 Desert of the Fervent (C20) 266
+1 Desert of the Mindful (C20) 267
+1 Desert of the True (C20) 268
+1 Dismantling Wave (C20) 25
+1 Drake Haven (C20) 110
+1 Drifting Meadow (C20) 271
+1 Eternal Dragon (C20) 88
+1 Ethereal Forager (C20) 34
+1 Exotic Orchard (C20) 273
+1 Fierce Guardianship (C20) 35
+1 Fluctuator (C20) 241
+1 Forgotten Cave (C20) 274
+1 Herald of the Forgotten (C20) 27
+1 Hieroglyphic Illumination (C20) 112
+1 Hoofprints of the Stag (C20) 90
+1 Hostile Desert (C20) 281
+1 Irrigated Farmland (C20) 282
+2 Island (IKO) 263
+2 Island (IKO) 264
+1 Island (IKO) 265
+1 Isperia, Supreme Judge (C20) 217
+1 Izzet Boilerworks (C20) 283
+1 Izzet Signet (C20) 243
+1 Lightning Rift (C20) 155
+1 Lonely Sandbar (C20) 287
+1 Martial Impetus (C20) 28
+1 Mercurial Chemister (C20) 221
+1 Migratory Route (C20) 222
+2 Mountain (IKO) 269
+2 Mountain (IKO) 270
+2 Mountain (IKO) 271
+1 Myriad Landscape (C20) 292
+1 Mystic Monastery (C20) 293
+1 Neutralize (IKO) 59
+1 New Perspectives (C20) 119
+1 Nimble Obstructionist (C20) 121
+1 Niv-Mizzet, the Firemind (C20) 225
+1 Ominous Seas (IKO) 61
+2 Plains (IKO) 260
+1 Plains (IKO) 261
+1 Plains (IKO) 262
+1 Portal Mage (C20) 122
+1 Prairie Stream (C20) 299
+1 Psychic Impetus (C20) 37
+1 Psychosis Crawler (C20) 248
+1 Raugrin Crystal (IKO) 238
+1 Reconnaissance Mission (IKO) 65
+1 Reliquary Tower (C20) 301
+1 Remote Isle (C20) 302
+1 Rooting Moloch (IKO) 133
+1 Savai Thundermane (IKO) 205
+1 Secluded Steppe (C20) 307
+1 Shabraz, the Skyshark (C20) 14
+1 Shiny Impetus (C20) 55
+1 Shivan Reef (C20) 310
+1 Skycloud Expanse (C20) 312
+1 Slice and Dice (C20) 159
+1 Smoldering Crater (C20) 313
+1 Sol Ring (C20) 252
+1 Spellpyre Phoenix (C20) 56
+1 Spirit Cairn (C20) 100
+1 Sun Titan (C20) 101
+1 Surly Badgersaur (C20) 57
+1 Tectonic Reformation (C20) 162
+1 Temple of the False God (C20) 319
+1 The Locust God (C20) 219
+1 Valiant Rescuer (IKO) 36
+1 Vizier of Tumbling Sands (C20) 126
+1 Windfall (C20) 128
+1 Zenith Flare (IKO) 217

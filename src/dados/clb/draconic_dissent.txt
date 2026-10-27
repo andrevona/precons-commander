@@ -1,0 +1,85 @@
+1 Firkraag, Cunning Instigator (CLB) 648
+
+1 Aether Gale (CLB) 712
+1 Agitator Ant (CLB) 776
+1 Angler Turtle (CLB) 713
+1 Arcane Signet (CLB) 298
+1 Artificer Class (CLB) 663
+1 Ash Barrens (CLB) 880
+1 Astral Dragon (CLB) 664
+1 Avatar of Slaughter (CLB) 779
+1 Baeloth Barrityl, Entertainer (CLB) 655
+1 Blasphemous Act (CLB) 780
+1 Bloodthirsty Blade (CLB) 854
+1 Bothersome Quasit (CLB) 674
+1 Brash Taunter (CLB) 782
+1 Burnished Hart (CLB) 303
+1 Castle Vantress (CLB) 885
+1 Chain Reaction (CLB) 783
+1 Chaos Dragon (CLB) 784
+1 Chaos Warp (CLB) 785
+1 Clan Crafter (CLB) 651
+1 Command Tower (CLB) 351
+1 Compulsive Research (CLB) 715
+1 Curse of Opulence (CLB) 786
+1 Curse of the Swine (CLB) 716
+1 Curse of Verbosity (CLB) 717
+1 Death Kiss (CLB) 675
+1 Desolate Lighthouse (CLB) 890
+1 Disrupt Decorum (CLB) 789
+1 Dissipation Field (CLB) 718
+1 Domineering Will (CLB) 719
+1 Dragon's Hoard (CLB) 858
+1 Drakuseth, Maw of Flames (CLB) 790
+1 Fellwar Stone (CLB) 860
+1 Geode Rager (CLB) 794
+1 Goblin Spymaster (CLB) 795
+1 Hedron Archive (CLB) 861
+3 Island (CLB) 455
+3 Island (CLB) 456
+3 Island (CLB) 457
+3 Island (CLB) 458
+1 Izzet Boilerworks (CLB) 897
+1 Izzet Signet (CLB) 863
+1 Kazuul, Tyrant of the Cliffs (CLB) 800
+1 Keiga, the Tide Star (CLB) 725
+1 Kher Keep (CLB) 899
+1 Loot Dispute (CLB) 677
+1 Midnight Clock (CLB) 727
+1 Mind Stone (CLB) 325
+1 Mocking Doppelganger (CLB) 667
+3 Mountain (CLB) 463
+3 Mountain (CLB) 464
+3 Mountain (CLB) 465
+3 Mountain (CLB) 466
+1 Myriad Landscape (CLB) 904
+1 Niv-Mizzet, Parun (CLB) 851
+1 Path of Ancestry (CLB) 907
+1 Prismari Campus (CLB) 909
+1 Propaganda (CLB) 730
+1 Psychic Impetus (CLB) 89
+1 Pursued Whale (CLB) 732
+1 Reins of Power (CLB) 734
+1 Reliquary Tower (CLB) 911
+1 Rowan Kenrith (CLB) 805
+1 Ryusei, the Falling Star (CLB) 806
+1 Shiny Impetus (CLB) 194
+1 Sly Instigator (CLB) 736
+1 Sol Ring (CLB) 871
+1 Solemn Simulacrum (CLB) 872
+1 Spectacular Showdown (CLB) 679
+1 Sprite Dragon (CLB) 852
+1 Steel Hellkite (CLB) 874
+1 Stuffy Doll (CLB) 875
+1 Talisman of Creativity (CLB) 876
+1 Temple of Epiphany (CLB) 923
+1 Temple of the False God (CLB) 925
+1 Terrain Generator (CLB) 926
+1 Territorial Hellkite (CLB) 809
+1 The Akroan War (CLB) 777
+1 Thunder Dragon (CLB) 810
+1 Vengeful Ancestor (CLB) 812
+1 Wandering Fumarole (CLB) 928
+1 Warmonger Hellkite (CLB) 814
+1 Wayfarer's Bauble (CLB) 344
+1 Will Kenrith (CLB) 738

@@ -1,0 +1,80 @@
+1 Kardur, Doomscourge (SCD) 5
+
+1 Abrade (SCD) 122
+1 Akoum Refuge (SCD) 289
+1 Ambition's Cost (SCD) 66
+1 Arcane Signet (SCD) 257
+1 Archfiend of Depravity (SCD) 67
+1 Blasphemous Act (SCD) 124
+1 Bloodfell Caves (SCD) 290
+1 Bloodgift Demon (SCD) 69
+1 Brash Taunter (SCD) 125
+1 Breath of Malfegor (SCD) 218
+1 Burnished Hart (SCD) 260
+1 Chaos Warp (SCD) 127
+1 Cinder Barrens (SCD) 294
+1 Combustible Gearhulk (SCD) 128
+1 Command Tower (SCD) 297
+1 Commander's Sphere (SCD) 261
+1 Coveted Jewel (SCD) 262
+1 Deadly Tempest (SCD) 75
+1 Dictate of the Twin Gods (SCD) 131
+1 Dredge the Mire (SCD) 76
+1 Explosion of Riches (SCD) 140
+1 Feed the Swarm (SCD) 77
+1 Fiery Confluence (SCD) 141
+1 Foreboding Ruins (SCD) 300
+1 Geode Rager (SCD) 144
+1 Guttersnipe (SCD) 145
+1 Hate Mirage (SCD) 146
+1 Indulgent Tormentor (SCD) 81
+1 Kaervek the Merciless (SCD) 233
+1 Kazuul, Tyrant of the Cliffs (SCD) 148
+1 Lightning Greaves (SCD) 269
+1 Magmatic Force (SCD) 150
+1 Mana Geyser (SCD) 151
+1 Molten Slagheap (SCD) 309
+3 Mountain (SCD) 347
+3 Mountain (SCD) 348
+4 Mountain (SCD) 345
+4 Mountain (SCD) 346
+1 Myriad Landscape (SCD) 311
+1 Nihil Spellbomb (SCD) 270
+1 Ob Nixilis Reignited (SCD) 96
+1 Profane Command (SCD) 99
+1 Rakdos Charm (SCD) 239
+1 Rakdos Signet (SCD) 272
+1 Rakshasa Debaser (SCD) 100
+1 Read the Bones (SCD) 101
+1 Reign of the Pit (SCD) 102
+1 Sangromancer (SCD) 103
+1 Scythe Specter (SCD) 105
+1 Sepulchral Primordial (SCD) 106
+1 Sign in Blood (SCD) 107
+1 Smoldering Marsh (SCD) 319
+1 Sol Ring (SCD) 276
+1 Solemn Simulacrum (SCD) 277
+1 Soul Shatter (SCD) 108
+1 Spiteful Visions (SCD) 245
+1 Stensia Bloodhall (SCD) 320
+1 Stormfist Crusader (SCD) 247
+1 Sunbird's Invocation (SCD) 159
+3 Swamp (SCD) 344
+4 Swamp (SCD) 341
+4 Swamp (SCD) 342
+4 Swamp (SCD) 343
+1 Syphon Mind (SCD) 111
+1 Talisman of Indulgence (SCD) 282
+1 Tectonic Giant (SCD) 161
+1 Temple of Malice (SCD) 326
+1 Terminate (SCD) 249
+1 Theater of Horrors (SCD) 250
+1 Thermo-Alchemist (SCD) 162
+1 Titan Hunter (SCD) 112
+1 Unlicensed Disintegration (SCD) 255
+1 Urborg Volcano (SCD) 331
+1 Vampire Nighthawk (SCD) 115
+1 Wayfarer's Bauble (SCD) 287
+1 Wild Ricochet (SCD) 169
+1 Wildfire Devils (SCD) 170
+1 Worn Powerstone (SCD) 288

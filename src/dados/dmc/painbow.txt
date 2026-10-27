@@ -1,0 +1,95 @@
+1 Jared Carthalion (DMC) 2
+
+1 Abundant Growth (DMC) 128
+1 Abzan Charm (DMC) 138
+1 Arcane Sanctum (DMC) 196
+1 Arcane Signet (DMC) 177
+1 Archelos, Lagoon Mystic (DMC) 140
+1 Atla Palani, Nest Tender (DMC) 142
+1 Bad River (DMC) 197
+1 Baleful Strix (DMC) 143
+1 Beast Within (DMC) 129
+1 Canopy Vista (DMC) 201
+1 Cascading Cataracts (DMC) 202
+1 Chromanticore (DMC) 146
+1 Cinder Glade (DMC) 203
+1 Coalition Relic (DMC) 180
+1 Coiling Oracle (DMC) 147
+1 Command Tower (DMC) 204
+1 Commander's Sphere (DMC) 181
+1 Crumbling Necropolis (DMC) 205
+1 Crystal Quarry (DMC) 206
+1 Cultivate (DMC) 130
+1 Duneblast (DMC) 148
+1 Echoing Truth (DMC) 109
+1 Evolving Wilds (DMC) 208
+1 Exotic Orchard (DMC) 209
+1 Explore (DMC) 131
+1 Explosive Vegetation (DMC) 132
+1 Faeburrow Elder (DMC) 149
+1 Fallaji Wayfarer (DMC) 11
+1 Farseek (DMC) 133
+1 Fellwar Stone (DMC) 182
+1 Flood Plain (DMC) 210
+3 Forest (DMU) 274
+1 Frontier Bivouac (DMC) 212
+1 Fusion Elemental (DMC) 150
+1 Glint-Eye Nephilim (DMC) 152
+1 Grasslands (DMC) 214
+1 Growth Spiral (DMC) 153
+1 Hero of Precinct One (DMC) 101
+1 Illuna, Apex of Wishes (DMC) 154
+1 Iridian Maelstrom (DMC) 12
+2 Island (DMU) 265
+1 Jenson Carthalion, Druid Exile (DMC) 3
+1 Jungle Shrine (DMC) 215
+1 Knight of New Alara (DMC) 156
+1 Kodama's Reach (DMC) 134
+1 Krosan Verge (DMC) 216
+1 Lavalanche (DMC) 157
+1 Maelstrom Archangel (DMC) 158
+1 Maelstrom Nexus (DMC) 159
+1 Mana Cannons (DMC) 7
+1 Merciless Eviction (DMC) 160
+1 Migration Path (DMC) 135
+2 Mountain (DMU) 271
+1 Mountain Valley (DMC) 219
+1 Murmuring Bosk (DMC) 220
+1 Mystic Monastery (DMC) 221
+1 Naya Charm (DMC) 162
+1 Nethroi, Apex of Death (DMC) 163
+1 Nomad Outpost (DMC) 222
+1 O-Kagachi, Vengeful Kami (DMC) 164
+1 Obsidian Obelisk (DMC) 18
+1 Opulent Palace (DMC) 223
+1 Painful Truths (DMC) 116
+1 Path to Exile (DMC) 104
+1 Path to the World Tree (DMC) 136
+2 Plains (DMU) 262
+1 Prairie Stream (DMC) 225
+1 Primeval Spawn (DMC) 13
+1 Prophetic Prism (DMC) 189
+1 Radiant Flames (DMC) 126
+1 Rienne, Angel of Rebirth (DMC) 166
+1 Rocky Tar Pit (DMC) 228
+1 Sandsteppe Citadel (DMC) 229
+1 Savage Lands (DMC) 230
+1 Search for Tomorrow (DMC) 137
+1 Seaside Citadel (DMC) 231
+1 Selvala, Explorer Returned (DMC) 167
+1 Smoldering Marsh (DMC) 234
+1 Solemn Simulacrum (DMC) 191
+1 Sultai Charm (DMC) 168
+1 Sunken Hollow (DMC) 235
+1 Surrak Dragonclaw (DMC) 169
+2 Swamp (DMU) 268
+1 Sylvan Reclamation (DMC) 170
+1 Terminate (DMC) 172
+1 Terramorphic Expanse (DMC) 239
+1 Tiller Engine (DMC) 20
+1 Time Wipe (DMC) 173
+1 Transguild Courier (DMC) 194
+1 Two-Headed Hellkite (DMC) 14
+1 Unite the Coalition (DMC) 15
+1 Xyris, the Writhing Storm (DMC) 175
+1 Zaxara, the Exemplary (DMC) 176

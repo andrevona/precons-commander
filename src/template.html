@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Precons Commander</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2f5fd0">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<style>
+  :root { --bg:#fafaf8; --fg:#1d1d1b; --mut:#6b6b66; --line:#d9d8d2; --acc:#2f5fd0; --accfg:#fff; --card:#fff; --ok:#1d7a3a; --warn:#b05a00; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#161615; --fg:#ecebe6; --mut:#9c9b94; --line:#34332f; --acc:#7da2ff; --accfg:#10131c; --card:#1e1e1c; --ok:#6fcf8a; --warn:#f0a04b; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 20px 16px 48px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .sub { color: var(--mut); margin: 0 0 16px; }
+  .tabs { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .tab { border:1px solid var(--line); background:var(--card); color:var(--fg); padding:6px 12px; border-radius:999px; cursor:pointer; font:inherit; }
+  .tab:hover { border-color: var(--acc); }
+  .tab.on { background:var(--acc); color:var(--accfg); border-color:var(--acc); }
+  .tab.small { padding:4px 10px; font-size:14px; border-radius:8px; }
+  .tab .n { opacity:.65; font-size:12px; margin-left:6px; }
+  .panel { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:12px; }
+  .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
+  .grow { flex:1; min-width:180px; }
+  button.go { background:var(--acc); color:var(--accfg); border:0; padding:8px 16px; border-radius:8px; font:inherit; font-weight:600; cursor:pointer; }
+  button.ghost { background:transparent; color:var(--acc); border:1px solid var(--line); padding:7px 12px; border-radius:8px; font:inherit; cursor:pointer; }
+  textarea { width:100%; min-height:420px; background:var(--bg); color:var(--fg); border:1px solid var(--line); border-radius:8px; padding:10px; font:13px/1.45 ui-monospace, Menlo, Consolas, monospace; resize:vertical; }
+  input.filtro { width:100%; margin:0 0 12px; padding:9px 12px; background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:8px; font:inherit; }
+  .status { color:var(--mut); margin-bottom:8px; }
+  .status.ok { color:var(--ok); } .status.warn { color:var(--warn); }
+  .sec { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--mut); font-weight:600; margin:16px 0 8px; }
+  hr.div { border:0; border-top:2px solid var(--line); margin:18px 0 0; }
+  .tab:not(.small) { font-weight:600; padding:8px 16px; }
+  .tab.small { border-radius:6px; background:transparent; }
+  .tab.small.on { background:var(--card); color:var(--acc); border-color:var(--acc); box-shadow:inset 0 -3px 0 var(--acc); font-weight:600; }
+  .tab img.ic { width:18px; height:18px; vertical-align:-4px; margin-right:8px; object-fit:contain; }
+  .tab.on img.ic { filter:invert(1); }
+  @media (prefers-color-scheme: dark) { .tab img.ic { filter:invert(.92); } .tab.on img.ic { filter:none; } }
+  .busca { position:relative; margin:0 0 12px; }
+  .busca input.filtro { margin:0; padding-right:44px; }
+  .busca input.filtro::-webkit-search-cancel-button { -webkit-appearance:none; display:none; }
+  .limpar { position:absolute; right:6px; top:50%; transform:translateY(-50%); width:32px; height:32px; border:0; border-radius:999px; background:var(--line); color:var(--fg); font-size:20px; line-height:1; font-family:inherit; cursor:pointer; padding:0; }
+  .limpar:hover { background:var(--acc); color:var(--accfg); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Precons Commander</h1>
+  <p class="sub">Escolha a coleção e o deck. A lista está no formato <code>quantidade Nome (SET) número</code>, pronta para colar no endstep.cc.</p>
+
+  <div class="busca">
+    <input class="filtro" id="filtro" type="search" placeholder="Filtrar decks pelo nome de uma carta…" autocomplete="off" spellcheck="false">
+    <button type="button" class="limpar" id="limpar" aria-label="Apagar busca" title="Apagar busca" hidden>×</button>
+  </div>
+  <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
+  <div class="sec">Coleções</div>
+  <div class="tabs" id="colecoes"></div>
+  <hr class="div">
+  <div class="sec">Decks</div>
+  <div class="tabs" id="decks"></div>
+
+  <div class="panel">
+    <div class="row">
+      <strong id="titulo" class="grow"></strong>
+      <button class="ghost" id="btnBaixar">Baixar .txt</button>
+      <button class="go" id="btnCopiar">Copiar lista</button>
+    </div>
+    <div class="status" id="status"></div>
+    <textarea id="saida" readonly spellcheck="false"></textarea>
+  </div>
+</main>
+
+<script>
+// Dados embutidos: cada deck ja vem pronto (comandante, linha em branco, resto em ordem alfabetica).
+var COLECOES = __DATA__;
+
+var colAtual = 0, deckAtual = 0;
+function $(id) { return document.getElementById(id); }
+
+function contar(texto) {
+  var total = 0;
+  texto.split("\n").forEach(function (l) { var m = /^(\d+)\s/.exec(l); if (m) total += parseInt(m[1], 10); });
+  return total;
+}
+
+var q = "";
+function nomesDe(deck) {
+  if (!deck._n) {
+    deck._n = [];
+    deck.lista.split("\n").forEach(function (l) { var m = /^\d+\s+(.+?)\s+\(\w+\)\s+\S+$/.exec(l); if (m) deck._n.push(m[1]); });
+  }
+  return deck._n;
+}
+function acertos(deck) {
+  if (!q) return [];
+  return nomesDe(deck).filter(function (n) { return n.toLowerCase().indexOf(q) >= 0; });
+}
+function casa(deck) { return !q || acertos(deck).length > 0; }
+
+function desenhar() {
+  var vis = [];
+  var nd = 0;
+  COLECOES.forEach(function (col) { col.decks.forEach(function (dk) { if (casa(dk)) nd++; }); });
+  $("contagem").textContent = q ? (nd === 0 ? "0 decks" : nd + (nd === 1 ? " deck contém" : " decks contêm") + " essa carta") : "";
+  COLECOES.forEach(function (col, i) { if (col.decks.some(casa)) vis.push(i); });
+  var c = $("colecoes"); c.innerHTML = "";
+  var d = $("decks"); d.innerHTML = "";
+  var s = $("status");
+  if (!vis.length) {
+    $("titulo").textContent = "Nenhum deck encontrado";
+    $("saida").value = "";
+    s.textContent = "Nenhum deck contém uma carta com esse nome."; s.className = "status warn";
+    return;
+  }
+  if (vis.indexOf(colAtual) < 0) { colAtual = vis[0]; deckAtual = 0; }
+  var decks = COLECOES[colAtual].decks;
+  if (!decks[deckAtual] || !casa(decks[deckAtual])) {
+    for (var k = 0; k < decks.length; k++) { if (casa(decks[k])) { deckAtual = k; break; } }
+  }
+  vis.forEach(function (i) {
+    var col = COLECOES[i];
+    var b = document.createElement("button");
+    b.className = "tab" + (i === colAtual ? " on" : "");
+    if (col.icone) { var im = document.createElement("img"); im.className = "ic"; im.alt = ""; im.src = "icons/" + col.icone + ".svg"; im.onerror = function () { this.style.display = "none"; }; b.appendChild(im); }
+    b.appendChild(document.createTextNode(col.nome));
+    if (col.ano && col.nome.indexOf(col.ano) < 0) { var y = document.createElement("span"); y.className = "n"; y.textContent = col.ano; b.appendChild(y); }
+    b.onclick = function () { colAtual = i; deckAtual = 0; desenhar(); };
+    c.appendChild(b);
+  });
+  decks.forEach(function (deck, i) {
+    if (!casa(deck)) return;
+    var b = document.createElement("button");
+    b.className = "tab small" + (i === deckAtual ? " on" : "");
+    b.textContent = deck.nome;
+    b.onclick = function () { deckAtual = i; desenhar(); };
+    d.appendChild(b);
+  });
+  var deck = decks[deckAtual];
+  var total = contar(deck.lista);
+  $("titulo").textContent = deck.nome + " · " + deck.comandante;
+  $("saida").value = deck.lista;
+  s.textContent = total + " cartas" + (total === 100 ? " ✓" : " (atenção: o esperado era 100)");
+  var ac = acertos(deck);
+  if (ac.length) s.textContent += " · encontrado: " + ac.join(", ");
+  s.className = "status " + (total === 100 ? "ok" : "warn");
+}
+
+$("filtro").oninput = function () { q = this.value.trim().toLowerCase(); $("limpar").hidden = !this.value; desenhar(); };
+$("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; desenhar(); f.focus(); };
+
+$("btnCopiar").onclick = function () {
+  var ta = $("saida");
+  function feito() { var b = $("btnCopiar"); b.textContent = "Copiado ✓"; setTimeout(function () { b.textContent = "Copiar lista"; }, 1500); }
+  function alt() { ta.focus(); ta.select(); try { document.execCommand("copy"); feito(); } catch (e) { alert("Selecione o texto e use Cmd+C."); } }
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(feito, alt); else alt();
+};
+
+$("btnBaixar").onclick = function () {
+  var deck = COLECOES[colAtual].decks[deckAtual];
+  var blob = new Blob([deck.lista], { type: "text/plain;charset=utf-8" });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = deck.arquivo;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+};
+
+desenhar();
+if ("serviceWorker" in navigator && /^https?:/.test(location.protocol)) { navigator.serviceWorker.register("sw.js").catch(function () {}); }
+</script>
+</body>
+</html>

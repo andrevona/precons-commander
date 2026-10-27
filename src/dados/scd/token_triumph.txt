@@ -1,0 +1,80 @@
+1 Emmara, Soul of the Accord (SCD) 2
+
+1 Ajani, Caller of the Pride (SCD) 6
+1 Arcane Signet (SCD) 257
+1 Aura Mutation (SCD) 217
+1 Avacyn's Pilgrim (SCD) 171
+1 Blossoming Sands (SCD) 291
+1 Camaraderie (SCD) 219
+1 Canopy Vista (SCD) 292
+1 Champion of Lambholt (SCD) 174
+1 Citanul Hierophants (SCD) 175
+1 Citywide Bust (SCD) 11
+1 Collective Blessing (SCD) 222
+1 Collective Unconscious (SCD) 176
+1 Command Tower (SCD) 297
+1 Commander's Insignia (SCD) 13
+1 Commander's Sphere (SCD) 261
+1 Conclave Tribunal (SCD) 14
+1 Curse of Bounty (SCD) 178
+1 Dauntless Escort (SCD) 223
+1 Dawn of Hope (SCD) 17
+1 Devouring Light (SCD) 18
+1 Dictate of Heliod (SCD) 19
+1 Elfhame Palace (SCD) 299
+1 Eternal Witness (SCD) 181
+1 Farhaven Elf (SCD) 182
+1 Felidar Retreat (SCD) 22
+3 Forest (SCD) 352
+4 Forest (SCD) 349
+4 Forest (SCD) 350
+4 Forest (SCD) 351
+1 Fortified Village (SCD) 301
+1 Graypelt Refuge (SCD) 303
+1 Great Oak Guardian (SCD) 186
+1 Harmonize (SCD) 187
+1 Harvest Season (SCD) 188
+1 Holdout Settlement (SCD) 305
+1 Hornet Nest (SCD) 189
+1 Hornet Queen (SCD) 190
+1 Hour of Reckoning (SCD) 26
+1 Idol of Oblivion (SCD) 268
+1 Jade Mage (SCD) 193
+1 Jaspera Sentinel (SCD) 194
+1 Karametra's Favor (SCD) 195
+1 Leafkin Druid (SCD) 196
+1 Loyal Guardian (SCD) 198
+1 Maja, Bretagard Protector (SCD) 235
+1 March of the Multitudes (SCD) 236
+1 Mentor of the Meek (SCD) 28
+1 Nissa's Expedition (SCD) 199
+1 Nullmage Shepherd (SCD) 200
+1 Overrun (SCD) 201
+1 Overwhelming Instinct (SCD) 202
+1 Path to Exile (SCD) 29
+3 Plains (SCD) 335
+3 Plains (SCD) 336
+4 Plains (SCD) 333
+4 Plains (SCD) 334
+1 Presence of Gond (SCD) 203
+1 Reclamation Sage (SCD) 205
+1 Rishkar, Peema Renegade (SCD) 207
+1 Rootborn Defenses (SCD) 32
+1 Scatter the Seeds (SCD) 209
+1 Scavenging Ooze (SCD) 210
+1 Selesnya Evangel (SCD) 241
+1 Selesnya Guildmage (SCD) 242
+1 Slate of Ancestry (SCD) 275
+1 Sol Ring (SCD) 276
+1 Sporemound (SCD) 212
+1 Sylvan Reclamation (SCD) 248
+1 Talisman of Unity (SCD) 284
+1 Temple of Plenty (SCD) 327
+1 Thunderfoot Baloth (SCD) 213
+1 Tranquil Expanse (SCD) 330
+1 Trostani Discordant (SCD) 253
+1 Valor in Akros (SCD) 39
+1 Verdant Force (SCD) 214
+1 Vitu-Ghazi, the City-Tree (SCD) 332
+1 Voice of Many (SCD) 215
+1 White Sun's Zenith (SCD) 41

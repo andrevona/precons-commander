@@ -1,0 +1,88 @@
+1 Dihada, Binder of Wills (DMC) 1
+
+1 Adriana, Captain of the Guard (DMC) 139
+1 Alesha, Who Smiles at Death (DMC) 118
+1 Ambition's Cost (DMC) 110
+1 Anafenza, Kin-Tree Spirit (DMC) 97
+1 Arcane Signet (DMC) 177
+1 Arvad the Cursed (DMC) 141
+1 Ashling the Pilgrim (DMC) 119
+1 Battlefield Forge (DMC) 198
+1 Bedevil (DMC) 144
+1 Bell Borca, Spectral Sergeant (DMC) 145
+1 Blackblade Reforged (DMC) 178
+1 Bladewing, Deathless Tyrant (DMC) 9
+1 Bojuka Bog (DMC) 199
+1 Bontu's Monument (DMC) 179
+1 Boros Garrison (DMC) 200
+1 Cadric, Soul Kindler (DMC) 10
+1 Captain Lannery Storm (DMC) 120
+1 Caves of Koilos (DMU) 244
+1 Command Tower (DMC) 204
+1 Commander's Sphere (DMC) 181
+1 Day of Destiny (DMC) 99
+1 Dragonskull Summit (DMC) 207
+1 Drana, Liberator of Malakir (DMC) 111
+1 Etali, Primal Storm (DMC) 121
+1 Evolving Wilds (DMC) 208
+1 Faithless Looting (DMC) 122
+1 Fellwar Stone (DMC) 182
+1 Foreboding Ruins (DMC) 211
+1 Garna, the Bloodflame (DMC) 151
+1 Geier Reach Sanitarium (DMC) 213
+1 Generous Gift (DMC) 100
+1 Gerrard's Hourglass Pendant (DMC) 17
+1 Hazoret's Monument (DMC) 183
+1 Hedron Archive (DMC) 184
+1 Hero's Blade (DMC) 186
+1 Hero's Downfall (DMC) 112
+1 Heroes' Podium (DMC) 185
+1 Honor-Worn Shaku (DMC) 187
+1 Jazal Goldmane (DMC) 102
+1 Josu Vess, Lich Knight (DMC) 113
+1 Kari Zev, Skyship Raider (DMC) 123
+1 Kaya's Wrath (DMC) 155
+1 Kothophed, Soul Hoarder (DMC) 114
+1 Krenko, Tin Street Kingpin (DMC) 124
+1 Mikokoro, Center of the Sea (DMC) 217
+1 Mobilized District (DMC) 218
+1 Moira, Urborg Haunt (DMC) 6
+1 Mortify (DMC) 161
+5 Mountain (DMU) 271
+1 Neheb, Dreadhorde Champion (DMC) 125
+1 Night's Whisper (DMC) 115
+1 Nomad Outpost (DMC) 222
+1 Odric, Lunarch Marshal (DMC) 103
+1 Oketra's Monument (DMC) 188
+1 Orzhov Basilica (DMC) 224
+6 Plains (DMU) 262
+1 Primevals' Glorious Rebirth (DMC) 165
+1 Rakdos Carnarium (DMC) 226
+1 Read the Bones (DMC) 117
+1 Reliquary Tower (DMC) 227
+1 Shanid, Sleepers' Scourge (DMC) 4
+1 Shivan Gorge (DMC) 232
+1 Shizo, Death's Storehouse (DMC) 233
+1 Smoldering Marsh (DMC) 234
+1 Sol Ring (DMC) 190
+5 Swamp (DMU) 268
+1 Sword of the Chosen (DMC) 192
+1 Tajic, Blade of the Legion (DMC) 171
+1 Temple of Malice (DMC) 236
+1 Temple of Silence (DMC) 237
+1 Temple of Triumph (DMC) 238
+1 Tenza, Godo's Maul (DMC) 193
+1 Terramorphic Expanse (DMC) 239
+1 Teshar, Ancestor's Apostle (DMC) 105
+1 The Circle of Loyalty (DMC) 98
+1 The Peregrine Dynamo (DMC) 19
+1 The Reaver Cleaver (DMC) 8
+1 Thrill of Possibility (DMC) 127
+1 Traxos, Scourge of Kroog (DMC) 195
+1 Tyrite Sanctum (DMC) 240
+1 Unbreakable Formation (DMC) 106
+1 Urza's Ruinous Blast (DMC) 107
+1 Verrak, Warped Sengir (DMC) 16
+1 Wear // Tear (DMC) 174a
+1 Zeriam, Golden Wind (DMC) 5
+1 Zetalpa, Primal Dawn (DMC) 108

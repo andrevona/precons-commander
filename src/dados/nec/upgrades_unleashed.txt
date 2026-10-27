@@ -1,0 +1,78 @@
+1 Chishiro, the Shattered Blade (NEC) 1
+
+1 Acidic Slime (NEC) 112
+1 Agitator Ant (NEC) 102
+1 Akki Battle Squad (NEC) 18
+1 Arcane Signet (NEC) 144
+1 Ascendant Acolyte (NEC) 24
+1 Bear Umbra (NEC) 113
+1 Beast Within (NEC) 114
+1 Blackblade Reforged (NEC) 146
+1 Bonehoard (NEC) 147
+1 Chain Reaction (NEC) 103
+1 Champion of Lambholt (NEC) 115
+1 Chaos Warp (NEC) 104
+1 Cinder Glade (NEC) 166
+1 Collision of Realms (NEC) 19
+1 Command Tower (NEC) 167
+1 Concord with the Kami (NEC) 25
+1 Decimate (NEC) 137
+1 Elemental Mastery (NEC) 105
+1 Exotic Orchard (NEC) 168
+1 Fertilid (NEC) 116
+1 Fireshrieker (NEC) 151
+7 Forest (NEO) 291
+7 Forest (NEO) 292
+1 Forgotten Ancient (NEC) 117
+1 Game Trail (NEC) 169
+1 Genesis Hydra (NEC) 118
+1 Goblin Razerunners (NEC) 106
+1 Grumgully, the Generous (NEC) 138
+1 Gruul Turf (NEC) 170
+1 Hunter's Insight (NEC) 119
+1 Invigorating Hot Spring (NEO) 223
+1 Kaima, the Fractured Calm (NEC) 3
+1 Kami of Celebration (NEC) 20
+1 Kodama's Reach (NEC) 120
+1 Komainu Battle Armor (NEC) 21
+1 Kosei, Penitent Warlord (NEC) 26
+1 Krenko, Tin Street Kingpin (NEC) 107
+1 Loyal Guardian (NEC) 121
+1 Mage Slayer (NEC) 140
+2 Mossfire Valley (NEC) 171
+6 Mountain (NEO) 289
+6 Mountain (NEO) 290
+1 One with the Kami (NEC) 27
+1 Opal Palace (NEC) 172
+1 Oran-Rief, the Vastwood (NEC) 173
+1 Ordeal of Nylea (NEC) 123
+1 Orochi Merge-Keeper (NEO) 203
+1 Ox of Agonas (NEC) 108
+1 Primeval Protector (NEC) 124
+1 Raging Ravine (NEC) 176
+1 Rampant Growth (NEC) 125
+1 Rampant Rejuvenator (NEC) 28
+1 Rhythm of the Wild (NEC) 142
+1 Rishkar's Expertise (NEC) 127
+1 Rishkar, Peema Renegade (NEC) 126
+1 Sakura-Tribe Elder (NEC) 128
+1 Shamanic Revelation (NEC) 129
+1 Shifting Shadow (NEC) 109
+1 Silkguard (NEC) 29
+1 Smoke Spirits' Aid (NEC) 22
+1 Snake Umbra (NEC) 130
+1 Sol Ring (NEC) 161
+1 Soul's Majesty (NEC) 131
+1 Spearbreaker Behemoth (NEC) 132
+1 Starstorm (NEC) 110
+1 Swiftfoot Boots (NEC) 163
+1 Sword of Vengeance (NEC) 164
+1 Tanuki Transplanter (NEC) 30
+1 Taurean Mauler (NEC) 111
+1 Temple of Abandon (NEC) 179
+1 Towashi Guide-Bot (NEO) 262
+1 Ulasht, the Hate Seed (NEC) 143
+1 Unquenchable Fury (NEC) 23
+1 Vastwood Surge (NEC) 133
+1 Walking Skyscraper (NEO) 263
+1 Whiptongue Hydra (NEC) 134

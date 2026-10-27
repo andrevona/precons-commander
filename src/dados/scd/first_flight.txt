@@ -1,0 +1,79 @@
+1 Isperia, Supreme Judge (SCD) 4
+
+1 Absorb (SCD) 216
+1 Aetherize (SCD) 42
+1 Angler Turtle (SCD) 43
+1 Arcane Signet (SCD) 257
+1 Archon of Redemption (SCD) 7
+1 Aven Gagglemaster (SCD) 8
+1 Azorius Signet (SCD) 259
+1 Banishing Light (SCD) 9
+1 Bident of Thassa (SCD) 44
+1 Cartographer's Hawk (SCD) 10
+1 Cleansing Nova (SCD) 12
+1 Cloudblazer (SCD) 221
+1 Coastal Tower (SCD) 296
+1 Command Tower (SCD) 297
+1 Commander's Sphere (SCD) 261
+1 Condemn (SCD) 15
+1 Counterspell (SCD) 45
+1 Crush Contraband (SCD) 16
+1 Diluvian Primordial (SCD) 47
+1 Disenchant (SCD) 20
+1 Emeria Angel (SCD) 21
+1 Empyrean Eagle (SCD) 226
+1 Ever-Watching Threshold (SCD) 50
+1 Faerie Formation (SCD) 51
+1 Favorable Winds (SCD) 52
+1 Generous Gift (SCD) 23
+1 Gideon Jura (SCD) 24
+1 Gravitational Shift (SCD) 54
+1 Hanged Executioner (SCD) 25
+1 Hedron Archive (SCD) 266
+1 Inspired Sphinx (SCD) 55
+3 Island (SCD) 340
+4 Island (SCD) 337
+4 Island (SCD) 338
+4 Island (SCD) 339
+1 Jubilant Skybonder (SCD) 232
+1 Kangee's Lieutenant (SCD) 27
+1 Kangee, Sky Warden (SCD) 234
+1 Meandering River (SCD) 308
+1 Migratory Route (SCD) 237
+1 Moorland Haunt (SCD) 310
+1 Negate (SCD) 58
+1 Pilgrim's Eye (SCD) 271
+3 Plains (SCD) 336
+4 Plains (SCD) 333
+4 Plains (SCD) 334
+4 Plains (SCD) 335
+1 Port Town (SCD) 313
+1 Prairie Stream (SCD) 314
+1 Rally of Wings (SCD) 30
+1 Remorseful Cleric (SCD) 31
+1 Sejiri Refuge (SCD) 317
+1 Sephara, Sky's Blade (SCD) 33
+1 Sharding Sphinx (SCD) 59
+1 Sky Diamond (SCD) 273
+1 Skycat Sovereign (SCD) 243
+1 Skyscanner (SCD) 274
+1 Sol Ring (SCD) 276
+1 Soul Snare (SCD) 34
+1 Sphinx of Enlightenment (SCD) 61
+1 Sphinx's Revelation (SCD) 244
+1 Staggering Insight (SCD) 246
+1 Steel-Plume Marshal (SCD) 35
+1 Storm Herd (SCD) 36
+1 Swords to Plowshares (SCD) 37
+1 Talisman of Progress (SCD) 283
+1 Temple of Enlightenment (SCD) 325
+1 Thought Vessel (SCD) 285
+1 Thunderclap Wyvern (SCD) 251
+1 Tide Skimmer (SCD) 62
+1 Time Wipe (SCD) 252
+1 Tranquil Cove (SCD) 329
+1 True Conviction (SCD) 38
+1 Vow of Duty (SCD) 40
+1 Warden of Evos Isle (SCD) 63
+1 Windreader Sphinx (SCD) 64
+1 Winged Words (SCD) 65

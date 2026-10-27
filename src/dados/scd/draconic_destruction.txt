@@ -1,0 +1,79 @@
+1 Atarka, World Render (SCD) 1
+
+1 Akoum Hellkite (SCD) 123
+1 Arcane Signet (SCD) 257
+1 Atarka Monument (SCD) 258
+1 Beast Within (SCD) 172
+1 Blossoming Defense (SCD) 173
+1 Chain Reaction (SCD) 126
+1 Cinder Glade (SCD) 295
+1 Clan Defiance (SCD) 220
+1 Command Tower (SCD) 297
+1 Commander's Sphere (SCD) 261
+1 Crucible of Fire (SCD) 129
+1 Cultivate (SCD) 177
+1 Demanding Dragon (SCD) 130
+1 Draconic Disciple (SCD) 225
+1 Dragon Mage (SCD) 132
+1 Dragon Tempest (SCD) 133
+1 Dragon's Hoard (SCD) 264
+1 Dragonkin Berserker (SCD) 134
+1 Dragonlord's Servant (SCD) 135
+1 Dragonmaster Outcast (SCD) 136
+1 Dragonspeaker Shaman (SCD) 137
+1 Drakuseth, Maw of Flames (SCD) 138
+1 Dream Pillager (SCD) 139
+1 Drumhunter (SCD) 179
+1 Elemental Bond (SCD) 180
+1 Fires of Yavimaya (SCD) 228
+1 Flameblast Dragon (SCD) 142
+1 Foe-Razer Regent (SCD) 183
+3 Forest (SCD) 349
+3 Forest (SCD) 350
+3 Forest (SCD) 351
+3 Forest (SCD) 352
+1 Frontier Siege (SCD) 184
+1 Furnace Whelp (SCD) 143
+1 Game Trail (SCD) 302
+1 Garruk's Uprising (SCD) 185
+1 Harbinger of the Hunt (SCD) 230
+1 Harmonize (SCD) 187
+1 Haven of the Spirit Dragon (SCD) 304
+1 Hoard-Smelter Dragon (SCD) 147
+1 Hunter's Insight (SCD) 191
+1 Hunter's Prowess (SCD) 192
+1 Kazandu Refuge (SCD) 307
+1 Loaming Shaman (SCD) 197
+1 Magmaquake (SCD) 149
+1 Mordant Dragon (SCD) 152
+4 Mountain (SCD) 347
+4 Mountain (SCD) 348
+5 Mountain (SCD) 345
+5 Mountain (SCD) 346
+1 Path of Ancestry (SCD) 312
+1 Primal Might (SCD) 204
+1 Provoke the Trolls (SCD) 153
+1 Rapacious Dragon (SCD) 154
+1 Return to Nature (SCD) 206
+1 Rugged Highlands (SCD) 315
+1 Runehorn Hellkite (SCD) 155
+1 Sakura-Tribe Elder (SCD) 208
+1 Sarkhan, the Dragonspeaker (SCD) 156
+1 Savage Ventmaw (SCD) 240
+1 Scourge of Valkas (SCD) 157
+1 Shamanic Revelation (SCD) 211
+1 Shivan Oasis (SCD) 318
+1 Sol Ring (SCD) 276
+1 Spit Flame (SCD) 158
+1 Steel Hellkite (SCD) 278
+1 Sweltering Suns (SCD) 160
+1 Swiftfoot Boots (SCD) 279
+1 Talisman of Impulse (SCD) 281
+1 Temple of Abandon (SCD) 323
+1 Thunderbreak Regent (SCD) 163
+1 Thundermaw Hellkite (SCD) 164
+1 Timber Gorge (SCD) 328
+1 Tyrant's Familiar (SCD) 165
+1 Unleash Fury (SCD) 166
+1 Vandalblast (SCD) 167
+1 Verix Bladewing (SCD) 168

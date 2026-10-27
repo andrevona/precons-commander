@@ -1,0 +1,94 @@
+1 Mishra, Eminent One (BRC) 1
+
+1 Abrade (BRC) 111
+1 Arcane Signet (BRC) 132
+1 Ash Barrens (BRC) 174
+1 Ashnod the Uncaring (BRC) 4
+1 Audacious Reshapers (BRC) 112
+1 Bedevil (BRC) 121
+1 Blasphemous Act (BRC) 113
+1 Blast-Furnace Hellkite (BRC) 12
+1 Brudiclad, Telchor Engineer (BRC) 122
+1 Buried Ruin (BRC) 177
+1 Chaos Warp (BRC) 114
+1 Command Tower (BRC) 178
+1 Commander's Sphere (BRC) 135
+1 Crumbling Necropolis (BRC) 179
+1 Cursed Mirror (BRC) 115
+1 Darkwater Catacombs (BRC) 181
+1 Dimir Aqueduct (BRC) 182
+1 Dimir Signet (BRC) 138
+1 Dreamstone Hedron (BRC) 139
+1 Drossforge Bridge (BRC) 183
+1 Emry, Lurker of the Loch (BRC) 81
+1 Executioner's Capsule (BRC) 104
+1 Exotic Orchard (BRC) 185
+1 Expressive Iteration (BRC) 125
+1 Fact or Fiction (BRC) 84
+1 Fain, the Broker (BRC) 105
+1 Faithless Looting (BRC) 116
+1 Farid, Enterprising Salvager (BRC) 13
+1 Feed the Swarm (BRC) 106
+1 Fellwar Stone (BRC) 141
+1 Geth, Lord of the Vault (BRC) 107
+1 Glint Raker (BRC) 7
+1 Great Furnace (BRC) 187
+1 Hedron Archive (BRC) 142
+1 Hellkite Igniter (BRC) 117
+1 Herald of Anguish (BRC) 108
+1 Ichor Wellspring (BRC) 143
+1 Idol of Oblivion (BRC) 144
+2 Island (BRC) 32
+3 Island (BRC) 31
+1 Izzet Boilerworks (BRC) 188
+1 Jhoira, Weatherlight Captain (BRC) 126
+1 Lithoform Engine (BRC) 146
+1 Machine God's Effigy (BRC) 16
+1 Master Transmuter (BRC) 87
+1 Metalwork Colossus (BRC) 147
+1 Mind Stone (BRC) 148
+1 Mirrorworks (BRC) 149
+1 Mistvault Bridge (BRC) 189
+1 Mnemonic Sphere (BRC) 88
+2 Mountain (BRC) 35
+2 Mountain (BRC) 36
+1 Muzzio, Visionary Architect (BRC) 89
+1 Mycosynth Wellspring (BRC) 150
+1 Myriad Landscape (BRC) 190
+1 Nihil Spellbomb (BRC) 152
+1 Oblivion Stone (BRC) 153
+1 Oni-Cult Anvil (BRC) 127
+1 Padeem, Consul of Innovation (BRC) 91
+1 Path of Ancestry (BRC) 192
+1 Prophetic Prism (BRC) 155
+1 Rakdos Carnarium (BRC) 194
+1 Rakdos Signet (BRC) 156
+1 Reliquary Tower (BRC) 196
+1 Scavenged Brawler (BRC) 17
+1 Seat of the Synod (BRC) 198
+1 Servo Schematic (BRC) 158
+1 Shadowblood Ridge (BRC) 199
+1 Silas Renn, Seeker Adept (BRC) 129
+1 Silverbluff Bridge (BRC) 200
+1 Slobad, Goblin Tinkerer (BRC) 118
+1 Smelting Vat (BRC) 18
+1 Smoldering Marsh (BRC) 202
+1 Sol Ring (BRC) 160
+1 Spine of Ish Sah (BRC) 162
+1 Strionic Resonator (BRC) 165
+2 Swamp (BRC) 33
+2 Swamp (BRC) 34
+1 Temple of Deceit (BRC) 205
+1 Temple of Epiphany (BRC) 207
+1 Temple of Malice (BRC) 208
+1 Terisiare's Devastation (BRC) 9
+1 Terramorphic Expanse (BRC) 210
+1 Thirst for Knowledge (BRC) 96
+1 Thoughtcast (BRC) 99
+1 Thran Dynamo (BRC) 168
+1 Trading Post (BRC) 169
+1 Traxos, Scourge of Kroog (BRC) 170
+1 Vault of Whispers (BRC) 211
+1 Wayfarer's Bauble (BRC) 171
+1 Wondrous Crucible (BRC) 20
+1 Workshop Elders (BRC) 102

@@ -1,0 +1,80 @@
+1 Millicent, Restless Revenant (VOC) 1
+
+1 Angel of Flight Alabaster (VOC) 77
+1 Arcane Denial (VOC) 102
+1 Arcane Signet (VOC) 159
+1 Azorius Chancery (VOC) 171
+1 Azorius Locket (VOC) 160
+1 Azorius Signet (VOC) 161
+1 Benevolent Offering (VOC) 78
+1 Boreas Charger (VOC) 79
+1 Breath of the Sleepless (VOC) 11
+1 Bygone Bishop (VOC) 80
+1 Command Tower (VOC) 172
+1 Commander's Sphere (VOC) 163
+1 Crush Contraband (VOC) 81
+1 Custodi Soulbinders (VOC) 82
+1 Custodi Squire (VOC) 83
+1 Darksteel Mutation (VOC) 84
+1 Disorder in the Court (VOC) 29
+1 Distant Melody (VOC) 103
+1 Donal, Herald of Wings (VOC) 3
+1 Dovin, Grand Arbiter (VOC) 153
+1 Drogskol Captain (VOC) 154
+1 Drogskol Reinforcements (VOC) 5
+1 Ethereal Investigator (VOC) 12
+1 Exotic Orchard (VOC) 173
+1 Fell the Mighty (VOC) 85
+1 Field of Souls (VOC) 86
+1 Flood of Tears (VOC) 104
+1 Geist of Saint Traft (VOC) 155
+1 Ghostly Pilferer (VOC) 105
+1 Ghostly Prison (VOC) 87
+1 Hallowed Spiritkeeper (VOC) 88
+1 Hanged Executioner (VOC) 89
+1 Haunted Library (VOC) 6
+1 Haunting Imitation (VOC) 13
+1 Imprisoned in the Moon (VOC) 106
+11 Island (VOW) 399
+1 Kami of the Crescent Moon (VOC) 107
+1 Karmic Guide (VOC) 90
+1 Kirtar's Wrath (VOC) 91
+1 Knight of the White Orchid (VOC) 92
+1 Marble Diamond (VOC) 165
+1 Mentor of the Meek (VOC) 93
+1 Midnight Clock (VOC) 108
+1 Mirror Entity (VOC) 94
+1 Moorland Haunt (VOC) 175
+1 Myriad Landscape (VOC) 176
+1 Nebelgast Herald (VOC) 109
+1 Occult Epiphany (VOC) 14
+1 Oyobi, Who Split the Heavens (VOC) 95
+1 Path of Ancestry (VOC) 177
+12 Plains (VOW) 398
+1 Port Town (VOC) 178
+1 Prairie Stream (VOC) 179
+1 Priest of the Blessed Graf (VOC) 7
+1 Promise of Bunrei (VOC) 96
+1 Rattlechains (VOC) 110
+1 Reconnaissance Mission (VOC) 111
+1 Remorseful Cleric (VOC) 97
+1 Rhoda, Geist Avenger (VOC) 8
+1 Shacklegeist (VOC) 112
+1 Sire of the Storm (VOC) 113
+1 Sky Diamond (VOC) 167
+1 Skycloud Expanse (VOC) 182
+1 Sol Ring (VOC) 168
+1 Spectral Arcanist (VOC) 15
+1 Spectral Sailor (VOC) 114
+1 Spectral Shepherd (VOC) 98
+1 Storm of Souls (VOC) 9
+1 Sudden Salvation (VOC) 10
+1 Supreme Phantom (VOC) 115
+1 Swords to Plowshares (VOC) 99
+1 Temple of Enlightenment (VOC) 185
+1 Temple of the False God (VOC) 187
+1 Timin, Youthful Geist (VOC) 16
+1 Twilight Drover (VOC) 100
+1 Unclaimed Territory (VOC) 188
+1 Verity Circle (VOC) 116
+1 Windborn Muse (VOC) 101

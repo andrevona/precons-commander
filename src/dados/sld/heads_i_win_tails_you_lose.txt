@@ -1,0 +1,88 @@
+1 Okaun, Eye of Chaos (SLD) 380a
+1 Zndrsplt, Eye of Wisdom (SLD) 379a
+
+1 Academy Ruins (PLST) 2XM-309
+1 Arcane Signet (PLST) C21-234
+1 Blasphemous Act (PLST) CMR-162
+1 Bloodsworn Steward (PLST) C17-22
+1 Boompile (PLST) C16-52
+1 Buried Ruin (PLST) 2XM-312
+1 Cascade Bluffs (PLST) 2XM-313
+1 Chance Encounter (PLST) ODY-182
+1 Chandra's Ignition (PLST) ORI-137
+1 Chaos Warp (PLST) C20-146
+1 Command Tower (PLST) C21-284
+1 Commander's Plate (PLST) CMR-305
+1 Counterspell (PLST) CMR-395
+1 Crooked Scales (PLST) MMQ-291
+1 Daretti, Scrap Savant (PLST) CM2-4
+1 Desolate Lighthouse (PLST) C20-269
+1 Embercleave (PLST) ELD-120
+1 Exotic Orchard (PLST) C21-288
+1 Fabricate (PLST) M10-52
+1 Fiery Gambit (PLST) MRD-90
+1 Flamekin Village (PLST) CM2-251
+1 Footfall Crater (PLST) IKO-118
+1 Frenetic Sliver (PLST) PLC-157
+1 Gamble (PLST) UMA-132
+1 Goblin Archaeologist (PLST) DST-63
+1 Goblin Engineer (PLST) MH1-128
+1 Goblin Kaboomist (PLST) M15-144
+1 Great Furnace (PLST) MRD-282
+1 Impulsive Maneuvers (PLST) ODY-197
+1 Inventors' Fair (PLST) KLD-247
+7 Island (PLST) BBD-251
+1 Izzet Boilerworks (PLST) IMA-241
+1 Izzet Signet (PLST) MM3-223
+1 Karplusan Minotaur (PLST) CSP-86
+1 Krark's Thumb (SLD) 383a
+1 Krark, the Thumbless (PLST) CMR-189
+1 Lightning Greaves (PLST) 2XM-267
+1 Long-Term Plans (PLST) SCG-38
+1 Mind Stone (PLST) IMA-219
+1 Mirror March (PLST) RNA-108
+1 Mogg Assassin (PLST) EXO-88
+8 Mountain (PLST) BBD-253
+1 Muddle the Mixture (PLST) RAV-60
+1 Myriad Landscape (PLST) A25-243
+1 Negate (PLST) ZNR-71
+1 Niv-Mizzet, Parun (PLST) GRN-192
+1 Path of Ancestry (PLST) CMR-353
+1 Planar Chaos (PLST) JUD-97
+1 Ponder (PLST) C21-125
+1 Preordain (PLST) CMR-84
+1 Propaganda (SLD) 381a
+1 Ral Zarek (PLST) DGM-94
+1 Reliquary Tower (PLST) C21-311
+1 Reshape (PLST) 2XM-64
+1 Risky Move (PLST) ONS-223
+1 Rogue's Passage (PLST) UMA-250
+1 Sakashima the Impostor (PLST) SOK-53
+1 Seize the Day (PLST) UMA-147
+1 Serum Visions (PLST) C21-129
+1 Shadowspear (PLST) THB-236
+1 Shivan Reef (PLST) C21-316
+1 Slip Through Space (PLST) OGW-47
+1 Sol Ring (PLST) C21-263
+1 Spark Double (PLST) WAR-68
+1 Spinerock Knoll (PLST) C20-316
+1 Squee's Revenge (PLST) APC-123
+1 Stitch in Time (SLD) 382a
+1 Sulfur Falls (PLST) DOM-247
+1 Swiftfoot Boots (PLST) A25-234
+1 Sword of Vengeance (PLST) M11-216
+1 Talisman of Creativity (PLST) C21-269
+1 Tavern Scoundrel (PLST) MH2-144
+1 Temple of Epiphany (PLST) M21-252
+1 Temple of the False God (PLST) C21-326
+1 Temur Battle Rage (PLST) CMR-417
+1 The Locust God (PLST) C20-219
+1 Thought Vessel (PLST) CMR-346
+1 Tolaria West (PLST) TSR-286
+1 Training Center (PLST) CMR-358
+1 Tribute Mage (PLST) MH1-73
+1 Vandalblast (PLST) C15-170
+1 Wandering Fumarole (PLST) OGW-182
+1 Whir of Invention (PLST) AER-49
+1 Whispersilk Cloak (PLST) M11-221
+1 Yusri, Fortune's Flame (PLST) MH2-218

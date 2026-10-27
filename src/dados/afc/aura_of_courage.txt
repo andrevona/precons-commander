@@ -1,0 +1,97 @@
+1 Galea, Kindler of Hope (AFC) 1
+
+1 Abundant Growth (AFC) 150
+1 Acidic Slime (AFC) 151
+1 Angel of Finality (AFC) 63
+1 Angelic Gift (AFC) 64
+1 Arcane Signet (AFC) 197
+1 Argentum Armor (AFC) 198
+1 Azorius Chancery (AFC) 224
+1 Bant Charm (AFC) 178
+1 Bant Panorama (AFC) 225
+1 Basilisk Collar (AFC) 199
+1 Behemoth Sledge (AFC) 180
+1 Belt of Giant Strength (AFC) 38
+1 Brainstorm (AFC) 79
+1 Canopy Vista (AFC) 227
+1 Catti-brie of Mithral Hall (AFC) 44
+1 Clay Golem (AFC) 58
+1 Cold-Eyed Selkie (AFC) 183
+1 Colossus Hammer (AFC) 202
+1 Command Tower (AFC) 230
+1 Curse of Verbosity (AFC) 82
+1 Diviner's Portent (AFC) 15
+1 Ebony Fly (AFC) 60
+1 Eel Umbra (AFC) 83
+1 Evolving Wilds (AFR) 256
+1 Exotic Orchard (AFC) 236
+1 Explorer's Scope (AFC) 205
+1 Fertile Ground (AFC) 158
+1 Fey Steed (AFC) 5
+1 Fleecemane Lion (AFC) 185
+1 Flood Plain (AFC) 237
+2 Forest (AFR) 278
+2 Forest (AFR) 279
+2 Forest (AFR) 280
+2 Forest (AFR) 281
+1 Fortified Village (AFC) 239
+1 Grasslands (AFC) 242
+1 Greater Good (AFC) 160
+1 Gryff's Boon (AFC) 67
+1 Halimar Depths (AFC) 244
+1 Heroic Intervention (AFC) 161
+1 Holy Avenger (AFC) 6
+1 Imprisoned in the Moon (AFC) 85
+1 Island (AFR) 266
+1 Island (AFR) 267
+1 Island (AFR) 268
+1 Island (AFR) 269
+1 Kenrith's Transformation (AFC) 162
+1 Knight of Autumn (AFC) 187
+1 Lumbering Falls (AFC) 247
+1 Mantle of the Ancients (AFC) 8
+1 Masterwork of Ingenuity (AFC) 209
+1 Mishra's Factory (AFC) 248
+1 Moonsilver Spear (AFC) 212
+1 Nature's Lore (AFC) 164
+1 Netherese Puzzle-Ward (AFC) 17
+1 Paradise Druid (AFC) 165
+1 Path of Ancestry (AFC) 254
+1 Plains (AFR) 262
+1 Plains (AFR) 263
+1 Port Town (AFC) 255
+1 Prairie Stream (AFC) 256
+1 Prognostic Sphinx (AFC) 90
+1 Psychic Impetus (AFC) 92
+1 Puresteel Paladin (AFC) 69
+1 Rancor (AFC) 167
+1 Realm-Cloaked Giant // Cast Off (AFC) 70a
+1 Ride the Avalanche (AFC) 54
+1 Riverwise Augur (AFC) 93
+1 Robe of Stars (AFC) 11
+1 Seaside Citadel (AFC) 258
+1 Serum Visions (AFC) 94
+1 Shielding Plax (AFC) 192
+1 Simic Growth Chamber (AFC) 260
+1 Skycloud Expanse (AFC) 261
+1 Sol Ring (AFC) 215
+1 Song of Inspiration (AFC) 42
+1 Sram, Senior Edificer (AFC) 72
+1 Storvald, Frost Giant Jarl (AFC) 55
+1 Sungrass Prairie (AFC) 264
+1 Swiftfoot Boots (AFC) 217
+1 Sword of Hours (AFC) 61
+1 Sword of the Animist (AFC) 218
+1 Terramorphic Expanse (AFC) 267
+1 Thriving Grove (AFC) 268
+1 Thriving Heath (AFC) 269
+1 Thriving Isle (AFC) 270
+1 Utopia Sprawl (AFC) 172
+1 Valiant Endeavor (AFC) 13
+1 Valorous Stance (AFC) 76
+1 Verdant Embrace (AFC) 173
+1 Viridian Longbow (AFC) 221
+1 Vitu-Ghazi, the City-Tree (AFC) 272
+1 Wild Growth (AFC) 174
+1 Winds of Rath (AFC) 78
+1 Winged Boots (AFC) 20

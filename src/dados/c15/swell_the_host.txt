@@ -1,0 +1,84 @@
+1 Ezuri, Claw of Progress (C15) 44
+
+1 Arachnogenesis (C15) 32
+1 Arbor Colossus (C15) 174
+1 Bane of Progress (C15) 175
+1 Beastmaster Ascension (C15) 176
+1 Bident of Thassa (C15) 86
+1 Biomantic Mastery (C15) 239
+1 Broodbirth Viper (C15) 10
+1 Caller of the Claw (C15) 177
+1 Caller of the Pack (C15) 34
+1 Chameleon Colossus (C15) 178
+1 Cobra Trap (C15) 180
+1 Coiling Oracle (C15) 213
+1 Cold-Eyed Selkie (C15) 241
+1 Command Beacon (C15) 56
+1 Command Tower (C15) 281
+1 Day of the Dragons (C15) 91
+1 Desert Twister (C15) 181
+1 Elvish Visionary (C15) 182
+1 Eternal Witness (C15) 183
+1 Evolving Wilds (C15) 283
+1 Experiment One (C15) 184
+1 Ezuri's Predation (C15) 36
+4 Forest (C15) 339
+4 Forest (C15) 340
+3 Forest (C15) 341
+3 Forest (C15) 342
+1 Forgotten Ancient (C15) 185
+1 Great Oak Guardian (C15) 37
+1 High Market (C15) 289
+1 Illusory Ambusher (C15) 12
+3 Island (C15) 327
+3 Island (C15) 328
+3 Island (C15) 329
+2 Island (C15) 330
+1 Kaseto, Orochi Archmage (C15) 47
+1 Kodama's Reach (C15) 188
+1 Krosan Grip (C15) 189
+1 Llanowar Reborn (C15) 293
+1 Loaming Shaman (C15) 190
+1 Lorescale Coatl (C15) 225
+1 Mirror Match (C15) 13
+1 Mosswort Bridge (C15) 294
+1 Mulldrifter (C15) 97
+1 Mystic Snake (C15) 228
+1 Ninja of the Deep Hours (C15) 99
+1 Noble Quarry (C15) 193
+1 Novijen, Heart of Progress (C15) 296
+1 Ohran Viper (C15) 194
+1 Oran-Rief, the Vastwood (C15) 297
+1 Orochi Hatchery (C15) 260
+1 Overrun (C15) 195
+1 Patagia Viper (C15) 197
+1 Plaxmanta (C15) 100
+1 Prime Speaker Zegana (C15) 230
+1 Rampant Growth (C15) 199
+1 Rapid Hybridization (C15) 102
+1 Reliquary Tower (C15) 301
+1 Sakura-Tribe Elder (C15) 200
+1 Scytheclaw (C15) 53
+1 Simic Growth Chamber (C15) 305
+1 Simic Guildgate (C15) 306
+1 Simic Keyrune (C15) 265
+1 Simic Signet (C15) 266
+1 Skullwinder (C15) 39
+1 Snakeform (C15) 242
+1 Sol Ring (C15) 268
+1 Solemn Simulacrum (C15) 269
+1 Stingerfling Spider (C15) 203
+1 Swiftfoot Boots (C15) 271
+1 Sword of Vengeance (C15) 272
+1 Synthetic Destiny (C15) 15
+1 Terramorphic Expanse (C15) 314
+1 Thelonite Hermit (C15) 205
+1 Thornwood Falls (C15) 315
+1 Thought Vessel (C15) 55
+1 Trygon Predator (C15) 236
+1 Verdant Confluence (C15) 40
+1 Viridian Shaman (C15) 209
+1 Vivid Creek (C15) 317
+1 Vivid Grove (C15) 318
+1 Wistful Selkie (C15) 243
+1 Zoetic Cavern (C15) 322

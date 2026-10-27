@@ -1,0 +1,79 @@
+1 Leinore, Autumn Sovereign (MIC) 1
+
+1 Abzan Falconer (MIC) 77
+1 Ainok Bond-Kin (MIC) 78
+1 Angel of Glory's Rise (MIC) 79
+1 Arcane Signet (MIC) 157
+1 Avacyn's Pilgrim (MIC) 132
+1 Bastion Protector (MIC) 80
+1 Beast Within (MIC) 133
+1 Bestial Menace (MIC) 134
+1 Biogenic Upgrade (MIC) 135
+1 Blighted Woodland (MIC) 166
+1 Canopy Vista (MIC) 168
+1 Celebrate the Harvest (MIC) 24
+1 Celestial Judgment (MIC) 5
+1 Champion of Lambholt (MIC) 136
+1 Citadel Siege (MIC) 81
+1 Cleansing Nova (MIC) 82
+1 Command Tower (MIC) 170
+1 Curse of Clinging Webs (MIC) 25
+1 Curse of Conformity (MIC) 6
+1 Custodi Soulbinders (MIC) 83
+1 Dawnhart Wardens (MID) 216
+1 Dearly Departed (MIC) 84
+1 Death's Presence (MIC) 137
+1 Elite Scaleguard (MIC) 85
+1 Enduring Scalelord (MIC) 149
+1 Eternal Witness (MIC) 138
+1 Exotic Orchard (MIC) 173
+12 Forest (MID) 384
+1 Fortified Village (MIC) 174
+1 Growth Spasm (MIC) 139
+1 Gyre Sage (MIC) 140
+1 Herald of War (MIC) 86
+1 Heronblade Elite (MIC) 26
+1 Heron's Grace Champion (MIC) 152
+1 Hour of Reckoning (MIC) 87
+1 Inspiring Call (MIC) 141
+1 Juniper Order Ranger (MIC) 153
+1 Kessig Cagebreakers (MIC) 142
+1 Knight of the White Orchid (MIC) 88
+1 Krosan Verge (MIC) 175
+1 Kurbis, Harvest Celebrant (MIC) 27
+1 Kyler, Sigardian Emissary (MIC) 4
+1 Lifecrafter's Bestiary (MIC) 160
+1 Mikaeus, the Lunarch (MIC) 89
+1 Moonsilver Key (MID) 255
+1 Moorland Rescuer (MIC) 7
+1 Myriad Landscape (MIC) 177
+1 Odric, Master Tactician (MIC) 90
+1 Orzhov Advokist (MIC) 91
+1 Path of Ancestry (MIC) 178
+12 Plains (MID) 380
+1 Return to Dust (MIC) 92
+1 Riders of Gavony (MIC) 93
+1 Rogue's Passage (MIC) 179
+1 Ruinous Intrusion (MIC) 28
+1 Selesnya Sanctuary (MIC) 180
+1 Shamanic Revelation (MIC) 143
+1 Sigarda, Heron's Grace (MIC) 155
+1 Sigarda's Vanguard (MIC) 8
+1 Sigardian Zealot (MIC) 29
+1 Sol Ring (MIC) 162
+1 Somberwald Beastmaster (MIC) 30
+1 Somberwald Sage (MIC) 144
+1 Stalwart Pathlighter (MIC) 9
+1 Sungrass Prairie (MIC) 181
+1 Swiftfoot Boots (MIC) 163
+1 Swords to Plowshares (MIC) 94
+1 Talisman of Unity (MIC) 165
+1 Temple of Plenty (MIC) 185
+1 Temple of the False God (MIC) 186
+1 Trostani's Summoner (MIC) 156
+1 Unbreakable Formation (MIC) 95
+1 Verdurous Gearhulk (MIC) 145
+1 Victory's Envoy (MIC) 96
+1 Wall of Mourning (MIC) 10
+1 Wild Beastmaster (MIC) 146
+1 Yavimaya Elder (MIC) 147

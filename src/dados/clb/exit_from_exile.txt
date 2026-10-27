@@ -1,0 +1,86 @@
+1 Faldorn, Dread Wolf Herald (CLB) 647
+
+1 Arasta of the Endless Web (CLB) 817
+1 Arcane Signet (CLB) 298
+1 Ash Barrens (CLB) 880
+1 Aurora Phoenix (CLB) 778
+1 Battle Mammoth (CLB) 818
+1 Beanstalk Giant // Fertile Footsteps (CLB) 819a
+1 Beast Within (CLB) 820
+1 Blighted Woodland (CLB) 881
+1 Bloodbraid Elf (CLB) 839
+1 Bonecrusher Giant // Stomp (CLB) 781a
+1 Castle Embereth (CLB) 883
+1 Chaos Wand (CLB) 855
+1 Cinder Glade (CLB) 887
+1 Command Tower (CLB) 351
+1 Cultivate (CLB) 821
+1 Delayed Blast Fireball (CLB) 676
+1 Demon Bolt (CLB) 787
+1 Dire Fleet Daredevil (CLB) 788
+1 Dream Pillager (CLB) 791
+1 Durnan of the Yawning Portal (CLB) 657
+1 Embereth Shieldbreaker // Battle Display (CLB) 792a
+1 End-Raze Forerunners (CLB) 822
+1 Escape to the Wilds (CLB) 843
+1 Etali, Primal Storm (CLB) 793
+1 Explore (CLB) 823
+1 Ezuri's Predation (CLB) 824
+3 Forest (CLB) 467
+3 Forest (CLB) 468
+3 Forest (CLB) 469
+3 Forest (CLB) 470
+1 Game Trail (CLB) 894
+1 Greater Gargadon (CLB) 796
+1 Green Slime (CLB) 680
+1 Grumgully, the Generous (CLB) 847
+1 Gruul Turf (CLB) 895
+1 Highland Forest (CLB) 896
+1 Hornet Queen (CLB) 825
+1 Ignite the Future (CLB) 797
+1 Izzet Chemister (CLB) 798
+1 Jeska's Will (CLB) 799
+1 Journey to the Lost City (CLB) 681
+1 Kessig Wolf Run (CLB) 898
+1 Kodama's Reach (CLB) 826
+1 Laelia, the Blade Reforged (CLB) 801
+1 Light Up the Stage (CLB) 802
+1 Lovestruck Beast // Heart's Desire (CLB) 827a
+1 Managorger Hydra (CLB) 828
+1 Mizzium Mortars (CLB) 803
+1 Mossfire Valley (CLB) 901
+1 Mosswort Bridge (CLB) 902
+2 Mountain (CLB) 466
+3 Mountain (CLB) 463
+3 Mountain (CLB) 464
+3 Mountain (CLB) 465
+1 Myriad Landscape (CLB) 904
+1 Nalfeshnee (CLB) 678
+1 Natural Reclamation (CLB) 829
+1 Nature's Lore (CLB) 244
+1 Outpost Siege (CLB) 804
+1 Passionate Archaeologist (CLB) 656
+1 Primeval Bounty (CLB) 830
+1 Raging Ravine (CLB) 910
+1 Return of the Wildspeaker (CLB) 831
+1 Sakura-Tribe Elder (CLB) 832
+1 Sandwurm Convergence (CLB) 833
+1 Sarevok's Tome (CLB) 685
+1 Search for Tomorrow (CLB) 834
+1 Sol Ring (CLB) 871
+1 Spinerock Knoll (CLB) 916
+1 Stolen Strategy (CLB) 807
+1 Sweet-Gum Recluse (CLB) 835
+1 Tectonic Giant (CLB) 808
+1 Temple of Abandon (CLB) 921
+1 Temple of the False God (CLB) 925
+1 Terramorph (CLB) 836
+1 Three Visits (CLB) 837
+1 Tlincalli Hunter // Retrieve Prey (CLB) 682a
+1 Urabrask the Hidden (CLB) 811
+1 Venture Forth (CLB) 683
+1 Vivien, Champion of the Wilds (CLB) 838
+1 Volcanic Torrent (CLB) 813
+1 Warstorm Surge (CLB) 815
+1 Wild-Magic Sorcerer (CLB) 816
+1 Xenagos, the Reveler (CLB) 853

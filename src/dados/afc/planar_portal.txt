@@ -1,0 +1,82 @@
+1 Prosper, Tome-Bound (AFC) 2
+
+1 Apex of Power (AFC) 114
+1 Arcane Signet (AFC) 197
+1 Bag of Devouring (AFC) 21
+1 Bedevil (AFC) 179
+1 Bituminous Blast (AFC) 181
+1 Bojuka Bog (AFC) 226
+1 Bucknard's Everfull Purse (AFC) 57
+1 Chaos Channeler (AFR) 136
+1 Chaos Wand (AFC) 201
+1 Chaos Warp (AFC) 117
+1 Chittering Witch (AFC) 95
+1 Commander's Sphere (AFC) 203
+1 Command Tower (AFC) 230
+1 Commune with Lava (AFC) 118
+1 Consuming Vapors (AFC) 96
+1 Danse Macabre (AFC) 22
+1 Dark-Dweller Oracle (AFC) 119
+1 Dead Man's Chest (AFC) 97
+1 Death Tyrant (AFC) 23
+1 Dire Fleet Daredevil (AFC) 121
+1 Disrupt Decorum (AFC) 122
+1 Dream Pillager (AFC) 125
+1 Ebony Fly (AFC) 60
+1 Etali, Primal Storm (AFC) 126
+1 Exotic Orchard (AFC) 236
+1 Fellwar Stone (AFC) 206
+1 Fevered Suspicion (AFC) 47
+1 Fiend of the Shadows (AFC) 99
+1 Fiendlash (AFC) 31
+1 Foreboding Ruins (AFC) 238
+1 Gonti, Lord of Luxury (AFC) 100
+1 Grim Hireling (AFC) 25
+1 Hellish Rebuke (AFC) 26
+1 Hex (AFC) 101
+1 Hurl Through Hell (AFC) 48
+1 Ignite the Future (AFC) 129
+1 Izzet Chemister (AFC) 130
+1 Karazikar, the Eye Tyrant (AFC) 49
+1 Light Up the Stage (AFC) 131
+1 Lorcan, Warlock Collector (AFC) 27
+1 Loyal Apprentice (AFC) 132
+1 Marionette Master (AFC) 102
+1 Mind Stone (AFC) 211
+1 Mortuary Mire (AFC) 249
+4 Mountain (AFR) 274
+3 Mountain (AFR) 275
+3 Mountain (AFR) 276
+3 Mountain (AFR) 277
+1 Ogre Slumlord (AFC) 104
+1 Orazca Relic (AFC) 213
+1 Phthisis (AFC) 105
+1 Piper of the Swarm (AFC) 106
+1 Pontiff of Blight (AFC) 108
+1 Rakdos Carnarium (AFC) 257
+1 Rakdos Charm (AFC) 190
+1 Rakdos Signet (AFC) 214
+1 Reckless Endeavor (AFC) 33
+1 Shadowblood Ridge (AFC) 259
+1 Share the Spoils (AFC) 34
+1 Shiny Impetus (AFC) 138
+1 Smoldering Marsh (AFC) 262
+1 Sol Ring (AFC) 215
+1 Spinerock Knoll (AFC) 263
+4 Swamp (AFR) 270
+4 Swamp (AFR) 271
+3 Swamp (AFR) 272
+3 Swamp (AFR) 273
+1 Talisman of Indulgence (AFC) 219
+1 Tainted Peak (AFC) 266
+1 Tectonic Giant (AFC) 144
+1 Terminate (AFC) 193
+1 Theater of Horrors (AFC) 194
+1 Throes of Chaos (AFC) 146
+1 Underdark Rift (AFC) 62
+1 Unstable Obelisk (AFC) 220
+1 Vandalblast (AFC) 148
+1 Warlock Class (AFR) 125
+1 Wild-Magic Sorcerer (AFC) 36
+1 You Find Some Prisoners (AFR) 169
+1 Zhalfirin Void (AFC) 273

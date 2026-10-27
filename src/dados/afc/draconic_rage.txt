@@ -1,0 +1,82 @@
+1 Vrondiss, Rage of Ancients (AFC) 4
+
+1 Anger (AFC) 113
+1 Arcane Signet (AFC) 197
+1 Atarka, World Render (AFC) 176
+1 Bag of Tricks (AFC) 37
+1 Barbarian Class (AFR) 131
+1 Beast Within (AFC) 152
+1 Berserker's Frenzy (AFC) 29
+1 Bogardan Hellkite (AFC) 115
+1 Chain Reaction (AFC) 116
+1 Chameleon Colossus (AFC) 153
+1 Chaos Dragon (AFC) 30
+1 Cinder Glade (AFC) 229
+1 Colossal Majesty (AFC) 154
+1 Command Tower (AFC) 230
+1 Commander's Sphere (AFC) 203
+1 Component Pouch (AFC) 59
+1 Crucible of the Spirit Dragon (AFC) 231
+1 Cultivate (AFC) 155
+1 Decree of Savagery (AFC) 156
+1 Demanding Dragon (AFC) 120
+1 Desert (AFC) 233
+1 Dragonborn Champion (AFC) 45
+1 Dragon's Hoard (AFC) 204
+1 Dragonlord's Servant (AFC) 123
+1 Dragonmaster Outcast (AFC) 124
+1 Dragonspeaker Shaman (AFC) 330
+1 Druid of Purification (AFC) 39
+1 Earth-Cult Elemental (AFR) 141
+1 Exotic Orchard (AFC) 236
+1 Explore (AFC) 157
+4 Forest (AFR) 278
+4 Forest (AFR) 279
+4 Forest (AFR) 280
+3 Forest (AFR) 281
+1 Game Trail (AFC) 240
+1 Garruk's Uprising (AFC) 159
+1 Gratuitous Violence (AFC) 127
+1 Gruul Signet (AFC) 207
+1 Gruul Turf (AFC) 243
+1 Haven of the Spirit Dragon (AFC) 245
+1 Heirloom Blade (AFC) 208
+1 Hoard-Smelter Dragon (AFC) 128
+1 Indomitable Might (AFC) 40
+1 Kindred Summons (AFC) 163
+1 Klauth, Unrivaled Ancient (AFC) 50
+1 Klauth's Will (AFC) 51
+1 Maddening Hex (AFC) 32
+1 Magmaquake (AFC) 133
+1 Mossfire Valley (AFC) 250
+1 Mosswort Bridge (AFC) 251
+3 Mountain (AFR) 274
+3 Mountain (AFR) 275
+3 Mountain (AFR) 276
+3 Mountain (AFR) 277
+1 Neverwinter Hydra (AFC) 41
+1 Opportunistic Dragon (AFC) 134
+1 Outpost Siege (AFC) 135
+1 Path of Ancestry (AFC) 254
+1 Rampant Growth (AFC) 166
+1 Return of the Wildspeaker (AFC) 168
+1 Return to Nature (AFC) 169
+1 Rile (AFC) 136
+1 Rishkar's Expertise (AFC) 170
+1 Savage Ventmaw (AFC) 191
+1 Scourge of Valkas (AFC) 137
+1 Shamanic Revelation (AFC) 171
+1 Shivan Hellkite (AFC) 139
+1 Skyline Despot (AFC) 140
+1 Skyship Stalker (AFC) 141
+1 Sol Ring (AFC) 215
+1 Spit Flame (AFC) 142
+1 Sword of Hours (AFC) 61
+1 Taurean Mauler (AFC) 143
+1 Terror of Mount Velus (AFC) 145
+1 Thunderbreak Regent (AFC) 147
+1 Underdark Rift (AFC) 62
+1 Vengeful Ancestor (AFC) 35
+1 Warstorm Surge (AFC) 149
+1 Wild Endeavor (AFC) 43
+1 Wulfgar of Icewind Dale (AFC) 56

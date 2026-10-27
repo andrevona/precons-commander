@@ -1,0 +1,96 @@
+1 Urza, Chief Artificer (BRC) 2
+
+1 Alela, Artful Provocateur (BRC) 119
+1 Ancient Den (BRC) 172
+1 Angel of the Ruins (BRC) 68
+1 Arcane Sanctum (BRC) 173
+1 Arcane Signet (BRC) 132
+1 Armix, Filigree Thrasher (BRC) 103
+1 Ash Barrens (BRC) 174
+1 Austere Command (BRC) 69
+1 Azorius Chancery (BRC) 175
+1 Azorius Signet (BRC) 133
+1 Baleful Strix (BRC) 120
+1 Bident of Thassa (BRC) 80
+1 Bojuka Bog (BRC) 176
+1 Bronze Guardian (BRC) 70
+1 Chief of the Foundry (BRC) 134
+1 Chrome Courier (BRC) 123
+1 Command Tower (BRC) 178
+1 Cranial Plating (BRC) 136
+1 Darksteel Citadel (BRC) 180
+1 Darksteel Juggernaut (BRC) 137
+1 Despark (BRC) 124
+1 Digsite Engineer (BRC) 71
+1 Dimir Aqueduct (BRC) 182
+1 Dimir Signet (BRC) 138
+1 Etched Champion (BRC) 140
+1 Etherium Sculptor (BRC) 82
+1 Ethersworn Adjudicator (BRC) 83
+1 Evolving Wilds (BRC) 184
+1 Exotic Orchard (BRC) 185
+1 Filigree Attendant (BRC) 85
+1 Goldmire Bridge (BRC) 186
+1 Hexavus (BRC) 14
+1 Indomitable Archangel (BRC) 72
+2 Island (BRC) 31
+2 Island (BRC) 32
+1 Kayla's Music Box (BRC) 15
+1 Liquimetal Torque (BRC) 145
+1 Losheel, Clockwork Scholar (BRC) 73
+1 March of Progress (BRC) 8
+1 Marionette Master (BRC) 109
+1 Master of Etherium (BRC) 86
+1 Mistvault Bridge (BRC) 189
+1 Myr Battlesphere (BRC) 151
+1 Noxious Gearhulk (BRC) 110
+1 One with the Machine (BRC) 90
+1 Orzhov Basilica (BRC) 191
+1 Orzhov Signet (BRC) 154
+1 Path of Ancestry (BRC) 192
+1 Phyrexian Rebirth (BRC) 74
+2 Plains (BRC) 29
+2 Plains (BRC) 30
+1 Prairie Stream (BRC) 193
+1 Preordain (BRC) 92
+1 Razortide Bridge (BRC) 195
+1 Relic of Progenitus (BRC) 157
+1 River of Tears (BRC) 197
+1 Sai, Master Thopterist (BRC) 93
+1 Sanwell, Avenger Ace (BRC) 5
+1 Scholar of New Horizons (BRC) 6
+1 Seat of the Synod (BRC) 198
+1 Sharding Sphinx (BRC) 94
+1 Sharuum the Hegemon (BRC) 128
+1 Shimmer Dragon (BRC) 95
+1 Skullclamp (BRC) 159
+1 Skycloud Expanse (BRC) 201
+1 Sol Ring (BRC) 160
+1 Solemn Simulacrum (BRC) 161
+1 Sphinx's Revelation (BRC) 130
+1 Spire of Industry (BRC) 203
+1 Steel Hellkite (BRC) 163
+1 Steel Overseer (BRC) 164
+1 Sunken Hollow (BRC) 204
+1 Swamp (BRC) 34
+2 Swamp (BRC) 33
+1 Swiftfoot Boots (BRC) 166
+1 Swords to Plowshares (BRC) 75
+1 Tawnos, Solemn Survivor (BRC) 3
+1 Tempered Steel (BRC) 76
+1 Temple of Deceit (BRC) 205
+1 Temple of Enlightenment (BRC) 206
+1 Temple of Silence (BRC) 209
+1 Teshar, Ancestor's Apostle (BRC) 77
+1 Thopter Shop (BRC) 19
+1 Thopter Spy Network (BRC) 97
+1 Thought Monitor (BRC) 98
+1 Thought Vessel (BRC) 167
+1 Unbreakable Formation (BRC) 78
+1 Urza's Ruinous Blast (BRC) 79
+1 Vault of Whispers (BRC) 211
+1 Vedalken Humiliator (BRC) 100
+1 Vindicate (BRC) 131
+1 Whirler Rogue (BRC) 101
+1 Wire Surgeons (BRC) 10
+1 Wreck Hunter (BRC) 11

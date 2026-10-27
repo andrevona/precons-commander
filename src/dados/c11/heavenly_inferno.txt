@@ -1,0 +1,89 @@
+1 Kaalia of the Vast (CMD) 206
+
+1 Akoum Refuge (CMD) 264
+1 Akroma, Angel of Fury (CMD) 108
+1 Akroma's Vengeance (CMD) 3
+1 Angel of Despair (CMD) 180
+1 Angelic Arbiter (CMD) 5
+1 Anger (CMD) 109
+1 Archangel of Strife (CMD) 7
+1 Armillary Sphere (CMD) 242
+1 Avatar of Slaughter (CMD) 111
+1 Barren Moor (CMD) 266
+1 Basandra, Battle Seraph (CMD) 184
+1 Bathe in Light (CMD) 9
+1 Bladewing the Risen (CMD) 185
+1 Bojuka Bog (CMD) 267
+1 Boros Garrison (CMD) 268
+1 Boros Guildmage (CMD) 186
+1 Boros Signet (CMD) 243
+1 Cleansing Beam (CMD) 116
+1 Command Tower (CMD) 269
+1 Comet Storm (CMD) 117
+1 Congregate (CMD) 11
+1 Darksteel Ingot (CMD) 245
+1 Death by Dragons (CMD) 118
+1 Diabolic Tutor (CMD) 77
+1 Dragon Whelp (CMD) 120
+1 Dread Cacodemon (CMD) 79
+1 Duergar Hedge-Mage (CMD) 195
+1 Earthquake (CMD) 121
+1 Evincar's Justice (CMD) 80
+1 Evolving Wilds (CMD) 272
+1 Fallen Angel (CMD) 82
+1 Forgotten Cave (CMD) 273
+1 Furnace Whelp (CMD) 124
+1 Gwyllion Hedge-Mage (CMD) 202
+1 Lightkeeper of Emeria (CMD) 18
+1 Lightning Greaves (CMD) 253
+1 Malfegor (CMD) 208
+1 Mana-Charged Dragon (CMD) 129
+1 Master Warcraft (CMD) 209
+1 Molten Slagheap (CMD) 282
+1 Mortify (CMD) 211
+1 Mother of Runes (CMD) 21
+2 Mountain (CMD) 311
+2 Mountain (CMD) 312
+2 Mountain (CMD) 313
+2 Mountain (CMD) 314
+1 Oni of Wild Places (CMD) 130
+1 Orim's Thunder (CMD) 24
+1 Oros, the Avenger (CMD) 216
+1 Orzhov Basilica (CMD) 283
+1 Orzhov Guildmage (CMD) 217
+1 Orzhov Signet (CMD) 255
+1 Path to Exile (CMD) 25
+2 Plains (CMD) 299
+2 Plains (CMD) 300
+2 Plains (CMD) 301
+2 Plains (CMD) 302
+1 Pyrohemia (CMD) 132
+1 Rakdos Carnarium (CMD) 284
+1 Rakdos Signet (CMD) 257
+1 Razorjaw Oni (CMD) 94
+1 Reiver Demon (CMD) 95
+1 Return to Dust (CMD) 28
+1 Righteous Cause (CMD) 29
+1 Rupture Spire (CMD) 285
+1 Secluded Steppe (CMD) 286
+1 Serra Angel (CMD) 30
+1 Shattered Angel (CMD) 31
+1 Sol Ring (CMD) 261
+1 Soul Snare (CMD) 32
+1 Stranglehold (CMD) 136
+1 Sulfurous Blast (CMD) 137
+2 Swamp (CMD) 307
+2 Swamp (CMD) 308
+2 Swamp (CMD) 309
+2 Swamp (CMD) 310
+1 Syphon Flesh (CMD) 103
+1 Syphon Mind (CMD) 104
+1 Tariel, Reckoner of Souls (CMD) 229
+1 Terminate (CMD) 231
+1 Vivid Meadow (CMD) 297
+1 Voice of All (CMD) 35
+1 Vow of Duty (CMD) 36
+1 Vow of Lightning (CMD) 138
+1 Vow of Malice (CMD) 107
+1 Wrecking Ball (CMD) 238
+1 Zoetic Cavern (CMD) 298

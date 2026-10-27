@@ -1,0 +1,81 @@
+1 Breena, the Demagogue (C21) 1
+
+1 Ambition's Cost (C21) 134
+1 Angel of Serenity (C21) 83
+1 Arcane Signet (C21) 234
+1 Author of Shadows (C21) 35
+1 Barren Moor (C21) 277
+1 Bloodthirsty Blade (C21) 235
+1 Bojuka Bog (C21) 281
+1 Bold Plagiarist (C21) 37
+1 Boreas Charger (C21) 84
+1 Caves of Koilos (C21) 283
+1 Citadel Siege (C21) 85
+1 Combat Calligrapher (C21) 14
+1 Command Tower (C21) 284
+1 Coveted Jewel (C21) 240
+1 Cunning Rhetoric (C21) 38
+1 Curse of Disturbance (C21) 138
+1 Deathbringer Liege (C21) 214
+1 Deathbringer Regent (C21) 141
+1 Debtors' Knell (C21) 215
+1 Duelist's Heritage (C21) 90
+1 Elite Scaleguard (C21) 91
+1 Exotic Orchard (C21) 288
+1 Fain, the Broker (C21) 40
+1 Felisa, Fang of Silverquill (C21) 2
+1 Fracture (STX) 188
+1 Ghostly Prison (C21) 92
+1 Gideon, Champion of Justice (C21) 93
+1 Guardian Archon (C21) 17
+1 Hunted Lammasu (C21) 94
+1 Incarnation Technique (C21) 41
+1 Infernal Offering (C21) 146
+1 Inkshield (C21) 71
+1 Keen Duelist (C21) 42
+1 Knight of the White Orchid (C21) 95
+1 Magister of Worth (C21) 223
+1 Martial Impetus (C21) 96
+1 Mikokoro, Center of the Sea (C21) 302
+1 Mind Stone (C21) 251
+1 Myriad Landscape (C21) 304
+1 Necropolis Regent (C21) 147
+1 Nils, Discipline Enforcer (C21) 20
+1 Oblation (C21) 97
+1 Opal Palace (C21) 306
+1 Oreskos Explorer (C21) 98
+1 Orzhov Advokist (C21) 99
+1 Orzhov Basilica (C21) 308
+1 Orzhov Signet (C21) 254
+1 Parasitic Impetus (C21) 150
+1 Pendant of Prosperity (C21) 256
+7 Plains (STX) 366
+7 Plains (STX) 367
+1 Promise of Loyalty (C21) 21
+1 Rogue's Passage (C21) 312
+1 Scholarship Sponsor (C21) 22
+1 Secluded Steppe (C21) 315
+1 Secret Rendezvous (STX) 26
+1 Selfless Squire (C21) 103
+1 Silverquill Campus (STX) 273
+1 Sol Ring (C21) 263
+1 Soul Snare (C21) 104
+1 Spectral Searchlight (C21) 265
+1 Stalking Leonin (C21) 105
+1 Stinging Study (C21) 44
+1 Study Hall (C21) 80
+1 Sunscorch Regent (C21) 107
+5 Swamp (STX) 370
+5 Swamp (STX) 371
+1 Tainted Field (C21) 320
+1 Temple of Silence (C21) 325
+1 Temple of the False God (C21) 326
+1 Tempting Contract (C21) 78
+1 Teysa, Envoy of Ghosts (C21) 230
+1 Together Forever (C21) 108
+1 Tragic Arrogance (C21) 109
+1 Utter End (C21) 232
+1 Victory Chimes (C21) 274
+1 Vow of Duty (C21) 110
+1 Windborn Muse (C21) 111
+1 Zetalpa, Primal Dawn (C21) 112
