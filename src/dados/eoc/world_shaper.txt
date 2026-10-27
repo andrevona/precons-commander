@@ -1,0 +1,91 @@
+1 Hearthhull, the Worldseed (EOC) 1
+
+1 Aftermath Analyst (EOC) 91
+1 Arcane Signet (EOC) 53
+1 Augur of Autumn (EOC) 92
+1 Baloth Prime (EOC) 13
+1 Beast Within (EOC) 93
+1 Binding the Old Gods (EOC) 52
+1 Blasphemous Act (EOC) 86
+1 Bojuka Bog (EOC) 149
+1 Braids, Arisen Nightmare (EOC) 82
+1 Cabaretti Courtyard (EOC) 151
+1 Canyon Slough (EOC) 152
+1 Centaur Vinecrasher (EOC) 94
+1 Cinder Glade (EOC) 154
+1 Command Tower (EOC) 59
+1 Cultivate (EOC) 95
+1 Dakmor Salvage (EOC) 156
+1 Escape to the Wilds (EOC) 115
+1 Escape Tunnel (EOC) 157
+1 Eumidian Hatchery (EOC) 20
+1 Eumidian Wastewaker (EOC) 8
+1 Evendo Brushrazer (EOC) 10
+1 Evolving Wilds (EOC) 158
+1 Exploration Broodship (EOC) 14
+1 Fabled Passage (EOC) 60
+1 Farseek (EOC) 50
+1 Festering Thicket (EOC) 21
+4 Forest (EOE) 275
+4 Forest (EOE) 276
+1 Formless Genesis (EOC) 96
+1 Gaze of Granite (EOC) 116
+1 God-Eternal Bontu (EOC) 83
+1 Groundskeeper (EOC) 97
+1 Hammer of Purphoros (EOC) 88
+1 Harrow (EOC) 98
+1 Horizon Explorer (EOC) 15
+1 Infernal Grasp (EOC) 84
+1 Juri, Master of the Revue (EOC) 119
+1 Karplusan Forest (EOC) 164
+1 Korvold, Fae-Cursed King (EOC) 120
+1 Llanowar Wastes (EOC) 165
+1 Loamcrafter Faun (EOC) 99
+1 Maestros Theater (EOC) 167
+1 Mayhem Devil (EOC) 121
+1 Mazirek, Kraul Death Priest (EOC) 122
+1 Moraug, Fury of Akoum (EOC) 89
+1 Mountain (EOE) 274
+2 Mountain (EOE) 273
+1 Mountain Valley (EOC) 61
+1 Multani, Yavimaya's Avatar (EOC) 100
+1 Myriad Landscape (EOC) 169
+1 Nature's Lore (EOC) 101
+1 Night's Whisper (EOC) 85
+1 Omnath, Locus of Rage (EOC) 123
+1 Oracle of Mul Daya (EOC) 102
+1 Pest Infestation (EOC) 103
+1 Planetary Annihilation (EOC) 12
+1 Putrefy (EOC) 124
+1 Rakdos Charm (EOC) 125
+1 Rampaging Baloths (EOC) 104
+1 Riveteers Overlook (EOC) 172
+1 Rocky Tar Pit (EOC) 173
+1 Roiling Regrowth (EOC) 105
+1 Satyr Wayfinder (EOC) 106
+1 Scouring Swarm (EOC) 16
+1 Sheltered Thicket (EOC) 178
+1 Skyshroud Claim (EOC) 107
+1 Smoldering Marsh (EOC) 182
+1 Sol Ring (EOC) 57
+1 Soul of Windgrace (EOC) 126
+1 Splendid Reclamation (EOC) 108
+1 Springbloom Druid (EOC) 51
+1 Sprouting Goblin (EOC) 90
+1 Sulfurous Springs (EOC) 185
+2 Swamp (EOE) 272
+3 Swamp (EOE) 271
+1 Szarel, Genesis Shepherd (EOC) 4
+1 Tear Asunder (EOC) 109
+1 Terramorphic Expanse (EOC) 62
+1 The Gitrog Monster (EOC) 117
+1 Tireless Tracker (EOC) 110
+1 Titania, Protector of Argoth (EOC) 111
+1 Twilight Mire (EOC) 189
+1 Uurg, Spawn of Turg (EOC) 127
+1 Vernal Fen (EOC) 24
+1 Viridescent Bog (EOC) 190
+1 Wastes (EOC) 191
+1 Windgrace's Judgment (EOC) 129
+1 World Breaker (EOC) 112
+1 Worldsoul's Rage (EOC) 130
