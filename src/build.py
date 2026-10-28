@@ -58,9 +58,7 @@ for nome,pasta,decks in C:
         cmd=" / ".join(l.split(" ",1)[1].rsplit(" (",1)[0] for l in t.split("\n\n")[0].split("\n"))
         ds.append({"nome":dn,"comandante":cmd,"arquivo":f+".txt","lista":t})
     data.append({"id":pasta,"nome":nome,"ano":ANOS[pasta],"grupo":GRUPO.get(pasta,"Universes Within"),"icone":{"c11":"cmd"}.get(pasta,pasta),"decks":ds})
-ATUALIZADO="27/10/2026"  # data da última conferência de todos os decks com o mtg.wtf (tools/auditar.py); atualizar a cada auditoria
-nd=sum(len(d) for _,_,d in C)
-rodape=f'{nd} decks em {len(C)} coleções · listas conferidas com o <a href="https://mtg.wtf">mtg.wtf</a> em {ATUALIZADO} · <a href="https://github.com/andrevona/precons-commander">sobre o projeto</a><br>Um facilitador para quem joga no <a href="https://endstep.cc">endstep.cc</a> (projeto não oficial): ao copiar, a lista sai no formato de exportação do MTG Arena, com o nome do deck e a seção do comandante, e colada no endstep.cc o deck já fica com nome e comandante.'
-html=open("template.html",encoding="utf-8").read().replace("__GRUPOS__",json.dumps(GRUPOS)).replace("__RODAPE__",rodape).replace("__DATA__",json.dumps(data,ensure_ascii=False).replace("</","<\\/"))
+ATUALIZADO="2026-10-27"  # data (AAAA-MM-DD) da última conferência de todos os decks com o mtg.wtf (tools/auditar.py); atualizar a cada auditoria; o rodapé é montado na página, no idioma de quem acessa
+html=open("template.html",encoding="utf-8").read().replace("__GRUPOS__",json.dumps(GRUPOS)).replace("__ATUALIZADO__",ATUALIZADO).replace("__DATA__",json.dumps(data,ensure_ascii=False).replace("</","<\\/"))
 open("precons_offline.html","w",encoding="utf-8").write(html)
 print(len(html))

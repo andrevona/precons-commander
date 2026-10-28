@@ -86,49 +86,49 @@
 <body>
 <main>
   <h1>Precons Commander</h1>
-  <p class="sub">Escolha a coleção e o deck ou utilize o filtro. A lista está no formato <code>quantidade Nome (SET) número</code>, pronta para colar no endstep.cc.</p>
+  <p class="sub" data-t="sub">Escolha a coleção e o deck ou utilize o filtro. A lista está no formato <code>quantidade Nome (SET) número</code>, pronta para colar no endstep.cc.</p>
 
   <div class="tabs" id="grupos"></div>
   <div class="busca" id="caixaBusca">
-    <input class="filtro" id="filtro" type="search" placeholder="Carta, deck, comandante ou coleção…" autocomplete="off" spellcheck="false">
-    <button type="button" class="limpar" id="limpar" aria-label="Apagar busca" title="Apagar busca" hidden>×</button>
+    <input class="filtro" id="filtro" type="search" placeholder="Carta, deck, comandante ou coleção…" data-tp="busca" autocomplete="off" spellcheck="false">
+    <button type="button" class="limpar" id="limpar" aria-label="Apagar busca" title="Apagar busca" data-ta="apagar" hidden>×</button>
   </div>
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
   <div id="conteudo" hidden>
-  <div class="sec sec-col" id="secCol"><span>Coleções</span><span class="anos-caixa" id="anosCaixa"><select id="anos" aria-label="Filtrar as coleções por ano"></select></span></div>
+  <div class="sec sec-col" id="secCol"><span data-t="colecoes">Coleções</span><span class="anos-caixa" id="anosCaixa"><select id="anos" aria-label="Filtrar as coleções por ano" data-ta="filtroAno"></select></span></div>
   <div class="tabs" id="colecoes"></div>
   <hr class="div">
-  <div class="sec">Decks</div>
+  <div class="sec" data-t="decks">Decks</div>
 
   <div class="tabs" id="decks"></div>
 
   <div class="panel">
     <div class="row">
       <strong id="titulo" class="grow"></strong>
-      <button class="ghost icone" id="btnComp" aria-label="Compartilhar o link do deck" title="Compartilhar o link do deck"></button>
+      <button class="ghost icone" id="btnComp" aria-label="Compartilhar o link do deck" title="Compartilhar o link do deck" data-ta="compartilhar"></button>
     </div>
     <div class="row acoes">
-      <button class="go" id="btnEndstep">Criar no endstep.cc</button>
-      <button class="ghost" id="btnCopiar">Copiar lista</button>
+      <button class="go" id="btnEndstep" data-t="criar">Criar no endstep.cc</button>
+      <button class="ghost" id="btnCopiar" data-t="copiar">Copiar lista</button>
     </div>
     <div class="status" id="status"></div>
     <div class="lista"><div class="espelho" id="espelho" aria-hidden="true"></div><textarea id="saida" readonly spellcheck="false" wrap="off"></textarea></div>
   </div>
   </div>
-  <footer>__RODAPE__</footer>
+  <footer id="rodape"></footer>
 </main>
 <div class="modal" id="guia" hidden>
   <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="guiaTitulo">
     <h2 id="guiaTitulo" class="ok">Lista copiada ✓</h2>
-    <p class="guia-sub">O endstep.cc vai abrir com um deck novo (é preciso estar logado lá). Na página do deck:</p>
+    <p class="guia-sub" data-t="guiaSub">O endstep.cc vai abrir com um deck novo (é preciso estar logado lá). Na página do deck:</p>
     <ol class="passos">
-      <li>Toque em <b>Paste a list</b>.</li>
-      <li>Cole a lista (<span id="guiaColar">Ctrl+V</span>).</li>
-      <li>Toque em <b>Apply</b>: o nome, as 100 cartas e o comandante entram sozinhos.</li>
-      <li>Em <b>Set format</b>, escolha <b>Commander</b>.</li>
+      <li data-t="passo1">Toque em <b>Paste a list</b>.</li>
+      <li data-t="passo2">Cole a lista (<span id="guiaColar">Ctrl+V</span>).</li>
+      <li data-t="passo3">Toque em <b>Apply</b>: o nome, as 100 cartas e o comandante entram sozinhos.</li>
+      <li data-t="passo4">Em <b>Set format</b>, escolha <b>Commander</b>.</li>
     </ol>
-    <label class="guia-check"><input type="checkbox" id="guiaNaoMostrar"> Não mostrar de novo</label>
-    <div class="guia-botoes"><button class="ghost" id="guiaFechar">Fechar</button><button class="go" id="guiaAbrir">Abrir endstep.cc</button></div>
+    <label class="guia-check"><input type="checkbox" id="guiaNaoMostrar"> <span data-t="naoMostrar">Não mostrar de novo</span></label>
+    <div class="guia-botoes"><button class="ghost" id="guiaFechar" data-t="fechar">Fechar</button><button class="go" id="guiaAbrir" data-t="abrir">Abrir endstep.cc</button></div>
   </div>
 </div>
 <div class="aviso" id="aviso" role="status" hidden></div>
@@ -136,6 +136,85 @@
 <script>
 // Dados embutidos: cada deck ja vem pronto (comandante, linha em branco, resto em ordem alfabetica).
 var COLECOES = __DATA__;
+var ATUALIZADO = "__ATUALIZADO__"; // data (AAAA-MM-DD) da última conferência com o mtg.wtf
+
+// Idioma da interface: o do sistema/navegador (pt, en ou es); outros idiomas usam inglês.
+// Nomes de decks, cartas, coleções e grupos ficam sempre em inglês.
+var TXT = {
+  pt: {
+    sub: 'Escolha a coleção e o deck ou utilize o filtro. A lista está no formato <code>quantidade Nome (SET) número</code>, pronta para colar no endstep.cc.',
+    busca: 'Carta, deck, comandante ou coleção…', apagar: 'Apagar busca', colecoes: 'Coleções', filtroAno: 'Filtrar as coleções por ano',
+    todosAnos: 'Todos os anos', decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck encontrado', achouN: '{n} decks encontrados',
+    nenhum: 'Nenhum deck encontrado', nenhumTxt: 'Nenhum deck, comandante ou carta com esse nome.',
+    cartas: '{n} cartas', aviso100: ' (atenção: o esperado era 100)', encontrado: 'encontrado',
+    outras: 'Mostrar as outras coleções', compartilhar: 'Compartilhar o link do deck', criar: 'Criar no endstep.cc',
+    copiar: 'Copiar lista', copiado: 'Copiado ✓', falhaCopiar: 'Não consegui copiar: selecione o texto e copie manualmente.',
+    linkCopiado: 'Link do deck copiado ✓', copieLink: 'Copie o link do deck:',
+    listaCopiada: 'Lista copiada ✓', falhaLista: 'Não consegui copiar a lista', usarCopiar: 'Não consegui copiar: use Copiar lista',
+    direto: 'Lista copiada ✓ No endstep.cc: Paste a list › colar › Apply',
+    guiaSub: 'O endstep.cc vai abrir com um deck novo (é preciso estar logado lá). Na página do deck:',
+    passo1: 'Toque em <b>Paste a list</b>.', passo2: 'Cole a lista (<span id="guiaColar"></span>).',
+    passo3: 'Toque em <b>Apply</b>: o nome, as 100 cartas e o comandante entram sozinhos.', passo4: 'Em <b>Set format</b>, escolha <b>Commander</b>.',
+    colarToque: 'toque longo › Colar', naoMostrar: 'Não mostrar de novo', fechar: 'Fechar', abrir: 'Abrir endstep.cc',
+    rodape: '{nd} decks em {nc} coleções · listas conferidas com o {mtgwtf} em {data} · {sobre}<br>Um facilitador para quem joga no {endstep} (projeto não oficial): a lista copiada já leva o nome do deck e o comandante.',
+    sobre: 'sobre o projeto'
+  },
+  en: {
+    sub: 'Pick a set and a deck, or use the filter. The list uses the <code>quantity Name (SET) number</code> format, ready to paste into endstep.cc.',
+    busca: 'Card, deck, commander or set…', apagar: 'Clear search', colecoes: 'Sets', filtroAno: 'Filter sets by year',
+    todosAnos: 'All years', decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck found', achouN: '{n} decks found',
+    nenhum: 'No deck found', nenhumTxt: 'No deck, commander or card with that name.',
+    cartas: '{n} cards', aviso100: ' (warning: 100 expected)', encontrado: 'found',
+    outras: 'Show the other sets', compartilhar: 'Share the deck link', criar: 'Create on endstep.cc',
+    copiar: 'Copy list', copiado: 'Copied ✓', falhaCopiar: 'Could not copy: select the text and copy it manually.',
+    linkCopiado: 'Deck link copied ✓', copieLink: 'Copy the deck link:',
+    listaCopiada: 'List copied ✓', falhaLista: 'Could not copy the list', usarCopiar: 'Could not copy: use Copy list',
+    direto: 'List copied ✓ On endstep.cc: Paste a list › paste › Apply',
+    guiaSub: 'endstep.cc will open with a new deck (you need to be logged in there). On the deck page:',
+    passo1: 'Tap <b>Paste a list</b>.', passo2: 'Paste the list (<span id="guiaColar"></span>).',
+    passo3: 'Tap <b>Apply</b>: the name, the 100 cards and the commander come in on their own.', passo4: 'In <b>Set format</b>, choose <b>Commander</b>.',
+    colarToque: 'long-press › Paste', naoMostrar: "Don't show again", fechar: 'Close', abrir: 'Open endstep.cc',
+    rodape: '{nd} decks in {nc} sets · lists checked against {mtgwtf} on {data} · {sobre}<br>A helper for {endstep} players (unofficial project): the copied list already carries the deck name and commander.',
+    sobre: 'about the project'
+  },
+  es: {
+    sub: 'Elige la colección y el mazo o usa el filtro. La lista está en el formato <code>cantidad Nombre (SET) número</code>, lista para pegar en endstep.cc.',
+    busca: 'Carta, mazo, comandante o colección…', apagar: 'Borrar búsqueda', colecoes: 'Colecciones', filtroAno: 'Filtrar colecciones por año',
+    todosAnos: 'Todos los años', decks: 'Mazos', deck1: 'mazo', deckN: 'mazos', achou1: '1 mazo encontrado', achouN: '{n} mazos encontrados',
+    nenhum: 'Ningún mazo encontrado', nenhumTxt: 'Ningún mazo, comandante o carta con ese nombre.',
+    cartas: '{n} cartas', aviso100: ' (atención: se esperaban 100)', encontrado: 'encontrado',
+    outras: 'Mostrar las otras colecciones', compartilhar: 'Compartir el enlace del mazo', criar: 'Crear en endstep.cc',
+    copiar: 'Copiar lista', copiado: 'Copiado ✓', falhaCopiar: 'No se pudo copiar: selecciona el texto y cópialo manualmente.',
+    linkCopiado: 'Enlace del mazo copiado ✓', copieLink: 'Copia el enlace del mazo:',
+    listaCopiada: 'Lista copiada ✓', falhaLista: 'No se pudo copiar la lista', usarCopiar: 'No se pudo copiar: usa Copiar lista',
+    direto: 'Lista copiada ✓ En endstep.cc: Paste a list › pegar › Apply',
+    guiaSub: 'endstep.cc se abrirá con un mazo nuevo (necesitas haber iniciado sesión allí). En la página del mazo:',
+    passo1: 'Toca <b>Paste a list</b>.', passo2: 'Pega la lista (<span id="guiaColar"></span>).',
+    passo3: 'Toca <b>Apply</b>: el nombre, las 100 cartas y el comandante se cargan solos.', passo4: 'En <b>Set format</b>, elige <b>Commander</b>.',
+    colarToque: 'mantén pulsado › Pegar', naoMostrar: 'No volver a mostrar', fechar: 'Cerrar', abrir: 'Abrir endstep.cc',
+    rodape: '{nd} mazos en {nc} colecciones · listas verificadas con {mtgwtf} el {data} · {sobre}<br>Una ayuda para quien juega en {endstep} (proyecto no oficial): la lista copiada ya lleva el nombre del mazo y el comandante.',
+    sobre: 'sobre el proyecto'
+  }
+};
+var IDIOMA = (function () {
+  var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || "pt"];
+  for (var i = 0; i < ls.length; i++) { var c = String(ls[i]).slice(0, 2).toLowerCase(); if (TXT[c]) return c; }
+  return "en";
+})();
+function t(k, v) { var s = TXT[IDIOMA][k]; if (v) for (var x in v) s = s.split("{" + x + "}").join(v[x]); return s; }
+function aplicarIdioma() {
+  document.documentElement.lang = { pt: "pt-BR", en: "en", es: "es" }[IDIOMA];
+  [].forEach.call(document.querySelectorAll("[data-t]"), function (e) { e.innerHTML = t(e.getAttribute("data-t")); });
+  [].forEach.call(document.querySelectorAll("[data-tp]"), function (e) { e.placeholder = t(e.getAttribute("data-tp")); });
+  [].forEach.call(document.querySelectorAll("[data-ta]"), function (e) { var v = t(e.getAttribute("data-ta")); e.setAttribute("aria-label", v); e.title = v; });
+  var nd = 0; COLECOES.forEach(function (c) { nd += c.decks.length; });
+  var p = ATUALIZADO.split("-"), data = ATUALIZADO;
+  var nl = navigator.language || "", loc = nl.slice(0, 2).toLowerCase() === IDIOMA ? nl : { pt: "pt-BR", en: "en-US", es: "es" }[IDIOMA];
+  try { data = new Intl.DateTimeFormat(loc, { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(+p[0], p[1] - 1, +p[2])); } catch (e) {}
+  $("rodape").innerHTML = t("rodape", { nd: nd, nc: COLECOES.length, data: data,
+    mtgwtf: '<a href="https://mtg.wtf">mtg.wtf</a>', endstep: '<a href="https://endstep.cc">endstep.cc</a>',
+    sobre: '<a href="https://github.com/andrevona/precons-commander">' + t("sobre") + '</a>' });
+}
 var GRUPOS = __GRUPOS__;
 var grpAtual = GRUPOS[0];
 var GRP_ICONE = { "Secret Lair": "star" };
@@ -215,7 +294,7 @@ function desenhar() {
   var vis = [];
   var nd = 0;
   COLECOES.forEach(function (col) { col.decks.forEach(function (dk) { if (casa(dk)) nd++; }); });
-  $("contagem").textContent = q ? (nd === 1 ? "1 deck encontrado" : nd + " decks encontrados") : "";
+  $("contagem").textContent = q ? (nd === 1 ? t("achou1") : t("achouN", { n: nd })) : "";
   var cont = {};
   COLECOES.forEach(function (col) { var k = col.decks.filter(casa).length; if (k) cont[col.grupo] = (cont[col.grupo] || 0) + k; });
   var gvis = GRUPOS.filter(function (g) { return cont[g]; });
@@ -253,7 +332,7 @@ function desenhar() {
   if (!aCx.hidden) {
     aEl.innerHTML = "";
     [""].concat(anos.slice().reverse()).forEach(function (a) { // mais recentes primeiro
-      var op = document.createElement("option"); op.value = a; op.textContent = a || "Todos os anos"; aEl.appendChild(op);
+      var op = document.createElement("option"); op.value = a; op.textContent = a || t("todosAnos"); aEl.appendChild(op);
     });
     aEl.value = anoFiltro;
     aCx.classList.toggle("on", !!anoFiltro);
@@ -262,9 +341,9 @@ function desenhar() {
   var d = $("decks"); d.innerHTML = "";
   var s = $("status");
   if (!vis.length) {
-    $("titulo").textContent = "Nenhum deck encontrado";
+    $("titulo").textContent = t("nenhum");
     $("saida").value = "";
-    s.textContent = "Nenhum deck, comandante ou carta com esse nome."; s.className = "status warn"; $("espelho").innerHTML = "";
+    s.textContent = t("nenhumTxt"); s.className = "status warn"; $("espelho").innerHTML = "";
     return;
   }
   if (vis.indexOf(colAtual) < 0) { colAtual = vis[0]; deckAtual = 0; recolhido = false; }
@@ -282,11 +361,11 @@ function desenhar() {
     b.appendChild(document.createTextNode(col.nome));
     var partes = [], nk = col.decks.filter(casa).length;
     if (col.ano && col.nome.indexOf(col.ano) < 0) partes.push(col.ano);
-    partes.push(nk + (nk === 1 ? " deck" : " decks"));
+    partes.push(nk + " " + (nk === 1 ? t("deck1") : t("deckN")));
     var y = document.createElement("span"); y.className = "n"; y.textContent = partes.join(" · "); b.appendChild(y);
     if (colRec && vis.length > 1) {
       var m = document.createElement("span"); m.className = "mais"; m.textContent = "▾ +" + (vis.length - 1); b.appendChild(m);
-      b.title = "Mostrar as outras coleções";
+      b.title = t("outras");
     }
     b.setAttribute("aria-expanded", colRec ? "false" : "true");
     b.onclick = function () {
@@ -311,9 +390,9 @@ function desenhar() {
   $("titulo").textContent = deck.nome + " · " + deck.comandante;
   $("saida").value = deck.lista;
   destacar(deck);
-  s.textContent = total + " cartas" + (total === 100 ? " ✓" : " (atenção: o esperado era 100)");
+  s.textContent = t("cartas", { n: total }) + (total === 100 ? " ✓" : t("aviso100"));
   var ac = acertos(deck);
-  if (ac.length) s.textContent += " · encontrado: " + ac.join(", ");
+  if (ac.length) s.textContent += " · " + t("encontrado") + ": " + ac.join(", ");
   s.className = "status " + (total === 100 ? "ok" : "warn");
 }
 
@@ -427,8 +506,8 @@ $("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; t
 // "Criar no endstep.cc" (decisão do usuário em 27/10/2026); a lista na tela continua no formato do site.
 $("btnCopiar").onclick = function () {
   var texto = textoEndstep(deckAtualObj());
-  function feito() { var b = $("btnCopiar"); b.textContent = "Copiado ✓"; setTimeout(function () { b.textContent = "Copiar lista"; }, 1500); }
-  copiar(texto, feito, function () { var ta = $("saida"); ta.focus(); ta.select(); alert("Não consegui copiar: selecione o texto e copie manualmente."); });
+  function feito() { var b = $("btnCopiar"); b.textContent = t("copiado"); setTimeout(function () { b.textContent = t("copiar"); }, 1500); }
+  copiar(texto, feito, function () { var ta = $("saida"); ta.focus(); ta.select(); alert(t("falhaCopiar")); });
 };
 
 // Compartilhar: ícone do sistema (iOS, Android ou genérico). No celular abre a folha de compartilhamento
@@ -445,11 +524,12 @@ function sistema() {
   return "generico";
 }
 var SO = sistema();
+aplicarIdioma();
 (function () {
   $("btnComp").innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONES[SO] + '</svg>';
   $("btnComp").setAttribute("data-so", SO);
   var mac = /Mac/i.test((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "");
-  $("guiaColar").textContent = SO === "generico" ? (mac ? "⌘V" : "Ctrl+V") : "toque longo › Colar";
+  $("guiaColar").textContent = SO === "generico" ? (mac ? "⌘V" : "Ctrl+V") : t("colarToque");
 })();
 function deckAtualObj() { return COLECOES[colAtual].decks[deckAtual]; }
 function linkDoDeck() { return location.href.split("#")[0] + "#" + idDe(deckAtualObj()); }
@@ -474,7 +554,7 @@ function aviso(txt) {
 }
 $("btnComp").onclick = function () {
   var d = deckAtualObj(), url = linkDoDeck();
-  function copiaLink() { copiar(url, function () { aviso("Link do deck copiado ✓"); }, function () { prompt("Copie o link do deck:", url); }); }
+  function copiaLink() { copiar(url, function () { aviso(t("linkCopiado")); }, function () { prompt(t("copieLink"), url); }); }
   if (SO !== "generico" && navigator.share) {
     navigator.share({ title: d.nome + " · Precons Commander", url: url }).catch(function (e) { if (!e || e.name !== "AbortError") copiaLink(); });
   } else copiaLink();
@@ -501,13 +581,13 @@ function abrirEndstep() { window.open(ENDSTEP, "_blank", "noopener"); }
 $("btnEndstep").onclick = function () {
   var texto = textoEndstep(deckAtualObj());
   if (direto()) {
-    copiar(texto, function () { aviso("Lista copiada ✓ No endstep.cc: Paste a list › colar › Apply"); }, function () { aviso("Não consegui copiar: use Copiar lista"); });
+    copiar(texto, function () { aviso(t("direto")); }, function () { aviso(t("usarCopiar")); });
     abrirEndstep();
     return;
   }
   $("guiaNaoMostrar").checked = false;
-  $("guiaTitulo").textContent = "Lista copiada ✓"; $("guiaTitulo").className = "ok";
-  copiar(texto, function () {}, function () { $("guiaTitulo").textContent = "Não consegui copiar a lista"; $("guiaTitulo").className = "erro"; });
+  $("guiaTitulo").textContent = t("listaCopiada"); $("guiaTitulo").className = "ok";
+  copiar(texto, function () {}, function () { $("guiaTitulo").textContent = t("falhaLista"); $("guiaTitulo").className = "erro"; });
   guia(true);
 };
 function guardarPreferencia() { if ($("guiaNaoMostrar").checked) { try { localStorage.setItem(CHAVE_DIRETO, "1"); } catch (e) {} } }
