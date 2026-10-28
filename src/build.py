@@ -58,36 +58,27 @@ for nome,pasta,decks in C:
         cmd=" / ".join(l.split(" ",1)[1].rsplit(" (",1)[0] for l in t.split("\n\n")[0].split("\n"))
         ds.append({"nome":dn,"comandante":cmd,"arquivo":f+".txt","lista":t})
     data.append({"id":pasta,"nome":nome,"ano":ANOS[pasta],"grupo":GRUPO.get(pasta,"Universes Within"),"icone":{"c11":"cmd"}.get(pasta,pasta),"decks":ds})
-# Atributos para os filtros (de cartas.csv + impressoes.csv, gerados por tools/atributos.py), embutidos em cada deck:
-#   "a": 2 caracteres por linha de carta, na ordem das linhas (mesma regex do template):
-#        1º = chr(256 + máscara de tipos) (Creature 1, Artifact 2, Enchantment 4, Instant 8, Sorcery 16, Land 32, Planeswalker 64, Kindred 128)
-#        2º = chr(48 + min(mv,15)*4 + raridade) (common 0, uncommon 1, rare 2, mythic 3; special/bonus contam como mythic)
-#   "ci": identidade de cor do deck = união das identidades do(s) comandante(s) (WUBRG; "C" = incolor)
+# Filtro "Cores do deck": "ci" = identidade de cor do deck = união das identidades do(s) comandante(s) (primeiro bloco da lista),
+# letras na ordem WUBRG ("C" = incolor). Vem de cartas.csv + impressoes.csv (gerados por tools/atributos.py).
 import csv,os,re
 LINHA=re.compile(r"^\d+\s+(.+?)\s+\(\w+\)\s+\S+$")
-BIT={"Creature":1,"Artifact":2,"Enchantment":4,"Instant":8,"Sorcery":16,"Land":32,"Planeswalker":64,"Kindred":128}
-RAR={"common":0,"uncommon":1,"rare":2,"mythic":3,"special":3,"bonus":3}
 if os.path.exists("cartas.csv") and os.path.exists("impressoes.csv"):
     cartas={r["carta"]:r for r in csv.DictReader(open("cartas.csv",encoding="utf-8"))}
     impr={(r["set"],r["numero"]):r for r in csv.DictReader(open("impressoes.csv",encoding="utf-8"))}
     falta=[]
     for col in data:
         for d in col["decks"]:
-            a=[];ci=set()
-            for bloco,parte in enumerate(d["lista"].split("\n\n")):
-                for l in parte.split("\n"):
-                    if not LINHA.match(l): continue
-                    s,n=l.rsplit(" (",1)[1].split(") ")
-                    p=impr.get((s,n))
-                    if not p: falta.append(l); a.append(chr(256)+chr(48)); continue
-                    c=cartas[p["carta"]]
-                    m=sum(BIT[x] for x in c["tipos"].split())
-                    a.append(chr(256+m)+chr(48+min(int(float(c["mv"])),15)*4+RAR[p["raridade"]]))
-                    if bloco==0: ci|=set(c["identidade"])-{"C"}
-            d["a"]="".join(a); d["ci"]="".join(x for x in "WUBRG" if x in ci) or "C"
-    if falta: raise SystemExit("ERRO: linhas sem atributos (rode tools/atributos.py): %d %s"%(len(falta),falta[:5]))
+            ci=set()
+            for l in d["lista"].split("\n\n")[0].split("\n"):
+                if not LINHA.match(l): continue
+                s,n=l.rsplit(" (",1)[1].split(") ")
+                p=impr.get((s,n))
+                if not p: falta.append(l); continue
+                ci|=set(cartas[p["carta"]]["identidade"])-{"C"}
+            d["ci"]="".join(x for x in "WUBRG" if x in ci) or "C"
+    if falta: raise SystemExit("ERRO: comandantes sem atributos (rode tools/atributos.py): %d %s"%(len(falta),falta[:5]))
 else:
-    print("AVISO: cartas.csv/impressoes.csv não encontrados; o site sai sem os filtros de cor/tipo/custo/raridade")
+    print("AVISO: cartas.csv/impressoes.csv não encontrados; o site sai sem o filtro de cores")
 ATUALIZADO="2026-10-27"  # data (AAAA-MM-DD) da última conferência de todos os decks com o mtg.wtf (tools/auditar.py); atualizar a cada auditoria; o rodapé é montado na página, no idioma de quem acessa
 html=open("template.html",encoding="utf-8").read().replace("__GRUPOS__",json.dumps(GRUPOS)).replace("__ATUALIZADO__",ATUALIZADO).replace("__DATA__",json.dumps(data,ensure_ascii=False).replace("</","<\\/"))
 open("precons_offline.html","w",encoding="utf-8").write(html)
