@@ -61,6 +61,9 @@
   .anos-caixa::after { content:"▾"; position:absolute; right:11px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:12px; color:var(--mut); }
   .anos-caixa.on select { background:var(--acc); color:var(--accfg); border-color:var(--acc); }
   .anos-caixa.on::after { color:var(--accfg); }
+  .filtros { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:-4px 0 12px; }
+  .filtros select { max-width:calc(100vw - 32px); text-overflow:ellipsis; }
+  .limpar-f { font:inherit; font-size:13px; color:var(--acc); background:transparent; border:0; padding:4px 6px; cursor:pointer; text-decoration:underline; }
   button.icone { padding:7px 10px; display:inline-flex; align-items:center; }
   button.icone svg { width:18px; height:18px; display:block; }
   .acoes { margin-bottom:8px; }
@@ -103,6 +106,13 @@
     <input class="filtro" id="filtro" type="search" placeholder="Carta, deck, comandante ou coleção…" data-tp="busca" autocomplete="off" autocapitalize="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="sugestoes" aria-expanded="false">
     <button type="button" class="limpar" id="limpar" aria-label="Apagar busca" title="Apagar busca" data-ta="apagar" hidden>×</button>
     <ul class="sugestoes" id="sugestoes" role="listbox" hidden></ul>
+  </div>
+  <div class="filtros" id="filtros" hidden>
+    <span class="anos-caixa" id="cxCor"><select id="fCor" data-ta="filtroCor"></select></span>
+    <span class="anos-caixa" id="cxTipo"><select id="fTipo" data-ta="filtroTipo"></select></span>
+    <span class="anos-caixa" id="cxCusto"><select id="fCusto" data-ta="filtroCusto"></select></span>
+    <span class="anos-caixa" id="cxRar"><select id="fRar" data-ta="filtroRar"></select></span>
+    <button type="button" class="limpar-f" id="limparF" data-t="limparFiltros" hidden>Limpar filtros</button>
   </div>
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
   <div id="conteudo" hidden>
@@ -169,7 +179,14 @@ var TXT = {
     colarToque: 'toque longo › Colar', naoMostrar: 'Não mostrar de novo', fechar: 'Fechar', abrir: 'Abrir endstep.cc',
     rodape: '{nd} decks em {nc} coleções · listas conferidas com o {mtgwtf} em {data} · {sobre}<br>Um facilitador para quem joga no {endstep} (projeto não oficial): a lista copiada já leva o nome do deck e o comandante.',
     sobre: 'sobre o projeto',
-    tCol: 'coleção', tDeck: 'deck', tCmd: 'comandante', tCarta: 'carta'
+    tCol: 'coleção', tDeck: 'deck', tCmd: 'comandante', tCarta: 'carta',
+    filtroCor: 'Filtrar os decks pela identidade de cor do comandante', filtroTipo: 'Filtrar por tipo de carta',
+    filtroCusto: 'Filtrar por custo de mana (valor de mana)', filtroRar: 'Filtrar por raridade', limparFiltros: 'Limpar filtros',
+    todasCores: 'Todas as cores', todosTipos: 'Todos os tipos', todoCusto: 'Qualquer custo', todasRar: 'Todas as raridades',
+    custo: 'Custo {n}', cartasDest: '{n} cartas destacadas',
+    cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, sem: 'sem {c}', cinco: 'Cinco cores',
+    tipos: ['Criatura', 'Artefato', 'Encantamento', 'Mágica instantânea', 'Feitiço', 'Terreno', 'Planeswalker'],
+    rars: ['Comum', 'Incomum', 'Rara', 'Mítica']
   },
   en: {
     sub: 'Pick a set and a deck, or use the filter. The list uses the <code>quantity Name (SET) number</code> format, ready to paste into endstep.cc.',
@@ -188,7 +205,14 @@ var TXT = {
     colarToque: 'long-press › Paste', naoMostrar: "Don't show again", fechar: 'Close', abrir: 'Open endstep.cc',
     rodape: '{nd} decks in {nc} sets · lists checked against {mtgwtf} on {data} · {sobre}<br>A helper for {endstep} players (unofficial project): the copied list already carries the deck name and commander.',
     sobre: 'about the project',
-    tCol: 'set', tDeck: 'deck', tCmd: 'commander', tCarta: 'card'
+    tCol: 'set', tDeck: 'deck', tCmd: 'commander', tCarta: 'card',
+    filtroCor: "Filter decks by the commander's color identity", filtroTipo: 'Filter by card type',
+    filtroCusto: 'Filter by mana value', filtroRar: 'Filter by rarity', limparFiltros: 'Clear filters',
+    todasCores: 'All colors', todosTipos: 'All types', todoCusto: 'Any mana value', todasRar: 'All rarities',
+    custo: 'Mana value {n}', cartasDest: '{n} cards highlighted',
+    cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, sem: 'no {c}', cinco: 'Five colors',
+    tipos: ['Creature', 'Artifact', 'Enchantment', 'Instant', 'Sorcery', 'Land', 'Planeswalker'],
+    rars: ['Common', 'Uncommon', 'Rare', 'Mythic']
   },
   es: {
     sub: 'Elige la colección y el mazo o usa el filtro. La lista está en el formato <code>cantidad Nombre (SET) número</code>, lista para pegar en endstep.cc.',
@@ -207,7 +231,14 @@ var TXT = {
     colarToque: 'mantén pulsado › Pegar', naoMostrar: 'No volver a mostrar', fechar: 'Cerrar', abrir: 'Abrir endstep.cc',
     rodape: '{nd} mazos en {nc} colecciones · listas verificadas con {mtgwtf} el {data} · {sobre}<br>Una ayuda para quien juega en {endstep} (proyecto no oficial): la lista copiada ya lleva el nombre del mazo y el comandante.',
     sobre: 'sobre el proyecto',
-    tCol: 'colección', tDeck: 'mazo', tCmd: 'comandante', tCarta: 'carta'
+    tCol: 'colección', tDeck: 'mazo', tCmd: 'comandante', tCarta: 'carta',
+    filtroCor: 'Filtrar mazos por la identidad de color del comandante', filtroTipo: 'Filtrar por tipo de carta',
+    filtroCusto: 'Filtrar por coste de maná (valor de maná)', filtroRar: 'Filtrar por rareza', limparFiltros: 'Borrar filtros',
+    todasCores: 'Todos los colores', todosTipos: 'Todos los tipos', todoCusto: 'Cualquier coste', todasRar: 'Todas las rarezas',
+    custo: 'Coste {n}', cartasDest: '{n} cartas resaltadas',
+    cores: { W: 'Blanco', U: 'Azul', B: 'Negro', R: 'Rojo', G: 'Verde', C: 'Incoloro' }, sem: 'sin {c}', cinco: 'Cinco colores',
+    tipos: ['Criatura', 'Artefacto', 'Encantamiento', 'Instantáneo', 'Conjuro', 'Tierra', 'Planeswalker'],
+    rars: ['Común', 'Infrecuente', 'Rara', 'Mítica']
   }
 };
 var IDIOMA = (function () {
@@ -280,31 +311,64 @@ function carregarPT() {
   }).catch(function () { ptEstado = 0; ptFalha = Date.now(); });
 }
 
-function acertos(deck) {
-  if (!q) return [];
-  var r = [];
-  nomesDe(deck).forEach(function (n) {
-    if (nzEn(n).indexOf(q) >= 0) r.push(n);
-    else if (nzPt(n).indexOf(q) >= 0) r.push(n + " (" + PT[n] + ")"); // achou pelo nome em português: mostra os dois
-  });
+// Filtros (ao lado da busca): cor = identidade de cor do deck (a do(s) comandante(s), exata); tipo, custo e raridade valem
+// para as cartas: o deck aparece se tiver ao menos uma carta que atenda a todos os filtros de carta juntos, e essas cartas
+// ficam destacadas na lista. Com texto na busca: se o texto acha cartas, valem as que também atendem aos filtros; se acha só
+// o deck, o comandante ou a coleção, valem as cartas que atendem aos filtros. Dados: deck.a e deck.ci (ver build.py).
+var F = { cor: "", tipo: "", custo: "", rar: "" };
+var COM_ATRIB = !!(COLECOES[0] && COLECOES[0].decks[0] && COLECOES[0].decks[0].a);
+function filtroCarta() { return !!(F.tipo || F.custo || F.rar); }
+function buscando() { return !!(q || F.cor || filtroCarta()); }
+function passa(deck, i) {
+  var a = deck.a; if (!a) return false;
+  var m = a.charCodeAt(2 * i) - 256, x = a.charCodeAt(2 * i + 1) - 48, mv = x >> 2;
+  if (F.tipo && !(m & +F.tipo)) return false;
+  if (F.custo) {
+    if (m === 32 && F.tipo !== "32") return false; // terrenos (valor 0) só contam quando o tipo escolhido é Terreno
+    if (F.custo === "7+" ? mv < 7 : mv !== +F.custo) return false;
+  }
+  if (F.rar && (x & 3) !== +F.rar) return false;
+  return true;
+}
+// Resultado da busca + filtros para um deck: ok (aparece?), idx (cartas a destacar, na ordem de nomesDe) e rot (nomes para o status).
+function analisar(deck) {
+  var chave = q + "|" + F.cor + "|" + F.tipo + "|" + F.custo + "|" + F.rar + "|" + ptEstado;
+  if (deck._hk === chave) return deck._h;
+  var r = { ok: true, idx: [], rot: [] }, fc = filtroCarta();
+  if (F.cor && deck.ci !== F.cor) r.ok = false;
+  else if (q || fc) {
+    var col = deck._col;
+    if (!deck._nz) deck._nz = [nz(deck.nome), nz(deck.comandante)];
+    if (!col._nz) col._nz = nz(col.nome);
+    var noDeck = !q || deck._nz[0].indexOf(q) >= 0 || deck._nz[1].indexOf(q) >= 0 || col._nz.indexOf(q) >= 0 || (col.ano && col.ano.indexOf(q) >= 0);
+    var porTexto = [], porFiltro = [];
+    nomesDe(deck).forEach(function (n, i) {
+      var f = !fc || passa(deck, i);
+      if (!f) return;
+      if (q) {
+        if (nzEn(n).indexOf(q) >= 0) porTexto.push([i, n]);
+        else if (nzPt(n).indexOf(q) >= 0) porTexto.push([i, n + " (" + PT[n] + ")"]); // achou pelo nome em português: mostra os dois
+      }
+      if (fc) porFiltro.push([i, n]);
+    });
+    var usa = porTexto.length ? porTexto : (noDeck ? porFiltro : []);
+    r.ok = porTexto.length > 0 || (noDeck && (!fc || porFiltro.length > 0));
+    usa.forEach(function (p) { r.idx.push(p[0]); r.rot.push(p[1]); });
+  }
+  deck._hk = chave; deck._h = r;
   return r;
 }
-function casa(deck) {
-  if (!q) return true;
-  var col = deck._col;
-  if (!deck._nz) deck._nz = [nz(deck.nome), nz(deck.comandante)];
-  if (!col._nz) col._nz = nz(col.nome);
-  return deck._nz[0].indexOf(q) >= 0 || deck._nz[1].indexOf(q) >= 0 || col._nz.indexOf(q) >= 0 || (col.ano && col.ano.indexOf(q) >= 0) || acertos(deck).length > 0;
-}
+function casa(deck) { return analisar(deck).ok; }
 
 function esc(t) { return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 // Destaca as linhas cujo nome de carta contem a busca e rola a lista ate a primeira.
 function destacar(deck) {
   var ta = $("saida"), esp = $("espelho");
-  var linhas = deck.lista.split("\n"), primeira = -1;
+  var linhas = deck.lista.split("\n"), primeira = -1, idx = analisar(deck).idx, k = -1;
   esp.innerHTML = linhas.map(function (l, i) {
     var m = /^\d+\s+(.+?)\s+\(\w+\)\s+\S+$/.exec(l);
-    var hit = q && m && (nzEn(m[1]).indexOf(q) >= 0 || nzPt(m[1]).indexOf(q) >= 0);
+    if (m) k++;
+    var hit = m && idx.indexOf(k) >= 0;
     if (hit && primeira < 0) primeira = i;
     return '<div' + (hit ? ' class="hl"' : '') + '>' + (l ? esc(l) : "&nbsp;") + '</div>';
   }).join("");
@@ -338,7 +402,7 @@ function desenhar() {
   var vis = [];
   var nd = 0;
   COLECOES.forEach(function (col) { col.decks.forEach(function (dk) { if (casa(dk)) nd++; }); });
-  $("contagem").textContent = q ? (nd === 1 ? t("achou1") : t("achouN", { n: nd })) : "";
+  $("contagem").textContent = buscando() ? (nd === 1 ? t("achou1") : t("achouN", { n: nd })) : "";
   var cont = {};
   COLECOES.forEach(function (col) { var k = col.decks.filter(casa).length; if (k) cont[col.grupo] = (cont[col.grupo] || 0) + k; });
   var gvis = GRUPOS.filter(function (g) { return cont[g]; });
@@ -391,7 +455,7 @@ function desenhar() {
     return;
   }
   if (vis.indexOf(colAtual) < 0) { colAtual = vis[0]; deckAtual = 0; recolhido = false; }
-  var colRec = recolhido && comAno && !anoFiltro && !q; // num ano específico, ou com busca ativa, as coleções não recolhem
+  var colRec = recolhido && comAno && !anoFiltro && !buscando(); // num ano específico, ou com busca/filtro ativo, as coleções não recolhem
   var decks = COLECOES[colAtual].decks;
   if (!decks[deckAtual] || !casa(decks[deckAtual])) {
     for (var k = 0; k < decks.length; k++) { if (casa(decks[k])) { deckAtual = k; break; } }
@@ -414,7 +478,7 @@ function desenhar() {
     b.setAttribute("aria-expanded", colRec ? "false" : "true");
     b.onclick = function () {
       if (animando) return;
-      if (RECOLHEM.indexOf(grpAtual) < 0 || anoFiltro || q) { colAtual = i; deckAtual = 0; desenhar(); return; }
+      if (RECOLHEM.indexOf(grpAtual) < 0 || anoFiltro || buscando()) { colAtual = i; deckAtual = 0; desenhar(); return; }
       if (colRec) expandirEm(c, function () { recolhido = false; desenhar(); });
       else recolherEm(c, b, function () { colAtual = i; deckAtual = 0; recolhido = true; desenhar(); });
     };
@@ -435,8 +499,8 @@ function desenhar() {
   $("saida").value = deck.lista;
   destacar(deck);
   s.textContent = t("cartas", { n: total }) + (total === 100 ? " ✓" : t("aviso100"));
-  var ac = acertos(deck);
-  if (ac.length) s.textContent += " · " + t("encontrado") + ": " + ac.join(", ");
+  var ac = analisar(deck).rot;
+  if (ac.length) s.textContent += " · " + (ac.length > 10 ? t("cartasDest", { n: ac.length }) : t("encontrado") + ": " + ac.join(", "));
   s.className = "status " + (total === 100 ? "ok" : "warn");
 }
 
@@ -662,6 +726,53 @@ document.addEventListener("pointerup", function (e) {
   fecharSug();
 });
 $("anos").onchange = function () { if (animando) { this.value = anoFiltro; return; } anoFiltro = this.value; recolhido = false; desenhar(); };
+// Filtros: pílulas iguais à do ano. Cores: só as combinações que existem nos decks, de uma a cinco cores (nomes das guildas e
+// clãs, que são os mesmos em todos os idiomas; quatro cores: "sem X").
+var NOME_COR = { WU: "Azorius", UB: "Dimir", BR: "Rakdos", RG: "Gruul", WG: "Selesnya", WB: "Orzhov", UR: "Izzet", BG: "Golgari", WR: "Boros", UG: "Simic",
+  WUB: "Esper", UBR: "Grixis", BRG: "Jund", WRG: "Naya", WUG: "Bant", WBG: "Abzan", WUR: "Jeskai", UBG: "Sultai", WBR: "Mardu", URG: "Temur" };
+var CX_FILTRO = { cor: "cxCor", tipo: "cxTipo", custo: "cxCusto", rar: "cxRar" }, SEL_FILTRO = { cor: "fCor", tipo: "fTipo", custo: "fCusto", rar: "fRar" };
+function rotuloCor(c) {
+  var L = TXT[IDIOMA].cores;
+  if (c.length === 1) return L[c] + (c === "C" ? "" : " (" + c + ")");
+  if (c.length === 5) return t("cinco") + " (WUBRG)";
+  if (c.length === 4) { var f = "WUBRG".split("").filter(function (x) { return c.indexOf(x) < 0; })[0]; return t("sem", { c: L[f].toLowerCase() }) + " (" + c + ")"; }
+  return (NOME_COR[c] || c) + " (" + c + ")";
+}
+function opcoes(el, lista) {
+  el.innerHTML = "";
+  lista.forEach(function (o) { var op = document.createElement("option"); op.value = o[0]; op.textContent = o[1]; el.appendChild(op); });
+}
+function montarFiltros() {
+  if (!COM_ATRIB) return;
+  $("filtros").hidden = false;
+  var ordem = "WUBRGC", cis = [];
+  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { if (cis.indexOf(d.ci) < 0) cis.push(d.ci); }); });
+  cis.sort(function (a, b) {
+    var na = a === "C" ? 1.5 : a.length, nb = b === "C" ? 1.5 : b.length; // incolor logo depois das cores únicas
+    if (na !== nb) return na - nb;
+    for (var i = 0; i < a.length; i++) { var d = ordem.indexOf(a[i]) - ordem.indexOf(b[i]); if (d) return d; }
+    return 0;
+  });
+  opcoes($("fCor"), [["", t("todasCores")]].concat(cis.map(function (c) { return [c, rotuloCor(c)]; })));
+  var tp = TXT[IDIOMA].tipos, bits = [1, 2, 4, 8, 16, 32, 64];
+  opcoes($("fTipo"), [["", t("todosTipos")]].concat(bits.map(function (b, i) { return [String(b), tp[i]]; })));
+  opcoes($("fCusto"), [["", t("todoCusto")]].concat(["0", "1", "2", "3", "4", "5", "6", "7+"].map(function (n) { return [n, t("custo", { n: n })]; })));
+  opcoes($("fRar"), [["", t("todasRar")]].concat(TXT[IDIOMA].rars.map(function (r, i) { return [String(i), r]; })));
+  Object.keys(SEL_FILTRO).forEach(function (k) {
+    $(SEL_FILTRO[k]).onchange = function () {
+      if (animando) { this.value = F[k]; return; }
+      F[k] = this.value; recolhido = false; pintarFiltros();
+      if (buscando() && !aberto) abrirConteudo(); else desenhar();
+    };
+  });
+  $("limparF").onclick = function () { if (animando) return; limparFiltros(); desenhar(); };
+}
+function pintarFiltros() {
+  var algum = false;
+  Object.keys(SEL_FILTRO).forEach(function (k) { $(SEL_FILTRO[k]).value = F[k]; $(CX_FILTRO[k]).classList.toggle("on", !!F[k]); if (F[k]) algum = true; });
+  $("limparF").hidden = !algum;
+}
+function limparFiltros() { F = { cor: "", tipo: "", custo: "", rar: "" }; recolhido = false; if (COM_ATRIB) pintarFiltros(); }
 $("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; fecharSug(); desenhar(); f.focus(); };
 
 // Copiar lista: copia no formato de exportação do MTG Arena (About/Name + Commander + Deck), o mesmo de
@@ -759,11 +870,12 @@ $("guia").onclick = function (e) { if (e.target === this) guia(false); };
 document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("guia").hidden) guia(false); });
 
 try { localStorage.removeItem("precons-sel"); } catch (e) {} // limpeza da memória antiga do último deck
+montarFiltros();
 aplicarId(idDoEndereco());
 desenhar();
 window.addEventListener("hashchange", function () {
   var id = idDoEndereco(), d = COLECOES[colAtual] && COLECOES[colAtual].decks[deckAtual];
-  if (id && (!d || idDe(d) !== id) && aplicarId(id)) { q = ""; $("filtro").value = ""; $("limpar").hidden = true; desenhar(); }
+  if (id && (!d || idDe(d) !== id) && aplicarId(id)) { q = ""; $("filtro").value = ""; $("limpar").hidden = true; limparFiltros(); desenhar(); }
 });
 if ("serviceWorker" in navigator && /^https?:/.test(location.protocol)) { navigator.serviceWorker.register("sw.js").catch(function () {}); }
 </script>
