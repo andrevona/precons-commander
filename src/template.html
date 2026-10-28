@@ -591,6 +591,16 @@ function rolarAte(li) {
   var ul = $("sugestoes"), a = li.offsetTop, b = a + li.offsetHeight;
   if (a < ul.scrollTop) ul.scrollTop = a - 4; else if (b > ul.scrollTop + ul.clientHeight) ul.scrollTop = b - ul.clientHeight + 4;
 }
+// A altura da lista acompanha a área realmente visível (no celular, a que sobra acima do teclado), para o último item
+// poder ser alcançado; recalcula quando o teclado abre/fecha ou a página rola (visualViewport).
+function ajustarAlturaSug() {
+  var ul = $("sugestoes"), vv = window.visualViewport;
+  if (ul.hidden || !vv) return;
+  var livre = vv.offsetTop + vv.height - ul.getBoundingClientRect().top - 16;
+  ul.style.maxHeight = Math.min(360, Math.max(120, livre)) + "px";
+}
+if (window.visualViewport) { visualViewport.addEventListener("resize", ajustarAlturaSug); visualViewport.addEventListener("scroll", ajustarAlturaSug); }
+function toque() { return !!(window.matchMedia && matchMedia("(pointer: coarse)").matches); }
 function fecharSug() {
   var ul = $("sugestoes"); ul.hidden = true; ul.innerHTML = ""; sugLista = []; sugAtiva = -1;
   $("filtro").setAttribute("aria-expanded", "false"); $("filtro").removeAttribute("aria-activedescendant");
@@ -617,6 +627,7 @@ function mostrarSug() {
     ul.appendChild(li);
   });
   ul.hidden = false; $("filtro").setAttribute("aria-expanded", "true");
+  ajustarAlturaSug();
 }
 function escolherSug(i) {
   var it = sugLista[i]; if (!it) return;
@@ -634,12 +645,20 @@ $("filtro").addEventListener("keydown", function (e) {
     sugAtiva = e.key === "ArrowDown" ? (sugAtiva + 1) % n : (sugAtiva <= 0 ? n - 1 : sugAtiva - 1);
     pintarSug(true);
   } else if (e.key === "Enter") {
-    if (!ul.hidden && sugAtiva >= 0) { e.preventDefault(); escolherSug(sugAtiva); } else fecharSug();
+    if (!ul.hidden && sugAtiva >= 0) { e.preventDefault(); escolherSug(sugAtiva); }
+    else if (toque()) { this.blur(); } // celular: "ok/ir" baixa o teclado e a lista de sugestões continua à vista
+    else fecharSug();
   } else if (e.key === "Escape") {
     if (!ul.hidden) { e.preventDefault(); fecharSug(); }
   }
 });
-$("filtro").addEventListener("blur", function () { setTimeout(function () { if (document.activeElement !== $("filtro")) fecharSug(); }, 200); });
+// Computador: a lista fecha ao perder o foco. Celular: baixar o teclado (✓) tira o foco mas a lista fica, para rolar até o fim;
+// ela fecha ao tocar fora (pointerup só dispara em toque, não ao começar a rolar a página), ao escolher, ao limpar ou com Esc.
+$("filtro").addEventListener("blur", function () { if (toque()) return; setTimeout(function () { if (document.activeElement !== $("filtro")) fecharSug(); }, 200); });
+document.addEventListener("pointerup", function (e) {
+  if ($("sugestoes").hidden || (e.target.closest && e.target.closest("#caixaBusca"))) return;
+  fecharSug();
+});
 $("anos").onchange = function () { if (animando) { this.value = anoFiltro; return; } anoFiltro = this.value; recolhido = false; desenhar(); };
 $("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; fecharSug(); desenhar(); f.focus(); };
 
