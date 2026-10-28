@@ -265,12 +265,14 @@ function nzEn(n) { var v = memoEn[n]; return v === undefined ? (memoEn[n] = nz(n
 // Nomes das cartas em português (nomes_pt.json: nome em inglês -> nome em português), só para buscar e sugerir;
 // a lista na tela e a lista copiada continuam em inglês. Carrega ao tocar no filtro; sem o arquivo, a busca segue só em inglês.
 var PT = null, ptEstado = 0, ptFalha = 0; // ptEstado: 0 não carregou, 1 carregando, 2 carregado
+// Só carrega (e só sugere em português) quem tem português entre os idiomas do navegador, em qualquer posição da lista.
+var QUER_PT = (navigator.languages && navigator.languages.length ? [].slice.call(navigator.languages) : [navigator.language || ""]).some(function (l) { return String(l).slice(0, 2).toLowerCase() === "pt"; });
 function nzPt(n) {
   if (!PT || !PT[n]) return "";
   var v = memoPt[n]; return v === undefined ? (memoPt[n] = nz(PT[n])) : v;
 }
 function carregarPT() {
-  if (ptEstado || (ptFalha && Date.now() - ptFalha < 30000) || !window.fetch) return;
+  if (!QUER_PT || ptEstado || (ptFalha && Date.now() - ptFalha < 30000) || !window.fetch) return;
   ptEstado = 1;
   fetch("nomes_pt.json").then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (o) {
     PT = o; memoPt = {}; SUG = null; ptEstado = 2;
