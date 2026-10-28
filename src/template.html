@@ -62,7 +62,19 @@
   .anos-caixa.on select { background:var(--acc); color:var(--accfg); border-color:var(--acc); }
   .anos-caixa.on::after { color:var(--accfg); }
   .filtros { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:-4px 0 12px; }
-  .filtros select { max-width:calc(100vw - 32px); text-overflow:ellipsis; }
+  .cor-caixa { position:relative; display:inline-flex; }
+  .cor-btn { position:relative; display:inline-flex; align-items:center; gap:6px; font:inherit; font-size:13px; font-weight:500; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:4px 28px 4px 12px; min-height:29px; cursor:pointer; }
+  .cor-btn:hover { border-color:var(--acc); }
+  .cor-btn::after { content:"▾"; position:absolute; right:11px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:12px; color:var(--mut); }
+  .cor-caixa.on .cor-btn { background:var(--acc); color:var(--accfg); border-color:var(--acc); }
+  .cor-caixa.on .cor-btn::after { color:var(--accfg); }
+  .simbolos { display:inline-flex; gap:2px; flex:none; }
+  .simbolos img { width:17px; height:17px; display:block; }
+  .cor-btn .simbolos img { width:16px; height:16px; }
+  .cor-menu { position:absolute; left:0; top:calc(100% + 4px); z-index:20; margin:0; padding:4px; list-style:none; min-width:220px; max-width:calc(100vw - 32px); background:var(--card); border:1px solid var(--line); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.25); max-height:min(380px, 60vh); overflow:auto; overscroll-behavior:contain; outline:none; }
+  .cor-menu li { display:flex; justify-content:space-between; align-items:center; gap:14px; padding:7px 10px; border-radius:7px; cursor:pointer; font-size:14px; white-space:nowrap; }
+  .cor-menu li.ativo { background:var(--line); }
+  .cor-menu li[aria-selected="true"] { font-weight:600; color:var(--acc); }
   button.icone { padding:7px 10px; display:inline-flex; align-items:center; }
   button.icone svg { width:18px; height:18px; display:block; }
   .acoes { margin-bottom:8px; }
@@ -107,7 +119,7 @@
     <ul class="sugestoes" id="sugestoes" role="listbox" hidden></ul>
   </div>
   <div class="filtros" id="filtros" hidden>
-    <span class="anos-caixa" id="cxCor"><select id="fCor" data-ta="filtroCor"></select></span>
+    <div class="cor-caixa" id="cxCor"><button type="button" class="cor-btn" id="fCor" aria-haspopup="listbox" aria-expanded="false" aria-controls="corMenu"></button><ul class="cor-menu" id="corMenu" role="listbox" tabindex="-1" hidden></ul></div>
   </div>
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
   <div id="conteudo" hidden>
@@ -686,34 +698,98 @@ $("anos").onchange = function () { if (animando) { this.value = anoFiltro; retur
 // e clãs, que são os mesmos em todos os idiomas; quatro cores: "sem X"). A primeira opção ("Cores do deck") é sem filtro.
 var NOME_COR = { WU: "Azorius", UB: "Dimir", BR: "Rakdos", RG: "Gruul", WG: "Selesnya", WB: "Orzhov", UR: "Izzet", BG: "Golgari", WR: "Boros", UG: "Simic",
   WUB: "Esper", UBR: "Grixis", BRG: "Jund", WRG: "Naya", WUG: "Bant", WBG: "Abzan", WUR: "Jeskai", UBG: "Sultai", WBR: "Mardu", URG: "Temur" };
-function rotuloCor(c) {
+function rotuloCor(c) { // nome curto; as cores aparecem nos símbolos de mana ao lado
   var L = TXT[IDIOMA].cores;
-  if (c.length === 1) return L[c] + (c === "C" ? "" : " (" + c + ")");
-  if (c.length === 5) return t("cinco") + " (WUBRG)";
-  if (c.length === 4) { var f = "WUBRG".split("").filter(function (x) { return c.indexOf(x) < 0; })[0]; return t("sem", { c: L[f].toLowerCase() }) + " (" + c + ")"; }
-  return (NOME_COR[c] || c) + " (" + c + ")";
+  if (c.length === 1) return L[c];
+  if (c.length === 5) return t("cinco");
+  if (c.length === 4) { var f = "WUBRG".split("").filter(function (x) { return c.indexOf(x) < 0; })[0]; return t("sem", { c: L[f].toLowerCase() }); }
+  return NOME_COR[c] || c;
 }
+// Símbolos de mana (SVGs do Scryfall em icons/mana/, coloridos), um por cor, na ordem WUBRG; "C" = incolor.
+function simbolos(c) {
+  var sp = document.createElement("span"); sp.className = "simbolos"; sp.setAttribute("aria-hidden", "true");
+  c.split("").forEach(function (x) { var im = document.createElement("img"); im.src = "icons/mana/" + x + ".svg"; im.alt = ""; sp.appendChild(im); });
+  return sp;
+}
+// Lista própria (o <select> nativo não mostra imagens): botão em forma de pílula + listbox. Teclado: ↑/↓, Home/End, Enter/espaço, Esc.
+var CIS = [], corAtiva = -1;
 function montarFiltroCor() {
   if (!COM_CORES) return;
   $("filtros").hidden = false;
-  var ordem = "WUBRGC", cis = [], el = $("fCor");
-  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { if (cis.indexOf(d.ci) < 0) cis.push(d.ci); }); });
-  cis.sort(function (a, b) {
+  var ordem = "WUBRGC";
+  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { if (CIS.indexOf(d.ci) < 0) CIS.push(d.ci); }); });
+  CIS.sort(function (a, b) {
     var na = a === "C" ? 1.5 : a.length, nb = b === "C" ? 1.5 : b.length; // incolor logo depois das cores únicas
     if (na !== nb) return na - nb;
     for (var i = 0; i < a.length; i++) { var d = ordem.indexOf(a[i]) - ordem.indexOf(b[i]); if (d) return d; }
     return 0;
   });
-  [["", t("todasCores")]].concat(cis.map(function (c) { return [c, rotuloCor(c)]; })).forEach(function (o) {
-    var op = document.createElement("option"); op.value = o[0]; op.textContent = o[1]; el.appendChild(op);
+  CIS.unshift(""); // primeira opção: sem filtro ("Cores do deck")
+  var ul = $("corMenu");
+  CIS.forEach(function (c, i) {
+    var li = document.createElement("li"), tx = document.createElement("span");
+    li.id = "cor-" + i; li.setAttribute("role", "option");
+    tx.textContent = c ? rotuloCor(c) : t("todasCores"); li.appendChild(tx);
+    if (c) { li.appendChild(simbolos(c)); li.setAttribute("aria-label", rotuloCor(c) + " (" + c + ")"); }
+    li.onmousedown = function (e) { e.preventDefault(); };
+    li.onmousemove = function () { if (corAtiva !== i) { corAtiva = i; marcarCor(false); } };
+    li.onclick = function () { escolherCor(i); };
+    ul.appendChild(li);
   });
-  el.onchange = function () {
-    if (animando) { this.value = corFiltro; return; }
-    corFiltro = this.value; recolhido = false; pintarCor();
-    if (corFiltro && !aberto) abrirConteudo(); else desenhar();
+  $("fCor").onclick = function () { if (ul.hidden) abrirMenuCor(); else fecharMenuCor(true); };
+  $("fCor").onkeydown = function (e) { if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); abrirMenuCor(); } };
+  ul.onkeydown = function (e) {
+    var n = CIS.length;
+    if (e.key === "ArrowDown") corAtiva = Math.min(n - 1, corAtiva + 1);
+    else if (e.key === "ArrowUp") corAtiva = Math.max(0, corAtiva - 1);
+    else if (e.key === "Home") corAtiva = 0;
+    else if (e.key === "End") corAtiva = n - 1;
+    else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); escolherCor(corAtiva); return; }
+    else if (e.key === "Escape" || e.key === "Tab") { if (e.key === "Escape") e.preventDefault(); fecharMenuCor(e.key === "Escape"); return; }
+    else return;
+    e.preventDefault(); marcarCor(true);
   };
+  ul.addEventListener("blur", function () { setTimeout(function () { if (document.activeElement !== ul && document.activeElement !== $("fCor")) fecharMenuCor(false); }, 150); });
+  document.addEventListener("pointerup", function (e) { if (!ul.hidden && !(e.target.closest && e.target.closest("#cxCor"))) fecharMenuCor(false); });
 }
-function pintarCor() { if (!COM_CORES) return; $("fCor").value = corFiltro; $("cxCor").classList.toggle("on", !!corFiltro); }
+function marcarCor(rolar) {
+  var ul = $("corMenu");
+  [].forEach.call(ul.children, function (li, i) { li.classList.toggle("ativo", i === corAtiva); li.setAttribute("aria-selected", CIS[i] === corFiltro ? "true" : "false"); });
+  if (corAtiva >= 0) {
+    ul.setAttribute("aria-activedescendant", "cor-" + corAtiva);
+    var li = $("cor-" + corAtiva);
+    if (rolar && li) { var a = li.offsetTop, b = a + li.offsetHeight; if (a < ul.scrollTop) ul.scrollTop = a - 4; else if (b > ul.scrollTop + ul.clientHeight) ul.scrollTop = b - ul.clientHeight + 4; }
+  }
+}
+function abrirMenuCor() {
+  var ul = $("corMenu");
+  if (animando) return;
+  fecharSug();
+  ul.hidden = false; $("fCor").setAttribute("aria-expanded", "true");
+  corAtiva = Math.max(0, CIS.indexOf(corFiltro)); ul.scrollTop = 0; marcarCor(true);
+  ul.focus({ preventScroll: true });
+}
+function fecharMenuCor(voltarFoco) {
+  var ul = $("corMenu"); if (ul.hidden) return;
+  ul.hidden = true; $("fCor").setAttribute("aria-expanded", "false"); ul.removeAttribute("aria-activedescendant");
+  if (voltarFoco) $("fCor").focus({ preventScroll: true });
+}
+function escolherCor(i) {
+  if (animando || i < 0) return;
+  fecharMenuCor(!toque());
+  corFiltro = CIS[i]; recolhido = false; pintarCor();
+  if (corFiltro && !aberto) abrirConteudo(); else desenhar();
+}
+function pintarCor() {
+  if (!COM_CORES) return;
+  var b = $("fCor"), c = corFiltro;
+  b.innerHTML = "";
+  if (c) b.appendChild(simbolos(c));
+  b.appendChild(document.createTextNode(c ? rotuloCor(c) : t("todasCores")));
+  b.title = t("filtroCor");
+  b.setAttribute("aria-label", t("filtroCor") + ": " + (c ? rotuloCor(c) + " (" + c + ")" : t("todasCores")));
+  $("cxCor").classList.toggle("on", !!c);
+}
 function limparCor() { corFiltro = ""; pintarCor(); }
 $("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; fecharSug(); desenhar(); f.focus(); };
 
@@ -813,6 +889,7 @@ document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$
 
 try { localStorage.removeItem("precons-sel"); } catch (e) {} // limpeza da memória antiga do último deck
 montarFiltroCor();
+pintarCor();
 aplicarId(idDoEndereco());
 desenhar();
 window.addEventListener("hashchange", function () {
