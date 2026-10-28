@@ -33,9 +33,9 @@
   button.go { background:var(--acc); color:var(--accfg); border:0; padding:8px 16px; border-radius:8px; font:inherit; font-weight:600; cursor:pointer; }
   button.ghost { background:transparent; color:var(--acc); border:1px solid var(--line); padding:7px 12px; border-radius:8px; font:inherit; cursor:pointer; }
   .lista { position:relative; background:var(--bg); border-radius:8px; }
-  textarea { display:block; position:relative; z-index:1; width:100%; min-height:420px; margin:0; background:transparent; -webkit-appearance:none; appearance:none; color:var(--fg); border:1px solid var(--line); border-radius:8px; padding:10px; font:13px/1.45 ui-monospace, Menlo, Consolas, monospace; resize:vertical; white-space:pre; overflow:auto; }
-  .espelho { position:absolute; inset:0; overflow:hidden; border:1px solid transparent; border-radius:8px; padding:10px; font:13px/1.45 ui-monospace, Menlo, Consolas, monospace; white-space:pre; color:transparent; pointer-events:none; }
-  .espelho div { height:1.45em; }
+  textarea { display:block; position:relative; z-index:1; width:100%; min-height:420px; margin:0; background:transparent; -webkit-appearance:none; appearance:none; color:var(--fg); border:1px solid var(--line); border-radius:8px; padding:10px; font:13px/19px ui-monospace, Menlo, Consolas, monospace; resize:vertical; white-space:pre; overflow:auto; }
+  .espelho { position:absolute; inset:0; overflow:hidden; border:1px solid transparent; border-radius:8px; padding:10px; font:13px/19px ui-monospace, Menlo, Consolas, monospace; white-space:pre; color:transparent; pointer-events:none; }
+  .espelho div { height:19px; }
   .espelho div.hl { background:#ffe58a; border-radius:3px; }
   @media (prefers-color-scheme: dark) { .espelho div.hl { background:#5c4a00; } }
   input.filtro { width:100%; margin:0 0 12px; padding:9px 12px; background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:8px; font:inherit; }
@@ -267,7 +267,7 @@ function destacar(deck) {
     if (hit && primeira < 0) primeira = i;
     return '<div' + (hit ? ' class="hl"' : '') + '>' + (l ? esc(l) : "&nbsp;") + '</div>';
   }).join("");
-  var lh = parseFloat(getComputedStyle(ta).lineHeight) || 18.85;
+  var lh = parseFloat(getComputedStyle(ta).lineHeight) || 19;
   ta.scrollTop = primeira < 0 ? 0 : Math.max(0, primeira * lh - (ta.clientHeight - lh) / 2);
   ta.scrollLeft = 0;
   esp.scrollTop = ta.scrollTop; esp.scrollLeft = 0;
