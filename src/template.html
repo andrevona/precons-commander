@@ -84,6 +84,12 @@
   .busca input.filtro::-webkit-search-cancel-button { -webkit-appearance:none; display:none; }
   .limpar { position:absolute; right:6px; top:50%; transform:translateY(-50%); width:32px; height:32px; border:0; border-radius:999px; background:var(--line); color:var(--fg); font-size:20px; line-height:1; font-family:inherit; cursor:pointer; padding:0; }
   .limpar:hover { background:var(--acc); color:var(--accfg); }
+  .sugestoes { position:absolute; left:0; right:0; top:calc(100% + 4px); z-index:20; margin:0; padding:4px; list-style:none; background:var(--card); border:1px solid var(--line); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.25); max-height:360px; overflow:auto; }
+  .sugestoes li { display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:9px 10px; border-radius:7px; cursor:pointer; }
+  .sugestoes li[aria-selected="true"] { background:var(--line); }
+  .sugestoes .txt { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .sugestoes .txt b { font-weight:700; color:var(--acc); }
+  .sugestoes .tipo { flex:none; color:var(--mut); font-size:12px; }
 </style>
 </head>
 <body>
@@ -93,8 +99,9 @@
 
   <div class="tabs" id="grupos"></div>
   <div class="busca" id="caixaBusca">
-    <input class="filtro" id="filtro" type="search" placeholder="Carta, deck, comandante ou coleção…" data-tp="busca" autocomplete="off" spellcheck="false">
+    <input class="filtro" id="filtro" type="search" placeholder="Carta, deck, comandante ou coleção…" data-tp="busca" autocomplete="off" autocapitalize="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="sugestoes" aria-expanded="false">
     <button type="button" class="limpar" id="limpar" aria-label="Apagar busca" title="Apagar busca" data-ta="apagar" hidden>×</button>
+    <ul class="sugestoes" id="sugestoes" role="listbox" hidden></ul>
   </div>
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
   <div id="conteudo" hidden>
@@ -160,7 +167,8 @@ var TXT = {
     passo3: 'Toque em <b>Apply</b>: o nome, as 100 cartas e o comandante entram sozinhos.', passo4: 'Em <b>Set format</b>, escolha <b>Commander</b>.',
     colarToque: 'toque longo › Colar', naoMostrar: 'Não mostrar de novo', fechar: 'Fechar', abrir: 'Abrir endstep.cc',
     rodape: '{nd} decks em {nc} coleções · listas conferidas com o {mtgwtf} em {data} · {sobre}<br>Um facilitador para quem joga no {endstep} (projeto não oficial): a lista copiada já leva o nome do deck e o comandante.',
-    sobre: 'sobre o projeto'
+    sobre: 'sobre o projeto',
+    tCol: 'coleção', tDeck: 'deck', tCmd: 'comandante', tCarta: 'carta'
   },
   en: {
     sub: 'Pick a set and a deck, or use the filter. The list uses the <code>quantity Name (SET) number</code> format, ready to paste into endstep.cc.',
@@ -178,7 +186,8 @@ var TXT = {
     passo3: 'Tap <b>Apply</b>: the name, the 100 cards and the commander come in on their own.', passo4: 'In <b>Set format</b>, choose <b>Commander</b>.',
     colarToque: 'long-press › Paste', naoMostrar: "Don't show again", fechar: 'Close', abrir: 'Open endstep.cc',
     rodape: '{nd} decks in {nc} sets · lists checked against {mtgwtf} on {data} · {sobre}<br>A helper for {endstep} players (unofficial project): the copied list already carries the deck name and commander.',
-    sobre: 'about the project'
+    sobre: 'about the project',
+    tCol: 'set', tDeck: 'deck', tCmd: 'commander', tCarta: 'card'
   },
   es: {
     sub: 'Elige la colección y el mazo o usa el filtro. La lista está en el formato <code>cantidad Nombre (SET) número</code>, lista para pegar en endstep.cc.',
@@ -196,7 +205,8 @@ var TXT = {
     passo3: 'Toca <b>Apply</b>: el nombre, las 100 cartas y el comandante se cargan solos.', passo4: 'En <b>Set format</b>, elige <b>Commander</b>.',
     colarToque: 'mantén pulsado › Pegar', naoMostrar: 'No volver a mostrar', fechar: 'Cerrar', abrir: 'Abrir endstep.cc',
     rodape: '{nd} mazos en {nc} colecciones · listas verificadas con {mtgwtf} el {data} · {sobre}<br>Una ayuda para quien juega en {endstep} (proyecto no oficial): la lista copiada ya lleva el nombre del mazo y el comandante.',
-    sobre: 'sobre el proyecto'
+    sobre: 'sobre el proyecto',
+    tCol: 'colección', tDeck: 'mazo', tCmd: 'comandante', tCarta: 'carta'
   }
 };
 var IDIOMA = (function () {
@@ -350,7 +360,7 @@ function desenhar() {
     return;
   }
   if (vis.indexOf(colAtual) < 0) { colAtual = vis[0]; deckAtual = 0; recolhido = false; }
-  var colRec = recolhido && comAno && !anoFiltro; // num ano específico as coleções não recolhem
+  var colRec = recolhido && comAno && !anoFiltro && !q; // num ano específico, ou com busca ativa, as coleções não recolhem
   var decks = COLECOES[colAtual].decks;
   if (!decks[deckAtual] || !casa(decks[deckAtual])) {
     for (var k = 0; k < decks.length; k++) { if (casa(decks[k])) { deckAtual = k; break; } }
@@ -373,7 +383,7 @@ function desenhar() {
     b.setAttribute("aria-expanded", colRec ? "false" : "true");
     b.onclick = function () {
       if (animando) return;
-      if (RECOLHEM.indexOf(grpAtual) < 0 || anoFiltro) { colAtual = i; deckAtual = 0; desenhar(); return; }
+      if (RECOLHEM.indexOf(grpAtual) < 0 || anoFiltro || q) { colAtual = i; deckAtual = 0; desenhar(); return; }
       if (colRec) expandirEm(c, function () { recolhido = false; desenhar(); });
       else recolherEm(c, b, function () { colAtual = i; deckAtual = 0; recolhido = true; desenhar(); });
     };
@@ -501,9 +511,94 @@ function fecharConteudo() {
 }
 
 $("saida").addEventListener("scroll", function () { $("espelho").scrollTop = this.scrollTop; $("espelho").scrollLeft = this.scrollLeft; });
-$("filtro").oninput = function () { q = this.value.trim().toLowerCase(); recolhido = false; $("limpar").hidden = !this.value; if (q && !aberto) abrirConteudo(); else desenhar(); };
+function aplicarBusca() {
+  var f = $("filtro");
+  q = f.value.trim().toLowerCase(); recolhido = false; $("limpar").hidden = !f.value;
+  if (q && !aberto) abrirConteudo(); else desenhar();
+}
+
+// Autocomplete do filtro: sugere coleções, decks, comandantes e cartas conforme se digita.
+// Ordem: começa com o texto, depois início de palavra, depois contém; empate: coleção, deck, comandante, carta.
+var SUG = null, sugLista = [], sugAtiva = -1, SEP = /[\s,\-\/(:'"!&]/;
+function indiceSug() {
+  if (SUG) return SUG;
+  var visto = {}; SUG = [];
+  function add(txt, k) { var l = txt.toLowerCase(); if (visto["_" + l]) return; visto["_" + l] = 1; SUG.push({ t: txt, l: l, k: k }); }
+  COLECOES.forEach(function (c) { add(c.nome, 0); });
+  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { add(d.nome, 1); }); });
+  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { add(d.comandante, 2); }); });
+  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { nomesDe(d).forEach(function (n) { add(n, 3); }); }); });
+  return SUG;
+}
+function sugerir(txt) {
+  var res = [];
+  indiceSug().forEach(function (it) {
+    if (it.l === txt) return; // já é exatamente o que foi digitado
+    var i = -1, melhor = -1, pos = -1;
+    while ((i = it.l.indexOf(txt, i + 1)) >= 0) {
+      var s = i === 0 ? 0 : (SEP.test(it.l.charAt(i - 1)) ? 1 : 2);
+      if (melhor < 0 || s < melhor) { melhor = s; pos = i; }
+      if (s === 0) break;
+    }
+    if (melhor >= 0) res.push({ it: it, s: melhor, pos: pos });
+  });
+  res.sort(function (a, b) { return a.s - b.s || a.it.k - b.it.k || a.it.t.length - b.it.t.length || (a.it.l < b.it.l ? -1 : 1); });
+  return res.slice(0, 8);
+}
+function pintarSug() {
+  var f = $("filtro");
+  [].forEach.call($("sugestoes").children, function (li, i) { li.setAttribute("aria-selected", i === sugAtiva ? "true" : "false"); });
+  if (sugAtiva >= 0) { f.setAttribute("aria-activedescendant", "sug-" + sugAtiva); var li = $("sug-" + sugAtiva); if (li && li.scrollIntoView) li.scrollIntoView({ block: "nearest" }); }
+  else f.removeAttribute("aria-activedescendant");
+}
+function fecharSug() {
+  var ul = $("sugestoes"); ul.hidden = true; ul.innerHTML = ""; sugLista = []; sugAtiva = -1;
+  $("filtro").setAttribute("aria-expanded", "false"); $("filtro").removeAttribute("aria-activedescendant");
+}
+function mostrarSug() {
+  var ul = $("sugestoes"), tipos = [t("tCol"), t("tDeck"), t("tCmd"), t("tCarta")];
+  var res = q.length >= 3 ? sugerir(q) : []; // só a partir da terceira letra, senão são sugestões demais
+  if (!res.length) { fecharSug(); return; }
+  sugLista = res.map(function (r) { return r.it; }); sugAtiva = -1;
+  ul.innerHTML = "";
+  res.forEach(function (r, i) {
+    var li = document.createElement("li"), tx = document.createElement("span"), tp = document.createElement("span"), b = document.createElement("b");
+    li.id = "sug-" + i; li.setAttribute("role", "option"); li.setAttribute("aria-selected", "false");
+    tx.className = "txt"; tp.className = "tipo"; tp.textContent = tipos[r.it.k];
+    tx.appendChild(document.createTextNode(r.it.t.slice(0, r.pos)));
+    b.textContent = r.it.t.slice(r.pos, r.pos + q.length); tx.appendChild(b);
+    tx.appendChild(document.createTextNode(r.it.t.slice(r.pos + q.length)));
+    li.appendChild(tx); li.appendChild(tp);
+    li.onmousedown = function (e) { e.preventDefault(); }; // não tira o foco do campo
+    li.onmouseover = function () { sugAtiva = i; pintarSug(); };
+    li.onclick = function () { escolherSug(i); };
+    ul.appendChild(li);
+  });
+  ul.hidden = false; $("filtro").setAttribute("aria-expanded", "true");
+}
+function escolherSug(i) {
+  var it = sugLista[i]; if (!it) return;
+  var f = $("filtro"); f.value = it.t; fecharSug(); aplicarBusca();
+  if (window.matchMedia && matchMedia("(pointer: coarse)").matches) f.blur(); // no celular, fecha o teclado para ver o resultado
+}
+$("filtro").oninput = function () { aplicarBusca(); mostrarSug(); };
+$("filtro").addEventListener("keydown", function (e) {
+  var ul = $("sugestoes");
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+    if (ul.hidden) { mostrarSug(); if (ul.hidden) return; }
+    e.preventDefault();
+    var n = sugLista.length;
+    sugAtiva = e.key === "ArrowDown" ? (sugAtiva + 1) % n : (sugAtiva <= 0 ? n - 1 : sugAtiva - 1);
+    pintarSug();
+  } else if (e.key === "Enter") {
+    if (!ul.hidden && sugAtiva >= 0) { e.preventDefault(); escolherSug(sugAtiva); } else fecharSug();
+  } else if (e.key === "Escape") {
+    if (!ul.hidden) { e.preventDefault(); fecharSug(); }
+  }
+});
+$("filtro").addEventListener("blur", function () { setTimeout(function () { if (document.activeElement !== $("filtro")) fecharSug(); }, 200); });
 $("anos").onchange = function () { if (animando) { this.value = anoFiltro; return; } anoFiltro = this.value; recolhido = false; desenhar(); };
-$("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; desenhar(); f.focus(); };
+$("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; fecharSug(); desenhar(); f.focus(); };
 
 // Copiar lista: copia no formato de exportação do MTG Arena (About/Name + Commander + Deck), o mesmo de
 // "Criar no endstep.cc" (decisão do usuário em 27/10/2026); a lista na tela continua no formato do site.
