@@ -5,10 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Precons Commander</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#2f5fd0">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fafaf8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#161615" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-180.png">
 <style>
+  html { color-scheme:light dark; scrollbar-color:var(--line) var(--bg); }
   :root { --bg:#fafaf8; --fg:#1d1d1b; --mut:#6b6b66; --line:#d9d8d2; --acc:#2f5fd0; --accfg:#fff; --card:#fff; --ok:#1d7a3a; --warn:#b05a00; }
   @media (prefers-color-scheme: dark) {
     :root { --bg:#161615; --fg:#ecebe6; --mut:#9c9b94; --line:#34332f; --acc:#7da2ff; --accfg:#10131c; --card:#1e1e1c; --ok:#6fcf8a; --warn:#f0a04b; }
