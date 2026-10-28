@@ -5,11 +5,11 @@
 ## Formato da lista
 
 - **Na tela:** `quantidade Nome (SET) número`, com o(s) comandante(s) na primeira linha, uma linha em branco e as demais cartas em ordem alfabética.
-- **Ao copiar** (botões **Copiar lista** e **Criar no endstep.cc**): a mesma lista no formato de exportação do MTG Arena, com três etiquetas a mais. `Name` dá o nome do deck e a seção `Commander` indica o comandante; colada no endstep.cc (*Paste a list* › *Apply*), o deck já fica com nome, 100 cartas e comandante. Exemplo:
+- **Ao copiar** (botões **Copiar lista** e **Criar no endstep.cc**): a mesma lista no formato de exportação do MTG Arena, com três etiquetas a mais. `Name` dá o nome do deck no formato *Deck · Comandante (SIGLA ano)*, com a sigla de três letras da coleção e o ano de lançamento (Secret Lair: o ano do deck), e a seção `Commander` indica o comandante; colada no endstep.cc (*Paste a list* › *Apply*), o deck já fica com nome, 100 cartas e comandante. Exemplo:
 
 ```
 About
-Name Turtle Power!
+Name Turtle Power! · Heroes in a Half Shell (TMC 2026)
 
 Commander
 1 Heroes in a Half Shell (TMC) 6
