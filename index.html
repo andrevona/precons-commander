@@ -84,7 +84,7 @@
   .busca input.filtro::-webkit-search-cancel-button { -webkit-appearance:none; display:none; }
   .limpar { position:absolute; right:6px; top:50%; transform:translateY(-50%); width:32px; height:32px; border:0; border-radius:999px; background:var(--line); color:var(--fg); font-size:20px; line-height:1; font-family:inherit; cursor:pointer; padding:0; }
   .limpar:hover { background:var(--acc); color:var(--accfg); }
-  .sugestoes { position:absolute; left:0; right:0; top:calc(100% + 4px); z-index:20; margin:0; padding:4px; list-style:none; background:var(--card); border:1px solid var(--line); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.25); max-height:360px; overflow:auto; }
+  .sugestoes { position:absolute; left:0; right:0; top:calc(100% + 4px); z-index:20; margin:0; padding:4px; list-style:none; background:var(--card); border:1px solid var(--line); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.25); max-height:min(360px, 50vh); overflow:auto; overscroll-behavior:contain; }
   .sugestoes li { display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:9px 10px; border-radius:7px; cursor:pointer; }
   .sugestoes li[aria-selected="true"] { background:var(--line); }
   .sugestoes .txt { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -549,7 +549,7 @@ function aplicarBusca() {
 // Autocomplete do filtro: sugere coleções, decks, comandantes e cartas (em inglês e, quando há, em português) conforme se digita.
 // Ordem: começa com o texto, depois início de palavra, depois contém; empate: coleção, deck, comandante, carta em inglês, carta em português.
 // Item em português (k = 4): t = nome em português, en = o nome original; ao escolher, o campo recebe o nome original.
-var SUG = null, sugLista = [], sugAtiva = -1, SEP = /[\s,\-\/(:'"!&]/;
+var SUG = null, sugLista = [], sugAtiva = -1, SEP = /[\s,\-\/(:'"!&]/, MAX_SUG = 50; // até 50 sugestões; a lista rola
 function indiceSug() {
   if (SUG) return SUG;
   var visto = {}; SUG = [];
@@ -578,13 +578,18 @@ function sugerir(txt) {
     if (melhor >= 0) res.push({ it: it, s: melhor, pos: pos });
   });
   res.sort(function (a, b) { return a.s - b.s || a.it.k - b.it.k || a.it.t.length - b.it.t.length || (a.it.l < b.it.l ? -1 : 1); });
-  return res.slice(0, 8);
+  return res.slice(0, MAX_SUG);
 }
-function pintarSug() {
+function pintarSug(rolar) { // rolar: só com o teclado (com o mouse, rolar a lista faria o item sob o cursor mudar sozinho)
   var f = $("filtro");
   [].forEach.call($("sugestoes").children, function (li, i) { li.setAttribute("aria-selected", i === sugAtiva ? "true" : "false"); });
-  if (sugAtiva >= 0) { f.setAttribute("aria-activedescendant", "sug-" + sugAtiva); var li = $("sug-" + sugAtiva); if (li && li.scrollIntoView) li.scrollIntoView({ block: "nearest" }); }
+  if (sugAtiva >= 0) { f.setAttribute("aria-activedescendant", "sug-" + sugAtiva); var li = $("sug-" + sugAtiva); if (rolar && li) rolarAte(li); }
   else f.removeAttribute("aria-activedescendant");
+}
+// Rola só a lista de sugestões (não a página) até o item ficar à vista.
+function rolarAte(li) {
+  var ul = $("sugestoes"), a = li.offsetTop, b = a + li.offsetHeight;
+  if (a < ul.scrollTop) ul.scrollTop = a - 4; else if (b > ul.scrollTop + ul.clientHeight) ul.scrollTop = b - ul.clientHeight + 4;
 }
 function fecharSug() {
   var ul = $("sugestoes"); ul.hidden = true; ul.innerHTML = ""; sugLista = []; sugAtiva = -1;
@@ -627,7 +632,7 @@ $("filtro").addEventListener("keydown", function (e) {
     e.preventDefault();
     var n = sugLista.length;
     sugAtiva = e.key === "ArrowDown" ? (sugAtiva + 1) % n : (sugAtiva <= 0 ? n - 1 : sugAtiva - 1);
-    pintarSug();
+    pintarSug(true);
   } else if (e.key === "Enter") {
     if (!ul.hidden && sugAtiva >= 0) { e.preventDefault(); escolherSug(sugAtiva); } else fecharSug();
   } else if (e.key === "Escape") {
