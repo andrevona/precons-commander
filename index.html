@@ -89,6 +89,11 @@
   .aviso { position:fixed; left:50%; bottom:24px; transform:translateX(-50%); z-index:60; max-width:calc(100% - 32px); background:var(--fg); color:var(--bg); padding:10px 16px; border-radius:12px; font-size:14px; box-shadow:0 6px 22px rgba(0,0,0,.25); text-align:center; }
   footer { margin-top:28px; color:var(--mut); font-size:12.5px; text-align:center; }
   footer a { color:inherit; }
+  footer .como { max-width:540px; margin:16px auto 0; text-align:left; }
+  footer .como p { margin:0 0 6px; text-align:center; }
+  footer .como ol { margin:0; padding-left:22px; }
+  footer .como li { margin:4px 0; }
+  footer .como b { color:var(--fg); }
   #colecoes .tab, #grupos .tab { position:relative; z-index:1; }
   #colecoes .tab.on, #grupos .tab.on { z-index:3; }
   .tab .mais { margin-left:8px; font-size:12px; opacity:.8; white-space:nowrap; }
@@ -184,7 +189,12 @@ var TXT = {
     passo1: 'Toque em <b>Paste a list</b>.', passo2: 'Cole a lista (<span id="guiaColar"></span>).',
     passo3: 'Toque em <b>Apply</b>: o nome, as 100 cartas e o comandante entram sozinhos.', passo4: 'Em <b>Set format</b>, escolha <b>Commander</b>.',
     colarToque: 'toque longo › Colar', naoMostrar: 'Não mostrar de novo', fechar: 'Fechar', abrir: 'Abrir endstep.cc',
-    rodape: '{nd} decks em {nc} coleções · listas conferidas com o {mtgwtf} em {data} · {sobre}<br>Um facilitador para quem joga no {endstep} (projeto não oficial): a lista copiada já leva o nome do deck e o comandante.',
+    rodape: '{nd} decks em {nc} coleções · listas conferidas com o {mtgwtf} em {data} · {sobre}',
+    rodIntro: 'Um facilitador para quem joga no {endstep} (projeto não oficial). Como usar:',
+    rodPassos: ['Escolha o deck e toque em <b>Criar no endstep.cc</b>: a lista é copiada e o {endstep} abre com um deck novo (é preciso estar logado lá).',
+      'No deck novo, toque em <b>Paste a list</b>.',
+      'Cole a lista inteira ({colar}) e toque em <b>Apply</b>: o nome, as 100 cartas e o comandante entram sozinhos.',
+      'Em <b>Set format</b>, escolha <b>Commander</b>.'],
     sobre: 'sobre o projeto',
     tCol: 'coleção', tDeck: 'deck', tCmd: 'comandante', tCarta: 'carta',
     filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Decks por cores',
@@ -205,7 +215,12 @@ var TXT = {
     passo1: 'Tap <b>Paste a list</b>.', passo2: 'Paste the list (<span id="guiaColar"></span>).',
     passo3: 'Tap <b>Apply</b>: the name, the 100 cards and the commander come in on their own.', passo4: 'In <b>Set format</b>, choose <b>Commander</b>.',
     colarToque: 'long-press › Paste', naoMostrar: "Don't show again", fechar: 'Close', abrir: 'Open endstep.cc',
-    rodape: '{nd} decks in {nc} sets · lists checked against {mtgwtf} on {data} · {sobre}<br>A helper for {endstep} players (unofficial project): the copied list already carries the deck name and commander.',
+    rodape: '{nd} decks in {nc} sets · lists checked against {mtgwtf} on {data} · {sobre}',
+    rodIntro: 'A helper for {endstep} players (unofficial project). How to use it:',
+    rodPassos: ['Pick a deck and tap <b>Create on endstep.cc</b>: the list is copied and {endstep} opens with a new deck (you need to be logged in there).',
+      'On the new deck, tap <b>Paste a list</b>.',
+      'Paste the whole list ({colar}) and tap <b>Apply</b>: the name, the 100 cards and the commander come in on their own.',
+      'In <b>Set format</b>, choose <b>Commander</b>.'],
     sobre: 'about the project',
     tCol: 'set', tDeck: 'deck', tCmd: 'commander', tCarta: 'card',
     filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'Decks by color',
@@ -226,7 +241,12 @@ var TXT = {
     passo1: 'Toca <b>Paste a list</b>.', passo2: 'Pega la lista (<span id="guiaColar"></span>).',
     passo3: 'Toca <b>Apply</b>: el nombre, las 100 cartas y el comandante se cargan solos.', passo4: 'En <b>Set format</b>, elige <b>Commander</b>.',
     colarToque: 'mantén pulsado › Pegar', naoMostrar: 'No volver a mostrar', fechar: 'Cerrar', abrir: 'Abrir endstep.cc',
-    rodape: '{nd} mazos en {nc} colecciones · listas verificadas con {mtgwtf} el {data} · {sobre}<br>Una ayuda para quien juega en {endstep} (proyecto no oficial): la lista copiada ya lleva el nombre del mazo y el comandante.',
+    rodape: '{nd} mazos en {nc} colecciones · listas verificadas con {mtgwtf} el {data} · {sobre}',
+    rodIntro: 'Una ayuda para quien juega en {endstep} (proyecto no oficial). Cómo usarla:',
+    rodPassos: ['Elige el mazo y toca <b>Crear en endstep.cc</b>: la lista se copia y {endstep} se abre con un mazo nuevo (necesitas haber iniciado sesión allí).',
+      'En el mazo nuevo, toca <b>Paste a list</b>.',
+      'Pega la lista completa ({colar}) y toca <b>Apply</b>: el nombre, las 100 cartas y el comandante se cargan solos.',
+      'En <b>Set format</b>, elige <b>Commander</b>.'],
     sobre: 'sobre el proyecto',
     tCol: 'colección', tDeck: 'mazo', tCmd: 'comandante', tCarta: 'carta',
     filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Mazos por colores',
@@ -239,6 +259,12 @@ var IDIOMA = (function () {
   return "en";
 })();
 function t(k, v) { var s = TXT[IDIOMA][k]; if (v) for (var x in v) s = s.split("{" + x + "}").join(v[x]); return s; }
+// Como colar neste aparelho: atalho do teclado no computador, toque longo no celular.
+function atalhoColar() {
+  var pl = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "", ua = navigator.userAgent || "";
+  var celular = /Android/i.test(ua) || /iPhone|iPad|iPod/i.test(ua) || (/Mac/i.test(pl) && navigator.maxTouchPoints > 1);
+  return celular ? t("colarToque") : (/Mac/i.test(pl) ? "⌘V" : "Ctrl+V");
+}
 function aplicarIdioma() {
   document.documentElement.lang = { pt: "pt-BR", en: "en", es: "es" }[IDIOMA];
   [].forEach.call(document.querySelectorAll("[data-t]"), function (e) { e.innerHTML = t(e.getAttribute("data-t")); });
@@ -248,9 +274,11 @@ function aplicarIdioma() {
   var p = ATUALIZADO.split("-"), data = ATUALIZADO;
   var nl = navigator.language || "", loc = nl.slice(0, 2).toLowerCase() === IDIOMA ? nl : { pt: "pt-BR", en: "en-US", es: "es" }[IDIOMA];
   try { data = new Intl.DateTimeFormat(loc, { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(+p[0], p[1] - 1, +p[2])); } catch (e) {}
-  $("rodape").innerHTML = t("rodape", { nd: nd, nc: COLECOES.length, data: data,
-    mtgwtf: '<a href="https://mtg.wtf">mtg.wtf</a>', endstep: '<a href="https://endstep.cc">endstep.cc</a>',
-    sobre: '<a href="https://github.com/andrevona/precons-commander">' + t("sobre") + '</a>' });
+  var ln = { mtgwtf: '<a href="https://mtg.wtf">mtg.wtf</a>', endstep: '<a href="https://endstep.cc">endstep.cc</a>' };
+  $("rodape").innerHTML = '<div>' + t("rodape", { nd: nd, nc: COLECOES.length, data: data, mtgwtf: ln.mtgwtf,
+    sobre: '<a href="https://github.com/andrevona/precons-commander">' + t("sobre") + '</a>' }) + '</div>' +
+    '<div class="como"><p>' + t("rodIntro", ln) + '</p><ol>' +
+    TXT[IDIOMA].rodPassos.map(function (x) { return '<li>' + x.split("{endstep}").join(ln.endstep).split("{colar}").join(atalhoColar()) + '</li>'; }).join("") + '</ol></div>';
 }
 var GRUPOS = ["Universes Within", "Universes Beyond", "Starters", "Secret Lair"];
 var grpAtual = GRUPOS[0];
@@ -819,8 +847,7 @@ aplicarIdioma();
 (function () {
   $("btnComp").innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONES[SO] + '</svg>';
   $("btnComp").setAttribute("data-so", SO);
-  var mac = /Mac/i.test((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "");
-  $("guiaColar").textContent = SO === "generico" ? (mac ? "⌘V" : "Ctrl+V") : t("colarToque");
+  $("guiaColar").textContent = atalhoColar();
 })();
 function deckAtualObj() { return COLECOES[colAtual].decks[deckAtual]; }
 function linkDoDeck() { return location.href.split("#")[0] + "#" + idDe(deckAtualObj()); }
@@ -857,12 +884,12 @@ var ENDSTEP = "https://endstep.cc/decks/new"; // editor de deck novo do endstep.
 // carrega as cartas e põe o(s) comandante(s) no trono. O formato "Commander" (Set format) é um clique a mais lá.
 function textoEndstep(deck) {
   var blocos = deck.lista.split("\n\n");
-  // Nome do deck no endstep.cc: "Deck · Comandante (SIGLA ano)", ex. "Heavenly Inferno · Kaalia of the Vast (CMD 2011)".
+  // Nome do deck no endstep.cc: "Deck - Comandante (SIGLA ano)", ex. "Heavenly Inferno - Kaalia of the Vast (CMD 2011)".
   // SIGLA = código de três letras da coleção em caixa alta (o id da pasta; Commander 2011 = CMD); ano = o da coleção
   // (Secret Lair: o ano que vem no nome do deck).
   var col = deck._col, ym = /\s*\((\d{4})\)$/.exec(deck.nome);
   var nome = deck.nome.replace(/\s*\(\d{4}\)$/, ""), sigla = col.id === "c11" ? "CMD" : col.id.toUpperCase(), ano = col.ano || (ym ? ym[1] : "");
-  nome += " · " + deck.comandante + " (" + sigla + (ano ? " " + ano : "") + ")";
+  nome += " - " + deck.comandante + " (" + sigla + (ano ? " " + ano : "") + ")";
   return "About\nName " + nome + "\n\nCommander\n" + blocos[0].trim() + "\n\nDeck\n" + blocos.slice(1).join("\n").trim() + "\n";
 }
 var CHAVE_DIRETO = "precons-endstep-direto"; // "Não mostrar de novo" (só neste aparelho)
