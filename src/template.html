@@ -188,7 +188,7 @@ var TXT = {
     sobre: 'sobre o projeto',
     tCol: 'coleção', tDeck: 'deck', tCmd: 'comandante', tCarta: 'carta',
     filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Cores do deck',
-    cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, sem: 'sem {c}', cinco: 'Cinco cores'
+    cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'Cinco cores'
   },
   en: {
     sub: 'Pick a set and a deck, or use the filter. The list uses the <code>quantity Name (SET) number</code> format, ready to paste into endstep.cc.',
@@ -209,7 +209,7 @@ var TXT = {
     sobre: 'about the project',
     tCol: 'set', tDeck: 'deck', tCmd: 'commander', tCarta: 'card',
     filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'Deck colors',
-    cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, sem: 'no {c}', cinco: 'Five colors'
+    cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'Five colors'
   },
   es: {
     sub: 'Elige la colección y el mazo o usa el filtro. La lista está en el formato <code>cantidad Nombre (SET) número</code>, lista para pegar en endstep.cc.',
@@ -230,7 +230,7 @@ var TXT = {
     sobre: 'sobre el proyecto',
     tCol: 'colección', tDeck: 'mazo', tCmd: 'comandante', tCarta: 'carta',
     filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Colores del mazo',
-    cores: { W: 'Blanco', U: 'Azul', B: 'Negro', R: 'Rojo', G: 'Verde', C: 'Incoloro' }, sem: 'sin {c}', cinco: 'Cinco colores'
+    cores: { W: 'Blanco', U: 'Azul', B: 'Negro', R: 'Rojo', G: 'Verde', C: 'Incoloro' }, cinco: 'Cinco colores'
   }
 };
 var IDIOMA = (function () {
@@ -695,14 +695,14 @@ document.addEventListener("pointerup", function (e) {
 });
 $("anos").onchange = function () { if (animando) { this.value = anoFiltro; return; } anoFiltro = this.value; recolhido = false; desenhar(); };
 // Filtro "Cores do deck": pílula igual à do ano. Só as combinações que existem nos decks, de uma a cinco cores (nomes das guildas
-// e clãs, que são os mesmos em todos os idiomas; quatro cores: "sem X"). A primeira opção ("Cores do deck") é sem filtro.
+// e clãs, que são os mesmos em todos os idiomas; quatro cores: Yore, Witch, Ink, Dune e Glint). A primeira opção ("Cores do deck") é sem filtro.
 var NOME_COR = { WU: "Azorius", UB: "Dimir", BR: "Rakdos", RG: "Gruul", WG: "Selesnya", WB: "Orzhov", UR: "Izzet", BG: "Golgari", WR: "Boros", UG: "Simic",
-  WUB: "Esper", UBR: "Grixis", BRG: "Jund", WRG: "Naya", WUG: "Bant", WBG: "Abzan", WUR: "Jeskai", UBG: "Sultai", WBR: "Mardu", URG: "Temur" };
+  WUB: "Esper", UBR: "Grixis", BRG: "Jund", WRG: "Naya", WUG: "Bant", WBG: "Abzan", WUR: "Jeskai", UBG: "Sultai", WBR: "Mardu", URG: "Temur",
+  UBRG: "Glint", WBRG: "Dune", WURG: "Ink", WUBG: "Witch", WUBR: "Yore" }; // quatro cores: os nomes (sem a cor que falta)
 function rotuloCor(c) { // nome curto; as cores aparecem nos símbolos de mana ao lado
   var L = TXT[IDIOMA].cores;
   if (c.length === 1) return L[c];
   if (c.length === 5) return t("cinco");
-  if (c.length === 4) { var f = "WUBRG".split("").filter(function (x) { return c.indexOf(x) < 0; })[0]; return t("sem", { c: L[f].toLowerCase() }); }
   return NOME_COR[c] || c;
 }
 // Símbolos de mana (SVGs do Scryfall em icons/mana/, coloridos), um por cor, na ordem WUBRG; "C" = incolor.
