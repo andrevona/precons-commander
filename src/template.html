@@ -187,8 +187,8 @@ var TXT = {
     rodape: '{nd} decks em {nc} coleções · listas conferidas com o {mtgwtf} em {data} · {sobre}<br>Um facilitador para quem joga no {endstep} (projeto não oficial): a lista copiada já leva o nome do deck e o comandante.',
     sobre: 'sobre o projeto',
     tCol: 'coleção', tDeck: 'deck', tCmd: 'comandante', tCarta: 'carta',
-    filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Cores do deck',
-    cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'Cinco cores'
+    filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Decks por cores',
+    cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'WUBRG'
   },
   en: {
     sub: 'Pick a set and a deck, or use the filter. The list uses the <code>quantity Name (SET) number</code> format, ready to paste into endstep.cc.',
@@ -208,8 +208,8 @@ var TXT = {
     rodape: '{nd} decks in {nc} sets · lists checked against {mtgwtf} on {data} · {sobre}<br>A helper for {endstep} players (unofficial project): the copied list already carries the deck name and commander.',
     sobre: 'about the project',
     tCol: 'set', tDeck: 'deck', tCmd: 'commander', tCarta: 'card',
-    filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'Deck colors',
-    cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'Five colors'
+    filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'Decks by color',
+    cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'WUBRG'
   },
   es: {
     sub: 'Elige la colección y el mazo o usa el filtro. La lista está en el formato <code>cantidad Nombre (SET) número</code>, lista para pegar en endstep.cc.',
@@ -229,8 +229,8 @@ var TXT = {
     rodape: '{nd} mazos en {nc} colecciones · listas verificadas con {mtgwtf} el {data} · {sobre}<br>Una ayuda para quien juega en {endstep} (proyecto no oficial): la lista copiada ya lleva el nombre del mazo y el comandante.',
     sobre: 'sobre el proyecto',
     tCol: 'colección', tDeck: 'mazo', tCmd: 'comandante', tCarta: 'carta',
-    filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Colores del mazo',
-    cores: { W: 'Blanco', U: 'Azul', B: 'Negro', R: 'Rojo', G: 'Verde', C: 'Incoloro' }, cinco: 'Cinco colores'
+    filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Mazos por colores',
+    cores: { W: 'Blanco', U: 'Azul', B: 'Negro', R: 'Rojo', G: 'Verde', C: 'Incoloro' }, cinco: 'WUBRG'
   }
 };
 var IDIOMA = (function () {
@@ -303,7 +303,7 @@ function carregarPT() {
   }).catch(function () { ptEstado = 0; ptFalha = Date.now(); });
 }
 
-// Filtro "Cores do deck" (ao lado da busca): identidade de cor do deck = a do(s) comandante(s), correspondência exata (deck.ci, ver build.py).
+// Filtro "Decks por cores" (ao lado da busca): identidade de cor do deck = a do(s) comandante(s), correspondência exata (deck.ci, ver build.py).
 var corFiltro = "";
 var COM_CORES = !!(COLECOES[0] && COLECOES[0].decks[0] && COLECOES[0].decks[0].ci);
 function buscando() { return !!(q || corFiltro); }
@@ -694,8 +694,8 @@ document.addEventListener("pointerup", function (e) {
   fecharSug();
 });
 $("anos").onchange = function () { if (animando) { this.value = anoFiltro; return; } anoFiltro = this.value; recolhido = false; desenhar(); };
-// Filtro "Cores do deck": pílula igual à do ano. Só as combinações que existem nos decks, de uma a cinco cores (nomes das guildas
-// e clãs, que são os mesmos em todos os idiomas; quatro cores: Yore, Witch, Ink, Dune e Glint). A primeira opção ("Cores do deck") é sem filtro.
+// Filtro "Decks por cores": pílula igual à do ano. Só as combinações que existem nos decks, de uma a cinco cores (nomes das guildas
+// e clãs, que são os mesmos em todos os idiomas; quatro cores: Yore, Witch, Ink, Dune e Glint). A primeira opção ("Decks por cores") é sem filtro.
 var NOME_COR = { WU: "Azorius", UB: "Dimir", BR: "Rakdos", RG: "Gruul", WG: "Selesnya", WB: "Orzhov", UR: "Izzet", BG: "Golgari", WR: "Boros", UG: "Simic",
   WUB: "Esper", UBR: "Grixis", BRG: "Jund", WRG: "Naya", WUG: "Bant", WBG: "Abzan", WUR: "Jeskai", UBG: "Sultai", WBR: "Mardu", URG: "Temur",
   UBRG: "Glint", WBRG: "Dune", WURG: "Ink", WUBG: "Witch", WUBR: "Yore" }; // quatro cores: os nomes (sem a cor que falta)
@@ -724,7 +724,7 @@ function montarFiltroCor() {
     for (var i = 0; i < a.length; i++) { var d = ordem.indexOf(a[i]) - ordem.indexOf(b[i]); if (d) return d; }
     return 0;
   });
-  CIS.unshift(""); // primeira opção: sem filtro ("Cores do deck")
+  CIS.unshift(""); // primeira opção: sem filtro ("Decks por cores")
   var ul = $("corMenu");
   CIS.forEach(function (c, i) {
     var li = document.createElement("li"), tx = document.createElement("span");
