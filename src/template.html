@@ -90,6 +90,7 @@
   .sugestoes .txt { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .sugestoes .txt b { font-weight:700; color:var(--acc); }
   .sugestoes .tipo { flex:none; color:var(--mut); font-size:12px; }
+  .sugestoes .tipo.orig { flex:0 1 auto; min-width:0; max-width:55%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 </style>
 </head>
 <body>
@@ -256,14 +257,42 @@ function nomesDe(deck) {
   }
   return deck._n;
 }
+// Busca sem maiúsculas e sem acentos ("relampago" acha "Relâmpago"; "Jotun" acha "Jötun").
+function nz(s) { return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+var memoEn = {}, memoPt = {};
+function nzEn(n) { var v = memoEn[n]; return v === undefined ? (memoEn[n] = nz(n)) : v; }
+
+// Nomes das cartas em português (nomes_pt.json: nome em inglês -> nome em português), só para buscar e sugerir;
+// a lista na tela e a lista copiada continuam em inglês. Carrega ao tocar no filtro; sem o arquivo, a busca segue só em inglês.
+var PT = null, ptEstado = 0, ptFalha = 0; // ptEstado: 0 não carregou, 1 carregando, 2 carregado
+function nzPt(n) {
+  if (!PT || !PT[n]) return "";
+  var v = memoPt[n]; return v === undefined ? (memoPt[n] = nz(PT[n])) : v;
+}
+function carregarPT() {
+  if (ptEstado || (ptFalha && Date.now() - ptFalha < 30000) || !window.fetch) return;
+  ptEstado = 1;
+  fetch("nomes_pt.json").then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (o) {
+    PT = o; memoPt = {}; SUG = null; ptEstado = 2;
+    if (q) { desenhar(); if (document.activeElement === $("filtro")) mostrarSug(); } // refaz a busca já em andamento
+  }).catch(function () { ptEstado = 0; ptFalha = Date.now(); });
+}
+
 function acertos(deck) {
   if (!q) return [];
-  return nomesDe(deck).filter(function (n) { return n.toLowerCase().indexOf(q) >= 0; });
+  var r = [];
+  nomesDe(deck).forEach(function (n) {
+    if (nzEn(n).indexOf(q) >= 0) r.push(n);
+    else if (nzPt(n).indexOf(q) >= 0) r.push(n + " (" + PT[n] + ")"); // achou pelo nome em português: mostra os dois
+  });
+  return r;
 }
 function casa(deck) {
   if (!q) return true;
   var col = deck._col;
-  return deck.nome.toLowerCase().indexOf(q) >= 0 || deck.comandante.toLowerCase().indexOf(q) >= 0 || col.nome.toLowerCase().indexOf(q) >= 0 || (col.ano && col.ano.indexOf(q) >= 0) || acertos(deck).length > 0;
+  if (!deck._nz) deck._nz = [nz(deck.nome), nz(deck.comandante)];
+  if (!col._nz) col._nz = nz(col.nome);
+  return deck._nz[0].indexOf(q) >= 0 || deck._nz[1].indexOf(q) >= 0 || col._nz.indexOf(q) >= 0 || (col.ano && col.ano.indexOf(q) >= 0) || acertos(deck).length > 0;
 }
 
 function esc(t) { return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
@@ -273,7 +302,7 @@ function destacar(deck) {
   var linhas = deck.lista.split("\n"), primeira = -1;
   esp.innerHTML = linhas.map(function (l, i) {
     var m = /^\d+\s+(.+?)\s+\(\w+\)\s+\S+$/.exec(l);
-    var hit = q && m && m[1].toLowerCase().indexOf(q) >= 0;
+    var hit = q && m && (nzEn(m[1]).indexOf(q) >= 0 || nzPt(m[1]).indexOf(q) >= 0);
     if (hit && primeira < 0) primeira = i;
     return '<div' + (hit ? ' class="hl"' : '') + '>' + (l ? esc(l) : "&nbsp;") + '</div>';
   }).join("");
@@ -513,21 +542,27 @@ function fecharConteudo() {
 $("saida").addEventListener("scroll", function () { $("espelho").scrollTop = this.scrollTop; $("espelho").scrollLeft = this.scrollLeft; });
 function aplicarBusca() {
   var f = $("filtro");
-  q = f.value.trim().toLowerCase(); recolhido = false; $("limpar").hidden = !f.value;
+  q = nz(f.value.trim()); recolhido = false; $("limpar").hidden = !f.value;
   if (q && !aberto) abrirConteudo(); else desenhar();
 }
 
-// Autocomplete do filtro: sugere coleções, decks, comandantes e cartas conforme se digita.
-// Ordem: começa com o texto, depois início de palavra, depois contém; empate: coleção, deck, comandante, carta.
+// Autocomplete do filtro: sugere coleções, decks, comandantes e cartas (em inglês e, quando há, em português) conforme se digita.
+// Ordem: começa com o texto, depois início de palavra, depois contém; empate: coleção, deck, comandante, carta em inglês, carta em português.
+// Item em português (k = 4): t = nome em português, en = o nome original; ao escolher, o campo recebe o nome original.
 var SUG = null, sugLista = [], sugAtiva = -1, SEP = /[\s,\-\/(:'"!&]/;
 function indiceSug() {
   if (SUG) return SUG;
   var visto = {}; SUG = [];
-  function add(txt, k) { var l = txt.toLowerCase(); if (visto["_" + l]) return; visto["_" + l] = 1; SUG.push({ t: txt, l: l, k: k }); }
+  function add(txt, k, en) {
+    var chave = (en ? "pt|" + en + "|" : "") + txt.toLowerCase();
+    if (visto[chave]) return; visto[chave] = 1;
+    SUG.push({ t: txt, l: nz(txt), k: k, en: en });
+  }
   COLECOES.forEach(function (c) { add(c.nome, 0); });
   COLECOES.forEach(function (c) { c.decks.forEach(function (d) { add(d.nome, 1); }); });
   COLECOES.forEach(function (c) { c.decks.forEach(function (d) { add(d.comandante, 2); }); });
   COLECOES.forEach(function (c) { c.decks.forEach(function (d) { nomesDe(d).forEach(function (n) { add(n, 3); }); }); });
+  if (PT) COLECOES.forEach(function (c) { c.decks.forEach(function (d) { nomesDe(d).forEach(function (n) { if (PT[n]) add(PT[n], 4, n); }); }); });
   return SUG;
 }
 function sugerir(txt) {
@@ -557,6 +592,7 @@ function fecharSug() {
 }
 function mostrarSug() {
   var ul = $("sugestoes"), tipos = [t("tCol"), t("tDeck"), t("tCmd"), t("tCarta")];
+  if (q.length >= 3) carregarPT(); // garante que os nomes em português estejam a caminho (ex.: texto colado)
   var res = q.length >= 3 ? sugerir(q) : []; // só a partir da terceira letra, senão são sugestões demais
   if (!res.length) { fecharSug(); return; }
   sugLista = res.map(function (r) { return r.it; }); sugAtiva = -1;
@@ -564,7 +600,8 @@ function mostrarSug() {
   res.forEach(function (r, i) {
     var li = document.createElement("li"), tx = document.createElement("span"), tp = document.createElement("span"), b = document.createElement("b");
     li.id = "sug-" + i; li.setAttribute("role", "option"); li.setAttribute("aria-selected", "false");
-    tx.className = "txt"; tp.className = "tipo"; tp.textContent = tipos[r.it.k];
+    tx.className = "txt"; tp.className = "tipo"; tp.textContent = r.it.en ? "→ " + r.it.en : tipos[r.it.k];
+    if (r.it.en) { tp.className = "tipo orig"; tp.title = r.it.en; }
     tx.appendChild(document.createTextNode(r.it.t.slice(0, r.pos)));
     b.textContent = r.it.t.slice(r.pos, r.pos + q.length); tx.appendChild(b);
     tx.appendChild(document.createTextNode(r.it.t.slice(r.pos + q.length)));
@@ -578,10 +615,11 @@ function mostrarSug() {
 }
 function escolherSug(i) {
   var it = sugLista[i]; if (!it) return;
-  var f = $("filtro"); f.value = it.t; fecharSug(); aplicarBusca();
+  var f = $("filtro"); f.value = it.en || it.t; fecharSug(); aplicarBusca(); // sugestão em português: o campo recebe o nome original
   if (window.matchMedia && matchMedia("(pointer: coarse)").matches) f.blur(); // no celular, fecha o teclado para ver o resultado
 }
-$("filtro").oninput = function () { aplicarBusca(); mostrarSug(); };
+$("filtro").oninput = function () { carregarPT(); aplicarBusca(); mostrarSug(); };
+$("filtro").addEventListener("focus", carregarPT);
 $("filtro").addEventListener("keydown", function (e) {
   var ul = $("sugestoes");
   if (e.key === "ArrowDown" || e.key === "ArrowUp") {

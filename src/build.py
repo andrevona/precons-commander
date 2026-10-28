@@ -62,3 +62,15 @@ ATUALIZADO="2026-10-27"  # data (AAAA-MM-DD) da última conferência de todos os
 html=open("template.html",encoding="utf-8").read().replace("__GRUPOS__",json.dumps(GRUPOS)).replace("__ATUALIZADO__",ATUALIZADO).replace("__DATA__",json.dumps(data,ensure_ascii=False).replace("</","<\\/"))
 open("precons_offline.html","w",encoding="utf-8").write(html)
 print(len(html))
+# nomes_pt.json: nome da carta na lista (inglês) -> nome em português, só onde existe e difere; usado só na busca (ver tools/atributos.py)
+import csv,os
+if os.path.exists("cartas.csv") and os.path.exists("impressoes.csv"):
+    pt_carta={r["carta"]:r["nome_pt"] for r in csv.DictReader(open("cartas.csv",encoding="utf-8"))}
+    pt={}
+    for r in csv.DictReader(open("impressoes.csv",encoding="utf-8")):
+        p=pt_carta.get(r["carta"],"")
+        if p and p!=r["nome_lista"]: pt[r["nome_lista"]]=p
+    open("nomes_pt.json","w",encoding="utf-8").write(json.dumps(pt,ensure_ascii=False,separators=(",",":"),sort_keys=True))
+    print("nomes_pt.json:",len(pt),"nomes")
+else:
+    print("AVISO: cartas.csv/impressoes.csv não encontrados; nomes_pt.json não foi gerado (rode tools/atributos.py)")
