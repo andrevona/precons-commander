@@ -133,6 +133,7 @@
   footer details[open] summary { margin-bottom:10px; }
   footer .como ol { margin:0; padding-left:22px; }
   footer .como li { margin:4px 0; }
+  footer .como p.intro { margin:10px 0 6px; text-align:left; }
   footer .como p.nota { margin:8px 0 0; text-align:left; }
   footer .como b { color:var(--fg); }
   #colecoes .tab, #grupos .tab { position:relative; z-index:1; }
@@ -335,7 +336,7 @@ function aplicarIdioma() {
     github: '<a href="https://github.com/andrevona/precons-commander/issues/new"' + NA + '>' + t("lkGithub") + '</a>' });
   $("rodape").innerHTML = '<div>' + t("rodape", { nd: nd, nc: COLECOES.length, data: data, mtgwtf: ln.mtgwtf,
     sobre: '<a href="https://github.com/andrevona/precons-commander"' + NA + '>' + t("sobre") + '</a>' }) + '</div>' +
-    '<div class="como"><p>' + t("rodIntro", ln) + '</p><details><summary>' + t("dicaUso") + '</summary><ol>' +
+    '<div class="como"><details><summary>' + t("dicaUso") + '</summary><p class="intro">' + t("rodIntro", ln) + '</p><ol>' +
     TXT[IDIOMA].rodPassos.map(function (x) { return '<li>' + x.split("{endstep}").join(ln.endstep).split("{colar}").join(atalhoColar()) + '</li>'; }).join("") + '</ol><p class="nota">' + t("rodNota") + '</p><p class="nota">' + problemas + '</p></details></div>';
 }
 var GRUPOS = __GRUPOS__;
