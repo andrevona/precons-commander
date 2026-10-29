@@ -35,7 +35,7 @@ As listas dos decks vêm do [mtg.wtf](https://mtg.wtf) (página de cada deck). C
 ## Como usar
 
 1. Abra um grupo (Universes Within, Universes Beyond, Starters ou Secret Lair), escolha a coleção e o deck. Ou use o campo de busca: carta, deck, comandante, coleção ou ano, em inglês ou português ("Anel Solar" acha o Sol Ring).
-2. Se quiser, refine com **Por cor** (identidade de cor do comandante) e **Por ano**; os filtros combinam entre si e com a busca. **Surpreenda-me** sorteia um deck; o botão de pessoas ao lado faz o **sorteio em grupo** (2 a 4 jogadores, nomes opcionais, free-for-all ou duplas com 4), com um deck diferente para cada um e um link para compartilhar o resultado. **Limpar tudo** volta ao início.
+2. Se quiser, refine com **Por cor** (identidade de cor do comandante) e **Por ano**; os filtros combinam entre si e com a busca. **Surpreenda-me** sorteia um deck; o botão de pessoas ao lado faz o **sorteio em grupo** (2 a 4 jogadores, nomes opcionais, free-for-all ou duplas com 4), com um deck diferente para cada um e um link para compartilhar o resultado. No quadro do sorteio, **Excluir do sorteio** tira coleções ou decks (valem só na aba aberta) e, em cada cartão, o botão do dado troca só o deck daquele jogador. **Limpar tudo** volta ao início.
 3. Toque em **Criar no endstep.cc** (copia a lista e abre o editor; é preciso estar logado lá) ou em **Copiar lista**.
 4. No endstep.cc: *Paste a list* › cole › *Apply*; em *Set format*, escolha *Commander*.
 

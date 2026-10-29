@@ -194,10 +194,54 @@
   .jog .dnome .simbolos { margin-left:6px; vertical-align:-3px; }
   .jog .dnome .simbolos img { width:14px; height:14px; }
   .jog .dinfo { font-size:12.5px; color:var(--mut); }
-  .jog.rev { animation:revela .5s cubic-bezier(.2,.8,.2,1) both; }
   @keyframes revela { from { opacity:0; transform:translateY(12px) scale(.94); } }
-  @media (prefers-reduced-motion: reduce) { .jog.rev, .mesa-acoes .gira svg { animation:none; } }
+  @media (prefers-reduced-motion: reduce) { .mesa-acoes .gira svg { animation:none; } }
   .mesa-dica { color:var(--mut); margin:14px 0 0; }
+  /* Trocar o deck de um jogador: o cartão vira um invólucro com o botão do jogador e um botão redondo (dado) no canto. */
+  .jogw { position:relative; display:flex; }
+  .jogw .jog { flex:1; min-width:0; }
+  .jogw .quem { padding-right:30px; }
+  .jogw.rev { animation:revela .5s cubic-bezier(.2,.8,.2,1) both; }
+  .reroll { position:absolute; top:7px; right:7px; z-index:2; width:30px; height:30px; padding:0; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:999px; background:var(--card); color:var(--mut); cursor:pointer; }
+  .reroll:hover { color:var(--fg); border-color:var(--fg); }
+  .reroll svg { width:16px; height:16px; }
+  @media (prefers-reduced-motion: reduce) { .jogw.rev { animation:none; } }
+  /* Excluir do sorteio (só no sorteio em grupo; guardado só na aba) */
+  .excl { margin-top:16px; border:1px solid var(--line); border-radius:10px; padding:0 12px; }
+  .excl > summary { display:flex; align-items:center; gap:10px; padding:10px 0; cursor:pointer; list-style:none; font-size:14px; font-weight:600; }
+  .excl > summary::-webkit-details-marker { display:none; }
+  .excl > summary::after { content:"▾"; font-size:11px; color:var(--mut); margin-left:auto; transition:transform .2s; }
+  .excl[open] > summary::after { transform:rotate(180deg); }
+  .excl .resumo { font-weight:400; font-size:12.5px; color:var(--mut); }
+  .excl-corpo { padding:0 0 12px; }
+  .excl-corpo > .rot:first-child { margin-top:2px; }
+  .excl-gh { display:flex; align-items:center; gap:4px; }
+  .excl-l { display:flex; align-items:center; gap:8px; padding:5px 0; font-size:14px; cursor:pointer; flex:1; min-width:0; }
+  .excl-gh .excl-l { font-weight:600; }
+  .excl-l input { width:18px; height:18px; flex:none; margin:0; accent-color:var(--f-acc); }
+  .excl-l .n { margin-left:auto; color:var(--mut); font-size:12px; font-weight:400; }
+  .excl-tg { flex:none; width:30px; height:30px; border:0; border-radius:8px; background:transparent; color:var(--mut); font:inherit; font-size:11px; cursor:pointer; }
+  .excl-tg:hover { background:var(--line); color:var(--fg); }
+  .excl-tg[aria-expanded="true"] { transform:rotate(180deg); }
+  .excl-cols { margin:0 0 6px 8px; padding-left:12px; border-left:2px solid var(--line); }
+  .excl-cols[hidden] { display:none; }
+  .excl-busca input { width:100%; font:inherit; font-size:16px; padding:8px 10px; border:1.5px solid var(--inBorda); border-radius:8px; background:var(--inBg); color:var(--fg); }
+  .excl-busca input::placeholder { color:var(--mut); opacity:1; }
+  .excl-busca input:focus { outline:none; border-color:var(--f-acc); box-shadow:0 0 0 3px var(--inAnel); }
+  .excl-sug { list-style:none; margin:4px 0 0; padding:4px; border:1px solid var(--line); border-radius:10px; background:var(--card); max-height:220px; overflow:auto; }
+  .excl-sug[hidden] { display:none; }
+  .excl-sug li { padding:7px 8px; border-radius:7px; cursor:pointer; font-size:14px; overflow-wrap:anywhere; }
+  .excl-sug li small { display:block; color:var(--mut); font-size:12px; }
+  .excl-sug li[aria-selected="true"], .excl-sug li:hover { background:var(--line); }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .chip { font:inherit; font-size:13px; display:inline-flex; align-items:center; gap:6px; max-width:100%; text-align:left; border:1px solid var(--line); border-radius:999px; padding:3px 8px 3px 11px; background:var(--bg); color:var(--fg); cursor:pointer; overflow-wrap:anywhere; }
+  .chip:hover { border-color:var(--fg); }
+  .chip i { font-style:normal; color:var(--mut); flex:none; }
+  .excl-rod { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 12px; margin-top:12px; }
+  .excl-rod p { margin:0; flex:1 1 200px; font-size:12px; color:var(--mut); }
+  .excl-aviso { margin:8px 0 0; color:var(--warn); font-size:13px; }
+  .excl-aviso[hidden] { display:none; }
+  button:disabled { opacity:.5; cursor:not-allowed; }
 </style>
 </head>
 <body>
@@ -267,6 +311,18 @@
     <div class="nomes" id="mesaNomes"></div>
     <div id="mesaModoCx"><div class="rot" id="rotModo" data-t="mesaModo">Modo</div>
       <div class="seg" id="mesaModo" role="group" aria-labelledby="rotModo"><button type="button" data-d="0" data-t="ffa">Free-for-all</button><button type="button" data-d="1" data-t="duplasOpc">Duplas (2 contra 2)</button></div></div>
+    <details class="excl" id="mesaExcl">
+      <summary><span data-t="exclTit">Excluir do sorteio</span><span class="resumo" id="exclResumo"></span></summary>
+      <div class="excl-corpo">
+        <div class="rot" data-t="colecoes">Coleções</div>
+        <div id="exclGrupos"></div>
+        <div class="rot" data-t="decks">Decks</div>
+        <div class="excl-busca"><input type="text" id="exclBusca" autocomplete="off" spellcheck="false" data-tp="exclBuscar" data-ta="exclBuscar" placeholder="Buscar deck ou comandante…" role="combobox" aria-expanded="false" aria-controls="exclSug"><ul class="excl-sug" id="exclSug" role="listbox" hidden></ul></div>
+        <div class="chips" id="exclChips"></div>
+        <div class="excl-rod"><p data-t="exclNota">As exclusões valem só nesta aba: somem ao fechá-la.</p><button type="button" class="ghost" id="exclLimpar" data-t="exclLimpar">Limpar exclusões</button></div>
+      </div>
+    </details>
+    <p class="excl-aviso" id="exclAviso" role="alert" hidden></p>
     <div class="guia-botoes" style="margin-top:20px"><button class="ghost" id="mesaCancelar" data-t="cancelar">Cancelar</button><button class="go" id="mesaSortear" data-t="sortear">Sortear</button></div>
   </div>
 </div>
@@ -313,7 +369,10 @@ var TXT = {
     mesaJog: 'Jogadores', mesaNomes: 'Nomes (opcional)', jogador: 'Jogador {n}', mesaModo: 'Modo', ffa: 'Free-for-all', duplasOpc: 'Duplas (2 contra 2)',
     cancelar: 'Cancelar', sortear: 'Sortear', sortearDeNovo: 'Sortear de novo', mesaResumo: '{n} jogadores', duplasCurto: 'duplas', dupla: 'Dupla {x}',
     comeca: 'começa', mesaToque: 'Toque num jogador para ver a lista do deck e criar no endstep.cc.',
-    compSorteio: 'Compartilhar o sorteio', linkSorteio: 'Link do sorteio copiado ✓', copieSorteio: 'Copie o link do sorteio:'
+    compSorteio: 'Compartilhar o sorteio', linkSorteio: 'Link do sorteio copiado ✓', copieSorteio: 'Copie o link do sorteio:',
+    exclTit: 'Excluir do sorteio', exclResumo: 'Sorteando entre {a} de {b} decks', exclBuscar: 'Buscar deck ou comandante…', exclLimpar: 'Limpar exclusões',
+    exclNota: 'As exclusões valem só nesta aba: somem ao fechá-la.', exclFaltam: 'Há poucos decks para {n} jogadores. Tire alguma exclusão.', exclTirar: 'Tirar {d} da exclusão',
+    exclAbrir: 'Mostrar as coleções do grupo {g}', trocarDeck: 'Sortear outro deck para {n}', semOutro: 'Não há outro deck disponível para sortear.'
   },
   en: {
     sub: 'Pick a set and a deck, or use the filter, in English or Portuguese.',
@@ -348,7 +407,10 @@ var TXT = {
     mesaJog: 'Players', mesaNomes: 'Names (optional)', jogador: 'Player {n}', mesaModo: 'Mode', ffa: 'Free-for-all', duplasOpc: 'Teams (2 vs 2)',
     cancelar: 'Cancel', sortear: 'Draw', sortearDeNovo: 'Draw again', mesaResumo: '{n} players', duplasCurto: 'teams', dupla: 'Team {x}',
     comeca: 'goes first', mesaToque: 'Tap a player to see the deck list and create it on endstep.cc.',
-    compSorteio: 'Share the draw', linkSorteio: 'Draw link copied ✓', copieSorteio: 'Copy the draw link:'
+    compSorteio: 'Share the draw', linkSorteio: 'Draw link copied ✓', copieSorteio: 'Copy the draw link:',
+    exclTit: 'Exclude from the draw', exclResumo: 'Drawing from {a} of {b} decks', exclBuscar: 'Search deck or commander…', exclLimpar: 'Clear exclusions',
+    exclNota: 'Exclusions only last for this tab: they disappear when you close it.', exclFaltam: 'Too few decks for {n} players. Remove some exclusions.', exclTirar: 'Remove {d} from the exclusions',
+    exclAbrir: 'Show the sets in the {g} group', trocarDeck: 'Draw another deck for {n}', semOutro: 'There is no other deck available to draw.'
   },
   es: {
     sub: 'Elige la colección y el mazo o usa el filtro, en inglés o portugués.',
@@ -383,7 +445,10 @@ var TXT = {
     mesaJog: 'Jugadores', mesaNomes: 'Nombres (opcional)', jogador: 'Jugador {n}', mesaModo: 'Modo', ffa: 'Todos contra todos', duplasOpc: 'Parejas (2 contra 2)',
     cancelar: 'Cancelar', sortear: 'Sortear', sortearDeNovo: 'Sortear de nuevo', mesaResumo: '{n} jugadores', duplasCurto: 'parejas', dupla: 'Pareja {x}',
     comeca: 'empieza', mesaToque: 'Toca un jugador para ver la lista del mazo y crearlo en endstep.cc.',
-    compSorteio: 'Compartir el sorteo', linkSorteio: 'Enlace del sorteo copiado ✓', copieSorteio: 'Copia el enlace del sorteo:'
+    compSorteio: 'Compartir el sorteo', linkSorteio: 'Enlace del sorteo copiado ✓', copieSorteio: 'Copia el enlace del sorteo:',
+    exclTit: 'Excluir del sorteo', exclResumo: 'Sorteando entre {a} de {b} mazos', exclBuscar: 'Buscar mazo o comandante…', exclLimpar: 'Borrar exclusiones',
+    exclNota: 'Las exclusiones solo valen en esta pestaña: se borran al cerrarla.', exclFaltam: 'Hay pocos mazos para {n} jugadores. Quita alguna exclusión.', exclTirar: 'Quitar {d} de las exclusiones',
+    exclAbrir: 'Mostrar las colecciones del grupo {g}', trocarDeck: 'Sortear otro mazo para {n}', semOutro: 'No hay otro mazo disponible para sortear.'
   }
 };
 var IDIOMA = (function () {
@@ -1159,7 +1224,7 @@ document.addEventListener("keydown", function (e) {
 // (ignora busca e filtros), e um deles é sorteado para começar. A tela do sorteio esconde grupos, busca, filtros, coleções e
 // decks (fica só o "Limpar tudo", que sai do sorteio); tocar num jogador abre o painel do deck dele. O endereço guarda o
 // sorteio (#sorteio/modo/quem-começa/n:nome:pasta/deck,...), e o link pode ser compartilhado: quem abre vê o mesmo sorteio.
-// O Surpreenda-me de um jogador continua igual.
+// O Surpreenda-me de um jogador continua igual. Exclusões (coleções e decks) e troca do deck de um jogador: ver mais abaixo.
 var mesa = null; // { duplas, comeca, sel, novo, jog: [{ k (posição no quadro), nome, d (deck) }] }
 var CHAVE_MESA = "precons-mesa"; // últimas escolhas do quadro (só neste aparelho)
 var cfgMesa = { n: 4, nomes: ["", "", "", ""], duplas: false };
@@ -1174,6 +1239,28 @@ var cfgMesa = { n: 4, nomes: ["", "", "", ""], duplas: false };
 function nomeJog(j) { return j.nome || t("jogador", { n: j.k + 1 }); }
 function deckPorId(id) { var r = null; COLECOES.forEach(function (c) { c.decks.forEach(function (d) { if (!r && idDe(d) === id) r = d; }); }); return r; }
 function embaralhar(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), x = a[i]; a[i] = a[j]; a[j] = x; } return a; }
+
+// Exclusões do sorteio em grupo (pedido do usuário em 29/10/2026): coleções inteiras (pelo id) e decks avulsos (pelo id da pasta/arquivo).
+// Valem só para o sorteio em grupo (o Surpreenda-me solo ignora) e ficam guardadas só nesta aba (sessionStorage: somem ao fechá-la).
+// O quadro edita uma cópia (exclRasc) que só vira valer ao tocar em Sortear; Cancelar descarta.
+var CHAVE_EXCL = "precons-excl";
+var excl = { c: {}, d: {} }, exclRasc = { c: {}, d: {} };
+(function () {
+  try {
+    var p = JSON.parse(sessionStorage.getItem(CHAVE_EXCL) || "{}");
+    (Array.isArray(p.c) ? p.c : []).forEach(function (x) { if (COLECOES.some(function (c) { return c.id === x; })) excl.c[x] = 1; });
+    (Array.isArray(p.d) ? p.d : []).forEach(function (x) { if (deckPorId(String(x))) excl.d[String(x)] = 1; });
+  } catch (e) {}
+})();
+function guardarExcl() { try { sessionStorage.setItem(CHAVE_EXCL, JSON.stringify({ c: Object.keys(excl.c), d: Object.keys(excl.d) })); } catch (e) {} }
+function copiaExcl(e) { var r = { c: {}, d: {} }; Object.keys(e.c).forEach(function (k) { r.c[k] = 1; }); Object.keys(e.d).forEach(function (k) { r.d[k] = 1; }); return r; }
+function temExcl(e) { return Object.keys(e.c).length > 0 || Object.keys(e.d).length > 0; }
+// Decks que podem ser sorteados com essas exclusões.
+function decksSorteaveis(e) {
+  var r = [];
+  COLECOES.forEach(function (c) { if (e.c[c.id]) return; c.decks.forEach(function (d) { if (!e.d[idDe(d)]) r.push(d); }); });
+  return r;
+}
 
 // Quadro de configuração
 var focoAntesMesa = null;
@@ -1190,10 +1277,126 @@ function pintarCfg() {
   })(i);
   $("mesaModoCx").hidden = cfgMesa.n !== 4; // duplas só fazem sentido com 4
   [].forEach.call($("mesaModo").children, function (b) { b.setAttribute("aria-pressed", (b.getAttribute("data-d") === "1") === cfgMesa.duplas ? "true" : "false"); });
+  atualizarExcl(); // o aviso de "poucos decks" depende do número de jogadores
 }
+
+// Quadro "Excluir do sorteio": por grupo e coleção (caixas de seleção; a do grupo marca/desmarca todas as suas coleções, e fica
+// parcial quando só algumas estão marcadas) e por deck (busca com sugestões; cada deck vira uma etiqueta que se tira com um toque).
+// Os grupos e coleções são montados uma vez; depois só se atualiza o estado (assim os grupos abertos não fecham a cada toque).
+var exclGrupos = null;
+function montarExcl() {
+  if (exclGrupos) return;
+  exclGrupos = [];
+  GRUPOS.forEach(function (g) {
+    var cols = COLECOES.filter(function (c) { return c.grupo === g; }), nd = 0;
+    cols.forEach(function (c) { nd += c.decks.length; });
+    var wrap = document.createElement("div"), cab = document.createElement("div"), lb = document.createElement("label"),
+      cb = document.createElement("input"), nm = document.createElement("span"), nn = document.createElement("span");
+    wrap.className = "excl-g"; cab.className = "excl-gh"; lb.className = "excl-l"; cb.type = "checkbox"; nn.className = "n";
+    nm.textContent = g; nn.textContent = nd;
+    lb.appendChild(cb); lb.appendChild(nm); lb.appendChild(nn); cab.appendChild(lb); wrap.appendChild(cab);
+    var gr = { cb: cb, cols: cols, itens: [] };
+    cb.onchange = function () {
+      var marca = this.checked;
+      cols.forEach(function (c) { if (marca) exclRasc.c[c.id] = 1; else delete exclRasc.c[c.id]; });
+      atualizarExcl();
+    };
+    if (SEM_COLECAO.indexOf(g) < 0) { // grupos com várias coleções: lista recolhida, aberta pela setinha
+      var tg = document.createElement("button"), lista = document.createElement("div");
+      tg.type = "button"; tg.className = "excl-tg"; tg.textContent = "▾"; tg.setAttribute("aria-expanded", "false");
+      tg.setAttribute("aria-label", t("exclAbrir", { g: g })); tg.title = t("exclAbrir", { g: g });
+      lista.className = "excl-cols"; lista.hidden = true;
+      tg.onclick = function () { var abre = lista.hidden; lista.hidden = !abre; tg.setAttribute("aria-expanded", abre ? "true" : "false"); };
+      cab.appendChild(tg);
+      cols.forEach(function (c) {
+        var l2 = document.createElement("label"), c2 = document.createElement("input"), n2 = document.createElement("span"), k2 = document.createElement("span");
+        l2.className = "excl-l"; c2.type = "checkbox"; k2.className = "n"; n2.textContent = c.nome; k2.textContent = c.decks.length;
+        c2.onchange = function () { if (this.checked) exclRasc.c[c.id] = 1; else delete exclRasc.c[c.id]; atualizarExcl(); };
+        l2.appendChild(c2); l2.appendChild(n2); l2.appendChild(k2); lista.appendChild(l2);
+        gr.itens.push({ cb: c2, c: c });
+      });
+      wrap.appendChild(lista);
+    }
+    $("exclGrupos").appendChild(wrap); exclGrupos.push(gr);
+  });
+}
+function atualizarExcl() {
+  if (!exclGrupos) return;
+  exclGrupos.forEach(function (g) {
+    var k = g.cols.filter(function (c) { return exclRasc.c[c.id]; }).length;
+    g.cb.checked = k === g.cols.length; g.cb.indeterminate = k > 0 && k < g.cols.length;
+    g.itens.forEach(function (it) { it.cb.checked = !!exclRasc.c[it.c.id]; });
+  });
+  var ch = $("exclChips"); ch.innerHTML = "";
+  Object.keys(exclRasc.d).forEach(function (id) {
+    var d = deckPorId(id); if (!d) return;
+    var b = document.createElement("button"), x = document.createElement("i");
+    b.type = "button"; b.className = "chip"; b.textContent = d.nome; x.textContent = "×"; x.setAttribute("aria-hidden", "true"); b.appendChild(x);
+    b.setAttribute("aria-label", t("exclTirar", { d: d.nome })); b.title = t("exclTirar", { d: d.nome });
+    b.onclick = function () { delete exclRasc.d[id]; exclSugerir(); atualizarExcl(); };
+    ch.appendChild(b);
+  });
+  var tot = 0; COLECOES.forEach(function (c) { tot += c.decks.length; });
+  var resta = decksSorteaveis(exclRasc).length, falta = resta < cfgMesa.n;
+  $("exclResumo").textContent = t("exclResumo", { a: resta, b: tot });
+  $("exclAviso").hidden = !falta; $("exclAviso").textContent = falta ? t("exclFaltam", { n: cfgMesa.n }) : "";
+  $("mesaSortear").disabled = falta;
+  $("exclLimpar").disabled = !temExcl(exclRasc);
+}
+// Busca de decks a excluir: nome do deck ou do comandante (sem acentos nem maiúsculas); até 8 sugestões.
+var exclSugLista = [], exclSugAtiva = -1;
+function exclSugerir() {
+  var ul = $("exclSug"), inp = $("exclBusca"), palavras = nz(inp.value.trim()).split(/\s+/).filter(Boolean);
+  ul.innerHTML = ""; exclSugLista = []; exclSugAtiva = -1; inp.removeAttribute("aria-activedescendant");
+  if (!palavras.length || nz(inp.value.trim()).length < 2) { ul.hidden = true; inp.setAttribute("aria-expanded", "false"); return; }
+  COLECOES.forEach(function (c) {
+    if (exclRasc.c[c.id]) return;
+    c.decks.forEach(function (d) {
+      if (exclSugLista.length >= 8 || exclRasc.d[idDe(d)]) return;
+      var alvo = nzEn(d.nome) + " " + nzEn(d.comandante);
+      if (palavras.every(function (p) { return alvo.indexOf(p) >= 0; })) exclSugLista.push(d);
+    });
+  });
+  exclSugLista.forEach(function (d, i) {
+    var li = document.createElement("li"), sm = document.createElement("small");
+    li.id = "exclsug-" + i; li.setAttribute("role", "option"); li.setAttribute("aria-selected", "false");
+    li.appendChild(document.createTextNode(d.nome)); sm.textContent = d.comandante + " · " + d._col.nome; li.appendChild(sm);
+    li.onmousedown = function (e) { e.preventDefault(); }; // não tira o foco do campo
+    li.onclick = function () { exclAdd(d); };
+    ul.appendChild(li);
+  });
+  ul.hidden = !exclSugLista.length; inp.setAttribute("aria-expanded", exclSugLista.length ? "true" : "false");
+}
+function exclPintarSug() {
+  [].forEach.call($("exclSug").children, function (li, i) { li.setAttribute("aria-selected", i === exclSugAtiva ? "true" : "false"); });
+  var inp = $("exclBusca");
+  if (exclSugAtiva >= 0) { inp.setAttribute("aria-activedescendant", "exclsug-" + exclSugAtiva); var li = $("exclsug-" + exclSugAtiva); if (li && li.scrollIntoView) li.scrollIntoView({ block: "nearest" }); }
+  else inp.removeAttribute("aria-activedescendant");
+}
+function exclAdd(d) {
+  exclRasc.d[idDe(d)] = 1; $("exclBusca").value = ""; exclSugerir(); atualizarExcl();
+  if (toque()) $("exclBusca").blur(); // no celular, fecha o teclado para ver a etiqueta
+}
+$("exclBusca").oninput = exclSugerir;
+$("exclBusca").onkeydown = function (e) {
+  var n = exclSugLista.length;
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+    if (!n) return; e.preventDefault();
+    exclSugAtiva = e.key === "ArrowDown" ? (exclSugAtiva + 1) % n : (exclSugAtiva <= 0 ? n - 1 : exclSugAtiva - 1); exclPintarSug();
+  } else if (e.key === "Enter") {
+    e.preventDefault(); // Enter aqui não sorteia
+    if (n) exclAdd(exclSugLista[exclSugAtiva >= 0 ? exclSugAtiva : 0]);
+  } else if (e.key === "Escape" && !$("exclSug").hidden) { e.preventDefault(); e.stopPropagation(); $("exclSug").hidden = true; exclSugAtiva = -1; }
+};
+$("exclBusca").onblur = function () { setTimeout(function () { if (document.activeElement !== $("exclBusca")) $("exclSug").hidden = true; }, 200); };
+$("exclBusca").onfocus = exclSugerir;
+$("exclLimpar").onclick = function () { exclRasc = { c: {}, d: {} }; $("exclBusca").value = ""; exclSugerir(); atualizarExcl(); };
+
 function abrirCfg() {
   if (animando) return;
   fecharSug(); Object.keys(FILTROS).forEach(function (k) { fecharFiltro(FILTROS[k], false); });
+  exclRasc = copiaExcl(excl); montarExcl(); $("exclBusca").value = ""; exclSugerir();
+  $("mesaExcl").open = temExcl(exclRasc); // com exclusões guardadas, o bloco já abre à vista
   pintarCfg(); $("mesaCfg").hidden = false;
   focoAntesMesa = document.activeElement; $("mesaSortear").focus(); // foco no botão (no celular não abre o teclado)
 }
@@ -1205,6 +1408,8 @@ $("mesaCancelar").onclick = fecharCfg;
 $("mesaCfg").onclick = function (e) { if (e.target === this) fecharCfg(); };
 $("mesaSortear").onclick = function () { sortearDoQuadro(); };
 function sortearDoQuadro() {
+  if (decksSorteaveis(exclRasc).length < cfgMesa.n) return; // poucos decks: o aviso já está no quadro
+  excl = copiaExcl(exclRasc); guardarExcl(); // as exclusões só passam a valer ao sortear
   try { localStorage.setItem(CHAVE_MESA, JSON.stringify({ n: cfgMesa.n, nomes: cfgMesa.nomes.map(function (x) { return x.trim(); }), duplas: cfgMesa.duplas })); } catch (e) {}
   $("mesaCfg").hidden = true;
   var base = [];
@@ -1215,8 +1420,8 @@ function sortearDoQuadro() {
 // Sorteio: decks diferentes entre todos; com duplas, a ordem dos jogadores também é sorteada (1º e 2º = dupla A).
 function sortearMesa(base, duplas) {
   if (animando) return;
-  var todos = [];
-  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { todos.push(d); }); });
+  var todos = decksSorteaveis(excl); // todos os decks, menos os excluídos no quadro
+  if (todos.length < base.length) { aviso(t("exclFaltam", { n: base.length })); return; }
   embaralhar(todos);
   var jog = base.map(function (b, i) { return { k: b.k, nome: b.nome, d: todos[i] }; });
   if (duplas) embaralhar(jog);
@@ -1225,6 +1430,18 @@ function sortearMesa(base, duplas) {
   try { history.replaceState(null, "", "#" + hashMesa()); } catch (e) {}
   desenhar();
   window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
+}
+// Troca só o deck de um jogador (botão do dado no cartão): sorteia entre os decks que não estão com ninguém da mesa e que não
+// foram excluídos; o jogador, as duplas e quem começa continuam. Se o painel desse jogador estava aberto, mostra o deck novo.
+function trocarDeck(i) {
+  if (animando || !mesa || !mesa.jog[i]) return;
+  var usados = {};
+  mesa.jog.forEach(function (x) { usados[idDe(x.d)] = 1; });
+  var livres = decksSorteaveis(excl).filter(function (d) { return !usados[idDe(d)]; });
+  if (!livres.length) { aviso(t("semOutro")); return; }
+  mesa.jog[i].d = livres[Math.floor(Math.random() * livres.length)]; mesa.jog[i].rev = true; // rev: só este cartão é revelado de novo
+  try { history.replaceState(null, "", "#" + hashMesa()); } catch (e) {}
+  desenhar();
 }
 function hashMesa() {
   return "sorteio/" + (mesa.duplas ? "d" : "f") + "/" + (mesa.comeca + 1) + "/" +
@@ -1274,9 +1491,11 @@ function desenharMesa() {
     if (mesa.duplas) { var st = document.createElement("div"); st.className = "sec"; st.textContent = t("dupla", { x: "AB"[bi] }); bl.appendChild(st); }
     var g = document.createElement("div"); g.className = "mesa-grade";
     idx.forEach(function (i) {
-      var j = mesa.jog[i], d = j.d, b = document.createElement("button");
-      b.type = "button"; b.className = "jog" + (mesa.sel === i ? " on" : "") + (mesa.novo ? " rev" : "");
-      if (mesa.novo) b.style.animationDelay = (ordem++ * 0.3) + "s"; // revela um jogador de cada vez
+      var j = mesa.jog[i], d = j.d, b = document.createElement("button"), w = document.createElement("div");
+      b.type = "button"; b.className = "jog" + (mesa.sel === i ? " on" : "");
+      w.className = "jogw" + (mesa.novo || j.rev ? " rev" : "");
+      if (mesa.novo) w.style.animationDelay = (ordem++ * 0.3) + "s"; // revela um jogador de cada vez
+      j.rev = false;
       b.setAttribute("aria-pressed", mesa.sel === i ? "true" : "false");
       if (d.ci) contornoCor(b, d.ci);
       var qn = document.createElement("span"); qn.className = "quem"; qn.textContent = nomeJog(j);
@@ -1290,7 +1509,10 @@ function desenharMesa() {
         mesa.sel = i; desenhar();
         var pn = $("painel"); if (pn.scrollIntoView) pn.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "nearest" });
       };
-      g.appendChild(b);
+      var rr = document.createElement("button"); rr.type = "button"; rr.className = "reroll"; rr.innerHTML = DADO;
+      rr.setAttribute("aria-label", t("trocarDeck", { n: nomeJog(j) })); rr.title = t("trocarDeck", { n: nomeJog(j) });
+      rr.onclick = function () { trocarDeck(i); };
+      w.appendChild(b); w.appendChild(rr); g.appendChild(w);
     });
     bl.appendChild(g); m.appendChild(bl);
   });
