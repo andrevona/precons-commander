@@ -526,7 +526,7 @@ var SEM_COLECAO = ["Secret Lair"]; // grupos com uma unica colecao: lista os dec
 var colAtual = 0, deckAtual = 0;
 // semSel: com filtro de cor/ano/arquétipo (sem texto na busca) só se mostram as coleções que sobraram, sem nenhuma coleção nem deck
 // escolhido e sem o painel; escolher uma coleção ou um deck (ou limpar os filtros) desliga.
-var semSel = false;
+var semSel = false, abertoAntes = false; // abertoAntes: o conteúdo estava aberto quando o primeiro filtro foi escolhido
 var recolhido = false, animando = false; // coleções recolhidas sob o botão escolhido (só em RECOLHEM)
 var aberto = false; // conteúdo abaixo dos grupos: a página abre só com os 4 grupos
 function $(id) { return document.getElementById(id); }
@@ -1062,10 +1062,15 @@ function fecharFiltro(f, voltarFoco) {
 function escolherFiltro(f, i) {
   if (animando || i < 0) return;
   fecharFiltro(f, !toque());
+  var tinha = !!(corFiltro || anoSel || arqSel), nadaEscolhido = semSel;
+  if (!tinha) abertoAntes = aberto; // como a tela estava antes de filtrar
   f.cfg.set(f.vals[i]); recolhido = false; pintarFiltro(f);
-  semSel = !!(corFiltro || anoSel || arqSel); // filtrando: nada escolhido até o usuário tocar numa coleção
-  if (!corFiltro && !anoSel && !arqSel && COLECOES[colAtual]) grpAtual = COLECOES[colAtual].grupo; // sem filtros, volta ao grupo da coleção aberta
-  if (f.vals[i] && !aberto) abrirConteudo(); else desenhar();
+  var tem = !!(corFiltro || anoSel || arqSel);
+  semSel = tem; // filtrando: nada escolhido até o usuário tocar numa coleção
+  if (!tem && COLECOES[colAtual]) grpAtual = COLECOES[colAtual].grupo; // sem filtros, volta ao grupo da coleção aberta
+  if (tem && !aberto) abrirConteudo();
+  else if (!tem && tinha && nadaEscolhido && !abertoAntes && aberto && !q) fecharConteudo(); // tirou o último filtro sem escolher nada: volta à tela inicial, sem escolher nada sozinho
+  else desenhar();
 }
 function pintarFiltro(f) {
   var v = f.cfg.get(), b = f.btn;
