@@ -232,6 +232,9 @@
   .arq-sacrifice { --h:2; } .arq-tribal { --h:26; } .arq-tokens { --h:46; } .arq-lands { --h:82; } .arq-counters { --h:132; } .arq-blink { --h:186; }
   .arq-spellslinger { --h:214; } .arq-voltron { --h:244; } .arq-graveyard { --h:274; } .arq-enchantments { --h:304; } .arq-lifegain { --h:340; } .arq-artifacts { --h:210; --s:14%; }
   /* Filtro "Por arquétipo" escolhido: a cor do arquétipo (--h/--s vêm das classes .arq-<id>, as mesmas das etiquetas), um pouco mais forte que a etiqueta */
+  /* Filtro "Por cor" escolhido: preenchimento nas cores da identidade (--selec) e borda de 1,5 px nas cores puras (--brilho), como o deck escolhido */
+  .cor-caixa.on.cor-cores .cor-btn { background:var(--selec) padding-box, var(--brilho) border-box; color:var(--fg); border:1.5px solid transparent; font-weight:600; }
+  .cor-caixa.on.cor-cores .cor-btn::after { color:var(--fg); }
   .cor-caixa.on[class*="arq-"] .cor-btn { background:hsl(var(--h) var(--s, 62%) 85%); color:hsl(var(--h) var(--s, 62%) 20%); border-color:hsl(var(--h) var(--s, 62%) 58%); }
   .cor-caixa.on[class*="arq-"] .cor-btn::after { color:hsl(var(--h) var(--s, 62%) 20%); }
   @media (prefers-color-scheme: dark) {
@@ -1135,6 +1138,10 @@ function pintarFiltro(f) {
   b.title = t(f.cfg.dica);
   b.setAttribute("aria-label", t(f.cfg.dica) + ": " + (v ? (f.cfg.aria ? f.cfg.aria(v) : f.cfg.rotulo(v)) : t(f.cfg.vazio)));
   f.cx.classList.toggle("on", !!v);
+  if (f.k === "cor") { // o filtro de cor escolhido ganha as cores da identidade, com o mesmo esquema dos decks (uma cor, metade/metade, degradê)
+    f.cx.classList.toggle("cor-cores", !!v);
+    if (v) contornoCor(f.cx, v); else ["--brilho", "--tinta", "--selec"].forEach(function (k) { f.cx.style.removeProperty(k); });
+  }
   if (f.k === "arq") { // o filtro de arquétipo escolhido ganha a cor do arquétipo (mesmas cores das etiquetas: classe arq-<id>)
     ARQUETIPOS.forEach(function (a) { f.cx.classList.remove("arq-" + a); });
     if (v) f.cx.classList.add("arq-" + v);
@@ -1175,6 +1182,7 @@ function contornoCor(b, ci) {
   function grad(lista) { return "linear-gradient(90deg, " + (lista.length === 1 ? lista[0] + ", " + lista[0] : lista.length === 2 ? lista[0] + " 50%, " + lista[1] + " 50%" : lista.join(", ")) + ")"; }
   b.style.setProperty("--brilho", grad(cs.map(function (x) { return "var(--m" + x + ")"; })));
   b.style.setProperty("--tinta", grad(cs.map(function (x) { return "color-mix(in srgb, var(--m" + x + ") " + pct + "%, var(--card))"; })));
+  b.style.setProperty("--selec", grad(cs.map(function (x) { return "color-mix(in srgb, var(--m" + x + ") 46%, var(--card))"; }))); // preenchimento do filtro de cor escolhido (mais forte que o tingido do deck)
 }
 // Surpreenda-me: abre um deck sorteado entre os que aparecem com a busca e as cores escolhidas (sem repetir o anterior).
 var ultimaSorte = null;
