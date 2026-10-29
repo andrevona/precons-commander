@@ -219,7 +219,7 @@ var ATUALIZADO = "__ATUALIZADO__"; // data (AAAA-MM-DD) da última conferência 
 // Nomes de decks, cartas, coleções e grupos ficam sempre em inglês.
 var TXT = {
   pt: {
-    sub: 'Escolha a coleção e o deck ou utilize o filtro, em inglês ou português.', subPt: 'Escolha a coleção e o deck ou utilize o filtro, em inglês ou português.',
+    sub: 'Escolha a coleção e o deck ou utilize o filtro, em inglês ou português.',
     busca: 'Carta, deck, comandante ou coleção…', apagar: 'Apagar busca', colecoes: 'Coleções', filtroAno: 'Filtrar os decks pelo ano de lançamento', porAno: 'Por ano', tirarAno: 'Tirar o filtro de ano',
     todosAnos: 'Todos os anos', decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck encontrado', achouN: '{n} decks encontrados',
     nenhum: 'Nenhum deck encontrado', nenhumTxt: 'Nenhum deck, comandante ou carta com esse nome.', nenhumFiltro: 'Nenhum deck com esses filtros.',
@@ -247,7 +247,7 @@ var TXT = {
     surpresa: 'Surpreenda-me', surpresaDica: 'Abre um deck aleatório entre todos (limpa a busca e os filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e os filtros e recolhe tudo'
   },
   en: {
-    sub: 'Pick a set and a deck, or use the filter.', subPt: 'Pick a set and a deck, or use the filter, in English or Portuguese.',
+    sub: 'Pick a set and a deck, or use the filter, in English or Portuguese.',
     busca: 'Card, deck, commander or set…', apagar: 'Clear search', colecoes: 'Sets', filtroAno: 'Filter decks by release year', porAno: 'By year', tirarAno: 'Clear the year filter',
     todosAnos: 'All years', decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck found', achouN: '{n} decks found',
     nenhum: 'No deck found', nenhumTxt: 'No deck, commander or card with that name.', nenhumFiltro: 'No deck matches these filters.',
@@ -275,7 +275,7 @@ var TXT = {
     surpresa: 'Surprise me', surpresaDica: 'Opens a random deck out of all of them (clears the search and the filters)', sorteado: 'Drawn: {d}', limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and the filters and collapses everything'
   },
   es: {
-    sub: 'Elige la colección y el mazo o usa el filtro.', subPt: 'Elige la colección y el mazo o usa el filtro, en inglés o portugués.',
+    sub: 'Elige la colección y el mazo o usa el filtro, en inglés o portugués.',
     busca: 'Carta, mazo, comandante o colección…', apagar: 'Borrar búsqueda', colecoes: 'Colecciones', filtroAno: 'Filtrar mazos por año de lanzamiento', porAno: 'Por año', tirarAno: 'Quitar el filtro de año',
     todosAnos: 'Todos los años', decks: 'Mazos', deck1: 'mazo', deckN: 'mazos', achou1: '1 mazo encontrado', achouN: '{n} mazos encontrados',
     nenhum: 'Ningún mazo encontrado', nenhumTxt: 'Ningún mazo, comandante o carta con ese nombre.', nenhumFiltro: 'Ningún mazo con esos filtros.',
@@ -320,7 +320,6 @@ function aplicarIdioma() {
   [].forEach.call(document.querySelectorAll("[data-t]"), function (e) { e.innerHTML = t(e.getAttribute("data-t")); });
   [].forEach.call(document.querySelectorAll("[data-tp]"), function (e) { e.placeholder = t(e.getAttribute("data-tp")); });
   [].forEach.call(document.querySelectorAll("[data-ta]"), function (e) { var v = t(e.getAttribute("data-ta")); e.setAttribute("aria-label", v); e.title = v; });
-  if (QUER_PT) { var sb = document.querySelector("p.sub[data-t=sub]"); if (sb) sb.innerHTML = t("subPt"); } // quem tem português no navegador é avisado de que pode buscar nos dois idiomas
   var nd = 0; COLECOES.forEach(function (c) { nd += c.decks.length; });
   var p = ATUALIZADO.split("-"), data = ATUALIZADO;
   var nl = navigator.language || "", loc = nl.slice(0, 2).toLowerCase() === IDIOMA ? nl : { pt: "pt-BR", en: "en-US", es: "es" }[IDIOMA];
@@ -367,13 +366,12 @@ function nzEn(n) { var v = memoEn[n]; return v === undefined ? (memoEn[n] = nz(n
 // a lista na tela e a lista copiada continuam em inglês. Carrega ao tocar no filtro; sem o arquivo, a busca segue só em inglês.
 var PT = null, ptEstado = 0, ptFalha = 0; // ptEstado: 0 não carregou, 1 carregando, 2 carregado
 // Só carrega (e só sugere em português) quem tem português entre os idiomas do navegador, em qualquer posição da lista.
-var QUER_PT = (navigator.languages && navigator.languages.length ? [].slice.call(navigator.languages) : [navigator.language || ""]).some(function (l) { return String(l).slice(0, 2).toLowerCase() === "pt"; });
 function nzPt(n) {
   if (!PT || !PT[n]) return "";
   var v = memoPt[n]; return v === undefined ? (memoPt[n] = nz(PT[n])) : v;
 }
 function carregarPT() {
-  if (!QUER_PT || ptEstado || (ptFalha && Date.now() - ptFalha < 30000) || !window.fetch) return;
+  if (ptEstado || (ptFalha && Date.now() - ptFalha < 30000) || !window.fetch) return;
   ptEstado = 1;
   fetch("nomes_pt.json").then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (o) {
     PT = o; memoPt = {}; SUG = null; ptEstado = 2;
