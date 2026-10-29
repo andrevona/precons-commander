@@ -14,11 +14,13 @@
   html { color-scheme:light dark; scrollbar-color:var(--line) var(--bg); }
   :root { --bg:#fafaf8; --fg:#1d1d1b; --mut:#6b6b66; --line:#d9d8d2; --acc:#2f5fd0; --accfg:#fff; --card:#fff; --ok:#1d7a3a; --warn:#b05a00;
     --g-acc:#1c3378; --g-accfg:#fff; --f-acc:#0b78b8; --f-accfg:#fff; /* tons de azul: grupos (escuro), coleções (--acc), filtros (claro) */
-    --mW:#e4e0d2; --mU:#2b83d0; --mB:#6c588c; --mR:#d24d36; --mG:#2c8a48; --mC:#9b9a94; --deckBorda:#5f5e59; } /* cores dos decks; borda neutra (escura no claro) */
+    --mW:#e4e0d2; --mU:#2b83d0; --mB:#6c588c; --mR:#d24d36; --mG:#2c8a48; --mC:#9b9a94; --deckBorda:#5f5e59;
+    --inBg:#fff; --inBorda:#9a998f; --inSombra:0 1px 3px rgba(0,0,0,.10); --inAnel:rgba(11,120,184,.25); } /* campo de busca em destaque */ /* cores dos decks; borda neutra (escura no claro) */
   @media (prefers-color-scheme: dark) {
     :root { --bg:#161615; --fg:#ecebe6; --mut:#9c9b94; --line:#34332f; --acc:#7da2ff; --accfg:#10131c; --card:#1e1e1c; --ok:#6fcf8a; --warn:#f0a04b;
       --g-acc:#3c5cc4; --g-accfg:#fff; --f-acc:#5ec4ef; --f-accfg:#0b1a22;
-      --mW:#f6f4ee; --mU:#5aa8ee; --mB:#a991cc; --mR:#f07a62; --mG:#5cbf7c; --mC:#7f7e78; --deckBorda:#b4b3ac; }
+      --mW:#f6f4ee; --mU:#5aa8ee; --mB:#a991cc; --mR:#f07a62; --mG:#5cbf7c; --mC:#7f7e78; --deckBorda:#b4b3ac;
+      --inBg:#2a2a27; --inBorda:#85847c; --inSombra:0 2px 8px rgba(0,0,0,.55); --inAnel:rgba(94,196,239,.32); }
   }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -42,7 +44,9 @@
   .espelho div { height:19px; }
   .espelho div.hl { background:#ffe58a; border-radius:3px; }
   @media (prefers-color-scheme: dark) { .espelho div.hl { background:#5c4a00; } }
-  input.filtro { width:100%; margin:0 0 12px; padding:9px 12px; background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:8px; font:inherit; }
+  input.filtro { width:100%; margin:0 0 12px; padding:10px 12px; background:var(--inBg); color:var(--fg); border:1.5px solid var(--inBorda); border-radius:10px; box-shadow:var(--inSombra); font:inherit; }
+  input.filtro::placeholder { color:var(--mut); opacity:1; }
+  input.filtro:focus { outline:none; border-color:var(--f-acc); box-shadow:0 0 0 3px var(--inAnel); }
   .status { color:var(--mut); margin-bottom:8px; }
   .status.ok { color:var(--ok); } .status.warn { color:var(--warn); }
   .sec { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--mut); font-weight:600; margin:16px 0 8px; }
@@ -215,7 +219,7 @@ var ATUALIZADO = "2026-10-27"; // data (AAAA-MM-DD) da última conferência com 
 // Nomes de decks, cartas, coleções e grupos ficam sempre em inglês.
 var TXT = {
   pt: {
-    sub: 'Escolha a coleção e o deck ou utilize o filtro. A lista está no formato <code>quantidade Nome (SET) número</code>, pronta para colar no endstep.cc.',
+    sub: 'Escolha a coleção e o deck ou utilize o filtro, em inglês ou português.', subPt: 'Escolha a coleção e o deck ou utilize o filtro, em inglês ou português.',
     busca: 'Carta, deck, comandante ou coleção…', apagar: 'Apagar busca', colecoes: 'Coleções', filtroAno: 'Filtrar os decks pelo ano de lançamento', porAno: 'Por ano', tirarAno: 'Tirar o filtro de ano',
     todosAnos: 'Todos os anos', decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck encontrado', achouN: '{n} decks encontrados',
     nenhum: 'Nenhum deck encontrado', nenhumTxt: 'Nenhum deck, comandante ou carta com esse nome.', nenhumFiltro: 'Nenhum deck com esses filtros.',
@@ -240,10 +244,10 @@ var TXT = {
     tCol: 'coleção', tDeck: 'deck', tCmd: 'comandante', tCarta: 'carta',
     filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Por cor', tirarCor: 'Tirar o filtro de cores',
     cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'WUBRG',
-    buscaPt: 'Carta (inglês ou português), deck, comandante ou coleção…', surpresa: 'Surpreenda-me', surpresaDica: 'Abre um deck aleatório entre todos (limpa a busca e os filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e os filtros e recolhe tudo'
+    surpresa: 'Surpreenda-me', surpresaDica: 'Abre um deck aleatório entre todos (limpa a busca e os filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e os filtros e recolhe tudo'
   },
   en: {
-    sub: 'Pick a set and a deck, or use the filter. The list uses the <code>quantity Name (SET) number</code> format, ready to paste into endstep.cc.',
+    sub: 'Pick a set and a deck, or use the filter.', subPt: 'Pick a set and a deck, or use the filter, in English or Portuguese.',
     busca: 'Card, deck, commander or set…', apagar: 'Clear search', colecoes: 'Sets', filtroAno: 'Filter decks by release year', porAno: 'By year', tirarAno: 'Clear the year filter',
     todosAnos: 'All years', decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck found', achouN: '{n} decks found',
     nenhum: 'No deck found', nenhumTxt: 'No deck, commander or card with that name.', nenhumFiltro: 'No deck matches these filters.',
@@ -268,10 +272,10 @@ var TXT = {
     tCol: 'set', tDeck: 'deck', tCmd: 'commander', tCarta: 'card',
     filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'By color', tirarCor: 'Clear the color filter',
     cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'WUBRG',
-    buscaPt: 'Card (English or Portuguese), deck, commander or set…', surpresa: 'Surprise me', surpresaDica: 'Opens a random deck out of all of them (clears the search and the filters)', sorteado: 'Drawn: {d}', limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and the filters and collapses everything'
+    surpresa: 'Surprise me', surpresaDica: 'Opens a random deck out of all of them (clears the search and the filters)', sorteado: 'Drawn: {d}', limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and the filters and collapses everything'
   },
   es: {
-    sub: 'Elige la colección y el mazo o usa el filtro. La lista está en el formato <code>cantidad Nombre (SET) número</code>, lista para pegar en endstep.cc.',
+    sub: 'Elige la colección y el mazo o usa el filtro.', subPt: 'Elige la colección y el mazo o usa el filtro, en inglés o portugués.',
     busca: 'Carta, mazo, comandante o colección…', apagar: 'Borrar búsqueda', colecoes: 'Colecciones', filtroAno: 'Filtrar mazos por año de lanzamiento', porAno: 'Por año', tirarAno: 'Quitar el filtro de año',
     todosAnos: 'Todos los años', decks: 'Mazos', deck1: 'mazo', deckN: 'mazos', achou1: '1 mazo encontrado', achouN: '{n} mazos encontrados',
     nenhum: 'Ningún mazo encontrado', nenhumTxt: 'Ningún mazo, comandante o carta con ese nombre.', nenhumFiltro: 'Ningún mazo con esos filtros.',
@@ -296,7 +300,7 @@ var TXT = {
     tCol: 'colección', tDeck: 'mazo', tCmd: 'comandante', tCarta: 'carta',
     filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Por color', tirarCor: 'Quitar el filtro de colores',
     cores: { W: 'Blanco', U: 'Azul', B: 'Negro', R: 'Rojo', G: 'Verde', C: 'Incoloro' }, cinco: 'WUBRG',
-    buscaPt: 'Carta (inglés o portugués), mazo, comandante o colección…', surpresa: 'Sorpréndeme', surpresaDica: 'Abre un mazo al azar entre todos (borra la búsqueda y los filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Borrar todo', limparTudoDica: 'Vuelve al inicio: borra la búsqueda y los filtros y lo recoge todo'
+    surpresa: 'Sorpréndeme', surpresaDica: 'Abre un mazo al azar entre todos (borra la búsqueda y los filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Borrar todo', limparTudoDica: 'Vuelve al inicio: borra la búsqueda y los filtros y lo recoge todo'
   }
 };
 var IDIOMA = (function () {
@@ -316,7 +320,7 @@ function aplicarIdioma() {
   [].forEach.call(document.querySelectorAll("[data-t]"), function (e) { e.innerHTML = t(e.getAttribute("data-t")); });
   [].forEach.call(document.querySelectorAll("[data-tp]"), function (e) { e.placeholder = t(e.getAttribute("data-tp")); });
   [].forEach.call(document.querySelectorAll("[data-ta]"), function (e) { var v = t(e.getAttribute("data-ta")); e.setAttribute("aria-label", v); e.title = v; });
-  if (QUER_PT) $("filtro").placeholder = t("buscaPt"); // quem tem português no navegador é avisado de que pode buscar nos dois idiomas
+  if (QUER_PT) { var sb = document.querySelector("p.sub[data-t=sub]"); if (sb) sb.innerHTML = t("subPt"); } // quem tem português no navegador é avisado de que pode buscar nos dois idiomas
   var nd = 0; COLECOES.forEach(function (c) { nd += c.decks.length; });
   var p = ATUALIZADO.split("-"), data = ATUALIZADO;
   var nl = navigator.language || "", loc = nl.slice(0, 2).toLowerCase() === IDIOMA ? nl : { pt: "pt-BR", en: "en-US", es: "es" }[IDIOMA];
