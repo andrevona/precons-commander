@@ -197,8 +197,9 @@
   body.modo-mesa #secCol, body.modo-mesa #colecoes, body.modo-mesa hr.div, body.modo-mesa #secDecks, body.modo-mesa #decks { display:none !important; }
   .mesa-cab { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; justify-content:space-between; margin:2px 0 12px; }
   .mesa-cab .sec { margin:0; }
-  .mesa-chk { margin-top:14px; }
-  .mesa-arq { margin:-4px 0 12px; font-size:14px; color:var(--mut); }
+  .mesa-chk { margin-top:12px; }
+  .mesa-chk .excl-l:has(input:disabled) { cursor:default; }
+  .mesa-arq { display:flex; flex-wrap:wrap; gap:6px 14px; margin:-4px 0 12px; font-size:14px; color:var(--mut); }
   .mesa-arq b { display:inline-block; margin-left:4px; padding:2px 10px; border-radius:999px; background:var(--f-acc); color:var(--f-accfg); font-weight:600; }
   .mesa-acoes { display:flex; gap:8px; }
   .mesa-acoes button { display:inline-flex; align-items:center; gap:6px; }
@@ -346,7 +347,7 @@
     <div class="mesa-tit"><h2 id="mesaCfgTit" data-t="mesaTitulo">Sorteio em grupo</h2><button type="button" class="ajuda-btn" id="mesaAjudaBtn" aria-expanded="false" aria-controls="mesaAjuda" data-ta="ajudaBtn">?</button></div>
     <div class="ajuda" id="mesaAjuda" hidden>
       <ul>
-        <li data-t="ajuda1"></li><li data-t="ajuda2"></li><li data-t="ajuda3"></li><li data-t="ajuda4"></li><li data-t="ajuda5"></li><li data-t="ajuda6"></li>
+        <li data-t="ajuda1"></li><li data-t="ajuda2"></li><li data-t="ajuda3"></li><li data-t="ajuda4"></li><li data-t="ajuda7"></li><li data-t="ajuda5"></li><li data-t="ajuda6"></li>
       </ul>
     </div>
     <div class="rot" id="rotN" data-t="mesaJog">Jogadores</div>
@@ -355,7 +356,11 @@
     <div class="nomes" id="mesaNomes"></div>
     <div id="mesaModoCx"><div class="rot" id="rotModo" data-t="mesaModo">Modo</div>
       <div class="seg" id="mesaModo" role="group" aria-labelledby="rotModo"><button type="button" data-d="0" data-t="ffa">Free-for-all</button><button type="button" data-d="1" data-t="duplasOpc">Duplas (2 contra 2)</button></div></div>
-    <label class="excl-l mesa-chk"><input type="checkbox" id="mesaMesmoArq"><span class="txt" data-t="arqMesmoChk">Todos com o mesmo arquétipo (sorteado)</span></label>
+    <div class="mesa-chk">
+      <label class="excl-l"><input type="checkbox" id="mesaMesmaCol"><span class="txt" data-t="colMesmaChk">Todos da mesma coleção (sorteada)</span></label>
+      <label class="excl-l"><input type="checkbox" id="mesaMesmoAno"><span class="txt" data-t="anoMesmoChk">Todos do mesmo ano (sorteado)</span></label>
+      <label class="excl-l"><input type="checkbox" id="mesaMesmoArq"><span class="txt" data-t="arqMesmoChk">Todos com o mesmo arquétipo (sorteado)</span></label>
+    </div>
     <details class="excl" id="mesaExcl">
       <summary><span data-t="exclTit">Blacklist</span><span class="resumo" id="exclResumo"></span></summary>
       <div class="excl-corpo">
@@ -414,9 +419,9 @@ var TXT = {
     filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Por cor', tirarCor: 'Tirar o filtro de cores',
     cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'WUBRG',
     surpresa: 'Surpreenda-me', surpresaDica: 'Abre um deck aleatório entre todos (limpa a busca e os filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e os filtros e recolhe tudo',
-    exclArqs: 'Arquétipos', arqMesmoChk: 'Todos com o mesmo arquétipo (sorteado)', arqSorteado: 'Arquétipo sorteado:', arqFaltam: 'Nenhum arquétipo tem {n} decks com essas exclusões. Tire alguma exclusão ou desmarque "Todos com o mesmo arquétipo".', arqRot: 'Arquétipo: {a}',
+    exclArqs: 'Arquétipos', arqMesmoChk: 'Todos com o mesmo arquétipo (sorteado)', arqSorteado: 'Arquétipo sorteado:', optFaltam: 'Com as opções marcadas não há {n} decks para sortear. Desmarque uma opção ou tire algo da Blacklist.', colMesmaChk: 'Todos da mesma coleção (sorteada)', anoMesmoChk: 'Todos do mesmo ano (sorteado)', colSorteada: 'Coleção sorteada:', anoSorteado: 'Ano sorteado:', colRot: 'Coleção: {a}', anoRot: 'Ano: {a}', arqRot: 'Arquétipo: {a}',
     mesaDica: 'Sorteio em grupo (2 a 4 jogadores)', mesaTitulo: 'Sorteio em grupo',
-    ajuda1: 'Cada jogador recebe um deck diferente, sorteado entre todos os decks (a busca e os filtros da página não contam).', ajuda2: 'Com 4 jogadores dá para jogar em duplas (2 contra 2); as duplas também são sorteadas.', ajuda3: 'Quem começa a partida também é sorteado.', ajuda4: 'Em "Todos com o mesmo arquétipo", o arquétipo é sorteado e todos recebem decks que o tenham (como 1º ou 2º arquétipo).', ajuda5: '"Blacklist" tira coleções, arquétipos ou decks. Um deck sai se qualquer um dos seus arquétipos estiver excluído. As exclusões valem só nesta aba.', ajuda6: 'Depois do sorteio, toque num jogador para ver a lista do deck. O dado do cartão troca só o deck dele, e o botão de compartilhar manda o resultado por link (sem as exclusões).', ajudaBtn: 'Como funciona o sorteio',
+    ajuda1: 'Cada jogador recebe um deck diferente, sorteado entre todos os decks (a busca e os filtros da página não contam).', ajuda2: 'Com 4 jogadores dá para jogar em duplas (2 contra 2); as duplas também são sorteadas.', ajuda3: 'Quem começa a partida também é sorteado.', ajuda4: '"Mesma coleção", "mesmo ano" e "mesmo arquétipo" sorteiam uma coleção, um ano ou um arquétipo (1º ou 2º do deck), e todos recebem decks dele. Dá para combinar, menos coleção com ano (a coleção já define o ano). O Secret Lair conta como uma coleção só, e cada deck dele vale no ano do nome.', ajuda7: 'Uma opção fica desabilitada quando, com as outras marcadas, o número de jogadores e a Blacklist, não sobram decks para todos.', ajuda5: '"Blacklist" tira coleções, arquétipos ou decks. Um deck sai se qualquer um dos seus arquétipos estiver excluído. As exclusões valem só nesta aba.', ajuda6: 'Depois do sorteio, toque num jogador para ver a lista do deck. O dado do cartão troca só o deck dele, e o botão de compartilhar manda o resultado por link (sem as exclusões).', ajudaBtn: 'Como funciona o sorteio',
     mesaJog: 'Jogadores', mesaNomes: 'Nomes (opcional)', jogador: 'Jogador {n}', mesaModo: 'Modo', ffa: 'Free-for-all', duplasOpc: 'Duplas (2 contra 2)',
     cancelar: 'Cancelar', sortear: 'Sortear', sortearDeNovo: 'Sortear de novo', mesaResumo: '{n} jogadores', duplasCurto: 'duplas', dupla: 'Dupla {x}',
     comeca: 'começa', mesaToque: 'Toque num jogador para ver a lista do deck e criar no endstep.cc.',
@@ -456,9 +461,9 @@ var TXT = {
     filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'By color', tirarCor: 'Clear the color filter',
     cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'WUBRG',
     surpresa: 'Surprise me', surpresaDica: 'Opens a random deck out of all of them (clears the search and the filters)', sorteado: 'Drawn: {d}', limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and the filters and collapses everything',
-    exclArqs: 'Archetypes', arqMesmoChk: 'Everyone gets the same archetype (drawn)', arqSorteado: 'Drawn archetype:', arqFaltam: 'No archetype has {n} decks with these exclusions. Remove an exclusion or untick "Everyone gets the same archetype".', arqRot: 'Archetype: {a}',
+    exclArqs: 'Archetypes', arqMesmoChk: 'Everyone gets the same archetype (drawn)', arqSorteado: 'Drawn archetype:', optFaltam: 'With the ticked options there aren\'t {n} decks to draw. Untick an option or remove something from the Blacklist.', colMesmaChk: 'Everyone from the same set (drawn)', anoMesmoChk: 'Everyone from the same year (drawn)', colSorteada: 'Drawn set:', anoSorteado: 'Drawn year:', colRot: 'Set: {a}', anoRot: 'Year: {a}', arqRot: 'Archetype: {a}',
     mesaDica: 'Group draw (2 to 4 players)', mesaTitulo: 'Group draw',
-    ajuda1: 'Each player gets a different deck, drawn from all the decks (the page\'s search and filters don\'t count).', ajuda2: 'With 4 players you can play in teams (2 vs 2); the teams are drawn too.', ajuda3: 'Who goes first is also drawn.', ajuda4: 'With "Everyone gets the same archetype", the archetype is drawn and everyone gets decks that have it (as 1st or 2nd archetype).', ajuda5: '"Blacklist" removes sets, archetypes or decks. A deck is out if any of its archetypes is excluded. Exclusions only last in this tab.', ajuda6: 'After the draw, tap a player to see the deck list. The die on a card swaps only that player\'s deck, and the share button sends the result as a link (without the exclusions).', ajudaBtn: 'How the draw works',
+    ajuda1: 'Each player gets a different deck, drawn from all the decks (the page\'s search and filters don\'t count).', ajuda2: 'With 4 players you can play in teams (2 vs 2); the teams are drawn too.', ajuda3: 'Who goes first is also drawn.', ajuda4: '"Same set", "same year" and "same archetype" draw a set, a year or an archetype (the deck\'s 1st or 2nd), and everyone gets decks from it. They can be combined, except set with year (the set already fixes the year). Secret Lair counts as a single set, and each of its decks counts in the year in its name.', ajuda7: 'An option is disabled when, with the other ticked options, the number of players and the Blacklist, there aren\'t enough decks for everyone.', ajuda5: '"Blacklist" removes sets, archetypes or decks. A deck is out if any of its archetypes is excluded. Exclusions only last in this tab.', ajuda6: 'After the draw, tap a player to see the deck list. The die on a card swaps only that player\'s deck, and the share button sends the result as a link (without the exclusions).', ajudaBtn: 'How the draw works',
     mesaJog: 'Players', mesaNomes: 'Names (optional)', jogador: 'Player {n}', mesaModo: 'Mode', ffa: 'Free-for-all', duplasOpc: 'Teams (2 vs 2)',
     cancelar: 'Cancel', sortear: 'Draw', sortearDeNovo: 'Draw again', mesaResumo: '{n} players', duplasCurto: 'teams', dupla: 'Team {x}',
     comeca: 'goes first', mesaToque: 'Tap a player to see the deck list and create it on endstep.cc.',
@@ -498,9 +503,9 @@ var TXT = {
     filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Por color', tirarCor: 'Quitar el filtro de colores',
     cores: { W: 'Blanco', U: 'Azul', B: 'Negro', R: 'Rojo', G: 'Verde', C: 'Incoloro' }, cinco: 'WUBRG',
     surpresa: 'Sorpréndeme', surpresaDica: 'Abre un mazo al azar entre todos (borra la búsqueda y los filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Borrar todo', limparTudoDica: 'Vuelve al inicio: borra la búsqueda y los filtros y lo recoge todo',
-    exclArqs: 'Arquetipos', arqMesmoChk: 'Todos con el mismo arquetipo (sorteado)', arqSorteado: 'Arquetipo sorteado:', arqFaltam: 'Ningún arquetipo tiene {n} mazos con estas exclusiones. Quita alguna exclusión o desmarca "Todos con el mismo arquetipo".', arqRot: 'Arquetipo: {a}',
+    exclArqs: 'Arquetipos', arqMesmoChk: 'Todos con el mismo arquetipo (sorteado)', arqSorteado: 'Arquetipo sorteado:', optFaltam: 'Con las opciones marcadas no hay {n} mazos para sortear. Desmarca una opción o quita algo de la Blacklist.', colMesmaChk: 'Todos de la misma colección (sorteada)', anoMesmoChk: 'Todos del mismo año (sorteado)', colSorteada: 'Colección sorteada:', anoSorteado: 'Año sorteado:', colRot: 'Colección: {a}', anoRot: 'Año: {a}', arqRot: 'Arquetipo: {a}',
     mesaDica: 'Sorteo en grupo (2 a 4 jugadores)', mesaTitulo: 'Sorteo en grupo',
-    ajuda1: 'Cada jugador recibe un mazo distinto, sorteado entre todos los mazos (la búsqueda y los filtros de la página no cuentan).', ajuda2: 'Con 4 jugadores se puede jugar por parejas (2 contra 2); las parejas también se sortean.', ajuda3: 'Quién empieza la partida también se sortea.', ajuda4: 'Con "Todos con el mismo arquetipo", el arquetipo se sortea y todos reciben mazos que lo tengan (como 1.º o 2.º arquetipo).', ajuda5: '"Blacklist" quita colecciones, arquetipos o mazos. Un mazo queda fuera si alguno de sus arquetipos está excluido. Las exclusiones valen solo en esta pestaña.', ajuda6: 'Tras el sorteo, toca un jugador para ver la lista del mazo. El dado de la tarjeta cambia solo su mazo, y el botón de compartir envía el resultado por enlace (sin las exclusiones).', ajudaBtn: 'Cómo funciona el sorteo',
+    ajuda1: 'Cada jugador recibe un mazo distinto, sorteado entre todos los mazos (la búsqueda y los filtros de la página no cuentan).', ajuda2: 'Con 4 jugadores se puede jugar por parejas (2 contra 2); las parejas también se sortean.', ajuda3: 'Quién empieza la partida también se sortea.', ajuda4: '"Misma colección", "mismo año" y "mismo arquetipo" sortean una colección, un año o un arquetipo (1.º o 2.º del mazo), y todos reciben mazos de él. Se pueden combinar, salvo colección con año (la colección ya fija el año). Secret Lair cuenta como una sola colección, y cada mazo suyo vale en el año de su nombre.', ajuda7: 'Una opción queda desactivada cuando, con las otras marcadas, el número de jugadores y la Blacklist, no quedan mazos para todos.', ajuda5: '"Blacklist" quita colecciones, arquetipos o mazos. Un mazo queda fuera si alguno de sus arquetipos está excluido. Las exclusiones valen solo en esta pestaña.', ajuda6: 'Tras el sorteo, toca un jugador para ver la lista del mazo. El dado de la tarjeta cambia solo su mazo, y el botón de compartir envía el resultado por enlace (sin las exclusiones).', ajudaBtn: 'Cómo funciona el sorteo',
     mesaJog: 'Jugadores', mesaNomes: 'Nombres (opcional)', jogador: 'Jugador {n}', mesaModo: 'Modo', ffa: 'Todos contra todos', duplasOpc: 'Parejas (2 contra 2)',
     cancelar: 'Cancelar', sortear: 'Sortear', sortearDeNovo: 'Sortear de nuevo', mesaResumo: '{n} jugadores', duplasCurto: 'parejas', dupla: 'Pareja {x}',
     comeca: 'empieza', mesaToque: 'Toca un jugador para ver la lista del mazo y crearlo en endstep.cc.',
@@ -1303,7 +1308,7 @@ document.addEventListener("keydown", function (e) {
 // O Surpreenda-me de um jogador continua igual. Exclusões (coleções e decks) e troca do deck de um jogador: ver mais abaixo.
 var mesa = null; // { duplas, comeca, sel, novo, jog: [{ k (posição no quadro), nome, d (deck) }] }
 var CHAVE_MESA = "precons-mesa"; // últimas escolhas do quadro (só neste aparelho)
-var cfgMesa = { n: 4, nomes: ["", "", "", ""], duplas: false, mesmoArq: false }; // mesmoArq não é guardado: começa desmarcado a cada visita (pedido do usuário)
+var cfgMesa = { n: 4, nomes: ["", "", "", ""], duplas: false, mesmaCol: false, mesmoAno: false, mesmoArq: false }; // as três opções "mesmo(a)" não são guardadas: começam desmarcadas a cada visita (pedido do usuário)
 (function () {
   try {
     var p = JSON.parse(localStorage.getItem(CHAVE_MESA) || "{}");
@@ -1342,6 +1347,25 @@ function decksSorteaveis(e) {
 // Arquétipos que ainda têm decks suficientes (>= n) entre os decks sorteáveis; base do "todos o mesmo arquétipo".
 function arqContagem(decks) { var c = {}; decks.forEach(function (d) { (d.arq || []).forEach(function (a) { c[a] = (c[a] || 0) + 1; }); }); return c; }
 function arqsDisponiveis(decks, n) { var c = arqContagem(decks); return ARQUETIPOS.filter(function (a) { return (c[a] || 0) >= n; }); }
+// Opções "todos da mesma coleção / do mesmo ano / com o mesmo arquétipo" (r = { col, ano, arq }: quais estão marcadas).
+// O sorteio escolhe ao acaso um grupo g = { col, ano, arq } (só os critérios marcados) entre os que têm decks para todos
+// (>= n entre os sorteáveis) e sorteia os decks dentro dele. Coleção e ano não se combinam (a coleção já define o ano).
+// Secret Lair: uma coleção só (sld); o ano de cada deck é o do nome, "(2024)".
+function anoDe(d) { if (d._col.ano) return d._col.ano; var m = /\((\d{4})\)\s*$/.exec(d.nome); return m ? m[1] : ""; }
+function temRestr(r) { return !!(r && (r.col || r.ano || r.arq)); }
+function casaGrupo(d, g) { return !g || ((!g.col || d._col.id === g.col) && (!g.ano || anoDe(d) === g.ano) && (!g.arq || (d.arq || []).indexOf(g.arq) >= 0)); }
+function gruposDisponiveis(decks, n, r) {
+  var cont = {}, gs = {};
+  decks.forEach(function (d) {
+    var lista = [{}];
+    if (r.col) lista = lista.map(function (g) { return { col: d._col.id }; });
+    if (r.ano) { var a = anoDe(d); if (!a) return; lista = lista.map(function (g) { return { col: g.col, ano: a }; }); }
+    if (r.arq) { var nl = []; lista.forEach(function (g) { (d.arq || []).forEach(function (x) { nl.push({ col: g.col, ano: g.ano, arq: x }); }); }); lista = nl; }
+    lista.forEach(function (g) { var k = [g.col, g.ano, g.arq].join("|"); cont[k] = (cont[k] || 0) + 1; gs[k] = g; });
+  });
+  return Object.keys(cont).filter(function (k) { return cont[k] >= n; }).map(function (k) { return gs[k]; });
+}
+function rCfg() { return { col: cfgMesa.mesmaCol, ano: cfgMesa.mesmoAno, arq: cfgMesa.mesmoArq }; }
 
 // Quadro de configuração
 var focoAntesMesa = null;
@@ -1475,9 +1499,9 @@ function atualizarExcl() {
   var tot = 0; COLECOES.forEach(function (c) { tot += c.decks.length; });
   Object.keys(exclArqCb).forEach(function (a) { exclArqCb[a].cb.checked = !!exclRasc.a[a]; exclArqCb[a].nm.textContent = t("arqs")[a] || a; });
   var sorteaveis = decksSorteaveis(exclRasc), resta = sorteaveis.length, falta = resta < cfgMesa.n, msg = falta ? t("exclFaltam", { n: cfgMesa.n }) : "";
-  var disp = arqsDisponiveis(sorteaveis, cfgMesa.n); // "todos o mesmo arquétipo": precisa de um arquétipo com decks para todos
-  if (cfgMesa.mesmoArq && !disp.length && !falta) { falta = true; msg = t("arqFaltam", { n: cfgMesa.n }); }
-  pintarArqCfg();
+  var r = rCfg(); // opções "mesmo(a)" marcadas: precisa haver um grupo com decks para todos
+  if (temRestr(r) && !falta && !gruposDisponiveis(sorteaveis, cfgMesa.n, r).length) { falta = true; msg = t("optFaltam", { n: cfgMesa.n }); }
+  pintarOpcs(sorteaveis);
   $("exclResumo").textContent = t("exclResumo", { a: resta, b: tot });
   $("exclAviso").hidden = !falta; $("exclAviso").textContent = msg;
   $("mesaSortear").disabled = falta;
@@ -1533,8 +1557,20 @@ $("exclBusca").onfocus = exclSugerir;
 $("exclLimpar").onclick = function () { exclRasc = { c: {}, d: {}, a: {} }; $("exclBusca").value = ""; exclSugerir(); atualizarExcl(); };
 
 // Caixa "Todos com o mesmo arquétipo": o arquétipo é sempre sorteado (entre os que têm decks para todos); não se escolhe qual.
-function pintarArqCfg() { $("mesaMesmoArq").checked = cfgMesa.mesmoArq; }
-$("mesaMesmoArq").onchange = function () { cfgMesa.mesmoArq = this.checked; atualizarExcl(); };
+// Cada opção desmarcada fica desabilitada se, somada às marcadas, não sobrar grupo com decks para todos (com a Blacklist e o
+// número de jogadores atuais), ou se for coleção/ano com a outra marcada. As marcadas ficam sempre habilitadas (para desmarcar);
+// se a combinação marcada ficar impossível (trocou o número de jogadores ou a Blacklist), o aviso aparece e o Sortear trava.
+var OPCS = [["mesaMesmaCol", "mesmaCol", "col"], ["mesaMesmoAno", "mesmoAno", "ano"], ["mesaMesmoArq", "mesmoArq", "arq"]];
+function pintarOpcs(sorteaveis) {
+  var r = rCfg();
+  OPCS.forEach(function (o) {
+    var cb = $(o[0]); cb.checked = !!cfgMesa[o[1]];
+    if (cb.checked) { cb.disabled = false; return; }
+    var r2 = { col: r.col, ano: r.ano, arq: r.arq }; r2[o[2]] = true;
+    cb.disabled = (r2.col && r2.ano) || !gruposDisponiveis(sorteaveis, cfgMesa.n, r2).length;
+  });
+}
+OPCS.forEach(function (o) { $(o[0]).onchange = function () { cfgMesa[o[1]] = this.checked; atualizarExcl(); }; });
 function abrirCfg() {
   if (animando) return;
   fecharSug(); Object.keys(FILTROS).forEach(function (k) { fecharFiltro(FILTROS[k], false); });
@@ -1554,31 +1590,31 @@ $("mesaCfg").onclick = function (e) { if (e.target === this) fecharCfg(); };
 $("mesaSortear").onclick = function () { sortearDoQuadro(); };
 function sortearDoQuadro() {
   var sd = decksSorteaveis(exclRasc);
-  if (sd.length < cfgMesa.n || (cfgMesa.mesmoArq && !arqsDisponiveis(sd, cfgMesa.n).length)) return; // poucos decks: o aviso já está no quadro
+  if (sd.length < cfgMesa.n || (temRestr(rCfg()) && !gruposDisponiveis(sd, cfgMesa.n, rCfg()).length)) return; // poucos decks: o aviso já está no quadro
   excl = copiaExcl(exclRasc); guardarExcl(); // as exclusões só passam a valer ao sortear
   try { localStorage.setItem(CHAVE_MESA, JSON.stringify({ n: cfgMesa.n, nomes: cfgMesa.nomes.map(function (x) { return x.trim(); }), duplas: cfgMesa.duplas })); } catch (e) {}
   $("mesaCfg").hidden = true;
   var base = [];
   for (var i = 0; i < cfgMesa.n; i++) base.push({ k: i, nome: cfgMesa.nomes[i].trim().slice(0, 24) });
-  sortearMesa(base, cfgMesa.n === 4 && cfgMesa.duplas, { mesmo: cfgMesa.mesmoArq });
+  sortearMesa(base, cfgMesa.n === 4 && cfgMesa.duplas, rCfg());
 }
 
 // Sorteio: decks diferentes entre todos; com duplas, a ordem dos jogadores também é sorteada (1º e 2º = dupla A).
-function sortearMesa(base, duplas, opc) {
+function sortearMesa(base, duplas, r) {
   if (animando) return;
-  var todos = decksSorteaveis(excl), arq = ""; // todos os decks, menos os excluídos no quadro
+  var todos = decksSorteaveis(excl), g = null; // todos os decks, menos os da Blacklist
   if (todos.length < base.length) { aviso(t("exclFaltam", { n: base.length })); return; }
-  if (opc && opc.mesmo) { // todos com o mesmo arquétipo (1º ou 2º do deck): o escolhido, ou um sorteado entre os que têm decks para todos
-    var ok = arqsDisponiveis(todos, base.length);
-    if (!ok.length) { aviso(t("arqFaltam", { n: base.length })); return; }
-    arq = ok[Math.floor(Math.random() * ok.length)];
-    todos = todos.filter(function (d) { return (d.arq || []).indexOf(arq) >= 0; });
+  if (temRestr(r)) { // opções "mesmo(a)": sorteia um grupo (coleção/ano/arquétipo) entre os que têm decks para todos
+    var ok = gruposDisponiveis(todos, base.length, r);
+    if (!ok.length) { aviso(t("optFaltam", { n: base.length })); return; }
+    g = ok[Math.floor(Math.random() * ok.length)];
+    todos = todos.filter(function (d) { return casaGrupo(d, g); });
   }
   embaralhar(todos);
   var jog = base.map(function (b, i) { return { k: b.k, nome: b.nome, d: todos[i] }; });
   if (duplas) embaralhar(jog);
   zerarBuscaEFiltros();
-  mesa = { duplas: duplas, comeca: Math.floor(Math.random() * jog.length), sel: -1, novo: true, jog: jog, arq: arq, arqMesmo: !!(opc && opc.mesmo) };
+  mesa = { duplas: duplas, comeca: Math.floor(Math.random() * jog.length), sel: -1, novo: true, jog: jog, g: g, r: { col: !!(r && r.col), ano: !!(r && r.ano), arq: !!(r && r.arq) } };
   try { history.replaceState(null, "", "#" + hashMesa()); } catch (e) {}
   desenhar();
   window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
@@ -1589,14 +1625,15 @@ function trocarDeck(i) {
   if (animando || !mesa || !mesa.jog[i]) return;
   var usados = {};
   mesa.jog.forEach(function (x) { usados[idDe(x.d)] = 1; });
-  var livres = decksSorteaveis(excl).filter(function (d) { return !usados[idDe(d)] && (!mesa.arq || (d.arq || []).indexOf(mesa.arq) >= 0); });
+  var livres = decksSorteaveis(excl).filter(function (d) { return !usados[idDe(d)] && casaGrupo(d, mesa.g); });
   if (!livres.length) { aviso(t("semOutro")); return; }
   mesa.jog[i].d = livres[Math.floor(Math.random() * livres.length)]; mesa.jog[i].rev = true; // rev: só este cartão é revelado de novo
   try { history.replaceState(null, "", "#" + hashMesa()); } catch (e) {}
   desenhar();
 }
 function hashMesa() {
-  return "sorteio/" + (mesa.duplas ? "d" : "f") + (mesa.arq ? "-" + mesa.arq : "") + "/" + (mesa.comeca + 1) + "/" +
+  var g = mesa.g || {}; // modo, "-arquétipo", ".c-coleção", ".a-ano" (links antigos só com "-arquétipo" continuam valendo)
+  return "sorteio/" + (mesa.duplas ? "d" : "f") + (g.arq ? "-" + g.arq : "") + (g.col ? ".c-" + g.col : "") + (g.ano ? ".a-" + g.ano : "") + "/" + (mesa.comeca + 1) + "/" +
     mesa.jog.map(function (j) { return (j.k + 1) + ":" + encodeURIComponent(j.nome) + ":" + idDe(j.d); }).join(",");
 }
 // Lê o sorteio do endereço (link compartilhado); devolve null se não for um sorteio válido.
@@ -1604,16 +1641,23 @@ function mesaDoEndereco() {
   var h = location.hash.replace(/^#/, "");
   if (h.indexOf("sorteio/") !== 0) return null;
   var p = h.split("/"); if (p.length < 4) return null;
-  var duplas = p[1].charAt(0) === "d", arqL = (/^[df]-([a-z]+)$/.exec(p[1]) || [])[1], arq = ARQUETIPOS.indexOf(arqL) >= 0 ? arqL : "", comeca = parseInt(p[2], 10) - 1, jog = [], ok = true;
+  var pm = p[1].split("."), duplas = pm[0].charAt(0) === "d", arqL = (/^[df]-([a-z]+)$/.exec(pm[0]) || [])[1], g = {}, comeca = parseInt(p[2], 10) - 1, jog = [], ok = true;
   p.slice(3).join("/").split(",").forEach(function (x) {
     var m = /^([1-4]):([^:]*):(.+)$/.exec(x), d = m && deckPorId(m[3]), nome = "";
     try { nome = m ? decodeURIComponent(m[2]).slice(0, 24) : ""; } catch (e) { ok = false; }
     if (!m || !d) ok = false; else jog.push({ k: +m[1] - 1, nome: nome, d: d });
   });
   if (!ok || jog.length < 2 || jog.length > 4) return null;
+  if (ARQUETIPOS.indexOf(arqL) >= 0) g.arq = arqL;
+  pm.slice(1).forEach(function (x) {
+    var mc = /^c-([a-z0-9]+)$/.exec(x), ma = /^a-(\d{4})$/.exec(x);
+    if (mc && COLECOES.some(function (c) { return c.id === mc[1]; })) g.col = mc[1];
+    if (ma) g.ano = ma[1];
+  });
   if (jog.length !== 4) duplas = false;
   if (!(comeca >= 0 && comeca < jog.length)) comeca = 0;
-  return { duplas: duplas, comeca: comeca, sel: -1, novo: true, jog: jog, arq: arq, arqMesmo: !!arq };
+  var r = { col: !!g.col, ano: !!g.ano, arq: !!g.arq };
+  return { duplas: duplas, comeca: comeca, sel: -1, novo: true, jog: jog, g: temRestr(r) ? g : null, r: r };
 }
 
 // Tela do sorteio
@@ -1630,16 +1674,18 @@ function desenharMesa() {
   bn.innerHTML = DADO; bn.appendChild(document.createTextNode(t("sortearDeNovo")));
   bn.onclick = function () {
     var base = mesa.jog.slice().sort(function (a, b) { return a.k - b.k; }).map(function (j) { return { k: j.k, nome: j.nome }; });
-    sortearMesa(base, mesa.duplas, { mesmo: mesa.arqMesmo });
+    sortearMesa(base, mesa.duplas, mesa.r);
     var b2 = $("btnDeNovo"); if (b2) { b2.classList.remove("gira"); void b2.offsetWidth; b2.classList.add("gira"); }
   };
   var bc = document.createElement("button"); bc.type = "button"; bc.className = "ghost icone"; bc.id = "btnCompMesa";
   bc.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONES[SO] + '</svg>';
   bc.setAttribute("aria-label", t("compSorteio")); bc.title = t("compSorteio"); bc.onclick = compartilharMesa;
   ac.appendChild(bn); ac.appendChild(bc); cab.appendChild(tit); cab.appendChild(ac); m.appendChild(cab);
-  if (mesa.arq) { // resultado do "todos com o mesmo arquétipo"
-    var la = document.createElement("div"), ba = document.createElement("b");
-    la.className = "mesa-arq"; la.textContent = t("arqSorteado"); ba.textContent = t("arqs")[mesa.arq] || mesa.arq; la.appendChild(ba); m.appendChild(la);
+  var rot = rotulosGrupo(mesa.g);
+  if (rot.length) { // resultado das opções "mesmo(a)": coleção, ano e/ou arquétipo sorteados
+    var la = document.createElement("div"); la.className = "mesa-arq";
+    rot.forEach(function (x) { var it = document.createElement("span"), ba = document.createElement("b"); it.textContent = t(x[0]); ba.textContent = x[1]; it.appendChild(ba); la.appendChild(it); });
+    m.appendChild(la);
   }
   var blocos = mesa.duplas ? [[0, 1], [2, 3]] : [mesa.jog.map(function (_, i) { return i; })], ordem = 0;
   blocos.forEach(function (idx, bi) {
@@ -1684,12 +1730,20 @@ function desenharMesa() {
   }
   mesa.novo = false;
 }
+function rotulosGrupo(g) { // [[chave do rótulo, chave do texto compartilhado, valor]] na ordem coleção, ano, arquétipo
+  var r = []; if (!g) return r;
+  if (g.col) { var c = COLECOES.filter(function (x) { return x.id === g.col; })[0]; r.push(["colSorteada", c ? c.nome : g.col, "colRot"]); }
+  if (g.ano) r.push(["anoSorteado", g.ano, "anoRot"]);
+  if (g.arq) r.push(["arqSorteado", t("arqs")[g.arq] || g.arq, "arqRot"]);
+  return r;
+}
 function compartilharMesa() {
   var url = location.href.split("#")[0] + "#" + hashMesa();
   var txt = mesa.jog.map(function (j, i) {
     return nomeJog(j) + (mesa.duplas ? " (" + t("dupla", { x: i < 2 ? "A" : "B" }) + ")" : "") + (mesa.comeca === i ? " (" + t("comeca") + ")" : "") + ": " + j.d.nome + " - " + j.d.comandante;
   }).join("\n");
-  if (mesa.arq) txt = t("arqRot", { a: t("arqs")[mesa.arq] || mesa.arq }) + "\n" + txt;
+  var rot = rotulosGrupo(mesa.g);
+  if (rot.length) txt = rot.map(function (x) { return t(x[2], { a: x[1] }); }).join("\n") + "\n" + txt;
   function copia() { copiar(url, function () { aviso(t("linkSorteio")); }, function () { prompt(t("copieSorteio"), url); }); }
   if (SO !== "generico" && navigator.share) {
     navigator.share({ title: t("mesaTitulo") + " · Precons Commander", text: txt, url: url }).catch(function (e) { if (!e || e.name !== "AbortError") copia(); });
