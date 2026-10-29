@@ -8,10 +8,10 @@
 1 Audacious Reshapers (C21) 47
 1 Battlefield Forge (C21) 278
 1 Battlemage's Bracers (C21) 48
-1 Bosh, Iron Golem (C21) 237
 1 Boros Charm (C21) 210
 1 Boros Garrison (C21) 282
 1 Boros Locket (C21) 236
+1 Bosh, Iron Golem (C21) 237
 1 Bronze Guardian (C21) 13
 1 Burnished Hart (C21) 238
 1 Chain Reaction (C21) 161

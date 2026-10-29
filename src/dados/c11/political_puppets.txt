@@ -37,8 +37,8 @@
 3 Island (CMD) 306
 1 Izzet Boilerworks (CMD) 278
 1 Izzet Chronarch (CMD) 205
-1 Jötun Grunt (CMD) 16
 1 Journey to Nowhere (CMD) 17
+1 Jötun Grunt (CMD) 16
 1 Lash Out (CMD) 127
 1 Lightning Greaves (CMD) 253
 1 Martyr's Bond (CMD) 19

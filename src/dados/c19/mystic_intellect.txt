@@ -11,8 +11,8 @@
 1 Burning Vengeance (C19) 135
 1 Burnished Hart (C19) 211
 1 Chemister's Insight (C19) 80
-1 Cliffside Rescuer (C19) 1
 1 Clever Impersonator (C19) 82
+1 Cliffside Rescuer (C19) 1
 1 Command Tower (C19) 237
 1 Commander's Sphere (C19) 212
 1 Crackling Drake (C19) 190
@@ -26,8 +26,8 @@
 1 Empowered Autogenerator (C19) 54
 1 Evolving Wilds (C19) 241
 1 Exotic Orchard (C19) 242
-1 Faithless Looting (C19) 140
 1 Fact or Fiction (C19) 85
+1 Faithless Looting (C19) 140
 1 Farm // Market (C19) 192a
 1 Fervent Denial (C19) 86
 1 Gerrard, Weatherlight Hero (C19) 41
@@ -37,9 +37,9 @@
 1 Ignite the Future (C19) 27
 1 Increasing Devotion (C19) 66
 1 Increasing Vengeance (C19) 147
+2 Island (C19) 293
 3 Island (C19) 291
 3 Island (C19) 292
-2 Island (C19) 293
 1 Izzet Boilerworks (C19) 252
 1 Izzet Guildgate (C19) 253
 1 Izzet Locket (C19) 215
@@ -48,9 +48,9 @@
 1 Magmaquake (C19) 148
 1 Mandate of Peace (C19) 4
 1 Mass Diminish (C19) 10
-2 Mountain (C19) 297
 1 Mountain (C19) 298
 1 Mountain (C19) 299
+2 Mountain (C19) 297
 1 Myriad Landscape (C19) 261
 1 Mystic Monastery (C19) 262
 1 Mystic Retrieval (C19) 90

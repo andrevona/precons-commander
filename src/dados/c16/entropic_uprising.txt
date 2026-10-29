@@ -17,8 +17,8 @@
 1 Command Tower (C16) 286
 1 Commander's Sphere (C16) 248
 1 Consuming Aberration (C16) 189
-1 Crumbling Necropolis (C16) 287
 1 Cruel Entertainment (C16) 11
+1 Crumbling Necropolis (C16) 287
 1 Curtains' Call (C16) 13
 1 Decimate (C16) 193
 1 Devastation Tide (C16) 87
@@ -30,9 +30,9 @@
 1 Exotic Orchard (C16) 295
 1 Far Wanderings (C16) 148
 1 Fellwar Stone (C16) 254
+1 Forest (C16) 351
 2 Forest (C16) 349
 2 Forest (C16) 350
-1 Forest (C16) 351
 1 Frenzied Fugue (C16) 18
 1 Frontier Bivouac (C16) 297
 1 Gamekeeper (C16) 151
@@ -43,14 +43,14 @@
 1 Guiltfeeder (C16) 112
 1 Horizon Chimera (C16) 204
 1 In Garruk's Wake (C16) 113
+1 Island (C16) 342
 2 Island (C16) 340
 2 Island (C16) 341
-1 Island (C16) 342
 1 Jungle Hollow (C16) 303
 1 Kydele, Chosen of Kruphix (C16) 35
+1 Mountain (C16) 348
 2 Mountain (C16) 346
 2 Mountain (C16) 347
-1 Mountain (C16) 348
 1 Nath of the Gilt-Leaf (C16) 213
 1 Opulent Palace (C16) 313
 1 Parting Thoughts (C16) 15
@@ -60,8 +60,8 @@
 1 Rakdos Signet (C16) 268
 1 Reforge the Soul (C16) 132
 1 Reliquary Tower (C16) 316
-1 Runehorn Hellkite (C16) 20
 1 Rugged Highlands (C16) 318
+1 Runehorn Hellkite (C16) 20
 1 Rupture Spire (C16) 319
 1 Sangromancer (C16) 116
 1 Satyr Wayfinder (C16) 165
@@ -72,9 +72,9 @@
 1 Sol Ring (C16) 272
 1 Spellheart Chimera (C16) 222
 1 Spelltwine (C16) 97
+1 Swamp (C16) 345
 2 Swamp (C16) 343
 2 Swamp (C16) 344
-1 Swamp (C16) 345
 1 Swiftwater Cliffs (C16) 330
 1 Terramorphic Expanse (C16) 332
 1 Thornwood Falls (C16) 333

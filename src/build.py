@@ -51,6 +51,8 @@ C=[("Commander (2011)","c11",[("Counterpunch","counterpunch"),("Devour for Power
 ANOS={"c11":"2011","c13":"2013","c14":"2014","c15":"2015","c16":"2016","c17":"2017","c18":"2018","c19":"2019","c20":"2020","znc":"2020","cmr":"2020","khc":"2021","c21":"2021","sld":"","afc":"2021","mic":"2021","voc":"2021","nec":"2022","ncc":"2022","clb":"2022","dmc":"2022","40k":"2022","brc":"2022","scd":"2022","onc":"2023","moc":"2023","ltc":"2023","cmm":"2023","woc":"2023","who":"2023","lcc":"2023","mkc":"2024","pip":"2024","otc":"2024","m3c":"2024","blc":"2024","dsc":"2024","drc":"2025","tdc":"2025","fic":"2025","eoc":"2025","ecc":"2026","tmc":"2026","soc":"2026","msc":"2026","fdc":"2026","frc":"2026"}
 # Grupos de topo; o resto e Universes Within.
 GRUPO={"40k":"Universes Beyond","ltc":"Universes Beyond","who":"Universes Beyond","pip":"Universes Beyond","fic":"Universes Beyond","tmc":"Universes Beyond","msc":"Universes Beyond","fdc":"Starters","scd":"Starters","sld":"Secret Lair"}
+# Aviso próprio de um deck, mostrado no painel (texto em TXT.notas_<chave> do template.html).
+NOTAS={"nec/upgrades_unleashed":"mossfire"}
 GRUPOS=["Universes Within","Universes Beyond","Starters","Secret Lair"]
 data=[]
 for nome,pasta,decks in C:
@@ -59,6 +61,7 @@ for nome,pasta,decks in C:
         t=open(f"{pasta}/{f}.txt",encoding="utf-8").read()
         cmd=" / ".join(l.split(" ",1)[1].rsplit(" (",1)[0] for l in t.split("\n\n")[0].split("\n"))
         ds.append({"nome":dn,"comandante":cmd,"arquivo":f+".txt","lista":t})
+        if f"{pasta}/{f}" in NOTAS: ds[-1]["nota"]=NOTAS[f"{pasta}/{f}"]
     data.append({"id":pasta,"nome":nome,"ano":ANOS[pasta],"grupo":GRUPO.get(pasta,"Universes Within"),"icone":{"c11":"cmd"}.get(pasta,pasta),"decks":ds})
 # Filtro "Cores do deck": "ci" = identidade de cor do deck = união das identidades do(s) comandante(s) (primeiro bloco da lista),
 # letras na ordem WUBRG ("C" = incolor). Vem de cartas.csv + impressoes.csv (gerados por tools/atributos.py).

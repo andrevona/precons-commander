@@ -36,9 +36,9 @@
 1 Geode Golem (C18) 56
 1 Halimar Depths (C18) 253
 1 High Priest of Penance (C18) 183
+1 Island (C18) 298
 2 Island (C18) 296
 2 Island (C18) 297
-1 Island (C18) 298
 1 Isolated Watchtower (C18) 59
 1 Jeskai Infiltrator (C18) 93
 1 Jwar Isle Refuge (C18) 260
@@ -60,17 +60,17 @@
 1 Orzhov Signet (C18) 213
 1 Phyrexian Delver (C18) 115
 1 Pilgrim's Eye (C18) 214
+2 Plains (C18) 295
 3 Plains (C18) 293
 3 Plains (C18) 294
-2 Plains (C18) 295
 1 Ponder (C18) 96
 1 Portent (C18) 97
 1 Predict (C18) 98
 1 Primordial Mist (C18) 12
 1 Return to Dust (C18) 71
 1 Scoured Barrens (C18) 276
-1 Seer's Lantern (C18) 220
 1 Secluded Steppe (C18) 279
+1 Seer's Lantern (C18) 220
 1 Sejiri Refuge (C18) 280
 1 Serra Avatar (C18) 73
 1 Sigiled Starfish (C18) 102

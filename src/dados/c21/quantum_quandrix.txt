@@ -15,12 +15,12 @@
 1 Curse of the Swine (C21) 118
 1 Deekah, Fractal Theorist (C21) 26
 1 Desolation Twin (C21) 82
-1 Eureka Moment (STX) 184
 1 Esix, Fractal Bloom (C21) 10
+1 Eureka Moment (STX) 184
 1 Exotic Orchard (C21) 288
 1 Ezuri's Predation (C21) 188
-6 Forest (STX) 374
 5 Forest (STX) 375
+6 Forest (STX) 374
 1 Forgotten Ancient (C21) 189
 1 Fractal Harness (C21) 61
 1 Garruk, Primal Hunter (C21) 190
@@ -31,8 +31,8 @@
 1 Hornet Queen (C21) 193
 1 Hydra Broodmaster (C21) 194
 1 Idol of Oblivion (C21) 246
-1 Incubation Druid (C21) 195
 1 Incubation // Incongruity (C21) 219a
+1 Incubation Druid (C21) 195
 5 Island (STX) 368
 5 Island (STX) 369
 1 Kaseto, Orochi Archmage (C21) 221

@@ -1,8 +1,8 @@
 1 Kaalia of the Vast (CMD) 206
 
 1 Akoum Refuge (CMD) 264
-1 Akroma, Angel of Fury (CMD) 108
 1 Akroma's Vengeance (CMD) 3
+1 Akroma, Angel of Fury (CMD) 108
 1 Angel of Despair (CMD) 180
 1 Angelic Arbiter (CMD) 5
 1 Anger (CMD) 109
@@ -18,8 +18,8 @@
 1 Boros Guildmage (CMD) 186
 1 Boros Signet (CMD) 243
 1 Cleansing Beam (CMD) 116
-1 Command Tower (CMD) 269
 1 Comet Storm (CMD) 117
+1 Command Tower (CMD) 269
 1 Congregate (CMD) 11
 1 Darksteel Ingot (CMD) 245
 1 Death by Dragons (CMD) 118

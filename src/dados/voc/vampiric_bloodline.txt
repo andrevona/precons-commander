@@ -69,8 +69,8 @@
 1 Temple of Malice (VOC) 186
 1 Temple of the False God (VOC) 187
 1 Timothar, Baron of Bats (VOC) 4
-1 Underworld Connections (VOC) 138
 1 Unclaimed Territory (VOC) 188
+1 Underworld Connections (VOC) 138
 1 Unstable Obelisk (VOC) 170
 1 Urge to Feed (VOC) 139
 1 Vampire Nighthawk (VOC) 140

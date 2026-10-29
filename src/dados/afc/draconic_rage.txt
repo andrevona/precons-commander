@@ -21,8 +21,8 @@
 1 Decree of Savagery (AFC) 156
 1 Demanding Dragon (AFC) 120
 1 Desert (AFC) 233
-1 Dragonborn Champion (AFC) 45
 1 Dragon's Hoard (AFC) 204
+1 Dragonborn Champion (AFC) 45
 1 Dragonlord's Servant (AFC) 123
 1 Dragonmaster Outcast (AFC) 124
 1 Dragonspeaker Shaman (AFC) 330
@@ -30,10 +30,10 @@
 1 Earth-Cult Elemental (AFR) 141
 1 Exotic Orchard (AFC) 236
 1 Explore (AFC) 157
+3 Forest (AFR) 281
 4 Forest (AFR) 278
 4 Forest (AFR) 279
 4 Forest (AFR) 280
-3 Forest (AFR) 281
 1 Game Trail (AFC) 240
 1 Garruk's Uprising (AFC) 159
 1 Gratuitous Violence (AFC) 127
@@ -44,8 +44,8 @@
 1 Hoard-Smelter Dragon (AFC) 128
 1 Indomitable Might (AFC) 40
 1 Kindred Summons (AFC) 163
-1 Klauth, Unrivaled Ancient (AFC) 50
 1 Klauth's Will (AFC) 51
+1 Klauth, Unrivaled Ancient (AFC) 50
 1 Maddening Hex (AFC) 32
 1 Magmaquake (AFC) 133
 1 Mossfire Valley (AFC) 250

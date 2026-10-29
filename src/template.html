@@ -190,6 +190,7 @@
       <button class="ghost" id="btnCopiar" data-t="copiar">Copiar lista</button>
     </div>
     <div class="status" id="status"></div>
+    <div class="status" id="notaDeck" hidden></div>
     <div class="lista"><div class="espelho" id="espelho" aria-hidden="true"></div><textarea id="saida" readonly spellcheck="false" wrap="off"></textarea></div>
   </div>
   </div>
@@ -225,6 +226,7 @@ var TXT = {
     todosAnos: 'Todos os anos', decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck encontrado', achouN: '{n} decks encontrados',
     nenhum: 'Nenhum deck encontrado', nenhumTxt: 'Nenhum deck, comandante ou carta com esse nome.', nenhumFiltro: 'Nenhum deck com esses filtros.',
     cartas: '{n} cartas', aviso100: ' (atenção: o esperado era 100)', encontrado: 'encontrado',
+    notas_mossfire: 'Este deck foi impresso com 2 Mossfire Valley no lugar de mais um terreno básico (a Wizards confirmou o erro). A lista segue o deck como foi vendido; para jogar em Commander, troque a cópia extra por um terreno básico.',
     outras: 'Mostrar as outras coleções', compartilhar: 'Compartilhar o link do deck', criar: 'Criar no endstep.cc',
     copiar: 'Copiar lista', copiado: 'Copiado ✓', falhaCopiar: 'Não consegui copiar: selecione o texto e copie manualmente.',
     linkCopiado: 'Link do deck copiado ✓', copieLink: 'Copie o link do deck:',
@@ -254,6 +256,7 @@ var TXT = {
     todosAnos: 'All years', decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck found', achouN: '{n} decks found',
     nenhum: 'No deck found', nenhumTxt: 'No deck, commander or card with that name.', nenhumFiltro: 'No deck matches these filters.',
     cartas: '{n} cards', aviso100: ' (warning: 100 expected)', encontrado: 'found',
+    notas_mossfire: 'This deck was printed with 2 Mossfire Valley instead of an extra basic land (Wizards confirmed the mistake). The list follows the deck as sold; to play it in Commander, swap the extra copy for a basic land.',
     outras: 'Show the other sets', compartilhar: 'Share the deck link', criar: 'Create on endstep.cc',
     copiar: 'Copy list', copiado: 'Copied ✓', falhaCopiar: 'Could not copy: select the text and copy it manually.',
     linkCopiado: 'Deck link copied ✓', copieLink: 'Copy the deck link:',
@@ -283,6 +286,7 @@ var TXT = {
     todosAnos: 'Todos los años', decks: 'Mazos', deck1: 'mazo', deckN: 'mazos', achou1: '1 mazo encontrado', achouN: '{n} mazos encontrados',
     nenhum: 'Ningún mazo encontrado', nenhumTxt: 'Ningún mazo, comandante o carta con ese nombre.', nenhumFiltro: 'Ningún mazo con esos filtros.',
     cartas: '{n} cartas', aviso100: ' (atención: se esperaban 100)', encontrado: 'encontrado',
+    notas_mossfire: 'Este mazo se imprimió con 2 Mossfire Valley en lugar de una tierra básica más (Wizards confirmó el error). La lista sigue el mazo tal como se vendió; para jugarlo en Commander, cambia la copia extra por una tierra básica.',
     outras: 'Mostrar las otras colecciones', compartilhar: 'Compartir el enlace del mazo', criar: 'Crear en endstep.cc',
     copiar: 'Copiar lista', copiado: 'Copiado ✓', falhaCopiar: 'No se pudo copiar: selecciona el texto y cópialo manualmente.',
     linkCopiado: 'Enlace del mazo copiado ✓', copieLink: 'Copia el enlace del mazo:',
@@ -499,7 +503,7 @@ function desenhar() {
   if (!vis.length) {
     $("titulo").textContent = t("nenhum");
     $("saida").value = "";
-    s.textContent = t(q ? "nenhumTxt" : "nenhumFiltro"); s.className = "status warn"; $("espelho").innerHTML = "";
+    s.textContent = t(q ? "nenhumTxt" : "nenhumFiltro"); s.className = "status warn"; $("espelho").innerHTML = ""; $("notaDeck").hidden = true;
     return;
   }
   if (vis.indexOf(colAtual) < 0) { colAtual = vis[0]; deckAtual = 0; recolhido = false; }
@@ -552,6 +556,8 @@ function desenhar() {
   var ac = analisar(deck).rot;
   if (ac.length) s.textContent += " · " + t("encontrado") + ": " + ac.join(", ");
   s.className = "status " + (total === 100 ? "ok" : "warn");
+  var nd = $("notaDeck"); // aviso próprio de alguns decks (campo "nota" do build.py -> TXT.notas)
+  nd.hidden = !deck.nota; nd.textContent = deck.nota ? t("notas_" + deck.nota) : "";
 }
 
 // Animação das coleções: as outras entram por baixo do botão clicado (recolher) e saem de baixo dele (expandir).

@@ -32,8 +32,8 @@
 1 Growth Spasm (MIC) 139
 1 Gyre Sage (MIC) 140
 1 Herald of War (MIC) 86
-1 Heronblade Elite (MIC) 26
 1 Heron's Grace Champion (MIC) 152
+1 Heronblade Elite (MIC) 26
 1 Hour of Reckoning (MIC) 87
 1 Inspiring Call (MIC) 141
 1 Juniper Order Ranger (MIC) 153
@@ -57,8 +57,8 @@
 1 Ruinous Intrusion (MIC) 28
 1 Selesnya Sanctuary (MIC) 180
 1 Shamanic Revelation (MIC) 143
-1 Sigarda, Heron's Grace (MIC) 155
 1 Sigarda's Vanguard (MIC) 8
+1 Sigarda, Heron's Grace (MIC) 155
 1 Sigardian Zealot (MIC) 29
 1 Sol Ring (MIC) 162
 1 Somberwald Beastmaster (MIC) 30

@@ -16,9 +16,9 @@
 1 Bonder's Ornament (C20) 67
 1 Cairn Wanderer (C20) 130
 1 Canopy Vista (C20) 261
-1 Caves of Koilos (C20) 262
 1 Cartographer's Hawk (C20) 24
 1 Cataclysmic Gearhulk (C20) 80
+1 Caves of Koilos (C20) 262
 1 Command Tower (C20) 264
 1 Commander's Sphere (C20) 240
 1 Cultivate (C20) 170
@@ -30,9 +30,9 @@
 1 Ever After (C20) 133
 1 Evolving Wilds (IKO) 247
 1 Exotic Orchard (C20) 273
-2 Forest (IKO) 272
 1 Forest (IKO) 273
 1 Forest (IKO) 274
+2 Forest (IKO) 272
 1 Gavony Township (C20) 276
 1 Golgari Rot Farm (C20) 277
 1 Grim Backwoods (C20) 278
@@ -56,9 +56,9 @@
 1 Odric, Lunarch Marshal (C20) 95
 1 Orzhov Basilica (C20) 297
 1 Parasitic Impetus (C20) 46
-3 Plains (IKO) 260
 2 Plains (IKO) 261
 2 Plains (IKO) 262
+3 Plains (IKO) 260
 1 Predatory Impetus (C20) 62
 1 Reveillark (C20) 97
 1 Sakura-Tribe Elder (C20) 187
@@ -76,13 +76,13 @@
 1 Splinterfright (C20) 191
 1 Sunblast Angel (C20) 102
 1 Sungrass Prairie (C20) 317
-3 Swamp (IKO) 266
 2 Swamp (IKO) 267
 2 Swamp (IKO) 268
+3 Swamp (IKO) 266
 1 Swiftfoot Boots (C20) 254
 1 Tayam, Luminous Enigma (C20) 16
-1 Together Forever (C20) 105
 1 Titanoth Rex (IKO) 174
+1 Together Forever (C20) 105
 1 Unbreakable Bond (IKO) 101
 1 Unburial Rites (C20) 139
 1 Vampire Nighthawk (C20) 140

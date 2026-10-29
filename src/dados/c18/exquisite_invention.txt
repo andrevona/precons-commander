@@ -51,8 +51,8 @@
 1 Prismatic Lens (C18) 215
 1 Prototype Portal (C18) 216
 1 Psychosis Crawler (C18) 217
-1 Reverse Engineer (C18) 99
 1 Retrofitter Foundry (C18) 57
+1 Reverse Engineer (C18) 99
 1 Saheeli's Artistry (C18) 100
 1 Saheeli's Directive (C18) 26
 1 Scrabbling Claws (C18) 218

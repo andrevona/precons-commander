@@ -18,9 +18,9 @@
 1 Dark Salvation (MIC) 110
 1 Darkwater Catacombs (MIC) 171
 1 Death Baron (MIC) 111
+1 Dimir Aqueduct (MIC) 172
 1 Diregraf Captain (MIC) 148
 1 Diregraf Colossus (MIC) 112
-1 Dimir Aqueduct (MIC) 172
 1 Distant Melody (MIC) 98
 1 Dread Summons (MIC) 113
 1 Dreadhorde Invasion (MIC) 114
@@ -44,9 +44,9 @@
 1 Hordewing Skaab (MIC) 15
 1 Hour of Eternity (MIC) 102
 12 Island (MID) 381
-1 Liliana, Death's Majesty (MIC) 121
 1 Liliana's Devotee (MIC) 122
 1 Liliana's Mastery (MIC) 123
+1 Liliana, Death's Majesty (MIC) 121
 1 Lord of the Accursed (MIC) 124
 1 Midnight Reaper (MIC) 125
 1 Mortuary Mire (MIC) 176
@@ -70,7 +70,7 @@
 1 Talisman of Dominance (MIC) 164
 1 Temple of Deceit (MIC) 184
 1 Tomb Tyrant (MIC) 23
+1 Unclaimed Territory (MIC) 187
 1 Undead Alchemist (MIC) 105
 1 Undead Augur (MIC) 130
-1 Unclaimed Territory (MIC) 187
 1 Zombie Apocalypse (MIC) 131

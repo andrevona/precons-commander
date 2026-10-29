@@ -17,10 +17,10 @@
 1 Evolving Wilds (C14) 295
 1 Ezuri, Renegade Leader (C14) 195
 1 Farhaven Elf (C14) 196
-7 Forest (C14) 334
 6 Forest (C14) 335
 6 Forest (C14) 336
 6 Forest (C14) 337
+7 Forest (C14) 334
 1 Fresh Meat (C14) 197
 1 Gargoyle Castle (C14) 297
 1 Ghost Quarter (C14) 298
@@ -44,8 +44,8 @@
 1 Oran-Rief, the Vastwood (C14) 305
 1 Overrun (C14) 207
 1 Overwhelming Stampede (C14) 208
-1 Predator, Flagship (C14) 263
 1 Praetor's Counsel (C14) 209
+1 Predator, Flagship (C14) 263
 1 Priest of Titania (C14) 210
 1 Primordial Sage (C14) 211
 1 Rampaging Baloths (C14) 212

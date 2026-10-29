@@ -20,4 +20,4 @@ jobs:
         with:
           python-version: "3.12"
       - name: Validar decks e site
-        run: python3 -I src/tools/validar.py --raiz src --site .
+        run: python3 -I src/tools/validar.py --raiz src --site . --estrito

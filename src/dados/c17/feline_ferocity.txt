@@ -54,9 +54,9 @@
 1 Oreskos Explorer (C17) 68
 1 Path of Ancestry (C17) 56
 1 Phantom Nishoba (C17) 188
-3 Plains (C17) 295
 2 Plains (C17) 296
 2 Plains (C17) 297
+3 Plains (C17) 295
 1 Qasali Pridemage (C17) 189
 1 Qasali Slingers (C17) 33
 1 Quietus Spike (C17) 220
@@ -66,9 +66,9 @@
 1 Rout (C17) 71
 1 Saltcrusted Steppe (C17) 273
 1 Secluded Steppe (C17) 278
+1 Seht's Tiger (C17) 72
 1 Selesnya Guildgate (C17) 279
 1 Selesnya Sanctuary (C17) 280
-1 Seht's Tiger (C17) 72
 1 Skullclamp (C17) 222
 1 Sol Ring (C17) 223
 1 Soul's Majesty (C17) 158

@@ -44,17 +44,17 @@
 1 Hedonist's Trove (C19) 119
 1 Hedron Archive (C19) 214
 1 In Garruk's Wake (C19) 121
-1 Key to the City (C19) 216
 1 K'rrik, Son of Yawgmoth (C19) 18
+1 Key to the City (C19) 216
 1 Magus of the Wheel (C19) 149
 1 Malevolent Whispers (C19) 150
 1 Memorial to Folly (C19) 259
 1 Meteor Golem (C19) 218
 1 Mire in Misery (C19) 19
 1 Mortuary Mire (C19) 260
-4 Mountain (C19) 297
 3 Mountain (C19) 298
 3 Mountain (C19) 299
+4 Mountain (C19) 297
 1 Murderous Compulsion (C19) 122
 1 Myriad Landscape (C19) 261
 1 Nightmare Unmaking (C19) 20
@@ -75,9 +75,9 @@
 1 Soul of Innistrad (C19) 130
 1 Squee, Goblin Nabob (C19) 152
 1 Stromkirk Occultist (C19) 153
-4 Swamp (C19) 294
 3 Swamp (C19) 295
 3 Swamp (C19) 296
+4 Swamp (C19) 294
 1 Temple of the False God (C19) 280
 1 Terramorphic Expanse (C19) 281
 1 The Eldest Reborn (C19) 131

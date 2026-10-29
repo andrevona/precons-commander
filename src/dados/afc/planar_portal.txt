@@ -11,8 +11,8 @@
 1 Chaos Wand (AFC) 201
 1 Chaos Warp (AFC) 117
 1 Chittering Witch (AFC) 95
-1 Commander's Sphere (AFC) 203
 1 Command Tower (AFC) 230
+1 Commander's Sphere (AFC) 203
 1 Commune with Lava (AFC) 118
 1 Consuming Vapors (AFC) 96
 1 Danse Macabre (AFC) 22
@@ -44,10 +44,10 @@
 1 Marionette Master (AFC) 102
 1 Mind Stone (AFC) 211
 1 Mortuary Mire (AFC) 249
-4 Mountain (AFR) 274
 3 Mountain (AFR) 275
 3 Mountain (AFR) 276
 3 Mountain (AFR) 277
+4 Mountain (AFR) 274
 1 Ogre Slumlord (AFC) 104
 1 Orazca Relic (AFC) 213
 1 Phthisis (AFC) 105
@@ -63,12 +63,12 @@
 1 Smoldering Marsh (AFC) 262
 1 Sol Ring (AFC) 215
 1 Spinerock Knoll (AFC) 263
-4 Swamp (AFR) 270
-4 Swamp (AFR) 271
 3 Swamp (AFR) 272
 3 Swamp (AFR) 273
-1 Talisman of Indulgence (AFC) 219
+4 Swamp (AFR) 270
+4 Swamp (AFR) 271
 1 Tainted Peak (AFC) 266
+1 Talisman of Indulgence (AFC) 219
 1 Tectonic Giant (AFC) 144
 1 Terminate (AFC) 193
 1 Theater of Horrors (AFC) 194
