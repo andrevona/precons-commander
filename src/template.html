@@ -54,7 +54,7 @@
   .tab.small { position:relative; box-shadow:0 0 0 1px rgba(0,0,0,.06); transition:transform .15s; }
   .tab.small.on { --fd:var(--card); color:var(--fg); font-weight:600; border-width:2.5px; transform:translateY(-2px); }
   @supports (background: color-mix(in srgb, red 10%, blue)) {
-    .tab.small.on { background:linear-gradient(90deg, color-mix(in srgb, var(--b1) 18%, var(--card)) 50%, color-mix(in srgb, var(--b2) 18%, var(--card)) 50%) padding-box, linear-gradient(90deg, var(--b1) 50%, var(--b2) 50%) border-box; }
+    .tab.small.on { background:var(--tinta, linear-gradient(90deg, color-mix(in srgb, var(--b1) 18%, var(--card)) 50%, color-mix(in srgb, var(--b2) 18%, var(--card)) 50%)) padding-box, linear-gradient(90deg, var(--b1) 50%, var(--b2) 50%) border-box; }
   }
   .tab.small.on::after { content:""; position:absolute; left:8%; right:8%; top:100%; height:9px; margin-top:1px; border-radius:50%; background:linear-gradient(90deg, var(--b1) 50%, var(--b2) 50%); filter:blur(5px); opacity:.9; pointer-events:none; }
   @media (prefers-reduced-motion: reduce) { .tab.small { transition:none; } }
@@ -868,6 +868,12 @@ function contornoCor(b, ci) {
   else if (ci.length >= 3) c1 = c2 = "var(--mOuro)";
   else { c1 = "var(--m" + ci[0] + ")"; c2 = "var(--m" + ci[ci.length - 1] + ")"; }
   b.style.setProperty("--b1", c1); b.style.setProperty("--b2", c2);
+  // Fundo tingido do deck escolhido: segue TODAS as cores do deck (a borda de 3+ cores continua dourada).
+  // Uma cor: tom único; duas: metade de cada (como a borda); três ou mais: degradê suave entre todas, como no Surpreenda-me.
+  var cs = ci === "C" ? ["C"] : ci.split(""), pct = cs.length >= 3 ? 24 : 18;
+  var mix = cs.map(function (x) { return "color-mix(in srgb, var(--m" + x + ") " + pct + "%, var(--card))"; });
+  var g = cs.length === 1 ? mix[0] + ", " + mix[0] : cs.length === 2 ? mix[0] + " 50%, " + mix[1] + " 50%" : mix.join(", ");
+  b.style.setProperty("--tinta", "linear-gradient(90deg, " + g + ")");
 }
 // Surpreenda-me: abre um deck sorteado entre os que aparecem com a busca e as cores escolhidas (sem repetir o anterior).
 var ultimaSorte = null;
