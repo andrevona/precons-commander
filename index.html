@@ -1542,7 +1542,7 @@ function atualizarExcl() {
   $("exclResumo").textContent = t("exclResumo", { a: resta, b: tot });
   $("exclAviso").hidden = !falta; $("exclAviso").textContent = msg;
   $("mesaSortear").disabled = falta;
-  $("exclLimpar").disabled = !temExcl(exclRasc) && !temRestr(rCfg());
+  $("exclLimpar").disabled = !temExcl(exclRasc) && !temRestr(rCfg()) && !$("mesaExcl").open; // também serve para recolher a Blacklist aberta
 }
 // Busca de decks a excluir: nome do deck ou do comandante (sem acentos nem maiúsculas); até 8 sugestões.
 var exclSugLista = [], exclSugAtiva = -1;
@@ -1593,10 +1593,28 @@ $("exclBusca").onblur = function () { setTimeout(function () { if (document.acti
 $("exclBusca").onfocus = exclSugerir;
 $("exclLimpar").onclick = function () { exclRasc = { c: {}, d: {}, a: {} }; cfgMesa.mesmaCol = cfgMesa.mesmoAno = cfgMesa.mesmoArq = false; // "Limpar tudo": Blacklist e as três opções "mesmo(a)"
   $("exclBusca").value = ""; exclSugerir(); atualizarExcl();
-  // Também recolhe tudo o que estiver expandido (grupos, coleções e a própria Blacklist) para facilitar voltar ao topo
-  $("exclGrupos").querySelectorAll(".excl-cols").forEach(function (l) { l.hidden = true; });
-  $("exclGrupos").querySelectorAll("[aria-expanded]").forEach(function (b) { b.setAttribute("aria-expanded", "false"); });
-  $("mesaExcl").open = false; $("mesaCfg").querySelector(".mesa-cfg").scrollTop = 0; };
+  // Também recolhe tudo o que estiver expandido (grupos, coleções e a própria Blacklist), com a mesma transição das coleções
+  // da tela inicial, e leva o quadro de volta ao topo
+  recolherBlacklist(); };
+function recolherBlacklist() {
+  var det = $("mesaExcl"), caixa = $("mesaCfg").querySelector(".mesa-cfg");
+  function fim() {
+    $("exclGrupos").querySelectorAll(".excl-cols").forEach(function (l) { l.hidden = true; });
+    $("exclGrupos").querySelectorAll("[aria-expanded]").forEach(function (b) { b.setAttribute("aria-expanded", "false"); });
+    det.open = false; det.style.cssText = ""; caixa.scrollTop = 0; recolhendoBl = false;
+  }
+  if (recolhendoBl) return;
+  if (!det.open || semAnim()) { fim(); return; }
+  recolhendoBl = true;
+  var h0 = det.offsetHeight; det.open = false; var h1 = det.offsetHeight; det.open = true;
+  det.style.overflow = "hidden"; det.style.height = h0 + "px"; det.offsetHeight;
+  det.style.transition = "height " + DUR_REC + "ms " + CURVA; det.style.height = h1 + "px";
+  Array.prototype.forEach.call(det.children, function (x) { if (x.tagName !== "SUMMARY") { x.style.transition = "opacity " + DUR_REC + "ms " + CURVA; x.style.opacity = "0"; } });
+  caixa.scrollTo({ top: 0, behavior: "smooth" });
+  setTimeout(function () { Array.prototype.forEach.call(det.children, function (x) { x.style.transition = x.style.opacity = ""; }); fim(); }, DUR_REC + 20);
+}
+var recolhendoBl = false;
+$("mesaExcl").addEventListener("toggle", function () { if (!recolhendoBl && exclGrupos) atualizarExcl(); });
 
 // Caixa "Todos com o mesmo arquétipo": o arquétipo é sempre sorteado (entre os que têm decks para todos); não se escolhe qual.
 // Cada opção desmarcada fica desabilitada se, somada às marcadas, não sobrar grupo com decks para todos (com a Blacklist e o
