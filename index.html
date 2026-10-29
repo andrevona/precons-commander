@@ -1290,14 +1290,13 @@ document.addEventListener("keydown", function (e) {
 // O Surpreenda-me de um jogador continua igual. Exclusões (coleções e decks) e troca do deck de um jogador: ver mais abaixo.
 var mesa = null; // { duplas, comeca, sel, novo, jog: [{ k (posição no quadro), nome, d (deck) }] }
 var CHAVE_MESA = "precons-mesa"; // últimas escolhas do quadro (só neste aparelho)
-var cfgMesa = { n: 4, nomes: ["", "", "", ""], duplas: false, mesmoArq: false };
+var cfgMesa = { n: 4, nomes: ["", "", "", ""], duplas: false, mesmoArq: false }; // mesmoArq não é guardado: começa desmarcado a cada visita (pedido do usuário)
 (function () {
   try {
     var p = JSON.parse(localStorage.getItem(CHAVE_MESA) || "{}");
     if (p.n >= 2 && p.n <= 4) cfgMesa.n = p.n;
     if (Array.isArray(p.nomes)) for (var i = 0; i < 4; i++) cfgMesa.nomes[i] = String(p.nomes[i] || "").slice(0, 24);
     cfgMesa.duplas = !!p.duplas;
-    cfgMesa.mesmoArq = !!p.mesmoArq;
   } catch (e) {}
 })();
 function nomeJog(j) { return j.nome || t("jogador", { n: j.k + 1 }); }
@@ -1542,7 +1541,7 @@ function sortearDoQuadro() {
   var sd = decksSorteaveis(exclRasc);
   if (sd.length < cfgMesa.n || (cfgMesa.mesmoArq && !arqsDisponiveis(sd, cfgMesa.n).length)) return; // poucos decks: o aviso já está no quadro
   excl = copiaExcl(exclRasc); guardarExcl(); // as exclusões só passam a valer ao sortear
-  try { localStorage.setItem(CHAVE_MESA, JSON.stringify({ n: cfgMesa.n, nomes: cfgMesa.nomes.map(function (x) { return x.trim(); }), duplas: cfgMesa.duplas, mesmoArq: cfgMesa.mesmoArq })); } catch (e) {}
+  try { localStorage.setItem(CHAVE_MESA, JSON.stringify({ n: cfgMesa.n, nomes: cfgMesa.nomes.map(function (x) { return x.trim(); }), duplas: cfgMesa.duplas })); } catch (e) {}
   $("mesaCfg").hidden = true;
   var base = [];
   for (var i = 0; i < cfgMesa.n; i++) base.push({ k: i, nome: cfgMesa.nomes[i].trim().slice(0, 24) });
