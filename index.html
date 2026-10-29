@@ -14,11 +14,11 @@
   html { color-scheme:light dark; scrollbar-color:var(--line) var(--bg); }
   :root { --bg:#fafaf8; --fg:#1d1d1b; --mut:#6b6b66; --line:#d9d8d2; --acc:#2f5fd0; --accfg:#fff; --card:#fff; --ok:#1d7a3a; --warn:#b05a00;
     --g-acc:#1c3378; --g-accfg:#fff; --f-acc:#0b78b8; --f-accfg:#fff; /* tons de azul: grupos (escuro), coleções (--acc), filtros (claro) */
-    --mW:#cdb44f; --mU:#2b83d0; --mB:#6c588c; --mR:#d24d36; --mG:#2c8a48; --mC:#9b9a94; --mOuro:#c4951a; } /* contorno dos decks */
+    --mW:#e4e0d2; --mU:#2b83d0; --mB:#6c588c; --mR:#d24d36; --mG:#2c8a48; --mC:#9b9a94; --mOuro:#e09a00; } /* contorno dos decks */
   @media (prefers-color-scheme: dark) {
     :root { --bg:#161615; --fg:#ecebe6; --mut:#9c9b94; --line:#34332f; --acc:#7da2ff; --accfg:#10131c; --card:#1e1e1c; --ok:#6fcf8a; --warn:#f0a04b;
       --g-acc:#3c5cc4; --g-accfg:#fff; --f-acc:#5ec4ef; --f-accfg:#0b1a22;
-      --mW:#e8d57c; --mU:#5aa8ee; --mB:#a991cc; --mR:#f07a62; --mG:#5cbf7c; --mC:#8d8c86; --mOuro:#e2b33c; }
+      --mW:#f6f4ee; --mU:#5aa8ee; --mB:#a991cc; --mR:#f07a62; --mG:#5cbf7c; --mC:#7f7e78; --mOuro:#f5a623; }
   }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -51,7 +51,13 @@
   .tab.small { border-radius:6px; background:transparent; }
   .tab.small { --fd:var(--bg); --b1:var(--line); --b2:var(--line); border:2px solid transparent; background:linear-gradient(var(--fd), var(--fd)) padding-box, linear-gradient(90deg, var(--b1) 50%, var(--b2) 50%) border-box; }
   .tab.small:hover { border-color:transparent; filter:brightness(1.04); }
-  .tab.small.on { --fd:var(--card); color:var(--acc); box-shadow:inset 0 -3px 0 var(--acc); font-weight:600; }
+  .tab.small { position:relative; box-shadow:0 0 0 1px rgba(0,0,0,.06); transition:transform .15s; }
+  .tab.small.on { --fd:var(--card); color:var(--fg); font-weight:600; border-width:2.5px; transform:translateY(-2px); }
+  @supports (background: color-mix(in srgb, red 10%, blue)) {
+    .tab.small.on { background:linear-gradient(90deg, color-mix(in srgb, var(--b1) 18%, var(--card)) 50%, color-mix(in srgb, var(--b2) 18%, var(--card)) 50%) padding-box, linear-gradient(90deg, var(--b1) 50%, var(--b2) 50%) border-box; }
+  }
+  .tab.small.on::after { content:""; position:absolute; left:8%; right:8%; top:100%; height:9px; margin-top:1px; border-radius:50%; background:linear-gradient(90deg, var(--b1) 50%, var(--b2) 50%); filter:blur(5px); opacity:.9; pointer-events:none; }
+  @media (prefers-reduced-motion: reduce) { .tab.small { transition:none; } }
   .tab img.ic { width:18px; height:18px; vertical-align:-4px; margin-right:8px; object-fit:contain; }
   .tab.on img.ic { filter:invert(1); }
   @media (prefers-color-scheme: dark) { .tab img.ic { filter:invert(.92); } .tab.on img.ic { filter:none; } }
@@ -76,6 +82,8 @@
   .cor-btn::after { content:"▾"; position:absolute; right:11px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:12px; color:var(--mut); }
   .cor-caixa.on .cor-btn { background:var(--f-acc); color:var(--f-accfg); border-color:var(--f-acc); }
   .cor-caixa.on .cor-btn::after { color:var(--f-accfg); }
+  .limpar-cor { width:26px; height:26px; margin-left:4px; align-self:center; border:0; border-radius:999px; background:var(--line); color:var(--fg); font:inherit; font-size:17px; line-height:1; padding:0; cursor:pointer; }
+  .limpar-cor:hover { background:var(--f-acc); color:var(--f-accfg); }
   .simbolos { display:inline-flex; gap:2px; flex:none; }
   .simbolos img { width:17px; height:17px; display:block; }
   .cor-btn .simbolos img { width:16px; height:16px; }
@@ -90,6 +98,7 @@
   .sorte.gira svg { animation:gira .6s cubic-bezier(.4,0,.2,1); }
   @keyframes gira { to { transform:rotate(540deg) scale(1.15); } }
   @media (prefers-reduced-motion: reduce) { .sorte.gira svg { animation:none; } }
+  #decks { row-gap:10px; padding-bottom:4px; }
   .tab.small .simbolos { margin-left:8px; vertical-align:-3px; }
   .tab.small .simbolos img { width:14px; height:14px; }
   .cor-menu li.ativo { background:var(--line); }
@@ -150,7 +159,7 @@
     <ul class="sugestoes" id="sugestoes" role="listbox" hidden></ul>
   </div>
   <div class="filtros" id="filtros" hidden>
-    <div class="cor-caixa" id="cxCor"><button type="button" class="cor-btn" id="fCor" aria-haspopup="listbox" aria-expanded="false" aria-controls="corMenu"></button><ul class="cor-menu" id="corMenu" role="listbox" tabindex="-1" hidden></ul></div>
+    <div class="cor-caixa" id="cxCor"><button type="button" class="cor-btn" id="fCor" aria-haspopup="listbox" aria-expanded="false" aria-controls="corMenu"></button><ul class="cor-menu" id="corMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparCor" data-ta="tirarCor" hidden>×</button></div>
     <button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg><span data-t="surpresa">Surpreenda-me</span></button>
   </div>
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
@@ -225,7 +234,7 @@ var TXT = {
     rodNota: '* O nome do deck vem no formato <i>Deck - Comandante (SIGLA ano)</i>, com a sigla de três letras da coleção e o ano de lançamento. Exemplo: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'sobre o projeto',
     tCol: 'coleção', tDeck: 'deck', tCmd: 'comandante', tCarta: 'carta',
-    filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Decks por cores',
+    filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Decks por cores', tirarCor: 'Tirar o filtro de cores',
     cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'WUBRG',
     buscaPt: 'Carta (inglês ou português), deck, comandante ou coleção…', surpresa: 'Surpreenda-me', surpresaDica: 'Abre um deck aleatório (respeita a busca e as cores escolhidas)', sorteado: 'Sorteado: {d}'
   },
@@ -253,7 +262,7 @@ var TXT = {
     rodNota: '* The deck name comes in the format <i>Deck - Commander (CODE year)</i>, with the set\'s three-letter code and the release year. Example: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'about the project',
     tCol: 'set', tDeck: 'deck', tCmd: 'commander', tCarta: 'card',
-    filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'Decks by color',
+    filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'Decks by color', tirarCor: 'Clear the color filter',
     cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'WUBRG',
     buscaPt: 'Card (English or Portuguese), deck, commander or set…', surpresa: 'Surprise me', surpresaDica: 'Opens a random deck (respects the search and the chosen colors)', sorteado: 'Drawn: {d}'
   },
@@ -281,7 +290,7 @@ var TXT = {
     rodNota: '* El nombre del mazo viene con el formato <i>Mazo - Comandante (SIGLA año)</i>, con la sigla de tres letras de la colección y el año de lanzamiento. Ejemplo: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'sobre el proyecto',
     tCol: 'colección', tDeck: 'mazo', tCmd: 'comandante', tCarta: 'carta',
-    filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Mazos por colores',
+    filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Mazos por colores', tirarCor: 'Quitar el filtro de colores',
     cores: { W: 'Blanco', U: 'Azul', B: 'Negro', R: 'Rojo', G: 'Verde', C: 'Incoloro' }, cinco: 'WUBRG',
     buscaPt: 'Carta (inglés o portugués), mazo, comandante o colección…', surpresa: 'Sorpréndeme', surpresaDica: 'Abre un mazo al azar (respeta la búsqueda y los colores elegidos)', sorteado: 'Sorteado: {d}'
   }
@@ -891,6 +900,7 @@ function surpresa() {
   }, abrindo && !semAnim() ? DUR + 60 : 0);
 }
 $("btnSorte").onclick = surpresa;
+$("limparCor").onclick = function () { escolherCor(0); $("fCor").focus({ preventScroll: true }); }; // tira a cor com um toque
 function pintarCor() {
   if (!COM_CORES) return;
   var b = $("fCor"), c = corFiltro;
@@ -900,6 +910,7 @@ function pintarCor() {
   b.title = t("filtroCor");
   b.setAttribute("aria-label", t("filtroCor") + ": " + (c ? rotuloCor(c) + " (" + c + ")" : t("todasCores")));
   $("cxCor").classList.toggle("on", !!c);
+  $("limparCor").hidden = !c;
 }
 function limparCor() { corFiltro = ""; pintarCor(); }
 $("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; fecharSug(); desenhar(); f.focus(); };
