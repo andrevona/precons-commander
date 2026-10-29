@@ -146,12 +146,14 @@
   .limpar { position:absolute; right:6px; top:50%; transform:translateY(-50%); width:32px; height:32px; border:0; border-radius:999px; background:var(--line); color:var(--fg); font-size:20px; line-height:1; font-family:inherit; cursor:pointer; padding:0; }
   .limpar:hover { background:var(--acc); color:var(--accfg); }
   .sugestoes { position:absolute; left:0; right:0; top:calc(100% + 4px); z-index:20; margin:0; padding:4px; list-style:none; background:var(--card); border:1px solid var(--line); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.25); max-height:min(360px, 50vh); overflow:auto; overscroll-behavior:contain; }
-  .sugestoes li { display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:9px 10px; border-radius:7px; cursor:pointer; }
+  .sugestoes li { display:flex; justify-content:space-between; align-items:baseline; gap:2px 12px; padding:9px 10px; border-radius:7px; cursor:pointer; }
+  .sugestoes li.pt { flex-wrap:wrap; }
   .sugestoes li[aria-selected="true"] { background:var(--line); }
-  .sugestoes .txt { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .sugestoes .txt { flex:1 1 0; min-width:0; overflow-wrap:anywhere; } /* nomes longos quebram em mais linhas, sem cortar */
+  .sugestoes li.pt .txt { flex-basis:100%; }
   .sugestoes .txt b { font-weight:700; color:var(--acc); }
   .sugestoes .tipo { flex:none; color:var(--mut); font-size:12px; }
-  .sugestoes .tipo.orig { flex:0 1 auto; min-width:0; max-width:55%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .sugestoes .tipo.orig { flex:1 1 100%; min-width:0; overflow-wrap:anywhere; } /* "→ nome original" numa segunda linha, inteiro */
 </style>
 </head>
 <body>
@@ -738,7 +740,7 @@ function mostrarSug() {
     var li = document.createElement("li"), tx = document.createElement("span"), tp = document.createElement("span"), b = document.createElement("b");
     li.id = "sug-" + i; li.setAttribute("role", "option"); li.setAttribute("aria-selected", "false");
     tx.className = "txt"; tp.className = "tipo"; tp.textContent = r.it.en ? "→ " + r.it.en : tipos[r.it.k];
-    if (r.it.en) { tp.className = "tipo orig"; tp.title = r.it.en; }
+    if (r.it.en) { tp.className = "tipo orig"; li.className = "pt"; }
     tx.appendChild(document.createTextNode(r.it.t.slice(0, r.pos)));
     b.textContent = r.it.t.slice(r.pos, r.pos + q.length); tx.appendChild(b);
     tx.appendChild(document.createTextNode(r.it.t.slice(r.pos + q.length)));
