@@ -171,7 +171,7 @@
   .nomes input:focus { outline:none; border-color:var(--f-acc); box-shadow:0 0 0 3px var(--inAnel); }
   #mesa { display:none; }
   body.modo-mesa #mesa { display:block; }
-  body.modo-mesa #grupos, body.modo-mesa #caixaBusca, body.modo-mesa #cxCor, body.modo-mesa #cxAno, body.modo-mesa .sorte-grupo, body.modo-mesa #contagem,
+  body.modo-mesa #grupos, body.modo-mesa #caixaBusca, body.modo-mesa #cxCor, body.modo-mesa #cxAno, body.modo-mesa #cxArq, body.modo-mesa .sorte-grupo, body.modo-mesa #contagem,
   body.modo-mesa #secCol, body.modo-mesa #colecoes, body.modo-mesa hr.div, body.modo-mesa #secDecks, body.modo-mesa #decks { display:none !important; }
   .mesa-cab { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; justify-content:space-between; margin:2px 0 12px; }
   .mesa-cab .sec { margin:0; }
@@ -269,6 +269,7 @@
   <div class="filtros" id="filtros" hidden>
     <div class="cor-caixa" id="cxCor"><button type="button" class="cor-btn" id="fCor" aria-haspopup="listbox" aria-expanded="false" aria-controls="corMenu"></button><ul class="cor-menu" id="corMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparCor" data-ta="tirarCor" hidden>×</button></div>
     <div class="cor-caixa" id="cxAno"><button type="button" class="cor-btn" id="fAno" aria-haspopup="listbox" aria-expanded="false" aria-controls="anoMenu"></button><ul class="cor-menu" id="anoMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparAno" data-ta="tirarAno" hidden>×</button></div>
+    <div class="cor-caixa" id="cxArq"><button type="button" class="cor-btn" id="fArq" aria-haspopup="listbox" aria-expanded="false" aria-controls="arqMenu"></button><ul class="cor-menu" id="arqMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparArq" data-ta="tirarArq" hidden>×</button></div>
     <button type="button" class="limpar-tudo" id="btnLimparTudo" data-ta="limparTudoDica" hidden><span aria-hidden="true">↺</span> <span data-t="limparTudo">Limpar tudo</span></button>
     <span class="sorte-grupo"><button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg><span data-t="surpresa">Surpreenda-me</span></button><button type="button" class="cor-btn sorte mesa-btn" id="btnMesa" data-ta="mesaDica" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20"/><circle cx="9" cy="7.5" r="3.5"/><path d="M22 20v-1.5a4 4 0 0 0-3-3.87"/><path d="M16 4.13a4 4 0 0 1 0 7.75"/></svg></button></span>
   </div>
@@ -373,6 +374,8 @@ var TXT = {
     sobre: 'sobre o projeto',
     problemas: 'Encontrou um problema ou tem uma sugestão? Avise por {email} ou abra uma {github}.', lkEmail: 'e-mail', lkGithub: 'issue no GitHub',
     tCol: 'coleção', tDeck: 'deck', tCmd: 'comandante', tCarta: 'carta',
+    filtroArq: 'Filtrar os decks pelo arquétipo (estilo de jogo)', porArq: 'Por arquétipo', tirarArq: 'Tirar o filtro de arquétipo',
+    arqs: { tribal: 'Tribal', tokens: 'Fichas', counters: 'Marcadores +1/+1', spellslinger: 'Spellslinger', graveyard: 'Cemitério', artifacts: 'Artefatos', enchantments: 'Encantamentos', lifegain: 'Ganho de vida', sacrifice: 'Sacrifício', voltron: 'Voltron', blink: 'Blink', lands: 'Terrenos' },
     filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Por cor', tirarCor: 'Tirar o filtro de cores',
     cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'WUBRG',
     surpresa: 'Surpreenda-me', surpresaDica: 'Abre um deck aleatório entre todos (limpa a busca e os filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e os filtros e recolhe tudo',
@@ -411,6 +414,8 @@ var TXT = {
     sobre: 'about the project',
     problemas: 'Found a problem or have a suggestion? Let me know by {email} or open an {github}.', lkEmail: 'email', lkGithub: 'issue on GitHub',
     tCol: 'set', tDeck: 'deck', tCmd: 'commander', tCarta: 'card',
+    filtroArq: 'Filter decks by archetype (play style)', porArq: 'By archetype', tirarArq: 'Clear the archetype filter',
+    arqs: { tribal: 'Tribal', tokens: 'Tokens', counters: '+1/+1 counters', spellslinger: 'Spellslinger', graveyard: 'Graveyard', artifacts: 'Artifacts', enchantments: 'Enchantments', lifegain: 'Lifegain', sacrifice: 'Sacrifice', voltron: 'Voltron', blink: 'Blink', lands: 'Lands' },
     filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'By color', tirarCor: 'Clear the color filter',
     cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'WUBRG',
     surpresa: 'Surprise me', surpresaDica: 'Opens a random deck out of all of them (clears the search and the filters)', sorteado: 'Drawn: {d}', limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and the filters and collapses everything',
@@ -449,6 +454,8 @@ var TXT = {
     sobre: 'sobre el proyecto',
     problemas: '¿Encontraste un problema o tienes una sugerencia? Avísame por {email} o abre un {github}.', lkEmail: 'correo', lkGithub: 'issue en GitHub',
     tCol: 'colección', tDeck: 'mazo', tCmd: 'comandante', tCarta: 'carta',
+    filtroArq: 'Filtrar mazos por arquetipo (estilo de juego)', porArq: 'Por arquetipo', tirarArq: 'Quitar el filtro de arquetipo',
+    arqs: { tribal: 'Tribal', tokens: 'Fichas', counters: 'Contadores +1/+1', spellslinger: 'Spellslinger', graveyard: 'Cementerio', artifacts: 'Artefactos', enchantments: 'Encantamientos', lifegain: 'Ganar vida', sacrifice: 'Sacrificio', voltron: 'Voltron', blink: 'Blink', lands: 'Tierras' },
     filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Por color', tirarCor: 'Quitar el filtro de colores',
     cores: { W: 'Blanco', U: 'Azul', B: 'Negro', R: 'Rojo', G: 'Verde', C: 'Incoloro' }, cinco: 'WUBRG',
     surpresa: 'Sorpréndeme', surpresaDica: 'Abre un mazo al azar entre todos (borra la búsqueda y los filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Borrar todo', limparTudoDica: 'Vuelve al inicio: borra la búsqueda y los filtros y lo recoge todo',
@@ -544,17 +551,19 @@ function carregarPT() {
 }
 
 // Filtro "Decks por cores" (ao lado da busca): identidade de cor do deck = a do(s) comandante(s), correspondência exata (deck.ci, ver build.py).
-var corFiltro = "", anoSel = ""; // filtros "Decks por cores" e "Decks por ano"
+var corFiltro = "", anoSel = "", arqSel = ""; // filtros "Decks por cores" e "Decks por ano"
+var ARQUETIPOS = ["tribal", "tokens", "counters", "spellslinger", "graveyard", "artifacts", "enchantments", "lifegain", "sacrifice", "voltron", "blink", "lands"]; // ordem da lista do filtro "Por arquétipo" (deck.arq = até 2, ver tools/arquetipos.py)
+var COM_ARQ = !!(COLECOES[0] && COLECOES[0].decks[0] && COLECOES[0].decks[0].arq);
 var COM_CORES = !!(COLECOES[0] && COLECOES[0].decks[0] && COLECOES[0].decks[0].ci);
-function buscando() { return !!(q || corFiltro || anoSel); }
+function buscando() { return !!(q || corFiltro || anoSel || arqSel); }
 // Ano do deck: o da coleção; nos Secret Lair (coleção sem ano), o que vem no nome do deck.
 function anoDe(deck) { if (deck._ano === undefined) { var m = /\((\d{4})\)$/.exec(deck.nome); deck._ano = deck._col.ano || (m ? m[1] : ""); } return deck._ano; }
 // Resultado da busca para um deck: ok (aparece?), idx (cartas a destacar, na ordem de nomesDe) e rot (nomes para o status).
 function analisar(deck) {
-  var chave = q + "|" + corFiltro + "|" + anoSel + "|" + ptEstado;
+  var chave = q + "|" + corFiltro + "|" + anoSel + "|" + arqSel + "|" + ptEstado;
   if (deck._hk === chave) return deck._h;
   var r = { ok: true, idx: [], rot: [] };
-  if ((corFiltro && deck.ci !== corFiltro) || (anoSel && anoDe(deck) !== anoSel)) r.ok = false;
+  if ((corFiltro && deck.ci !== corFiltro) || (anoSel && anoDe(deck) !== anoSel) || (arqSel && (deck.arq || []).indexOf(arqSel) < 0)) r.ok = false;
   else if (q) {
     var col = deck._col;
     if (!deck._nz) deck._nz = [nz(deck.nome), nz(deck.comandante)];
@@ -621,7 +630,7 @@ function desenhar() {
   var gvis = GRUPOS.filter(function (g) { return cont[g]; });
   // Com o filtro "Decks por cores" ou "Decks por ano" a separação por grupos some: os grupos ficam ocultos e todas as
   // coleções aparecem juntas, em ordem de lançamento (Secret Lair vira um botão de coleção, por último).
-  var todas = !!(corFiltro || anoSel);
+  var todas = !!(corFiltro || anoSel || arqSel);
   var gEl = $("grupos"); gEl.innerHTML = ""; gEl.hidden = todas;
   if (!todas && gvis.length && gvis.indexOf(grpAtual) < 0) { grpAtual = gvis[0]; colAtual = -1; }
   gvis.forEach(function (g) {
@@ -988,7 +997,7 @@ function criarFiltro(k, cfg) {
 function montarOpcoes(f) {
   var cfg = f.cfg, atual = cfg.get(), conta = {};
   cfg.set(""); // conta sem este filtro (mas com a busca e o outro filtro)
-  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { if (casa(d)) { var v = cfg.valorDe(d); conta[v] = (conta[v] || 0) + 1; } }); });
+  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { if (casa(d)) { (cfg.valoresDe ? cfg.valoresDe(d) : [cfg.valorDe(d)]).forEach(function (v) { conta[v] = (conta[v] || 0) + 1; }); } }); });
   cfg.set(atual);
   f.vals = [""].concat(f.todos.filter(function (v) { return conta[v] || v === atual; }));
   f.ul.innerHTML = "";
@@ -1032,7 +1041,7 @@ function escolherFiltro(f, i) {
   if (animando || i < 0) return;
   fecharFiltro(f, !toque());
   f.cfg.set(f.vals[i]); recolhido = false; pintarFiltro(f);
-  if (!corFiltro && !anoSel && COLECOES[colAtual]) grpAtual = COLECOES[colAtual].grupo; // sem filtros, volta ao grupo da coleção aberta
+  if (!corFiltro && !anoSel && !arqSel && COLECOES[colAtual]) grpAtual = COLECOES[colAtual].grupo; // sem filtros, volta ao grupo da coleção aberta
   if (f.vals[i] && !aberto) abrirConteudo(); else desenhar();
 }
 function pintarFiltro(f) {
@@ -1066,8 +1075,11 @@ function montarFiltros() {
   criarFiltro("ano", { caixa: "cxAno", btn: "fAno", menu: "anoMenu", limpar: "limparAno", valores: anos, vazio: "porAno", dica: "filtroAno",
     valorDe: anoDe, rotulo: function (a) { return a; },
     get: function () { return anoSel; }, set: function (v) { anoSel = v; } });
+  if (COM_ARQ) criarFiltro("arq", { caixa: "cxArq", btn: "fArq", menu: "arqMenu", limpar: "limparArq", valores: ARQUETIPOS.filter(function (a) { return COLECOES.some(function (c) { return c.decks.some(function (d) { return (d.arq || []).indexOf(a) >= 0; }); }); }),
+    vazio: "porArq", dica: "filtroArq", valoresDe: function (d) { return d.arq || []; }, rotulo: function (a) { return t("arqs")[a] || a; },
+    get: function () { return arqSel; }, set: function (v) { arqSel = v; } });
 }
-function limparFiltros() { corFiltro = ""; anoSel = ""; Object.keys(FILTROS).forEach(function (k) { pintarFiltro(FILTROS[k]); }); }
+function limparFiltros() { corFiltro = ""; anoSel = ""; arqSel = ""; Object.keys(FILTROS).forEach(function (k) { pintarFiltro(FILTROS[k]); }); }
 // Cores do deck escolhido (identidade do comandante, na ordem WUBRG; incolor = cinza): --brilho = cores puras, usadas na
 // borda e no brilho embaixo; --tinta = as mesmas cores misturadas com o fundo. Uma cor: tom único; duas: metade de cada;
 // três ou mais: degradê suave entre todas. Os decks não escolhidos têm todos a mesma borda neutra (--deckBorda).

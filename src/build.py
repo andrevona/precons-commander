@@ -84,6 +84,16 @@ if os.path.exists("cartas.csv") and os.path.exists("impressoes.csv"):
     if falta: raise SystemExit("ERRO: comandantes sem atributos (rode tools/atributos.py): %d %s"%(len(falta),falta[:5]))
 else:
     print("AVISO: cartas.csv/impressoes.csv não encontrados; o site sai sem o filtro de cores")
+# Filtro "Por arquétipo": "arq" = lista com 1 ou 2 arquétipos do deck, de decks.csv (gerado por tools/arquetipos.py).
+if os.path.exists("decks.csv"):
+    arqs={r["id"]:[x for x in (r["arq1"],r["arq2"]) if x] for r in csv.DictReader(open("decks.csv",encoding="utf-8"))}
+    for col in data:
+        for d in col["decks"]:
+            k=col["id"]+"/"+d["arquivo"][:-4]
+            if k not in arqs: raise SystemExit("ERRO: deck fora de decks.csv (rode tools/arquetipos.py): "+k)
+            d["arq"]=arqs[k]
+else:
+    print("AVISO: decks.csv não encontrado; o site sai sem o filtro de arquétipo")
 ATUALIZADO="2026-10-27"  # data (AAAA-MM-DD) da última conferência de todos os decks com o mtg.wtf (tools/auditar.py); atualizar a cada auditoria; o rodapé é montado na página, no idioma de quem acessa
 html=open("template.html",encoding="utf-8").read().replace("__GRUPOS__",json.dumps(GRUPOS)).replace("__ATUALIZADO__",ATUALIZADO).replace("__DATA__",json.dumps(data,ensure_ascii=False).replace("</","<\\/"))
 open("precons_offline.html","w",encoding="utf-8").write(html)
