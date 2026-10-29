@@ -1,4 +1,6 @@
 import re,sys,os,collections
+# Pasta de trabalho: a variável PRECONS_RAIZ, ou a pasta deste script (onde ficam build.py e as pastas dos decks).
+RAIZ=os.environ.get("PRECONS_RAIZ") or os.path.dirname(os.path.abspath(__file__))
 # uso: python3 -I normalizar.py raw/pasta/arquivo.txt ...  -> grava pasta/arquivo.txt (comandante(s) = linhas antes de "--" ou 1a linha)
 for f in sys.argv[1:]:
     L=[l.strip() for l in open(f,encoding="utf-8") if l.strip()]
@@ -10,7 +12,7 @@ for f in sys.argv[1:]:
         if l!="--" and not rx.match(l): print("LINHA RUIM",f,l)
     rest=sorted(rest,key=lambda l:(nm(l),l))
     out="\n".join(cmd)+"\n\n"+"\n".join(rest)+"\n"
-    dst=os.path.join("/home/claude",*f.split("/")[-2:])
+    dst=os.path.join(RAIZ,*os.path.normpath(f).split(os.sep)[-2:])
     os.makedirs(os.path.dirname(dst),exist_ok=True); open(dst,"w",encoding="utf-8").write(out)
     n=0;nomes=collections.Counter();sn=collections.defaultdict(set)
     for l in cmd+rest:

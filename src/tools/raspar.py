@@ -1,5 +1,7 @@
 # uso: python3 -I raspar.py set slug pasta stem   -> baixa mtg.wtf/deck/set/slug e grava raw/pasta/stem.txt
 import sys,re,html,subprocess,os
+# Pasta de trabalho: a variável PRECONS_RAIZ, ou a pasta acima de tools/ (onde ficam build.py e as pastas dos decks).
+RAIZ=os.environ.get("PRECONS_RAIZ") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 st,slug,pasta,stem=sys.argv[1:5]
 url=f"https://mtg.wtf/deck/{st}/{slug}"
 h=subprocess.run(["curl","-sS","--max-time","60",url],capture_output=True,text=True).stdout
@@ -21,6 +23,6 @@ for g in grupos:
         if m and re.sub(r"[^a-z0-9]","",m[2].lower())==re.sub(r"[^a-z0-9]","",slug.lower()): carta=m[2]
         l=f"{q} {carta} ({se.upper()}) {nu}"
         (cmd if nome.lower()=="commander" else rest).append(l)
-os.makedirs(f"/home/claude/raw/{pasta}",exist_ok=True)
-open(f"/home/claude/raw/{pasta}/{stem}.txt","w",encoding="utf-8").write("\n".join(cmd+["--"]+rest)+"\n")
+os.makedirs(os.path.join(RAIZ,"raw",pasta),exist_ok=True)
+open(os.path.join(RAIZ,"raw",pasta,stem+".txt"),"w",encoding="utf-8").write("\n".join(cmd+["--"]+rest)+"\n")
 print(url,len(cmd),"cmd",sum(int(l.split()[0]) for l in cmd+rest),"cartas",avisos or "ok")

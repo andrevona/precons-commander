@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Gera cartas.csv e impressoes.csv (atributos das cartas) a partir das listas dos decks e do Scryfall.
 
-Uso (de /home/claude):  python3 tools/atributos.py [--cache PASTA] [--pasta RAIZ]
+Uso:  python3 tools/atributos.py [--cache PASTA] [--pasta RAIZ]   (RAIZ padrão: PRECONS_RAIZ ou a pasta acima de tools/)
 
 Lê todos os decks (RAIZ/<pasta>/<deck>.txt, ignorando raw, site, tools e precons-commander) e grava em RAIZ:
 
@@ -127,7 +127,7 @@ def linhas_dos_decks(raiz):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--cache", default="/tmp/atributos-cache")
-    ap.add_argument("--pasta", default="/home/claude")
+    ap.add_argument("--pasta", default=os.environ.get("PRECONS_RAIZ") or os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     a = ap.parse_args()
     os.makedirs(a.cache, exist_ok=True)
 

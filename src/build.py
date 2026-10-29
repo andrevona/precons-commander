@@ -1,4 +1,6 @@
-import json
+import json,os
+# Lê e grava na pasta deste script (a pasta de trabalho), de onde quer que seja chamado.
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 C=[("Commander (2011)","c11",[("Counterpunch","counterpunch"),("Devour for Power","devour_for_power"),("Heavenly Inferno","heavenly_inferno"),("Mirror Mastery","mirror_mastery"),("Political Puppets","political_puppets")]),
    ("Commander 2013","c13",[("Eternal Bargain","eternal_bargain"),("Evasive Maneuvers","evasive_maneuvers"),("Mind Seize","mind_seize"),("Nature of the Beast","nature_of_the_beast"),("Power Hungry","power_hungry")]),
    ("Commander 2014","c14",[("Built from Scratch","built_from_scratch"),("Forged in Stone","forged_in_stone"),("Guided by Nature","guided_by_nature"),("Peer Through Time","peer_through_time"),("Sworn to Darkness","sworn_to_darkness")]),

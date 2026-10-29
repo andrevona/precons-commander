@@ -1,0 +1,23 @@
+# Confere as listas dos decks e se o site publicado bate com o código-fonte de src/.
+# Não acessa a internet (a auditoria contra o mtg.wtf continua manual: src/tools/auditar.py).
+name: Validar listas
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validar decks e site
+        run: python3 -I src/tools/validar.py --raiz src --site .
