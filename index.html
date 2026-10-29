@@ -330,7 +330,7 @@ function aplicarIdioma() {
   var NA = ' target="_blank" rel="noopener noreferrer"'; // links do rodapé abrem em nova aba
   var ln = { mtgwtf: '<a href="https://mtg.wtf"' + NA + '>mtg.wtf</a>', endstep: '<a href="https://endstep.cc"' + NA + '>endstep.cc</a>' };
   // O endereço de e-mail é montado aqui (não aparece inteiro no texto da página, para não ser coletado por robôs).
-  var mail = ["andre", "2889"].join("") + "@" + ["gmail", "com"].join(".");
+  var mail = ["congelar_dor.5a", "icloud.com"].join("@");
   var problemas = t("problemas", { email: '<a href="mailto:' + mail + '?subject=Precons%20Commander">' + t("lkEmail") + '</a>',
     github: '<a href="https://github.com/andrevona/precons-commander/issues/new"' + NA + '>' + t("lkGithub") + '</a>' });
   $("rodape").innerHTML = '<div>' + t("rodape", { nd: nd, nc: COLECOES.length, data: data, mtgwtf: ln.mtgwtf,
