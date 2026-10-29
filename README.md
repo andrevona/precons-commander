@@ -41,3 +41,5 @@ Os botões indicam quantos decks há em cada grupo e coleção (com a busca ou a
 ## Cobertura atual
 
 Commander 2011 e 2013 a 2026 completos, incluindo os Starter Commander Decks de 2022, o Foundations Commander (2026, no grupo Starters) e os Secret Lair commander decks de 2021 a 2026 (174 decks, 47 coleções). O Reality Fracture Commander usa o símbolo do set Reality Fracture, pois o Scryfall ainda não tem um ícone próprio para ele. As edições Collector's Edition não são incluídas (repetem as listas dos decks normais, mudando só a aparência das cartas).
+
+Problemas ou sugestões: use o link "e-mail" ou "issue no GitHub" dentro da "Dica de uso" no rodapé do site, ou abra uma issue em https://github.com/andrevona/precons-commander/issues.
