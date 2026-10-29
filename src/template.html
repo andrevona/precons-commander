@@ -93,6 +93,7 @@
   footer .como p { margin:0 0 6px; text-align:center; }
   footer .como ol { margin:0; padding-left:22px; }
   footer .como li { margin:4px 0; }
+  footer .como p.nota { margin:8px 0 0; text-align:left; }
   footer .como b { color:var(--fg); }
   #colecoes .tab, #grupos .tab { position:relative; z-index:1; }
   #colecoes .tab.on, #grupos .tab.on { z-index:3; }
@@ -193,8 +194,9 @@ var TXT = {
     rodIntro: 'Um facilitador para quem joga no {endstep} (projeto não oficial). Dica de uso:',
     rodPassos: ['Escolha o deck e toque em <b>Criar no endstep.cc</b>: a lista é copiada e o {endstep} abre com um deck novo (é preciso estar logado lá).',
       'No deck novo, toque em <b>Paste a list</b>.',
-      'Cole a lista inteira ({colar}) e toque em <b>Apply</b>: o nome, as 100 cartas e o comandante entram sozinhos.',
+      'Cole a lista inteira ({colar}) e toque em <b>Apply</b>: o nome do deck*, as 100 cartas e o comandante entram sozinhos.',
       'Em <b>Set format</b>, escolha <b>Commander</b>.'],
+    rodNota: '* O nome do deck vem no formato <i>Deck - Comandante (SIGLA ano)</i>, com a sigla de três letras da coleção e o ano de lançamento. Exemplo: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'sobre o projeto',
     tCol: 'coleção', tDeck: 'deck', tCmd: 'comandante', tCarta: 'carta',
     filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Decks por cores',
@@ -219,8 +221,9 @@ var TXT = {
     rodIntro: 'A helper for {endstep} players (unofficial project). Usage tip:',
     rodPassos: ['Pick a deck and tap <b>Create on endstep.cc</b>: the list is copied and {endstep} opens with a new deck (you need to be logged in there).',
       'On the new deck, tap <b>Paste a list</b>.',
-      'Paste the whole list ({colar}) and tap <b>Apply</b>: the name, the 100 cards and the commander come in on their own.',
+      'Paste the whole list ({colar}) and tap <b>Apply</b>: the deck name*, the 100 cards and the commander come in on their own.',
       'In <b>Set format</b>, choose <b>Commander</b>.'],
+    rodNota: '* The deck name comes in the format <i>Deck - Commander (CODE year)</i>, with the set\'s three-letter code and the release year. Example: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'about the project',
     tCol: 'set', tDeck: 'deck', tCmd: 'commander', tCarta: 'card',
     filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'Decks by color',
@@ -245,8 +248,9 @@ var TXT = {
     rodIntro: 'Una ayuda para quien juega en {endstep} (proyecto no oficial). Consejo de uso:',
     rodPassos: ['Elige el mazo y toca <b>Crear en endstep.cc</b>: la lista se copia y {endstep} se abre con un mazo nuevo (necesitas haber iniciado sesión allí).',
       'En el mazo nuevo, toca <b>Paste a list</b>.',
-      'Pega la lista completa ({colar}) y toca <b>Apply</b>: el nombre, las 100 cartas y el comandante se cargan solos.',
+      'Pega la lista completa ({colar}) y toca <b>Apply</b>: el nombre del mazo*, las 100 cartas y el comandante se cargan solos.',
       'En <b>Set format</b>, elige <b>Commander</b>.'],
+    rodNota: '* El nombre del mazo viene con el formato <i>Mazo - Comandante (SIGLA año)</i>, con la sigla de tres letras de la colección y el año de lanzamiento. Ejemplo: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'sobre el proyecto',
     tCol: 'colección', tDeck: 'mazo', tCmd: 'comandante', tCarta: 'carta',
     filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Mazos por colores',
@@ -278,7 +282,7 @@ function aplicarIdioma() {
   $("rodape").innerHTML = '<div>' + t("rodape", { nd: nd, nc: COLECOES.length, data: data, mtgwtf: ln.mtgwtf,
     sobre: '<a href="https://github.com/andrevona/precons-commander">' + t("sobre") + '</a>' }) + '</div>' +
     '<div class="como"><p>' + t("rodIntro", ln) + '</p><ol>' +
-    TXT[IDIOMA].rodPassos.map(function (x) { return '<li>' + x.split("{endstep}").join(ln.endstep).split("{colar}").join(atalhoColar()) + '</li>'; }).join("") + '</ol></div>';
+    TXT[IDIOMA].rodPassos.map(function (x) { return '<li>' + x.split("{endstep}").join(ln.endstep).split("{colar}").join(atalhoColar()) + '</li>'; }).join("") + '</ol><p class="nota">' + t("rodNota") + '</p></div>';
 }
 var GRUPOS = __GRUPOS__;
 var grpAtual = GRUPOS[0];
