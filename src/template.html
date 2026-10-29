@@ -1592,7 +1592,11 @@ $("exclBusca").onkeydown = function (e) {
 $("exclBusca").onblur = function () { setTimeout(function () { if (document.activeElement !== $("exclBusca")) $("exclSug").hidden = true; }, 200); };
 $("exclBusca").onfocus = exclSugerir;
 $("exclLimpar").onclick = function () { exclRasc = { c: {}, d: {}, a: {} }; cfgMesa.mesmaCol = cfgMesa.mesmoAno = cfgMesa.mesmoArq = false; // "Limpar tudo": Blacklist e as três opções "mesmo(a)"
-  $("exclBusca").value = ""; exclSugerir(); atualizarExcl(); };
+  $("exclBusca").value = ""; exclSugerir(); atualizarExcl();
+  // Também recolhe tudo o que estiver expandido (grupos, coleções e a própria Blacklist) para facilitar voltar ao topo
+  $("exclGrupos").querySelectorAll(".excl-cols").forEach(function (l) { l.hidden = true; });
+  $("exclGrupos").querySelectorAll("[aria-expanded]").forEach(function (b) { b.setAttribute("aria-expanded", "false"); });
+  $("mesaExcl").open = false; $("mesaCfg").querySelector(".mesa-cfg").scrollTop = 0; };
 
 // Caixa "Todos com o mesmo arquétipo": o arquétipo é sempre sorteado (entre os que têm decks para todos); não se escolhe qual.
 // Cada opção desmarcada fica desabilitada se, somada às marcadas, não sobrar grupo com decks para todos (com a Blacklist e o
