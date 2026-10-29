@@ -56,7 +56,7 @@
   @supports (background: color-mix(in srgb, red 10%, blue)) {
     .tab.small.on { background:var(--tinta, linear-gradient(90deg, color-mix(in srgb, var(--b1) 18%, var(--card)) 50%, color-mix(in srgb, var(--b2) 18%, var(--card)) 50%)) padding-box, linear-gradient(90deg, var(--b1) 50%, var(--b2) 50%) border-box; }
   }
-  .tab.small.on::after { content:""; position:absolute; left:8%; right:8%; top:100%; height:9px; margin-top:1px; border-radius:50%; background:linear-gradient(90deg, var(--b1) 50%, var(--b2) 50%); filter:blur(5px); opacity:.9; pointer-events:none; }
+  .tab.small.on::after { content:""; position:absolute; left:8%; right:8%; top:100%; height:9px; margin-top:1px; border-radius:50%; background:var(--brilho, linear-gradient(90deg, var(--b1) 50%, var(--b2) 50%)); filter:blur(5px); opacity:.9; pointer-events:none; }
   @media (prefers-reduced-motion: reduce) { .tab.small { transition:none; } }
   .tab img.ic { width:18px; height:18px; vertical-align:-4px; margin-right:8px; object-fit:contain; }
   .tab.on img.ic { filter:invert(1); }
@@ -874,6 +874,9 @@ function contornoCor(b, ci) {
   var mix = cs.map(function (x) { return "color-mix(in srgb, var(--m" + x + ") " + pct + "%, var(--card))"; });
   var g = cs.length === 1 ? mix[0] + ", " + mix[0] : cs.length === 2 ? mix[0] + " 50%, " + mix[1] + " 50%" : mix.join(", ");
   b.style.setProperty("--tinta", "linear-gradient(90deg, " + g + ")");
+  // O brilho embaixo do deck escolhido segue as mesmas cores do tingido (cores puras, sem misturar com o fundo).
+  var pu = cs.map(function (x) { return "var(--m" + x + ")"; });
+  b.style.setProperty("--brilho", "linear-gradient(90deg, " + (cs.length === 1 ? pu[0] + ", " + pu[0] : cs.length === 2 ? pu[0] + " 50%, " + pu[1] + " 50%" : pu.join(", ")) + ")");
 }
 // Surpreenda-me: abre um deck sorteado entre os que aparecem com a busca e as cores escolhidas (sem repetir o anterior).
 var ultimaSorte = null;
