@@ -99,7 +99,6 @@ html=open("template.html",encoding="utf-8").read().replace("__GRUPOS__",json.dum
 open("precons_offline.html","w",encoding="utf-8").write(html)
 print(len(html))
 # nomes_pt.json: nome da carta na lista (inglês) -> nome em português, só onde existe e difere; usado só na busca (ver tools/atributos.py)
-import csv,os  # (já importados acima)
 if os.path.exists("cartas.csv") and os.path.exists("impressoes.csv"):
     pt_carta={r["carta"]:r["nome_pt"] for r in csv.DictReader(open("cartas.csv",encoding="utf-8"))}
     pt={}

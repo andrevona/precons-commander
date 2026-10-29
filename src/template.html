@@ -33,6 +33,8 @@
   .tab.on { background:var(--acc); color:var(--accfg); border-color:var(--acc); }
   .tab.small { padding:4px 10px; font-size:14px; border-radius:8px; }
   .tab .n { opacity:.65; font-size:12px; margin-left:6px; white-space:nowrap; }
+  #titulo .arq-tag { vertical-align:2px; }
+  #titulo .tit-cmd { display:block; font-size:13px; font-weight:400; color:var(--mut); margin-top:2px; }
   .panel { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:12px; }
   .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
   .grow { flex:1; min-width:180px; }
@@ -73,12 +75,6 @@
   @media (max-width:439px) { #grupos .tab { padding:10px 4px; font-size:14px; } #grupos .tab .n, #grupos .tab .mais { margin-left:4px; } }
   [hidden] { display:none !important; }
   .sec-col { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:30px; }
-  .anos-caixa { position:relative; display:inline-flex; }
-  .anos-caixa select { -webkit-appearance:none; appearance:none; font:inherit; font-size:13px; font-weight:500; letter-spacing:0; text-transform:none; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:4px 28px 4px 12px; cursor:pointer; }
-  .anos-caixa select:hover { border-color:var(--f-acc); }
-  .anos-caixa::after { content:"▾"; position:absolute; right:11px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:12px; color:var(--mut); }
-  .anos-caixa.on select { background:var(--f-acc); color:var(--f-accfg); border-color:var(--f-acc); }
-  .anos-caixa.on::after { color:var(--f-accfg); }
   .filtros { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:-4px 0 12px; }
   .cor-caixa { position:relative; display:inline-flex; }
   .cor-btn { position:relative; display:inline-flex; align-items:center; gap:6px; font:inherit; font-size:13px; font-weight:500; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:4px 28px 4px 12px; min-height:29px; cursor:pointer; }
@@ -137,7 +133,7 @@
   .passos { margin:0 0 14px; padding-left:22px; } .passos li { margin:7px 0; }
   .guia-check { display:flex; gap:8px; align-items:center; color:var(--mut); font-size:14px; margin-bottom:16px; cursor:pointer; }
   .guia-botoes { display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; }
-  .aviso { position:fixed; left:50%; bottom:24px; transform:translateX(-50%); z-index:60; max-width:calc(100% - 32px); background:var(--fg); color:var(--bg); padding:10px 16px; border-radius:12px; font-size:14px; box-shadow:0 6px 22px rgba(0,0,0,.25); text-align:center; }
+  .aviso { position:fixed; left:50%; bottom:max(12px, env(safe-area-inset-bottom)); transform:translateX(-50%); z-index:60; width:max-content; max-width:calc(100% - 32px); background:var(--fg); color:var(--bg); padding:8px 14px; border-radius:18px; font-size:13px; box-shadow:0 6px 22px rgba(0,0,0,.25); text-align:center; }
   footer { margin-top:28px; color:var(--mut); font-size:12.5px; text-align:center; }
   footer a { color:inherit; }
   footer .como { max-width:540px; margin:16px auto 0; text-align:left; }
@@ -198,6 +194,7 @@
   body.modo-mesa #secCol, body.modo-mesa #colecoes, body.modo-mesa hr.div, body.modo-mesa #secDecks, body.modo-mesa #decks { display:none !important; }
   .mesa-cab { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; justify-content:space-between; margin:2px 0 12px; }
   .mesa-cab .sec { margin:0; }
+  .mesa-cab .sec .inteiro { white-space:nowrap; }
   .mesa-chk { margin-top:12px; }
   .mesa-chk .excl-l:has(input:disabled) { cursor:default; }
   .mesa-arq { display:flex; flex-wrap:wrap; gap:6px 14px; margin:-4px 0 12px; font-size:14px; color:var(--mut); }
@@ -415,7 +412,7 @@ var TXT = {
   pt: {
     sub: 'Escolha a coleção e o deck ou utilize o filtro, em inglês ou português.',
     busca: 'Carta, deck, comandante ou coleção…', apagar: 'Apagar busca', colecoes: 'Coleções', filtroAno: 'Filtrar os decks pelo ano de lançamento', porAno: 'Por ano', tirarAno: 'Tirar o filtro de ano',
-    todosAnos: 'Todos os anos', decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck encontrado', achouN: '{n} decks encontrados',
+    decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck encontrado', achouN: '{n} decks encontrados',
     nenhum: 'Nenhum deck encontrado', nenhumTxt: 'Nenhum deck, comandante ou carta com esse nome.', nenhumFiltro: 'Nenhum deck com esses filtros.',
     cartas: '{n} cartas', aviso100: ' (atenção: o esperado era 100)', encontrado: 'encontrado',
     notas_mossfire: 'Este deck foi impresso com 2 Mossfire Valley no lugar de mais um terreno básico (a Wizards confirmou o erro). A lista segue o deck como foi vendido; para jogar em Commander, troque a cópia extra por um terreno básico.',
@@ -458,7 +455,7 @@ var TXT = {
   en: {
     sub: 'Pick a set and a deck, or use the filter, in English or Portuguese.',
     busca: 'Card, deck, commander or set…', apagar: 'Clear search', colecoes: 'Sets', filtroAno: 'Filter decks by release year', porAno: 'By year', tirarAno: 'Clear the year filter',
-    todosAnos: 'All years', decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck found', achouN: '{n} decks found',
+    decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck found', achouN: '{n} decks found',
     nenhum: 'No deck found', nenhumTxt: 'No deck, commander or card with that name.', nenhumFiltro: 'No deck matches these filters.',
     cartas: '{n} cards', aviso100: ' (warning: 100 expected)', encontrado: 'found',
     notas_mossfire: 'This deck was printed with 2 Mossfire Valley instead of an extra basic land (Wizards confirmed the mistake). The list follows the deck as sold; to play it in Commander, swap the extra copy for a basic land.',
@@ -501,7 +498,7 @@ var TXT = {
   es: {
     sub: 'Elige la colección y el mazo o usa el filtro, en inglés o portugués.',
     busca: 'Carta, mazo, comandante o colección…', apagar: 'Borrar búsqueda', colecoes: 'Colecciones', filtroAno: 'Filtrar mazos por año de lanzamiento', porAno: 'Por año', tirarAno: 'Quitar el filtro de año',
-    todosAnos: 'Todos los años', decks: 'Mazos', deck1: 'mazo', deckN: 'mazos', achou1: '1 mazo encontrado', achouN: '{n} mazos encontrados',
+    decks: 'Mazos', deck1: 'mazo', deckN: 'mazos', achou1: '1 mazo encontrado', achouN: '{n} mazos encontrados',
     nenhum: 'Ningún mazo encontrado', nenhumTxt: 'Ningún mazo, comandante o carta con ese nombre.', nenhumFiltro: 'Ningún mazo con esos filtros.',
     cartas: '{n} cartas', aviso100: ' (atención: se esperaban 100)', encontrado: 'encontrado',
     notas_mossfire: 'Este mazo se imprimió con 2 Mossfire Valley en lugar de una tierra básica más (Wizards confirmó el error). La lista sigue el mazo tal como se vendió; para jugarlo en Commander, cambia la copia extra por una tierra básica.',
@@ -796,7 +793,10 @@ function desenhar() {
 // Painel do deck (título, lista, contagem, nota); usado na tela normal e no sorteio em grupo (com o nome do jogador antes).
 function pintarPainel(deck, prefixo) {
   var s = $("status"), total = contar(deck.lista);
-  $("titulo").textContent = prefixo + deck.nome + " · " + deck.comandante;
+  var ti = $("titulo"), cm = document.createElement("span"); // nome (e pílulas do arquétipo) na 1ª linha; comandante embaixo, menor
+  ti.textContent = prefixo + deck.nome;
+  (deck.arq || []).forEach(function (a) { var tg = document.createElement("span"); tg.className = "arq-tag arq-" + a; tg.textContent = t("arqs")[a] || a; ti.appendChild(tg); });
+  cm.className = "tit-cmd"; cm.textContent = deck.comandante; ti.appendChild(cm);
   $("saida").value = deck.lista;
   destacar(deck);
   s.textContent = t("cartas", { n: total }) + (total === 100 ? " ✓" : t("aviso100"));
@@ -1201,7 +1201,7 @@ function surpresa() {
   grpAtual = c.grupo; colAtual = x[0]; deckAtual = x[1]; recolhido = false;
   var abrindo = !aberto;
   if (abrindo) abrirConteudo(); else desenhar();
-  aviso(t("sorteado", { d: d.nome + " - " + d.comandante }));
+  aviso(t("sorteado", { d: d.nome }));
   function rolar() { // leva o deck sorteado para o meio da tela
     var el = document.querySelector("#decks .tab.on"); if (el && el.scrollIntoView) el.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "center" });
   }
@@ -1384,7 +1384,6 @@ function decksSorteaveis(e) {
 }
 // Arquétipos que ainda têm decks suficientes (>= n) entre os decks sorteáveis; base do "todos o mesmo arquétipo".
 function arqContagem(decks) { var c = {}; decks.forEach(function (d) { (d.arq || []).forEach(function (a) { c[a] = (c[a] || 0) + 1; }); }); return c; }
-function arqsDisponiveis(decks, n) { var c = arqContagem(decks); return ARQUETIPOS.filter(function (a) { return (c[a] || 0) >= n; }); }
 // Opções "todos da mesma coleção / do mesmo ano / com o mesmo arquétipo" (r = { col, ano, arq }: quais estão marcadas).
 // O sorteio escolhe ao acaso um grupo g = { col, ano, arq } (só os critérios marcados) entre os que têm decks para todos
 // (>= n entre os sorteáveis) e sorteia os decks dentro dele. Coleção e ano não se combinam (a coleção já define o ano).
@@ -1738,7 +1737,9 @@ function desenharMesa() {
   var m = $("mesa"); m.innerHTML = "";
   var cab = document.createElement("div"); cab.className = "mesa-cab";
   var tit = document.createElement("div"); tit.className = "sec";
-  tit.textContent = t("mesaTitulo") + " · " + t("mesaResumo", { n: mesa.jog.length }) + (mesa.jog.length === 4 ? " · " + (mesa.duplas ? t("duplasCurto") : t("ffa")) : "");
+  var tx = document.createElement("span"); tit.appendChild(tx); // um só filho: no celular o .sec é flex
+  [t("mesaTitulo"), t("mesaResumo", { n: mesa.jog.length })].concat(mesa.jog.length === 4 ? [mesa.duplas ? t("duplasCurto") : t("ffa")] : []).forEach(function (x, k) {
+    if (k) tx.appendChild(document.createTextNode(" · ")); var sp = document.createElement("span"); sp.className = "inteiro"; sp.textContent = x; tx.appendChild(sp); }); // não quebra no meio de "free-for-all"
   var ac = document.createElement("div"); ac.className = "mesa-acoes";
   var bn = document.createElement("button"); bn.type = "button"; bn.className = "ghost"; bn.id = "btnDeNovo";
   bn.innerHTML = DADO; bn.appendChild(document.createTextNode(t("sortearDeNovo")));
@@ -1830,7 +1831,6 @@ function sairMesa() {
   window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
 }
 
-try { localStorage.removeItem("precons-sel"); } catch (e) {} // limpeza da memória antiga do último deck
 montarFiltros();
 aplicarId(idDoEndereco());
 mesa = mesaDoEndereco(); // link de sorteio em grupo
