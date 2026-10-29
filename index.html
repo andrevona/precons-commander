@@ -86,6 +86,22 @@
   .cor-btn::after { content:"▾"; position:absolute; right:11px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:12px; color:var(--mut); }
   .cor-caixa.on .cor-btn { background:var(--f-acc); color:var(--f-accfg); border-color:var(--f-acc); }
   .cor-caixa.on .cor-btn::after { color:var(--f-accfg); }
+  /* Celular: grade fixa de 2 colunas, para as pílulas não mudarem de lugar quando o texto muda (símbolos, nome do arquétipo,
+     × de tirar o filtro, "Limpar tudo" que aparece e some). O × fica por cima da seta, sem aumentar a pílula. */
+  @media (max-width:520px) {
+    .filtros { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 6px; }
+    .filtros .cor-caixa { min-width:0; }
+    .filtros .cor-caixa .cor-btn { flex:1; min-width:0; overflow:hidden; white-space:nowrap; padding-left:10px; padding-right:26px; }
+    .filtros .limpar-cor { position:absolute; right:3px; top:50%; transform:translateY(-50%); margin:0; width:20px; height:20px; font-size:14px; z-index:1; }
+    .filtros .cor-caixa.on .cor-btn::after { visibility:hidden; }
+    .filtros .limpar-tudo[hidden] { display:inline-block; visibility:hidden; }
+    .filtros .limpar-tudo { justify-self:start; }
+    .filtros .sorte-grupo { justify-self:start; grid-column:1 / -1; }
+    .filtros .cor-btn { gap:4px; }
+    .filtros .cor-btn .simbolos { gap:2px; }
+    .filtros .cor-btn .simbolos img { width:13px; height:13px; }
+    .filtros .cor-caixa:nth-child(even) .cor-menu { left:auto; right:0; }
+  }
   .limpar-cor { width:26px; height:26px; margin-left:4px; align-self:center; border:0; border-radius:999px; background:var(--line); color:var(--fg); font:inherit; font-size:17px; line-height:1; padding:0; cursor:pointer; }
   .limpar-cor:hover { background:var(--f-acc); color:var(--f-accfg); }
   .simbolos { display:inline-flex; gap:2px; flex:none; }
