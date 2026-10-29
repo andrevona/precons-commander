@@ -93,6 +93,8 @@
   .sorte { padding-right:12px; font-weight:600; color:#1d1d1b; border:0; background:linear-gradient(100deg, #f3e6a6, #a9d3f5 28%, #cdbde6 50%, #f6ae9c 72%, #a8dcb2); box-shadow:0 1px 3px rgba(0,0,0,.18); }
   .sorte:hover { filter:brightness(1.05) saturate(1.15); }
   .sorte:active { transform:scale(.97); }
+  .limpar-tudo { font:inherit; font-size:13px; color:var(--mut); background:transparent; border:1px dashed var(--line); border-radius:999px; padding:4px 12px; min-height:29px; cursor:pointer; }
+  .limpar-tudo:hover { color:var(--fg); border-color:var(--fg); }
   .sorte::after { content:none; }
   .sorte svg { width:16px; height:16px; flex:none; }
   .sorte.gira svg { animation:gira .6s cubic-bezier(.4,0,.2,1); }
@@ -162,6 +164,7 @@
     <div class="cor-caixa" id="cxCor"><button type="button" class="cor-btn" id="fCor" aria-haspopup="listbox" aria-expanded="false" aria-controls="corMenu"></button><ul class="cor-menu" id="corMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparCor" data-ta="tirarCor" hidden>×</button></div>
     <div class="cor-caixa" id="cxAno"><button type="button" class="cor-btn" id="fAno" aria-haspopup="listbox" aria-expanded="false" aria-controls="anoMenu"></button><ul class="cor-menu" id="anoMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparAno" data-ta="tirarAno" hidden>×</button></div>
     <button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg><span data-t="surpresa">Surpreenda-me</span></button>
+    <button type="button" class="limpar-tudo" id="btnLimparTudo" data-ta="limparTudoDica" hidden><span aria-hidden="true">↺</span> <span data-t="limparTudo">Limpar tudo</span></button>
   </div>
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
   <div id="conteudo" hidden>
@@ -213,7 +216,7 @@ var ATUALIZADO = "__ATUALIZADO__"; // data (AAAA-MM-DD) da última conferência 
 var TXT = {
   pt: {
     sub: 'Escolha a coleção e o deck ou utilize o filtro. A lista está no formato <code>quantidade Nome (SET) número</code>, pronta para colar no endstep.cc.',
-    busca: 'Carta, deck, comandante ou coleção…', apagar: 'Apagar busca', colecoes: 'Coleções', filtroAno: 'Filtrar os decks pelo ano de lançamento', porAno: 'Decks por ano', tirarAno: 'Tirar o filtro de ano',
+    busca: 'Carta, deck, comandante ou coleção…', apagar: 'Apagar busca', colecoes: 'Coleções', filtroAno: 'Filtrar os decks pelo ano de lançamento', porAno: 'Por ano', tirarAno: 'Tirar o filtro de ano',
     todosAnos: 'Todos os anos', decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck encontrado', achouN: '{n} decks encontrados',
     nenhum: 'Nenhum deck encontrado', nenhumTxt: 'Nenhum deck, comandante ou carta com esse nome.', nenhumFiltro: 'Nenhum deck com esses filtros.',
     cartas: '{n} cartas', aviso100: ' (atenção: o esperado era 100)', encontrado: 'encontrado',
@@ -235,13 +238,13 @@ var TXT = {
     rodNota: '* O nome do deck vem no formato <i>Deck - Comandante (SIGLA ano)</i>, com a sigla de três letras da coleção e o ano de lançamento. Exemplo: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'sobre o projeto',
     tCol: 'coleção', tDeck: 'deck', tCmd: 'comandante', tCarta: 'carta',
-    filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Decks por cores', tirarCor: 'Tirar o filtro de cores',
+    filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Por cor', tirarCor: 'Tirar o filtro de cores',
     cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'WUBRG',
-    buscaPt: 'Carta (inglês ou português), deck, comandante ou coleção…', surpresa: 'Surpreenda-me', surpresaDica: 'Abre um deck aleatório (respeita a busca e as cores escolhidas)', sorteado: 'Sorteado: {d}'
+    buscaPt: 'Carta (inglês ou português), deck, comandante ou coleção…', surpresa: 'Surpreenda-me', surpresaDica: 'Abre um deck aleatório entre todos (limpa a busca e os filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e os filtros e recolhe tudo'
   },
   en: {
     sub: 'Pick a set and a deck, or use the filter. The list uses the <code>quantity Name (SET) number</code> format, ready to paste into endstep.cc.',
-    busca: 'Card, deck, commander or set…', apagar: 'Clear search', colecoes: 'Sets', filtroAno: 'Filter decks by release year', porAno: 'Decks by year', tirarAno: 'Clear the year filter',
+    busca: 'Card, deck, commander or set…', apagar: 'Clear search', colecoes: 'Sets', filtroAno: 'Filter decks by release year', porAno: 'By year', tirarAno: 'Clear the year filter',
     todosAnos: 'All years', decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck found', achouN: '{n} decks found',
     nenhum: 'No deck found', nenhumTxt: 'No deck, commander or card with that name.', nenhumFiltro: 'No deck matches these filters.',
     cartas: '{n} cards', aviso100: ' (warning: 100 expected)', encontrado: 'found',
@@ -263,13 +266,13 @@ var TXT = {
     rodNota: '* The deck name comes in the format <i>Deck - Commander (CODE year)</i>, with the set\'s three-letter code and the release year. Example: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'about the project',
     tCol: 'set', tDeck: 'deck', tCmd: 'commander', tCarta: 'card',
-    filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'Decks by color', tirarCor: 'Clear the color filter',
+    filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'By color', tirarCor: 'Clear the color filter',
     cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'WUBRG',
-    buscaPt: 'Card (English or Portuguese), deck, commander or set…', surpresa: 'Surprise me', surpresaDica: 'Opens a random deck (respects the search and the chosen colors)', sorteado: 'Drawn: {d}'
+    buscaPt: 'Card (English or Portuguese), deck, commander or set…', surpresa: 'Surprise me', surpresaDica: 'Opens a random deck out of all of them (clears the search and the filters)', sorteado: 'Drawn: {d}', limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and the filters and collapses everything'
   },
   es: {
     sub: 'Elige la colección y el mazo o usa el filtro. La lista está en el formato <code>cantidad Nombre (SET) número</code>, lista para pegar en endstep.cc.',
-    busca: 'Carta, mazo, comandante o colección…', apagar: 'Borrar búsqueda', colecoes: 'Colecciones', filtroAno: 'Filtrar mazos por año de lanzamiento', porAno: 'Mazos por año', tirarAno: 'Quitar el filtro de año',
+    busca: 'Carta, mazo, comandante o colección…', apagar: 'Borrar búsqueda', colecoes: 'Colecciones', filtroAno: 'Filtrar mazos por año de lanzamiento', porAno: 'Por año', tirarAno: 'Quitar el filtro de año',
     todosAnos: 'Todos los años', decks: 'Mazos', deck1: 'mazo', deckN: 'mazos', achou1: '1 mazo encontrado', achouN: '{n} mazos encontrados',
     nenhum: 'Ningún mazo encontrado', nenhumTxt: 'Ningún mazo, comandante o carta con ese nombre.', nenhumFiltro: 'Ningún mazo con esos filtros.',
     cartas: '{n} cartas', aviso100: ' (atención: se esperaban 100)', encontrado: 'encontrado',
@@ -291,9 +294,9 @@ var TXT = {
     rodNota: '* El nombre del mazo viene con el formato <i>Mazo - Comandante (SIGLA año)</i>, con la sigla de tres letras de la colección y el año de lanzamiento. Ejemplo: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'sobre el proyecto',
     tCol: 'colección', tDeck: 'mazo', tCmd: 'comandante', tCarta: 'carta',
-    filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Mazos por colores', tirarCor: 'Quitar el filtro de colores',
+    filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Por color', tirarCor: 'Quitar el filtro de colores',
     cores: { W: 'Blanco', U: 'Azul', B: 'Negro', R: 'Rojo', G: 'Verde', C: 'Incoloro' }, cinco: 'WUBRG',
-    buscaPt: 'Carta (inglés o portugués), mazo, comandante o colección…', surpresa: 'Sorpréndeme', surpresaDica: 'Abre un mazo al azar (respeta la búsqueda y los colores elegidos)', sorteado: 'Sorteado: {d}'
+    buscaPt: 'Carta (inglés o portugués), mazo, comandante o colección…', surpresa: 'Sorpréndeme', surpresaDica: 'Abre un mazo al azar entre todos (borra la búsqueda y los filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Borrar todo', limparTudoDica: 'Vuelve al inicio: borra la búsqueda y los filtros y lo recoge todo'
   }
 };
 var IDIOMA = (function () {
@@ -440,6 +443,7 @@ function idDoEndereco() { try { return decodeURIComponent(location.hash.replace(
 
 function desenhar() {
   $("conteudo").hidden = !aberto;
+  $("btnLimparTudo").hidden = !(aberto || buscando()); // só fora da tela inicial
   var vis = [];
   var nd = 0;
   COLECOES.forEach(function (col) { col.decks.forEach(function (dk) { if (casa(dk)) nd++; }); });
@@ -890,6 +894,7 @@ function contornoCor(b, ci) {
 var ultimaSorte = null;
 function surpresa() {
   if (animando) return;
+  zerarBuscaEFiltros(); // sorteia entre todos os decks, passando por cima da busca e dos filtros
   var todos = [];
   COLECOES.forEach(function (c, ci) { c.decks.forEach(function (d, di) { if (casa(d)) todos.push([ci, di, d]); }); });
   if (!todos.length) { aviso(t("nenhum")); return; }
@@ -917,6 +922,20 @@ function surpresa() {
   }, abrindo && !semAnim() ? DUR + 60 : 0);
 }
 $("btnSorte").onclick = surpresa;
+// Tira o texto da busca e os dois filtros (sem redesenhar).
+function zerarBuscaEFiltros() {
+  var f = $("filtro"); f.value = ""; q = ""; $("limpar").hidden = true; fecharSug();
+  Object.keys(FILTROS).forEach(function (k) { fecharFiltro(FILTROS[k], false); });
+  limparFiltros();
+}
+// Limpar tudo: volta à tela inicial (sem busca nem filtros, conteúdo recolhido sob os grupos, topo da página).
+$("btnLimparTudo").onclick = function () {
+  if (animando) return;
+  zerarBuscaEFiltros(); recolhido = false; grpAtual = GRUPOS[0]; colAtual = 0; deckAtual = 0; ultimaSorte = null;
+  if (aberto) fecharConteudo(); else desenhar();
+  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+  window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
+};
 $("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; fecharSug(); desenhar(); f.focus(); };
 
 // Copiar lista: copia no formato de exportação do MTG Arena (About/Name + Commander + Deck), o mesmo de
