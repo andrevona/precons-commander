@@ -13,7 +13,7 @@ Confere em cada deck: formato "qtd Nome (SET) número"; comandante(s), uma linha
 SET+número ligado a dois nomes (exceções impressas assim no produto ficam em EXCECOES). Confere também: todo deck do build.py tem arquivo, todo arquivo está no
 build.py, toda coleção tem ano, e todo arquivo citado no sw.js existe.
 """
-import argparse, collections, glob, os, re, shutil, subprocess, sys, tempfile
+import argparse, collections, csv, glob, os, re, shutil, subprocess, sys, tempfile
 
 LINHA = re.compile(r"^([1-9]\d*) (\S(?:.*\S)?) \((\w+)\) (\S+)$")
 # Repetições que existem no produto impresso (a lista fica fiel ao deck vendido).
@@ -127,6 +127,23 @@ def main():
         rel = os.path.relpath(f, dados).replace(os.sep, "/")
         if rel.split("/")[0] in pastas and rel not in esperados:
             erros[rel].append("arquivo não está no build.py")
+
+    tab = os.path.join(dados, "decks.csv")
+    if os.path.exists(tab):  # tabela de arquétipos (tools/arquetipos.py)
+        ARQ = {"tribal", "tokens", "counters", "spellslinger", "graveyard", "artifacts", "enchantments", "lifegain",
+               "sacrifice", "voltron", "blink", "lands", "midrange"}
+        vistos = set()
+        for r in csv.DictReader(open(tab, encoding="utf-8")):
+            vistos.add(r["id"] + ".txt")
+            for k in ("arq1", "arq2"):
+                if r[k] and r[k] not in ARQ:
+                    erros["decks.csv"].append(f"{r['id']}: {k} desconhecido: {r[k]}")
+            if not r["arq1"] or r["arq2"] == r["arq1"] or (r["arq1"] == "midrange" and r["arq2"]):
+                erros["decks.csv"].append(f"{r['id']}: arquétipos inválidos")
+        for rel in sorted(esperados - vistos):
+            erros["decks.csv"].append(f"{rel} não está na tabela (rodar tools/arquetipos.py)")
+        for rel in sorted(vistos - esperados):
+            erros["decks.csv"].append(f"{rel} está na tabela mas não no build.py")
 
     if a.site:
         sw = os.path.join(a.site, "sw.js")
