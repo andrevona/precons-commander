@@ -231,6 +231,13 @@
   @media (prefers-color-scheme: dark) { .arq-tag { background:hsl(var(--h) calc(var(--s) * .55) 20%); color:hsl(var(--h) var(--s) 80%); border-color:hsl(var(--h) calc(var(--s) * .55) 34%); } }
   .arq-sacrifice { --h:2; } .arq-tribal { --h:26; } .arq-tokens { --h:46; } .arq-lands { --h:82; } .arq-counters { --h:132; } .arq-blink { --h:186; }
   .arq-spellslinger { --h:214; } .arq-voltron { --h:244; } .arq-graveyard { --h:274; } .arq-enchantments { --h:304; } .arq-lifegain { --h:340; } .arq-artifacts { --h:210; --s:14%; }
+  /* Filtro "Por arquétipo" escolhido: a cor do arquétipo (--h/--s vêm das classes .arq-<id>, as mesmas das etiquetas), um pouco mais forte que a etiqueta */
+  .cor-caixa.on[class*="arq-"] .cor-btn { background:hsl(var(--h) var(--s, 62%) 85%); color:hsl(var(--h) var(--s, 62%) 20%); border-color:hsl(var(--h) var(--s, 62%) 58%); }
+  .cor-caixa.on[class*="arq-"] .cor-btn::after { color:hsl(var(--h) var(--s, 62%) 20%); }
+  @media (prefers-color-scheme: dark) {
+    .cor-caixa.on[class*="arq-"] .cor-btn { background:hsl(var(--h) calc(var(--s, 62%) * .6) 27%); color:hsl(var(--h) var(--s, 62%) 88%); border-color:hsl(var(--h) calc(var(--s, 62%) * .6) 46%); }
+    .cor-caixa.on[class*="arq-"] .cor-btn::after { color:hsl(var(--h) var(--s, 62%) 88%); }
+  }
   .mesa-arq b.arq-tag { font-size:inherit; padding:1px 9px; margin-left:4px; vertical-align:baseline; background:hsl(var(--h) var(--s) 92%); color:hsl(var(--h) var(--s) 27%); border:1px solid hsl(var(--h) var(--s) 80%); } /* "Arquétipo sorteado" com a cor do arquétipo */
   @media (prefers-color-scheme: dark) { .mesa-arq b.arq-tag { background:hsl(var(--h) calc(var(--s) * .55) 20%); color:hsl(var(--h) var(--s) 80%); border-color:hsl(var(--h) calc(var(--s) * .55) 34%); } }
   .jog .dinfo { font-size:12.5px; color:var(--mut); }
@@ -1128,6 +1135,10 @@ function pintarFiltro(f) {
   b.title = t(f.cfg.dica);
   b.setAttribute("aria-label", t(f.cfg.dica) + ": " + (v ? (f.cfg.aria ? f.cfg.aria(v) : f.cfg.rotulo(v)) : t(f.cfg.vazio)));
   f.cx.classList.toggle("on", !!v);
+  if (f.k === "arq") { // o filtro de arquétipo escolhido ganha a cor do arquétipo (mesmas cores das etiquetas: classe arq-<id>)
+    ARQUETIPOS.forEach(function (a) { f.cx.classList.remove("arq-" + a); });
+    if (v) f.cx.classList.add("arq-" + v);
+  }
   f.x.hidden = !v;
 }
 function montarFiltros() {
