@@ -1334,7 +1334,7 @@ $("guia").onclick = function (e) { if (e.target === this) guia(false); };
 document.addEventListener("keydown", function (e) {
   if (e.key !== "Escape") return;
   if (!$("guia").hidden) guia(false);
-  else if (!$("mesaCfg").hidden) fecharCfg();
+  else if (!$("mesaCfg").hidden) cancelarCfg();
 });
 
 // ===== Sorteio em grupo (pedido do usuário em 29/10/2026) =====
@@ -1639,14 +1639,16 @@ function abrirCfg() {
   ajudaMesa(false); pintarCfg(); $("mesaCfg").hidden = false;
   focoAntesMesa = document.activeElement; $("mesaSortear").focus(); // foco no botão (no celular não abre o teclado)
 }
+// Cancelar (botão, Esc ou toque fora) descarta tudo: a Blacklist (rascunho) e as três opções "mesmo(a)"
+function cancelarCfg() { cfgMesa.mesmaCol = cfgMesa.mesmoAno = cfgMesa.mesmoArq = false; fecharCfg(); }
 function fecharCfg() { $("mesaCfg").hidden = true; if (focoAntesMesa && focoAntesMesa.focus) focoAntesMesa.focus({ preventScroll: true }); }
 [].forEach.call($("mesaN").children, function (b) { b.onclick = function () { cfgMesa.n = +this.getAttribute("data-n"); pintarCfg(); }; });
 [].forEach.call($("mesaModo").children, function (b) { b.onclick = function () { cfgMesa.duplas = this.getAttribute("data-d") === "1"; pintarCfg(); }; });
 function ajudaMesa(abre) { $("mesaAjuda").hidden = !abre; $("mesaAjudaBtn").setAttribute("aria-expanded", abre ? "true" : "false"); }
 $("mesaAjudaBtn").onclick = function () { ajudaMesa($("mesaAjuda").hidden); };
 $("btnMesa").onclick = abrirCfg;
-$("mesaCancelar").onclick = fecharCfg;
-$("mesaCfg").onclick = function (e) { if (e.target === this) fecharCfg(); };
+$("mesaCancelar").onclick = cancelarCfg;
+$("mesaCfg").onclick = function (e) { if (e.target === this) cancelarCfg(); };
 $("mesaSortear").onclick = function () { sortearDoQuadro(); };
 function sortearDoQuadro() {
   var sd = decksSorteaveis(exclRasc);
