@@ -524,6 +524,9 @@ var RECOLHEM = ["Universes Within"]; // só este grupo tem tantas coleções a p
 var SEM_COLECAO = ["Secret Lair"]; // grupos com uma unica colecao: lista os decks direto
 
 var colAtual = 0, deckAtual = 0;
+// semSel: com filtro de cor/ano/arquétipo (sem texto na busca) só se mostram as coleções que sobraram, sem nenhuma coleção nem deck
+// escolhido e sem o painel; escolher uma coleção ou um deck (ou limpar os filtros) desliga.
+var semSel = false;
 var recolhido = false, animando = false; // coleções recolhidas sob o botão escolhido (só em RECOLHEM)
 var aberto = false; // conteúdo abaixo dos grupos: a página abre só com os 4 grupos
 function $(id) { return document.getElementById(id); }
@@ -624,7 +627,7 @@ function aplicarId(id) {
   COLECOES.forEach(function (col, ci) {
     col.decks.forEach(function (dk, di) {
       if (ok || idDe(dk) !== id) return;
-      ok = true; grpAtual = col.grupo; colAtual = ci; deckAtual = di;
+      ok = true; semSel = false; grpAtual = col.grupo; colAtual = ci; deckAtual = di;
       recolhido = RECOLHEM.indexOf(col.grupo) >= 0; aberto = true;
     });
   });
@@ -673,6 +676,7 @@ function desenhar() {
     if ((!todas && col.grupo !== grpAtual) || !col.decks.some(casa)) return;
     vis.push(i);
   });
+  var sem = semSel && todas && !q; // filtrando só pelas pílulas: nada escolhido
   var semCol = !todas && SEM_COLECAO.indexOf(grpAtual) >= 0;
   $("secCol").hidden = semCol; $("colecoes").hidden = semCol;
   var c = $("colecoes"); c.innerHTML = "";
@@ -684,17 +688,18 @@ function desenhar() {
     s.textContent = t(q ? "nenhumTxt" : "nenhumFiltro"); s.className = "status warn"; $("espelho").innerHTML = ""; $("notaDeck").hidden = true;
     return;
   }
-  if (vis.indexOf(colAtual) < 0) { colAtual = vis[0]; deckAtual = 0; recolhido = false; }
+  if (!sem && vis.indexOf(colAtual) < 0) { colAtual = vis[0]; deckAtual = 0; recolhido = false; }
   var colRec = recolhido && recolhivel && !buscando(); // com busca ou filtro ativo, as coleções não recolhem
-  var decks = COLECOES[colAtual].decks;
-  if (!decks[deckAtual] || !casa(decks[deckAtual])) {
+  var decks = sem ? [] : COLECOES[colAtual].decks;
+  $("secDecks").hidden = sem; d.hidden = sem; $("painel").hidden = sem;
+  if (!sem && (!decks[deckAtual] || !casa(decks[deckAtual]))) {
     for (var k = 0; k < decks.length; k++) { if (casa(decks[k])) { deckAtual = k; break; } }
   }
   vis.forEach(function (i) {
     if (colRec && i !== colAtual) return;
     var col = COLECOES[i];
     var b = document.createElement("button");
-    b.className = "tab" + (i === colAtual ? " on" : "");
+    b.className = "tab" + (!sem && i === colAtual ? " on" : "");
     var ico = GRP_ICONE[col.grupo] || col.icone;
     if (ico) { var im = document.createElement("img"); im.className = "ic"; im.alt = ""; im.src = "icons/" + ico + ".svg"; im.onerror = function () { this.style.display = "none"; }; b.appendChild(im); }
     b.appendChild(document.createTextNode(col.nome));
@@ -709,7 +714,7 @@ function desenhar() {
     b.setAttribute("aria-expanded", colRec ? "false" : "true");
     b.onclick = function () {
       if (animando) return;
-      if (!recolhivel || buscando()) { colAtual = i; deckAtual = 0; desenhar(); return; }
+      if (!recolhivel || buscando()) { semSel = false; colAtual = i; deckAtual = 0; desenhar(); return; }
       if (colRec) expandirEm(c, function () { recolhido = false; desenhar(); });
       else recolherEm(c, b, function () { colAtual = i; deckAtual = 0; recolhido = true; desenhar(); });
     };
@@ -721,9 +726,10 @@ function desenhar() {
     b.className = "tab small" + (i === deckAtual ? " on" : "");
     b.textContent = deck.nome;
     if (deck.ci) { b.appendChild(simbolos(deck.ci)); contornoCor(b, deck.ci); }
-    b.onclick = function () { deckAtual = i; desenhar(); };
+    b.onclick = function () { semSel = false; deckAtual = i; desenhar(); };
     d.appendChild(b);
   });
+  if (sem) { try { if (location.hash) history.replaceState(null, "", location.pathname + location.search); } catch (e) {} return; }
   var deck = decks[deckAtual];
   if (aberto) guardarSelecao(deck);
   pintarPainel(deck, "");
@@ -1057,6 +1063,7 @@ function escolherFiltro(f, i) {
   if (animando || i < 0) return;
   fecharFiltro(f, !toque());
   f.cfg.set(f.vals[i]); recolhido = false; pintarFiltro(f);
+  semSel = !!(corFiltro || anoSel || arqSel); // filtrando: nada escolhido até o usuário tocar numa coleção
   if (!corFiltro && !anoSel && !arqSel && COLECOES[colAtual]) grpAtual = COLECOES[colAtual].grupo; // sem filtros, volta ao grupo da coleção aberta
   if (f.vals[i] && !aberto) abrirConteudo(); else desenhar();
 }
@@ -1095,7 +1102,7 @@ function montarFiltros() {
     vazio: "porArq", dica: "filtroArq", valoresDe: function (d) { return d.arq || []; }, rotulo: function (a) { return t("arqs")[a] || a; },
     get: function () { return arqSel; }, set: function (v) { arqSel = v; } });
 }
-function limparFiltros() { corFiltro = ""; anoSel = ""; arqSel = ""; Object.keys(FILTROS).forEach(function (k) { pintarFiltro(FILTROS[k]); }); }
+function limparFiltros() { semSel = false; corFiltro = ""; anoSel = ""; arqSel = ""; Object.keys(FILTROS).forEach(function (k) { pintarFiltro(FILTROS[k]); }); }
 // Cores do deck escolhido (identidade do comandante, na ordem WUBRG; incolor = cinza): --brilho = cores puras, usadas na
 // borda e no brilho embaixo; --tinta = as mesmas cores misturadas com o fundo. Uma cor: tom único; duas: metade de cada;
 // três ou mais: degradê suave entre todas. Os decks não escolhidos têm todos a mesma borda neutra (--deckBorda).
