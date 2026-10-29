@@ -194,6 +194,14 @@
   .jog .dnome .simbolos { margin-left:6px; vertical-align:-3px; }
   .jog .dnome .simbolos img { width:14px; height:14px; }
   .jog .dinfo { font-size:12.5px; color:var(--mut); }
+  /* Dica de que o cartão é um botão: linha "Ver lista ▾" separada no pé do cartão (vira "Ocultar lista ▴" quando aberto) e leve elevação ao passar o mouse. */
+  .jog .verlista { align-self:stretch; display:flex; align-items:center; justify-content:space-between; margin-top:6px; padding-top:7px; border-top:1px solid var(--line); font-size:12.5px; font-weight:600; color:var(--acc); }
+  .jog .verlista::after { content:"▾"; font-size:11px; transition:transform .2s; }
+  .jog.on .verlista::after { transform:rotate(180deg); }
+  .jogw .jog { transition:transform .15s, box-shadow .15s, border-color .15s; }
+  .jogw .jog:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,.18); }
+  .jogw .jog:active { transform:translateY(0); box-shadow:none; }
+  @media (prefers-reduced-motion: reduce) { .jogw .jog { transition:none; } .jogw .jog:hover { transform:none; } }
   @keyframes revela { from { opacity:0; transform:translateY(12px) scale(.94); } }
   @media (prefers-reduced-motion: reduce) { .mesa-acoes .gira svg { animation:none; } }
   .mesa-dica { color:var(--mut); margin:14px 0 0; }
@@ -220,6 +228,9 @@
   .excl-gh .excl-l { font-weight:600; }
   .excl-l input { width:18px; height:18px; flex:none; margin:0; accent-color:var(--f-acc); }
   .excl-l .n { margin-left:auto; color:var(--mut); font-size:12px; font-weight:400; }
+  .excl-row { display:flex; align-items:center; gap:4px; }
+  .excl-l .txt { flex:1; min-width:0; overflow-wrap:anywhere; }
+  .excl-l .txt small { display:block; color:var(--mut); font-size:12px; }
   .excl-tg { flex:none; width:30px; height:30px; border:0; border-radius:8px; background:transparent; color:var(--mut); font:inherit; font-size:11px; cursor:pointer; }
   .excl-tg:hover { background:var(--line); color:var(--fg); }
   .excl-tg[aria-expanded="true"] { transform:rotate(180deg); }
@@ -372,7 +383,7 @@ var TXT = {
     compSorteio: 'Compartilhar o sorteio', linkSorteio: 'Link do sorteio copiado ✓', copieSorteio: 'Copie o link do sorteio:',
     exclTit: 'Excluir do sorteio', exclResumo: 'Sorteando entre {a} de {b} decks', exclBuscar: 'Buscar deck ou comandante…', exclLimpar: 'Limpar exclusões',
     exclNota: 'As exclusões valem só nesta aba: somem ao fechá-la.', exclFaltam: 'Há poucos decks para {n} jogadores. Tire alguma exclusão.', exclTirar: 'Tirar {d} da exclusão',
-    exclAbrir: 'Mostrar as coleções do grupo {g}', trocarDeck: 'Sortear outro deck para {n}', semOutro: 'Não há outro deck disponível para sortear.'
+    exclAbrir: 'Mostrar as coleções do grupo {g}', exclAbrirDecks: 'Mostrar os decks de {c}', verLista: 'Ver lista', esconderLista: 'Ocultar lista', trocarDeck: 'Sortear outro deck para {n}', semOutro: 'Não há outro deck disponível para sortear.'
   },
   en: {
     sub: 'Pick a set and a deck, or use the filter, in English or Portuguese.',
@@ -410,7 +421,7 @@ var TXT = {
     compSorteio: 'Share the draw', linkSorteio: 'Draw link copied ✓', copieSorteio: 'Copy the draw link:',
     exclTit: 'Exclude from the draw', exclResumo: 'Drawing from {a} of {b} decks', exclBuscar: 'Search deck or commander…', exclLimpar: 'Clear exclusions',
     exclNota: 'Exclusions only last for this tab: they disappear when you close it.', exclFaltam: 'Too few decks for {n} players. Remove some exclusions.', exclTirar: 'Remove {d} from the exclusions',
-    exclAbrir: 'Show the sets in the {g} group', trocarDeck: 'Draw another deck for {n}', semOutro: 'There is no other deck available to draw.'
+    exclAbrir: 'Show the sets in the {g} group', exclAbrirDecks: 'Show the decks in {c}', verLista: 'View list', esconderLista: 'Hide list', trocarDeck: 'Draw another deck for {n}', semOutro: 'There is no other deck available to draw.'
   },
   es: {
     sub: 'Elige la colección y el mazo o usa el filtro, en inglés o portugués.',
@@ -448,7 +459,7 @@ var TXT = {
     compSorteio: 'Compartir el sorteo', linkSorteio: 'Enlace del sorteo copiado ✓', copieSorteio: 'Copia el enlace del sorteo:',
     exclTit: 'Excluir del sorteo', exclResumo: 'Sorteando entre {a} de {b} mazos', exclBuscar: 'Buscar mazo o comandante…', exclLimpar: 'Borrar exclusiones',
     exclNota: 'Las exclusiones solo valen en esta pestaña: se borran al cerrarla.', exclFaltam: 'Hay pocos mazos para {n} jugadores. Quita alguna exclusión.', exclTirar: 'Quitar {d} de las exclusiones',
-    exclAbrir: 'Mostrar las colecciones del grupo {g}', trocarDeck: 'Sortear otro mazo para {n}', semOutro: 'No hay otro mazo disponible para sortear.'
+    exclAbrir: 'Mostrar las colecciones del grupo {g}', exclAbrirDecks: 'Mostrar los mazos de {c}', verLista: 'Ver lista', esconderLista: 'Ocultar lista', trocarDeck: 'Sortear otro mazo para {n}', semOutro: 'No hay otro mazo disponible para sortear.'
   }
 };
 var IDIOMA = (function () {
@@ -1284,6 +1295,46 @@ function pintarCfg() {
 // parcial quando só algumas estão marcadas) e por deck (busca com sugestões; cada deck vira uma etiqueta que se tira com um toque).
 // Os grupos e coleções são montados uma vez; depois só se atualiza o estado (assim os grupos abertos não fecham a cada toque).
 var exclGrupos = null;
+// Estado de uma coleção: tudo excluído (exclRasc.c) ou só alguns decks avulsos (exclRasc.d). Marcar todos os decks de uma coleção
+// vira exclusão da coleção; desmarcar um deck de uma coleção excluída tira a coleção e deixa os outros decks excluídos.
+function exclNCol(c) {
+  if (exclRasc.c[c.id]) return c.decks.length;
+  var n = 0; c.decks.forEach(function (d) { if (exclRasc.d[idDe(d)]) n++; });
+  return n;
+}
+function exclMarcarCol(c, marca) {
+  c.decks.forEach(function (d) { delete exclRasc.d[idDe(d)]; });
+  if (marca) exclRasc.c[c.id] = 1; else delete exclRasc.c[c.id];
+}
+function exclMarcarDeck(c, d, marca) {
+  if (exclRasc.c[c.id]) {
+    if (marca) return;
+    delete exclRasc.c[c.id];
+    c.decks.forEach(function (x) { if (x !== d) exclRasc.d[idDe(x)] = 1; });
+    return;
+  }
+  if (marca) exclRasc.d[idDe(d)] = 1; else delete exclRasc.d[idDe(d)];
+  if (c.decks.every(function (x) { return exclRasc.d[idDe(x)]; })) exclMarcarCol(c, true);
+}
+function exclToggle(rotulo) {
+  var tg = document.createElement("button");
+  tg.type = "button"; tg.className = "excl-tg"; tg.textContent = "▾"; tg.setAttribute("aria-expanded", "false");
+  tg.setAttribute("aria-label", rotulo); tg.title = rotulo;
+  return tg;
+}
+function exclAlternar(tg, lista) { var abre = lista.hidden; lista.hidden = !abre; tg.setAttribute("aria-expanded", abre ? "true" : "false"); }
+// Lista dos decks de uma coleção, cada um com a sua caixa (nome do deck e, embaixo, o comandante).
+function exclListaDecks(c, it) {
+  var lista = document.createElement("div"); lista.className = "excl-cols"; lista.hidden = true;
+  c.decks.forEach(function (d) {
+    var l = document.createElement("label"), cb = document.createElement("input"), tx = document.createElement("span"), sm = document.createElement("small");
+    l.className = "excl-l"; cb.type = "checkbox"; tx.className = "txt"; tx.textContent = d.nome; sm.textContent = d.comandante; tx.appendChild(sm);
+    cb.onchange = function () { exclMarcarDeck(c, d, this.checked); atualizarExcl(); };
+    l.appendChild(cb); l.appendChild(tx); lista.appendChild(l);
+    it.decks.push({ cb: cb, id: idDe(d) });
+  });
+  return lista;
+}
 function montarExcl() {
   if (exclGrupos) return;
   exclGrupos = [];
@@ -1295,25 +1346,26 @@ function montarExcl() {
     wrap.className = "excl-g"; cab.className = "excl-gh"; lb.className = "excl-l"; cb.type = "checkbox"; nn.className = "n";
     nm.textContent = g; nn.textContent = nd;
     lb.appendChild(cb); lb.appendChild(nm); lb.appendChild(nn); cab.appendChild(lb); wrap.appendChild(cab);
-    var gr = { cb: cb, cols: cols, itens: [] };
-    cb.onchange = function () {
-      var marca = this.checked;
-      cols.forEach(function (c) { if (marca) exclRasc.c[c.id] = 1; else delete exclRasc.c[c.id]; });
-      atualizarExcl();
-    };
-    if (SEM_COLECAO.indexOf(g) < 0) { // grupos com várias coleções: lista recolhida, aberta pela setinha
-      var tg = document.createElement("button"), lista = document.createElement("div");
-      tg.type = "button"; tg.className = "excl-tg"; tg.textContent = "▾"; tg.setAttribute("aria-expanded", "false");
-      tg.setAttribute("aria-label", t("exclAbrir", { g: g })); tg.title = t("exclAbrir", { g: g });
+    var gr = { cb: cb, itens: [] };
+    cb.onchange = function () { var marca = this.checked; cols.forEach(function (c) { exclMarcarCol(c, marca); }); atualizarExcl(); };
+    if (SEM_COLECAO.indexOf(g) >= 0) { // grupo com uma coleção só: a setinha do grupo abre direto os decks
+      var it0 = { c: cols[0], decks: [] }, l0 = exclListaDecks(cols[0], it0), tg0 = exclToggle(t("exclAbrirDecks", { c: g }));
+      tg0.onclick = function () { exclAlternar(tg0, l0); };
+      cab.appendChild(tg0); wrap.appendChild(l0); gr.itens.push(it0);
+    } else { // grupos com várias coleções: setinha do grupo abre as coleções; a de cada coleção abre os decks
+      var tg = exclToggle(t("exclAbrir", { g: g })), lista = document.createElement("div");
       lista.className = "excl-cols"; lista.hidden = true;
-      tg.onclick = function () { var abre = lista.hidden; lista.hidden = !abre; tg.setAttribute("aria-expanded", abre ? "true" : "false"); };
+      tg.onclick = function () { exclAlternar(tg, lista); };
       cab.appendChild(tg);
       cols.forEach(function (c) {
-        var l2 = document.createElement("label"), c2 = document.createElement("input"), n2 = document.createElement("span"), k2 = document.createElement("span");
-        l2.className = "excl-l"; c2.type = "checkbox"; k2.className = "n"; n2.textContent = c.nome; k2.textContent = c.decks.length;
-        c2.onchange = function () { if (this.checked) exclRasc.c[c.id] = 1; else delete exclRasc.c[c.id]; atualizarExcl(); };
-        l2.appendChild(c2); l2.appendChild(n2); l2.appendChild(k2); lista.appendChild(l2);
-        gr.itens.push({ cb: c2, c: c });
+        var it = { c: c, decks: [] }, row = document.createElement("div"), l2 = document.createElement("label"), c2 = document.createElement("input"),
+          n2 = document.createElement("span"), k2 = document.createElement("span"), tg2 = exclToggle(t("exclAbrirDecks", { c: c.nome })), ld = exclListaDecks(c, it);
+        row.className = "excl-row"; l2.className = "excl-l"; c2.type = "checkbox"; k2.className = "n"; n2.textContent = c.nome; k2.textContent = c.decks.length;
+        c2.onchange = function () { exclMarcarCol(c, this.checked); atualizarExcl(); };
+        tg2.onclick = function () { exclAlternar(tg2, ld); };
+        l2.appendChild(c2); l2.appendChild(n2); l2.appendChild(k2); row.appendChild(l2); row.appendChild(tg2);
+        lista.appendChild(row); lista.appendChild(ld);
+        it.cb = c2; gr.itens.push(it);
       });
       wrap.appendChild(lista);
     }
@@ -1323,9 +1375,14 @@ function montarExcl() {
 function atualizarExcl() {
   if (!exclGrupos) return;
   exclGrupos.forEach(function (g) {
-    var k = g.cols.filter(function (c) { return exclRasc.c[c.id]; }).length;
-    g.cb.checked = k === g.cols.length; g.cb.indeterminate = k > 0 && k < g.cols.length;
-    g.itens.forEach(function (it) { it.cb.checked = !!exclRasc.c[it.c.id]; });
+    var cheias = 0, algum = false;
+    g.itens.forEach(function (it) {
+      var n = exclNCol(it.c), tudo = n === it.c.decks.length;
+      if (tudo) cheias++; if (n) algum = true;
+      if (it.cb) { it.cb.checked = tudo; it.cb.indeterminate = n > 0 && !tudo; }
+      it.decks.forEach(function (dk) { dk.cb.checked = !!exclRasc.c[it.c.id] || !!exclRasc.d[dk.id]; });
+    });
+    g.cb.checked = cheias === g.itens.length; g.cb.indeterminate = algum && !g.cb.checked;
   });
   var ch = $("exclChips"); ch.innerHTML = "";
   Object.keys(exclRasc.d).forEach(function (id) {
@@ -1333,7 +1390,7 @@ function atualizarExcl() {
     var b = document.createElement("button"), x = document.createElement("i");
     b.type = "button"; b.className = "chip"; b.textContent = d.nome; x.textContent = "×"; x.setAttribute("aria-hidden", "true"); b.appendChild(x);
     b.setAttribute("aria-label", t("exclTirar", { d: d.nome })); b.title = t("exclTirar", { d: d.nome });
-    b.onclick = function () { delete exclRasc.d[id]; exclSugerir(); atualizarExcl(); };
+    b.onclick = function () { exclMarcarDeck(d._col, d, false); exclSugerir(); atualizarExcl(); };
     ch.appendChild(b);
   });
   var tot = 0; COLECOES.forEach(function (c) { tot += c.decks.length; });
@@ -1503,7 +1560,8 @@ function desenharMesa() {
       var dn = document.createElement("span"); dn.className = "dnome"; dn.textContent = d.nome; if (d.ci) dn.appendChild(simbolos(d.ci));
       var cmd = document.createElement("span"); cmd.className = "dinfo"; cmd.textContent = d.comandante;
       var col = document.createElement("span"); col.className = "dinfo"; col.textContent = d._col.nome + (d._col.ano && d._col.nome.indexOf(d._col.ano) < 0 ? " · " + d._col.ano : ""); // sem repetir o ano
-      b.appendChild(qn); b.appendChild(dn); b.appendChild(cmd); b.appendChild(col);
+      var vl = document.createElement("span"); vl.className = "verlista"; vl.textContent = t(mesa.sel === i ? "esconderLista" : "verLista");
+      b.appendChild(qn); b.appendChild(dn); b.appendChild(cmd); b.appendChild(col); b.appendChild(vl);
       b.onclick = function () {
         if (mesa.sel === i) { mesa.sel = -1; desenhar(); return; } // tocar de novo no mesmo deck recolhe o painel
         mesa.sel = i; desenhar();
