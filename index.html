@@ -176,6 +176,12 @@
   .sorte-grupo #btnSorte { border-radius:999px 0 0 999px; }
   .sorte-grupo .mesa-btn { border:0; border-left:1px solid rgba(0,0,0,.22); border-radius:0 999px 999px 0; padding:4px 11px 4px 9px; }
   .mesa-cfg { max-height:calc(100vh - 32px); overflow:auto; }
+  .mesa-tit { display:flex; align-items:center; gap:8px; margin:0 0 6px; }
+  .mesa-tit h2 { margin:0; }
+  .ajuda-btn { flex:none; width:24px; height:24px; padding:0; border-radius:50%; border:1.5px solid var(--line); background:transparent; color:var(--acc); font:inherit; font-size:14px; font-weight:700; line-height:1; cursor:pointer; }
+  .ajuda-btn[aria-expanded="true"] { background:var(--f-acc); border-color:var(--f-acc); color:var(--f-accfg); }
+  .ajuda { margin:2px 0 4px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; font-size:14px; color:var(--mut); }
+  .ajuda ul { margin:0; padding-left:18px; } .ajuda li { margin:5px 0; }
   .mesa-cfg .rot { font-size:13px; font-weight:600; color:var(--mut); margin:14px 0 6px; }
   .seg { display:inline-flex; flex-wrap:wrap; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
   .seg button { font:inherit; font-size:14px; border:0; background:transparent; color:var(--fg); padding:7px 16px; cursor:pointer; }
@@ -337,8 +343,12 @@
 </div>
 <div class="modal" id="mesaCfg" hidden>
   <div class="modal-caixa mesa-cfg" role="dialog" aria-modal="true" aria-labelledby="mesaCfgTit">
-    <h2 id="mesaCfgTit" data-t="mesaTitulo">Sorteio em grupo</h2>
-    <p class="guia-sub" data-t="mesaSub">Cada jogador recebe um deck diferente, sorteado entre todos.</p>
+    <div class="mesa-tit"><h2 id="mesaCfgTit" data-t="mesaTitulo">Sorteio em grupo</h2><button type="button" class="ajuda-btn" id="mesaAjudaBtn" aria-expanded="false" aria-controls="mesaAjuda" data-ta="ajudaBtn">?</button></div>
+    <div class="ajuda" id="mesaAjuda" hidden>
+      <ul>
+        <li data-t="ajuda1"></li><li data-t="ajuda2"></li><li data-t="ajuda3"></li><li data-t="ajuda4"></li><li data-t="ajuda5"></li><li data-t="ajuda6"></li>
+      </ul>
+    </div>
     <div class="rot" id="rotN" data-t="mesaJog">Jogadores</div>
     <div class="seg" id="mesaN" role="group" aria-labelledby="rotN"><button type="button" data-n="2">2</button><button type="button" data-n="3">3</button><button type="button" data-n="4">4</button></div>
     <div class="rot" data-t="mesaNomes">Nomes (opcional)</div>
@@ -405,7 +415,8 @@ var TXT = {
     cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'WUBRG',
     surpresa: 'Surpreenda-me', surpresaDica: 'Abre um deck aleatório entre todos (limpa a busca e os filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e os filtros e recolhe tudo',
     exclArqs: 'Arquétipos', arqMesmoChk: 'Todos com o mesmo arquétipo (sorteado)', arqSorteado: 'Arquétipo sorteado:', arqFaltam: 'Nenhum arquétipo tem {n} decks com essas exclusões. Tire alguma exclusão ou desmarque "Todos com o mesmo arquétipo".', arqRot: 'Arquétipo: {a}',
-    mesaDica: 'Sorteio em grupo (2 a 4 jogadores)', mesaTitulo: 'Sorteio em grupo', mesaSub: 'Cada jogador recebe um deck diferente, sorteado entre todos.',
+    mesaDica: 'Sorteio em grupo (2 a 4 jogadores)', mesaTitulo: 'Sorteio em grupo',
+    ajuda1: 'Cada jogador recebe um deck diferente, sorteado entre todos os decks (a busca e os filtros da página não contam).', ajuda2: 'Com 4 jogadores dá para jogar em duplas (2 contra 2); as duplas também são sorteadas.', ajuda3: 'Quem começa a partida também é sorteado.', ajuda4: 'Em "Todos com o mesmo arquétipo", o arquétipo é sorteado e todos recebem decks que o tenham (como 1º ou 2º arquétipo).', ajuda5: '"Excluir do sorteio" tira coleções, arquétipos ou decks. Um deck sai se qualquer um dos seus arquétipos estiver excluído. As exclusões valem só nesta aba.', ajuda6: 'Depois do sorteio, toque num jogador para ver a lista do deck. O dado do cartão troca só o deck dele, e o botão de compartilhar manda o resultado por link (sem as exclusões).', ajudaBtn: 'Como funciona o sorteio',
     mesaJog: 'Jogadores', mesaNomes: 'Nomes (opcional)', jogador: 'Jogador {n}', mesaModo: 'Modo', ffa: 'Free-for-all', duplasOpc: 'Duplas (2 contra 2)',
     cancelar: 'Cancelar', sortear: 'Sortear', sortearDeNovo: 'Sortear de novo', mesaResumo: '{n} jogadores', duplasCurto: 'duplas', dupla: 'Dupla {x}',
     comeca: 'começa', mesaToque: 'Toque num jogador para ver a lista do deck e criar no endstep.cc.',
@@ -446,7 +457,8 @@ var TXT = {
     cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'WUBRG',
     surpresa: 'Surprise me', surpresaDica: 'Opens a random deck out of all of them (clears the search and the filters)', sorteado: 'Drawn: {d}', limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and the filters and collapses everything',
     exclArqs: 'Archetypes', arqMesmoChk: 'Everyone gets the same archetype (drawn)', arqSorteado: 'Drawn archetype:', arqFaltam: 'No archetype has {n} decks with these exclusions. Remove an exclusion or untick "Everyone gets the same archetype".', arqRot: 'Archetype: {a}',
-    mesaDica: 'Group draw (2 to 4 players)', mesaTitulo: 'Group draw', mesaSub: 'Each player gets a different deck, drawn from all of them.',
+    mesaDica: 'Group draw (2 to 4 players)', mesaTitulo: 'Group draw',
+    ajuda1: 'Each player gets a different deck, drawn from all the decks (the page\'s search and filters don\'t count).', ajuda2: 'With 4 players you can play in teams (2 vs 2); the teams are drawn too.', ajuda3: 'Who goes first is also drawn.', ajuda4: 'With "Everyone gets the same archetype", the archetype is drawn and everyone gets decks that have it (as 1st or 2nd archetype).', ajuda5: '"Exclude from the draw" removes sets, archetypes or decks. A deck is out if any of its archetypes is excluded. Exclusions only last in this tab.', ajuda6: 'After the draw, tap a player to see the deck list. The die on a card swaps only that player\'s deck, and the share button sends the result as a link (without the exclusions).', ajudaBtn: 'How the draw works',
     mesaJog: 'Players', mesaNomes: 'Names (optional)', jogador: 'Player {n}', mesaModo: 'Mode', ffa: 'Free-for-all', duplasOpc: 'Teams (2 vs 2)',
     cancelar: 'Cancel', sortear: 'Draw', sortearDeNovo: 'Draw again', mesaResumo: '{n} players', duplasCurto: 'teams', dupla: 'Team {x}',
     comeca: 'goes first', mesaToque: 'Tap a player to see the deck list and create it on endstep.cc.',
@@ -487,7 +499,8 @@ var TXT = {
     cores: { W: 'Blanco', U: 'Azul', B: 'Negro', R: 'Rojo', G: 'Verde', C: 'Incoloro' }, cinco: 'WUBRG',
     surpresa: 'Sorpréndeme', surpresaDica: 'Abre un mazo al azar entre todos (borra la búsqueda y los filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Borrar todo', limparTudoDica: 'Vuelve al inicio: borra la búsqueda y los filtros y lo recoge todo',
     exclArqs: 'Arquetipos', arqMesmoChk: 'Todos con el mismo arquetipo (sorteado)', arqSorteado: 'Arquetipo sorteado:', arqFaltam: 'Ningún arquetipo tiene {n} mazos con estas exclusiones. Quita alguna exclusión o desmarca "Todos con el mismo arquetipo".', arqRot: 'Arquetipo: {a}',
-    mesaDica: 'Sorteo en grupo (2 a 4 jugadores)', mesaTitulo: 'Sorteo en grupo', mesaSub: 'Cada jugador recibe un mazo distinto, sorteado entre todos.',
+    mesaDica: 'Sorteo en grupo (2 a 4 jugadores)', mesaTitulo: 'Sorteo en grupo',
+    ajuda1: 'Cada jugador recibe un mazo distinto, sorteado entre todos los mazos (la búsqueda y los filtros de la página no cuentan).', ajuda2: 'Con 4 jugadores se puede jugar por parejas (2 contra 2); las parejas también se sortean.', ajuda3: 'Quién empieza la partida también se sortea.', ajuda4: 'Con "Todos con el mismo arquetipo", el arquetipo se sortea y todos reciben mazos que lo tengan (como 1.º o 2.º arquetipo).', ajuda5: '"Excluir del sorteo" quita colecciones, arquetipos o mazos. Un mazo queda fuera si alguno de sus arquetipos está excluido. Las exclusiones valen solo en esta pestaña.', ajuda6: 'Tras el sorteo, toca un jugador para ver la lista del mazo. El dado de la tarjeta cambia solo su mazo, y el botón de compartir envía el resultado por enlace (sin las exclusiones).', ajudaBtn: 'Cómo funciona el sorteo',
     mesaJog: 'Jugadores', mesaNomes: 'Nombres (opcional)', jogador: 'Jugador {n}', mesaModo: 'Modo', ffa: 'Todos contra todos', duplasOpc: 'Parejas (2 contra 2)',
     cancelar: 'Cancelar', sortear: 'Sortear', sortearDeNovo: 'Sortear de nuevo', mesaResumo: '{n} jugadores', duplasCurto: 'parejas', dupla: 'Pareja {x}',
     comeca: 'empieza', mesaToque: 'Toca un jugador para ver la lista del mazo y crearlo en endstep.cc.',
@@ -1527,12 +1540,14 @@ function abrirCfg() {
   fecharSug(); Object.keys(FILTROS).forEach(function (k) { fecharFiltro(FILTROS[k], false); });
   exclRasc = copiaExcl(excl); montarExcl(); $("exclBusca").value = ""; exclSugerir();
   $("mesaExcl").open = temExcl(exclRasc); // com exclusões guardadas, o bloco já abre à vista
-  pintarCfg(); $("mesaCfg").hidden = false;
+  ajudaMesa(false); pintarCfg(); $("mesaCfg").hidden = false;
   focoAntesMesa = document.activeElement; $("mesaSortear").focus(); // foco no botão (no celular não abre o teclado)
 }
 function fecharCfg() { $("mesaCfg").hidden = true; if (focoAntesMesa && focoAntesMesa.focus) focoAntesMesa.focus({ preventScroll: true }); }
 [].forEach.call($("mesaN").children, function (b) { b.onclick = function () { cfgMesa.n = +this.getAttribute("data-n"); pintarCfg(); }; });
 [].forEach.call($("mesaModo").children, function (b) { b.onclick = function () { cfgMesa.duplas = this.getAttribute("data-d") === "1"; pintarCfg(); }; });
+function ajudaMesa(abre) { $("mesaAjuda").hidden = !abre; $("mesaAjudaBtn").setAttribute("aria-expanded", abre ? "true" : "false"); }
+$("mesaAjudaBtn").onclick = function () { ajudaMesa($("mesaAjuda").hidden); };
 $("btnMesa").onclick = abrirCfg;
 $("mesaCancelar").onclick = fecharCfg;
 $("mesaCfg").onclick = function (e) { if (e.target === this) fecharCfg(); };
