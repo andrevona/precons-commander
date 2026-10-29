@@ -1286,6 +1286,7 @@ function desenharMesa() {
       var col = document.createElement("span"); col.className = "dinfo"; col.textContent = d._col.nome + (d._col.ano && d._col.nome.indexOf(d._col.ano) < 0 ? " · " + d._col.ano : ""); // sem repetir o ano
       b.appendChild(qn); b.appendChild(dn); b.appendChild(cmd); b.appendChild(col);
       b.onclick = function () {
+        if (mesa.sel === i) { mesa.sel = -1; desenhar(); return; } // tocar de novo no mesmo deck recolhe o painel
         mesa.sel = i; desenhar();
         var pn = $("painel"); if (pn.scrollIntoView) pn.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "nearest" });
       };
