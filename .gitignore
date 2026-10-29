@@ -1,0 +1,6 @@
+# Arquivos temporários e gerados fora do fluxo de publicação
+raw/
+__pycache__/
+*.pyc
+precons_offline.html
+.DS_Store
