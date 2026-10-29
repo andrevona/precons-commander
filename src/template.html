@@ -252,6 +252,10 @@
   .excl-tg[aria-expanded="true"] { transform:rotate(180deg); }
   .excl-cols { margin:0 0 6px 8px; padding-left:12px; border-left:2px solid var(--line); }
   .excl-cols[hidden] { display:none; }
+  .excl-arq { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); column-gap:12px; }
+  .excl-arq .excl-l { flex:none; }
+  .excl-l input:disabled + .txt { color:var(--mut); }
+  .mesa-cfg select { margin-top:8px; max-width:100%; font:inherit; font-size:16px; padding:7px 10px; border:1.5px solid var(--inBorda); border-radius:8px; background:var(--inBg); color:var(--fg); }
   .excl-busca input { width:100%; font:inherit; font-size:16px; padding:8px 10px; border:1.5px solid var(--inBorda); border-radius:8px; background:var(--inBg); color:var(--fg); }
   .excl-busca input::placeholder { color:var(--mut); opacity:1; }
   .excl-busca input:focus { outline:none; border-color:var(--f-acc); box-shadow:0 0 0 3px var(--inAnel); }
@@ -339,11 +343,16 @@
     <div class="nomes" id="mesaNomes"></div>
     <div id="mesaModoCx"><div class="rot" id="rotModo" data-t="mesaModo">Modo</div>
       <div class="seg" id="mesaModo" role="group" aria-labelledby="rotModo"><button type="button" data-d="0" data-t="ffa">Free-for-all</button><button type="button" data-d="1" data-t="duplasOpc">Duplas (2 contra 2)</button></div></div>
+    <div id="mesaArqCx"><div class="rot" id="rotArq" data-t="mesaArq">Arquétipos dos decks</div>
+      <div class="seg" id="mesaMesmo" role="group" aria-labelledby="rotArq"><button type="button" data-m="0" data-t="arqVariados">Variados</button><button type="button" data-m="1" data-t="arqMesmo">Todos o mesmo</button></div>
+      <select id="mesaArqSel" hidden data-ta="arqEscolha"></select></div>
     <details class="excl" id="mesaExcl">
       <summary><span data-t="exclTit">Excluir do sorteio</span><span class="resumo" id="exclResumo"></span></summary>
       <div class="excl-corpo">
         <div class="rot" data-t="colecoes">Coleções</div>
         <div id="exclGrupos"></div>
+        <div class="rot" data-t="exclArqs">Arquétipos</div>
+        <div class="excl-arq" id="exclArqs"></div>
         <div class="rot" data-t="decks">Decks</div>
         <div class="excl-busca"><input type="text" id="exclBusca" autocomplete="off" spellcheck="false" data-tp="exclBuscar" data-ta="exclBuscar" placeholder="Buscar deck ou comandante…" role="combobox" aria-expanded="false" aria-controls="exclSug"><ul class="excl-sug" id="exclSug" role="listbox" hidden></ul></div>
         <div class="chips" id="exclChips"></div>
@@ -395,6 +404,7 @@ var TXT = {
     filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Por cor', tirarCor: 'Tirar o filtro de cores',
     cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'WUBRG',
     surpresa: 'Surpreenda-me', surpresaDica: 'Abre um deck aleatório entre todos (limpa a busca e os filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e os filtros e recolhe tudo',
+    exclArqs: 'Arquétipos', mesaArq: 'Arquétipos dos decks', arqVariados: 'Variados', arqMesmo: 'Todos o mesmo', arqSortear: 'Sortear um arquétipo', arqEscolha: 'Arquétipo dos decks', arqFaltam: 'Nenhum arquétipo tem {n} decks com essas exclusões. Tire alguma exclusão ou escolha "Variados".', arqRot: 'Arquétipo: {a}',
     mesaDica: 'Sorteio em grupo (2 a 4 jogadores)', mesaTitulo: 'Sorteio em grupo', mesaSub: 'Cada jogador recebe um deck diferente, sorteado entre todos.',
     mesaJog: 'Jogadores', mesaNomes: 'Nomes (opcional)', jogador: 'Jogador {n}', mesaModo: 'Modo', ffa: 'Free-for-all', duplasOpc: 'Duplas (2 contra 2)',
     cancelar: 'Cancelar', sortear: 'Sortear', sortearDeNovo: 'Sortear de novo', mesaResumo: '{n} jogadores', duplasCurto: 'duplas', dupla: 'Dupla {x}',
@@ -435,6 +445,7 @@ var TXT = {
     filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'By color', tirarCor: 'Clear the color filter',
     cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'WUBRG',
     surpresa: 'Surprise me', surpresaDica: 'Opens a random deck out of all of them (clears the search and the filters)', sorteado: 'Drawn: {d}', limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and the filters and collapses everything',
+    exclArqs: 'Archetypes', mesaArq: 'Deck archetypes', arqVariados: 'Mixed', arqMesmo: 'All the same', arqSortear: 'Random archetype', arqEscolha: 'Deck archetype', arqFaltam: 'No archetype has {n} decks with these exclusions. Remove an exclusion or choose "Mixed".', arqRot: 'Archetype: {a}',
     mesaDica: 'Group draw (2 to 4 players)', mesaTitulo: 'Group draw', mesaSub: 'Each player gets a different deck, drawn from all of them.',
     mesaJog: 'Players', mesaNomes: 'Names (optional)', jogador: 'Player {n}', mesaModo: 'Mode', ffa: 'Free-for-all', duplasOpc: 'Teams (2 vs 2)',
     cancelar: 'Cancel', sortear: 'Draw', sortearDeNovo: 'Draw again', mesaResumo: '{n} players', duplasCurto: 'teams', dupla: 'Team {x}',
@@ -475,6 +486,7 @@ var TXT = {
     filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Por color', tirarCor: 'Quitar el filtro de colores',
     cores: { W: 'Blanco', U: 'Azul', B: 'Negro', R: 'Rojo', G: 'Verde', C: 'Incoloro' }, cinco: 'WUBRG',
     surpresa: 'Sorpréndeme', surpresaDica: 'Abre un mazo al azar entre todos (borra la búsqueda y los filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Borrar todo', limparTudoDica: 'Vuelve al inicio: borra la búsqueda y los filtros y lo recoge todo',
+    exclArqs: 'Arquetipos', mesaArq: 'Arquetipos de los mazos', arqVariados: 'Variados', arqMesmo: 'Todos el mismo', arqSortear: 'Arquetipo al azar', arqEscolha: 'Arquetipo de los mazos', arqFaltam: 'Ningún arquetipo tiene {n} mazos con estas exclusiones. Quita alguna exclusión o elige "Variados".', arqRot: 'Arquetipo: {a}',
     mesaDica: 'Sorteo en grupo (2 a 4 jugadores)', mesaTitulo: 'Sorteo en grupo', mesaSub: 'Cada jugador recibe un mazo distinto, sorteado entre todos.',
     mesaJog: 'Jugadores', mesaNomes: 'Nombres (opcional)', jogador: 'Jugador {n}', mesaModo: 'Modo', ffa: 'Todos contra todos', duplasOpc: 'Parejas (2 contra 2)',
     cancelar: 'Cancelar', sortear: 'Sortear', sortearDeNovo: 'Sortear de nuevo', mesaResumo: '{n} jugadores', duplasCurto: 'parejas', dupla: 'Pareja {x}',
@@ -1278,13 +1290,14 @@ document.addEventListener("keydown", function (e) {
 // O Surpreenda-me de um jogador continua igual. Exclusões (coleções e decks) e troca do deck de um jogador: ver mais abaixo.
 var mesa = null; // { duplas, comeca, sel, novo, jog: [{ k (posição no quadro), nome, d (deck) }] }
 var CHAVE_MESA = "precons-mesa"; // últimas escolhas do quadro (só neste aparelho)
-var cfgMesa = { n: 4, nomes: ["", "", "", ""], duplas: false };
+var cfgMesa = { n: 4, nomes: ["", "", "", ""], duplas: false, mesmoArq: false, arqFixo: "" };
 (function () {
   try {
     var p = JSON.parse(localStorage.getItem(CHAVE_MESA) || "{}");
     if (p.n >= 2 && p.n <= 4) cfgMesa.n = p.n;
     if (Array.isArray(p.nomes)) for (var i = 0; i < 4; i++) cfgMesa.nomes[i] = String(p.nomes[i] || "").slice(0, 24);
     cfgMesa.duplas = !!p.duplas;
+    cfgMesa.mesmoArq = !!p.mesmoArq; cfgMesa.arqFixo = ARQUETIPOS.indexOf(p.arqFixo) >= 0 ? p.arqFixo : "";
   } catch (e) {}
 })();
 function nomeJog(j) { return j.nome || t("jogador", { n: j.k + 1 }); }
@@ -1295,23 +1308,28 @@ function embaralhar(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.f
 // Valem só para o sorteio em grupo (o Surpreenda-me solo ignora) e ficam guardadas só nesta aba (sessionStorage: somem ao fechá-la).
 // O quadro edita uma cópia (exclRasc) que só vira valer ao tocar em Sortear; Cancelar descarta.
 var CHAVE_EXCL = "precons-excl";
-var excl = { c: {}, d: {} }, exclRasc = { c: {}, d: {} };
+var excl = { c: {}, d: {}, a: {} }, exclRasc = { c: {}, d: {}, a: {} }; // a = arquétipos excluídos (um deck sai se QUALQUER um dos seus 1–2 arquétipos estiver excluído)
 (function () {
   try {
     var p = JSON.parse(sessionStorage.getItem(CHAVE_EXCL) || "{}");
     (Array.isArray(p.c) ? p.c : []).forEach(function (x) { if (COLECOES.some(function (c) { return c.id === x; })) excl.c[x] = 1; });
     (Array.isArray(p.d) ? p.d : []).forEach(function (x) { if (deckPorId(String(x))) excl.d[String(x)] = 1; });
+    (Array.isArray(p.a) ? p.a : []).forEach(function (x) { if (ARQUETIPOS.indexOf(x) >= 0) excl.a[x] = 1; });
   } catch (e) {}
 })();
-function guardarExcl() { try { sessionStorage.setItem(CHAVE_EXCL, JSON.stringify({ c: Object.keys(excl.c), d: Object.keys(excl.d) })); } catch (e) {} }
-function copiaExcl(e) { var r = { c: {}, d: {} }; Object.keys(e.c).forEach(function (k) { r.c[k] = 1; }); Object.keys(e.d).forEach(function (k) { r.d[k] = 1; }); return r; }
-function temExcl(e) { return Object.keys(e.c).length > 0 || Object.keys(e.d).length > 0; }
+function guardarExcl() { try { sessionStorage.setItem(CHAVE_EXCL, JSON.stringify({ c: Object.keys(excl.c), d: Object.keys(excl.d), a: Object.keys(excl.a) })); } catch (e) {} }
+function copiaExcl(e) { var r = { c: {}, d: {}, a: {} }; Object.keys(e.a).forEach(function (k) { r.a[k] = 1; }); Object.keys(e.c).forEach(function (k) { r.c[k] = 1; }); Object.keys(e.d).forEach(function (k) { r.d[k] = 1; }); return r; }
+function temExcl(e) { return Object.keys(e.c).length > 0 || Object.keys(e.d).length > 0 || Object.keys(e.a).length > 0; }
+function excluidoPorArq(d, e) { return (d.arq || []).some(function (a) { return e.a[a]; }); }
 // Decks que podem ser sorteados com essas exclusões.
 function decksSorteaveis(e) {
   var r = [];
-  COLECOES.forEach(function (c) { if (e.c[c.id]) return; c.decks.forEach(function (d) { if (!e.d[idDe(d)]) r.push(d); }); });
+  COLECOES.forEach(function (c) { if (e.c[c.id]) return; c.decks.forEach(function (d) { if (!e.d[idDe(d)] && !excluidoPorArq(d, e)) r.push(d); }); });
   return r;
 }
+// Arquétipos que ainda têm decks suficientes (>= n) entre os decks sorteáveis; base do "todos o mesmo arquétipo".
+function arqContagem(decks) { var c = {}; decks.forEach(function (d) { (d.arq || []).forEach(function (a) { c[a] = (c[a] || 0) + 1; }); }); return c; }
+function arqsDisponiveis(decks, n) { var c = arqContagem(decks); return ARQUETIPOS.filter(function (a) { return (c[a] || 0) >= n; }); }
 
 // Quadro de configuração
 var focoAntesMesa = null;
@@ -1371,13 +1389,22 @@ function exclListaDecks(c, it) {
     l.className = "excl-l"; cb.type = "checkbox"; tx.className = "txt"; tx.textContent = d.nome; sm.textContent = d.comandante; tx.appendChild(sm);
     cb.onchange = function () { exclMarcarDeck(c, d, this.checked); atualizarExcl(); };
     l.appendChild(cb); l.appendChild(tx); lista.appendChild(l);
-    it.decks.push({ cb: cb, id: idDe(d) });
+    it.decks.push({ cb: cb, id: idDe(d), d: d });
   });
   return lista;
 }
+var exclArqCb = {};
 function montarExcl() {
   if (exclGrupos) return;
   exclGrupos = [];
+  var cn = arqContagem(COLECOES.reduce(function (r, c) { return r.concat(c.decks); }, []));
+  ARQUETIPOS.forEach(function (a) {
+    if (!cn[a]) return;
+    var l = document.createElement("label"), cb = document.createElement("input"), nm = document.createElement("span"), nn = document.createElement("span");
+    l.className = "excl-l"; cb.type = "checkbox"; nm.className = "txt"; nm.setAttribute("data-arq", a); nn.className = "n"; nn.textContent = cn[a];
+    cb.onchange = function () { if (this.checked) exclRasc.a[a] = 1; else delete exclRasc.a[a]; atualizarExcl(); };
+    l.appendChild(cb); l.appendChild(nm); l.appendChild(nn); $("exclArqs").appendChild(l); exclArqCb[a] = { cb: cb, nm: nm };
+  });
   GRUPOS.forEach(function (g) {
     var cols = COLECOES.filter(function (c) { return c.grupo === g; }), nd = 0;
     cols.forEach(function (c) { nd += c.decks.length; });
@@ -1420,7 +1447,7 @@ function atualizarExcl() {
       var n = exclNCol(it.c), tudo = n === it.c.decks.length;
       if (tudo) cheias++; if (n) algum = true;
       if (it.cb) { it.cb.checked = tudo; it.cb.indeterminate = n > 0 && !tudo; }
-      it.decks.forEach(function (dk) { dk.cb.checked = !!exclRasc.c[it.c.id] || !!exclRasc.d[dk.id]; });
+      it.decks.forEach(function (dk) { var pa = excluidoPorArq(dk.d, exclRasc); dk.cb.checked = !!exclRasc.c[it.c.id] || !!exclRasc.d[dk.id] || pa; dk.cb.disabled = pa; });
     });
     g.cb.checked = cheias === g.itens.length; g.cb.indeterminate = algum && !g.cb.checked;
   });
@@ -1434,9 +1461,13 @@ function atualizarExcl() {
     ch.appendChild(b);
   });
   var tot = 0; COLECOES.forEach(function (c) { tot += c.decks.length; });
-  var resta = decksSorteaveis(exclRasc).length, falta = resta < cfgMesa.n;
+  Object.keys(exclArqCb).forEach(function (a) { exclArqCb[a].cb.checked = !!exclRasc.a[a]; exclArqCb[a].nm.textContent = t("arqs")[a] || a; });
+  var sorteaveis = decksSorteaveis(exclRasc), resta = sorteaveis.length, falta = resta < cfgMesa.n, msg = falta ? t("exclFaltam", { n: cfgMesa.n }) : "";
+  var disp = arqsDisponiveis(sorteaveis, cfgMesa.n); // "todos o mesmo arquétipo": precisa de um arquétipo com decks para todos
+  if (cfgMesa.mesmoArq && !disp.length && !falta) { falta = true; msg = t("arqFaltam", { n: cfgMesa.n }); }
+  pintarArqCfg(sorteaveis, disp);
   $("exclResumo").textContent = t("exclResumo", { a: resta, b: tot });
-  $("exclAviso").hidden = !falta; $("exclAviso").textContent = falta ? t("exclFaltam", { n: cfgMesa.n }) : "";
+  $("exclAviso").hidden = !falta; $("exclAviso").textContent = msg;
   $("mesaSortear").disabled = falta;
   $("exclLimpar").disabled = !temExcl(exclRasc);
 }
@@ -1487,8 +1518,24 @@ $("exclBusca").onkeydown = function (e) {
 };
 $("exclBusca").onblur = function () { setTimeout(function () { if (document.activeElement !== $("exclBusca")) $("exclSug").hidden = true; }, 200); };
 $("exclBusca").onfocus = exclSugerir;
-$("exclLimpar").onclick = function () { exclRasc = { c: {}, d: {} }; $("exclBusca").value = ""; exclSugerir(); atualizarExcl(); };
+$("exclLimpar").onclick = function () { exclRasc = { c: {}, d: {}, a: {} }; $("exclBusca").value = ""; exclSugerir(); atualizarExcl(); };
 
+// Escolha "Variados / Todos o mesmo" e a lista de arquétipos (com quantos decks sobram em cada um com as exclusões do quadro).
+function pintarArqCfg(sorteaveis, disp) {
+  [].forEach.call($("mesaMesmo").children, function (b) { b.setAttribute("aria-pressed", (b.getAttribute("data-m") === "1") === cfgMesa.mesmoArq ? "true" : "false"); });
+  var sel = $("mesaArqSel"); sel.hidden = !cfgMesa.mesmoArq;
+  if (cfgMesa.arqFixo && disp.indexOf(cfgMesa.arqFixo) < 0) cfgMesa.arqFixo = ""; // sem decks suficientes: volta a sortear
+  var cn = arqContagem(sorteaveis);
+  sel.innerHTML = "";
+  var o0 = document.createElement("option"); o0.value = ""; o0.textContent = t("arqSortear"); sel.appendChild(o0);
+  ARQUETIPOS.forEach(function (a) {
+    if (!cn[a] && !(COLECOES.some(function (c) { return c.decks.some(function (d) { return (d.arq || []).indexOf(a) >= 0; }); }))) return;
+    var o = document.createElement("option"); o.value = a; o.textContent = (t("arqs")[a] || a) + " (" + (cn[a] || 0) + ")"; o.disabled = disp.indexOf(a) < 0; sel.appendChild(o);
+  });
+  sel.value = cfgMesa.arqFixo;
+}
+[].forEach.call($("mesaMesmo").children, function (b) { b.onclick = function () { cfgMesa.mesmoArq = this.getAttribute("data-m") === "1"; atualizarExcl(); }; });
+$("mesaArqSel").onchange = function () { cfgMesa.arqFixo = this.value; };
 function abrirCfg() {
   if (animando) return;
   fecharSug(); Object.keys(FILTROS).forEach(function (k) { fecharFiltro(FILTROS[k], false); });
@@ -1505,25 +1552,32 @@ $("mesaCancelar").onclick = fecharCfg;
 $("mesaCfg").onclick = function (e) { if (e.target === this) fecharCfg(); };
 $("mesaSortear").onclick = function () { sortearDoQuadro(); };
 function sortearDoQuadro() {
-  if (decksSorteaveis(exclRasc).length < cfgMesa.n) return; // poucos decks: o aviso já está no quadro
+  var sd = decksSorteaveis(exclRasc);
+  if (sd.length < cfgMesa.n || (cfgMesa.mesmoArq && !arqsDisponiveis(sd, cfgMesa.n).length)) return; // poucos decks: o aviso já está no quadro
   excl = copiaExcl(exclRasc); guardarExcl(); // as exclusões só passam a valer ao sortear
-  try { localStorage.setItem(CHAVE_MESA, JSON.stringify({ n: cfgMesa.n, nomes: cfgMesa.nomes.map(function (x) { return x.trim(); }), duplas: cfgMesa.duplas })); } catch (e) {}
+  try { localStorage.setItem(CHAVE_MESA, JSON.stringify({ n: cfgMesa.n, nomes: cfgMesa.nomes.map(function (x) { return x.trim(); }), duplas: cfgMesa.duplas, mesmoArq: cfgMesa.mesmoArq, arqFixo: cfgMesa.arqFixo })); } catch (e) {}
   $("mesaCfg").hidden = true;
   var base = [];
   for (var i = 0; i < cfgMesa.n; i++) base.push({ k: i, nome: cfgMesa.nomes[i].trim().slice(0, 24) });
-  sortearMesa(base, cfgMesa.n === 4 && cfgMesa.duplas);
+  sortearMesa(base, cfgMesa.n === 4 && cfgMesa.duplas, { mesmo: cfgMesa.mesmoArq, fixo: cfgMesa.arqFixo });
 }
 
 // Sorteio: decks diferentes entre todos; com duplas, a ordem dos jogadores também é sorteada (1º e 2º = dupla A).
-function sortearMesa(base, duplas) {
+function sortearMesa(base, duplas, opc) {
   if (animando) return;
-  var todos = decksSorteaveis(excl); // todos os decks, menos os excluídos no quadro
+  var todos = decksSorteaveis(excl), arq = ""; // todos os decks, menos os excluídos no quadro
   if (todos.length < base.length) { aviso(t("exclFaltam", { n: base.length })); return; }
+  if (opc && opc.mesmo) { // todos com o mesmo arquétipo (1º ou 2º do deck): o escolhido, ou um sorteado entre os que têm decks para todos
+    var ok = arqsDisponiveis(todos, base.length);
+    if (!ok.length) { aviso(t("arqFaltam", { n: base.length })); return; }
+    arq = opc.fixo && ok.indexOf(opc.fixo) >= 0 ? opc.fixo : ok[Math.floor(Math.random() * ok.length)];
+    todos = todos.filter(function (d) { return (d.arq || []).indexOf(arq) >= 0; });
+  }
   embaralhar(todos);
   var jog = base.map(function (b, i) { return { k: b.k, nome: b.nome, d: todos[i] }; });
   if (duplas) embaralhar(jog);
   zerarBuscaEFiltros();
-  mesa = { duplas: duplas, comeca: Math.floor(Math.random() * jog.length), sel: -1, novo: true, jog: jog };
+  mesa = { duplas: duplas, comeca: Math.floor(Math.random() * jog.length), sel: -1, novo: true, jog: jog, arq: arq, arqMesmo: !!(opc && opc.mesmo), arqFixo: (opc && opc.fixo) || "" };
   try { history.replaceState(null, "", "#" + hashMesa()); } catch (e) {}
   desenhar();
   window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
@@ -1534,14 +1588,14 @@ function trocarDeck(i) {
   if (animando || !mesa || !mesa.jog[i]) return;
   var usados = {};
   mesa.jog.forEach(function (x) { usados[idDe(x.d)] = 1; });
-  var livres = decksSorteaveis(excl).filter(function (d) { return !usados[idDe(d)]; });
+  var livres = decksSorteaveis(excl).filter(function (d) { return !usados[idDe(d)] && (!mesa.arq || (d.arq || []).indexOf(mesa.arq) >= 0); });
   if (!livres.length) { aviso(t("semOutro")); return; }
   mesa.jog[i].d = livres[Math.floor(Math.random() * livres.length)]; mesa.jog[i].rev = true; // rev: só este cartão é revelado de novo
   try { history.replaceState(null, "", "#" + hashMesa()); } catch (e) {}
   desenhar();
 }
 function hashMesa() {
-  return "sorteio/" + (mesa.duplas ? "d" : "f") + "/" + (mesa.comeca + 1) + "/" +
+  return "sorteio/" + (mesa.duplas ? "d" : "f") + (mesa.arq ? "-" + mesa.arq : "") + "/" + (mesa.comeca + 1) + "/" +
     mesa.jog.map(function (j) { return (j.k + 1) + ":" + encodeURIComponent(j.nome) + ":" + idDe(j.d); }).join(",");
 }
 // Lê o sorteio do endereço (link compartilhado); devolve null se não for um sorteio válido.
@@ -1549,7 +1603,7 @@ function mesaDoEndereco() {
   var h = location.hash.replace(/^#/, "");
   if (h.indexOf("sorteio/") !== 0) return null;
   var p = h.split("/"); if (p.length < 4) return null;
-  var duplas = p[1] === "d", comeca = parseInt(p[2], 10) - 1, jog = [], ok = true;
+  var duplas = p[1].charAt(0) === "d", arqL = (/^[df]-([a-z]+)$/.exec(p[1]) || [])[1], arq = ARQUETIPOS.indexOf(arqL) >= 0 ? arqL : "", comeca = parseInt(p[2], 10) - 1, jog = [], ok = true;
   p.slice(3).join("/").split(",").forEach(function (x) {
     var m = /^([1-4]):([^:]*):(.+)$/.exec(x), d = m && deckPorId(m[3]), nome = "";
     try { nome = m ? decodeURIComponent(m[2]).slice(0, 24) : ""; } catch (e) { ok = false; }
@@ -1558,7 +1612,7 @@ function mesaDoEndereco() {
   if (!ok || jog.length < 2 || jog.length > 4) return null;
   if (jog.length !== 4) duplas = false;
   if (!(comeca >= 0 && comeca < jog.length)) comeca = 0;
-  return { duplas: duplas, comeca: comeca, sel: -1, novo: true, jog: jog };
+  return { duplas: duplas, comeca: comeca, sel: -1, novo: true, jog: jog, arq: arq, arqMesmo: !!arq, arqFixo: "" };
 }
 
 // Tela do sorteio
@@ -1569,13 +1623,13 @@ function desenharMesa() {
   var m = $("mesa"); m.innerHTML = "";
   var cab = document.createElement("div"); cab.className = "mesa-cab";
   var tit = document.createElement("div"); tit.className = "sec";
-  tit.textContent = t("mesaTitulo") + " · " + t("mesaResumo", { n: mesa.jog.length }) + (mesa.jog.length === 4 ? " · " + (mesa.duplas ? t("duplasCurto") : t("ffa")) : "");
+  tit.textContent = t("mesaTitulo") + " · " + t("mesaResumo", { n: mesa.jog.length }) + (mesa.jog.length === 4 ? " · " + (mesa.duplas ? t("duplasCurto") : t("ffa")) : "") + (mesa.arq ? " · " + t("arqRot", { a: t("arqs")[mesa.arq] || mesa.arq }) : "");
   var ac = document.createElement("div"); ac.className = "mesa-acoes";
   var bn = document.createElement("button"); bn.type = "button"; bn.className = "ghost"; bn.id = "btnDeNovo";
   bn.innerHTML = DADO; bn.appendChild(document.createTextNode(t("sortearDeNovo")));
   bn.onclick = function () {
     var base = mesa.jog.slice().sort(function (a, b) { return a.k - b.k; }).map(function (j) { return { k: j.k, nome: j.nome }; });
-    sortearMesa(base, mesa.duplas);
+    sortearMesa(base, mesa.duplas, { mesmo: mesa.arqMesmo, fixo: mesa.arqFixo });
     var b2 = $("btnDeNovo"); if (b2) { b2.classList.remove("gira"); void b2.offsetWidth; b2.classList.add("gira"); }
   };
   var bc = document.createElement("button"); bc.type = "button"; bc.className = "ghost icone"; bc.id = "btnCompMesa";
@@ -1630,6 +1684,7 @@ function compartilharMesa() {
   var txt = mesa.jog.map(function (j, i) {
     return nomeJog(j) + (mesa.duplas ? " (" + t("dupla", { x: i < 2 ? "A" : "B" }) + ")" : "") + (mesa.comeca === i ? " (" + t("comeca") + ")" : "") + ": " + j.d.nome + " - " + j.d.comandante;
   }).join("\n");
+  if (mesa.arq) txt = t("arqRot", { a: t("arqs")[mesa.arq] || mesa.arq }) + "\n" + txt;
   function copia() { copiar(url, function () { aviso(t("linkSorteio")); }, function () { prompt(t("copieSorteio"), url); }); }
   if (SO !== "generico" && navigator.share) {
     navigator.share({ title: t("mesaTitulo") + " · Precons Commander", text: txt, url: url }).catch(function (e) { if (!e || e.name !== "AbortError") copia(); });
