@@ -163,8 +163,8 @@
   <div class="filtros" id="filtros" hidden>
     <div class="cor-caixa" id="cxCor"><button type="button" class="cor-btn" id="fCor" aria-haspopup="listbox" aria-expanded="false" aria-controls="corMenu"></button><ul class="cor-menu" id="corMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparCor" data-ta="tirarCor" hidden>×</button></div>
     <div class="cor-caixa" id="cxAno"><button type="button" class="cor-btn" id="fAno" aria-haspopup="listbox" aria-expanded="false" aria-controls="anoMenu"></button><ul class="cor-menu" id="anoMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparAno" data-ta="tirarAno" hidden>×</button></div>
-    <button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg><span data-t="surpresa">Surpreenda-me</span></button>
     <button type="button" class="limpar-tudo" id="btnLimparTudo" data-ta="limparTudoDica" hidden><span aria-hidden="true">↺</span> <span data-t="limparTudo">Limpar tudo</span></button>
+    <button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg><span data-t="surpresa">Surpreenda-me</span></button>
   </div>
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
   <div id="conteudo" hidden>
@@ -784,23 +784,9 @@ function simbolos(c) {
 // aparecem juntas. Teclado: ↑/↓ no botão abre; na lista ↑/↓, Home/End, Enter/espaço escolhe, Esc fecha, Tab fecha.
 var FILTROS = {};
 function criarFiltro(k, cfg) {
-  var f = { k: k, cfg: cfg, vals: [""].concat(cfg.valores), ativa: -1,
+  var f = { k: k, cfg: cfg, todos: cfg.valores, vals: [""], ativa: -1,
     ul: $(cfg.menu), btn: $(cfg.btn), cx: $(cfg.caixa), x: $(cfg.limpar) };
   FILTROS[k] = f;
-  var conta = {}; COLECOES.forEach(function (c) { c.decks.forEach(function (d) { var v = cfg.valorDe(d); conta[v] = (conta[v] || 0) + 1; }); });
-  f.vals.forEach(function (v, i) {
-    var li = document.createElement("li"), tx = document.createElement("span");
-    li.id = k + "-" + i; li.setAttribute("role", "option");
-    tx.textContent = v ? cfg.rotulo(v) : t(cfg.vazio);
-    if (v) { var nm = document.createElement("span"); nm.className = "num"; nm.textContent = conta[v] || 0; tx.appendChild(nm); } // quantos decks
-    li.appendChild(tx);
-    if (v && cfg.extra) li.appendChild(cfg.extra(v));
-    if (v && cfg.aria) li.setAttribute("aria-label", cfg.aria(v));
-    li.onmousedown = function (e) { e.preventDefault(); };
-    li.onmousemove = function () { if (f.ativa !== i) { f.ativa = i; marcarFiltro(f, false); } };
-    li.onclick = function () { escolherFiltro(f, i); };
-    f.ul.appendChild(li);
-  });
   f.btn.onclick = function () { if (f.ul.hidden) abrirFiltro(f); else fecharFiltro(f, true); };
   f.btn.onkeydown = function (e) { if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); abrirFiltro(f); } };
   f.ul.onkeydown = function (e) {
@@ -820,6 +806,30 @@ function criarFiltro(k, cfg) {
   pintarFiltro(f);
   return f;
 }
+// Monta as opções na hora de abrir: só os valores que existem entre os decks que passam na busca e no(s) OUTRO(s)
+// filtro(s), com essa contagem (ex.: com "Branco", o filtro de ano só mostra os anos com decks mono-brancos). O valor
+// escolhido continua na lista mesmo que a busca o tenha zerado.
+function montarOpcoes(f) {
+  var cfg = f.cfg, atual = cfg.get(), conta = {};
+  cfg.set(""); // conta sem este filtro (mas com a busca e o outro filtro)
+  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { if (casa(d)) { var v = cfg.valorDe(d); conta[v] = (conta[v] || 0) + 1; } }); });
+  cfg.set(atual);
+  f.vals = [""].concat(f.todos.filter(function (v) { return conta[v] || v === atual; }));
+  f.ul.innerHTML = "";
+  f.vals.forEach(function (v, i) {
+    var li = document.createElement("li"), tx = document.createElement("span");
+    li.id = f.k + "-" + i; li.setAttribute("role", "option");
+    tx.textContent = v ? cfg.rotulo(v) : t(cfg.vazio);
+    if (v) { var nm = document.createElement("span"); nm.className = "num"; nm.textContent = conta[v] || 0; tx.appendChild(nm); } // quantos decks
+    li.appendChild(tx);
+    if (v && cfg.extra) li.appendChild(cfg.extra(v));
+    if (v && cfg.aria) li.setAttribute("aria-label", cfg.aria(v));
+    li.onmousedown = function (e) { e.preventDefault(); };
+    li.onmousemove = function () { if (f.ativa !== i) { f.ativa = i; marcarFiltro(f, false); } };
+    li.onclick = function () { escolherFiltro(f, i); };
+    f.ul.appendChild(li);
+  });
+}
 function marcarFiltro(f, rolar) {
   var atual = f.cfg.get();
   [].forEach.call(f.ul.children, function (li, i) { li.classList.toggle("ativo", i === f.ativa); li.setAttribute("aria-selected", f.vals[i] === atual ? "true" : "false"); });
@@ -832,6 +842,7 @@ function marcarFiltro(f, rolar) {
 function abrirFiltro(f) {
   if (animando) return;
   fecharSug(); Object.keys(FILTROS).forEach(function (k) { if (FILTROS[k] !== f) fecharFiltro(FILTROS[k], false); });
+  montarOpcoes(f);
   f.ul.hidden = false; f.btn.setAttribute("aria-expanded", "true");
   f.ativa = Math.max(0, f.vals.indexOf(f.cfg.get())); f.ul.scrollTop = 0; marcarFiltro(f, true);
   f.ul.focus({ preventScroll: true });
