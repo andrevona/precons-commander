@@ -12,9 +12,13 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <style>
   html { color-scheme:light dark; scrollbar-color:var(--line) var(--bg); }
-  :root { --bg:#fafaf8; --fg:#1d1d1b; --mut:#6b6b66; --line:#d9d8d2; --acc:#2f5fd0; --accfg:#fff; --card:#fff; --ok:#1d7a3a; --warn:#b05a00; }
+  :root { --bg:#fafaf8; --fg:#1d1d1b; --mut:#6b6b66; --line:#d9d8d2; --acc:#2f5fd0; --accfg:#fff; --card:#fff; --ok:#1d7a3a; --warn:#b05a00;
+    --g-acc:#1c3378; --g-accfg:#fff; --f-acc:#0b78b8; --f-accfg:#fff; /* tons de azul: grupos (escuro), coleções (--acc), filtros (claro) */
+    --mW:#cdb44f; --mU:#2b83d0; --mB:#6c588c; --mR:#d24d36; --mG:#2c8a48; --mC:#9b9a94; --mOuro:#c4951a; } /* contorno dos decks */
   @media (prefers-color-scheme: dark) {
-    :root { --bg:#161615; --fg:#ecebe6; --mut:#9c9b94; --line:#34332f; --acc:#7da2ff; --accfg:#10131c; --card:#1e1e1c; --ok:#6fcf8a; --warn:#f0a04b; }
+    :root { --bg:#161615; --fg:#ecebe6; --mut:#9c9b94; --line:#34332f; --acc:#7da2ff; --accfg:#10131c; --card:#1e1e1c; --ok:#6fcf8a; --warn:#f0a04b;
+      --g-acc:#3c5cc4; --g-accfg:#fff; --f-acc:#5ec4ef; --f-accfg:#0b1a22;
+      --mW:#e8d57c; --mU:#5aa8ee; --mB:#a991cc; --mR:#f07a62; --mG:#5cbf7c; --mC:#8d8c86; --mOuro:#e2b33c; }
   }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -45,11 +49,15 @@
   hr.div { border:0; border-top:2px solid var(--line); margin:18px 0 0; }
   .tab:not(.small) { font-weight:600; padding:8px 16px; }
   .tab.small { border-radius:6px; background:transparent; }
-  .tab.small.on { background:var(--card); color:var(--acc); border-color:var(--acc); box-shadow:inset 0 -3px 0 var(--acc); font-weight:600; }
+  .tab.small { --fd:var(--bg); --b1:var(--line); --b2:var(--line); border:2px solid transparent; background:linear-gradient(var(--fd), var(--fd)) padding-box, linear-gradient(90deg, var(--b1) 50%, var(--b2) 50%) border-box; }
+  .tab.small:hover { border-color:transparent; filter:brightness(1.04); }
+  .tab.small.on { --fd:var(--card); color:var(--acc); box-shadow:inset 0 -3px 0 var(--acc); font-weight:600; }
   .tab img.ic { width:18px; height:18px; vertical-align:-4px; margin-right:8px; object-fit:contain; }
   .tab.on img.ic { filter:invert(1); }
   @media (prefers-color-scheme: dark) { .tab img.ic { filter:invert(.92); } .tab.on img.ic { filter:none; } }
   #grupos { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px; }
+  #grupos .tab.on { background:var(--g-acc); color:var(--g-accfg); border-color:var(--g-acc); }
+  #grupos .tab:hover { border-color:var(--g-acc); }
   #grupos .tab { border-radius:8px; text-align:center; padding:10px 8px; display:flex; align-items:center; justify-content:center; }
   @media (min-width:640px) { #grupos { grid-template-columns:repeat(4,1fr); } }
   @media (max-width:439px) { #grupos .tab { padding:10px 4px; font-size:14px; } #grupos .tab .n, #grupos .tab .mais { margin-left:4px; } }
@@ -57,24 +65,26 @@
   .sec-col { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:30px; }
   .anos-caixa { position:relative; display:inline-flex; }
   .anos-caixa select { -webkit-appearance:none; appearance:none; font:inherit; font-size:13px; font-weight:500; letter-spacing:0; text-transform:none; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:4px 28px 4px 12px; cursor:pointer; }
-  .anos-caixa select:hover { border-color:var(--acc); }
+  .anos-caixa select:hover { border-color:var(--f-acc); }
   .anos-caixa::after { content:"▾"; position:absolute; right:11px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:12px; color:var(--mut); }
-  .anos-caixa.on select { background:var(--acc); color:var(--accfg); border-color:var(--acc); }
-  .anos-caixa.on::after { color:var(--accfg); }
+  .anos-caixa.on select { background:var(--f-acc); color:var(--f-accfg); border-color:var(--f-acc); }
+  .anos-caixa.on::after { color:var(--f-accfg); }
   .filtros { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:-4px 0 12px; }
   .cor-caixa { position:relative; display:inline-flex; }
   .cor-btn { position:relative; display:inline-flex; align-items:center; gap:6px; font:inherit; font-size:13px; font-weight:500; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:4px 28px 4px 12px; min-height:29px; cursor:pointer; }
-  .cor-btn:hover { border-color:var(--acc); }
+  .cor-btn:hover { border-color:var(--f-acc); }
   .cor-btn::after { content:"▾"; position:absolute; right:11px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:12px; color:var(--mut); }
-  .cor-caixa.on .cor-btn { background:var(--acc); color:var(--accfg); border-color:var(--acc); }
-  .cor-caixa.on .cor-btn::after { color:var(--accfg); }
+  .cor-caixa.on .cor-btn { background:var(--f-acc); color:var(--f-accfg); border-color:var(--f-acc); }
+  .cor-caixa.on .cor-btn::after { color:var(--f-accfg); }
   .simbolos { display:inline-flex; gap:2px; flex:none; }
   .simbolos img { width:17px; height:17px; display:block; }
   .cor-btn .simbolos img { width:16px; height:16px; }
   .cor-menu { position:absolute; left:0; top:calc(100% + 4px); z-index:20; margin:0; padding:4px; list-style:none; min-width:220px; max-width:calc(100vw - 32px); background:var(--card); border:1px solid var(--line); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.25); max-height:min(380px, 60vh); overflow:auto; overscroll-behavior:contain; outline:none; }
   .cor-menu li { display:flex; justify-content:space-between; align-items:center; gap:14px; padding:7px 10px; border-radius:7px; cursor:pointer; font-size:14px; white-space:nowrap; }
   .cor-menu .num { color:var(--mut); font-size:12px; margin-left:7px; }
-  .sorte { padding-right:12px; }
+  .sorte { padding-right:12px; font-weight:600; color:#1d1d1b; border:0; background:linear-gradient(100deg, #f3e6a6, #a9d3f5 28%, #cdbde6 50%, #f6ae9c 72%, #a8dcb2); box-shadow:0 1px 3px rgba(0,0,0,.18); }
+  .sorte:hover { filter:brightness(1.05) saturate(1.15); }
+  .sorte:active { transform:scale(.97); }
   .sorte::after { content:none; }
   .sorte svg { width:16px; height:16px; flex:none; }
   .sorte.gira svg { animation:gira .6s cubic-bezier(.4,0,.2,1); }
@@ -100,6 +110,12 @@
   footer a { color:inherit; }
   footer .como { max-width:540px; margin:16px auto 0; text-align:left; }
   footer .como p { margin:0 0 6px; text-align:center; }
+  footer details { margin-top:4px; }
+  footer summary { display:flex; width:max-content; margin:0 auto; align-items:center; gap:6px; list-style:none; cursor:pointer; color:var(--acc); font-weight:600; padding:4px 12px; border:1px solid var(--line); border-radius:999px; background:var(--card); }
+  footer summary::-webkit-details-marker { display:none; }
+  footer summary::after { content:"▾"; font-size:11px; transition:transform .2s; }
+  footer details[open] summary::after { transform:rotate(180deg); }
+  footer details[open] summary { margin-bottom:10px; }
   footer .como ol { margin:0; padding-left:22px; }
   footer .como li { margin:4px 0; }
   footer .como p.nota { margin:8px 0 0; text-align:left; }
@@ -201,7 +217,7 @@ var TXT = {
     passo3: 'Toque em <b>Apply</b>: o nome, as 100 cartas e o comandante entram sozinhos.', passo4: 'Em <b>Set format</b>, escolha <b>Commander</b>.',
     colarToque: 'toque longo › Colar', naoMostrar: 'Não mostrar de novo', fechar: 'Fechar', abrir: 'Abrir endstep.cc',
     rodape: '{nd} decks em {nc} coleções · listas conferidas com o {mtgwtf} em {data} · {sobre}',
-    rodIntro: 'Um facilitador para quem joga no {endstep} (projeto não oficial). Dica de uso:',
+    rodIntro: 'Um facilitador para quem joga no {endstep} (projeto não oficial).', dicaUso: 'Dica de uso',
     rodPassos: ['Escolha o deck e toque em <b>Criar no endstep.cc</b>: a lista é copiada e o {endstep} abre com um deck novo (é preciso estar logado lá).',
       'No deck novo, toque em <b>Paste a list</b>.',
       'Cole a lista inteira ({colar}) e toque em <b>Apply</b>: o nome do deck*, as 100 cartas e o comandante entram sozinhos.',
@@ -229,7 +245,7 @@ var TXT = {
     passo3: 'Tap <b>Apply</b>: the name, the 100 cards and the commander come in on their own.', passo4: 'In <b>Set format</b>, choose <b>Commander</b>.',
     colarToque: 'long-press › Paste', naoMostrar: "Don't show again", fechar: 'Close', abrir: 'Open endstep.cc',
     rodape: '{nd} decks in {nc} sets · lists checked against {mtgwtf} on {data} · {sobre}',
-    rodIntro: 'A helper for {endstep} players (unofficial project). Usage tip:',
+    rodIntro: 'A helper for {endstep} players (unofficial project).', dicaUso: 'Usage tip',
     rodPassos: ['Pick a deck and tap <b>Create on endstep.cc</b>: the list is copied and {endstep} opens with a new deck (you need to be logged in there).',
       'On the new deck, tap <b>Paste a list</b>.',
       'Paste the whole list ({colar}) and tap <b>Apply</b>: the deck name*, the 100 cards and the commander come in on their own.',
@@ -257,7 +273,7 @@ var TXT = {
     passo3: 'Toca <b>Apply</b>: el nombre, las 100 cartas y el comandante se cargan solos.', passo4: 'En <b>Set format</b>, elige <b>Commander</b>.',
     colarToque: 'mantén pulsado › Pegar', naoMostrar: 'No volver a mostrar', fechar: 'Cerrar', abrir: 'Abrir endstep.cc',
     rodape: '{nd} mazos en {nc} colecciones · listas verificadas con {mtgwtf} el {data} · {sobre}',
-    rodIntro: 'Una ayuda para quien juega en {endstep} (proyecto no oficial). Consejo de uso:',
+    rodIntro: 'Una ayuda para quien juega en {endstep} (proyecto no oficial).', dicaUso: 'Consejo de uso',
     rodPassos: ['Elige el mazo y toca <b>Crear en endstep.cc</b>: la lista se copia y {endstep} se abre con un mazo nuevo (necesitas haber iniciado sesión allí).',
       'En el mazo nuevo, toca <b>Paste a list</b>.',
       'Pega la lista completa ({colar}) y toca <b>Apply</b>: el nombre del mazo*, las 100 cartas y el comandante se cargan solos.',
@@ -295,8 +311,8 @@ function aplicarIdioma() {
   var ln = { mtgwtf: '<a href="https://mtg.wtf">mtg.wtf</a>', endstep: '<a href="https://endstep.cc">endstep.cc</a>' };
   $("rodape").innerHTML = '<div>' + t("rodape", { nd: nd, nc: COLECOES.length, data: data, mtgwtf: ln.mtgwtf,
     sobre: '<a href="https://github.com/andrevona/precons-commander">' + t("sobre") + '</a>' }) + '</div>' +
-    '<div class="como"><p>' + t("rodIntro", ln) + '</p><ol>' +
-    TXT[IDIOMA].rodPassos.map(function (x) { return '<li>' + x.split("{endstep}").join(ln.endstep).split("{colar}").join(atalhoColar()) + '</li>'; }).join("") + '</ol><p class="nota">' + t("rodNota") + '</p></div>';
+    '<div class="como"><p>' + t("rodIntro", ln) + '</p><details><summary>' + t("dicaUso") + '</summary><ol>' +
+    TXT[IDIOMA].rodPassos.map(function (x) { return '<li>' + x.split("{endstep}").join(ln.endstep).split("{colar}").join(atalhoColar()) + '</li>'; }).join("") + '</ol><p class="nota">' + t("rodNota") + '</p></details></div>';
 }
 var GRUPOS = ["Universes Within", "Universes Beyond", "Starters", "Secret Lair"];
 var grpAtual = GRUPOS[0];
@@ -420,8 +436,11 @@ function desenhar() {
   var cont = {};
   COLECOES.forEach(function (col) { var k = col.decks.filter(casa).length; if (k) cont[col.grupo] = (cont[col.grupo] || 0) + k; });
   var gvis = GRUPOS.filter(function (g) { return cont[g]; });
-  var gEl = $("grupos"); gEl.innerHTML = "";
-  if (gvis.length && gvis.indexOf(grpAtual) < 0) { grpAtual = gvis[0]; colAtual = -1; }
+  // Com o filtro "Decks por cores" a separação por grupos some: os grupos ficam ocultos e todas as coleções aparecem juntas,
+  // em ordem de lançamento (Secret Lair vira um botão de coleção, por último).
+  var todas = !!corFiltro;
+  var gEl = $("grupos"); gEl.innerHTML = ""; gEl.hidden = todas;
+  if (!todas && gvis.length && gvis.indexOf(grpAtual) < 0) { grpAtual = gvis[0]; colAtual = -1; }
   gvis.forEach(function (g) {
     var b = document.createElement("button");
     var ativo = aberto && g === grpAtual;
@@ -439,15 +458,15 @@ function desenhar() {
     };
     gEl.appendChild(b);
   });
-  var comAno = RECOLHEM.indexOf(grpAtual) >= 0, base = [], anos = [];
+  var comAno = todas || RECOLHEM.indexOf(grpAtual) >= 0, base = [], anos = [];
   COLECOES.forEach(function (col, i) {
-    if (col.grupo !== grpAtual || !col.decks.some(casa)) return;
+    if ((!todas && col.grupo !== grpAtual) || !col.decks.some(casa)) return;
     base.push(i);
     if (col.ano && anos.indexOf(col.ano) < 0) anos.push(col.ano);
   });
   if (!comAno || anos.indexOf(anoFiltro) < 0) anoFiltro = "";
   base.forEach(function (i) { if (!anoFiltro || COLECOES[i].ano === anoFiltro) vis.push(i); });
-  var semCol = SEM_COLECAO.indexOf(grpAtual) >= 0;
+  var semCol = !todas && SEM_COLECAO.indexOf(grpAtual) >= 0;
   $("secCol").hidden = semCol; $("colecoes").hidden = semCol;
   var aEl = $("anos"), aCx = $("anosCaixa");
   aCx.hidden = semCol || !comAno || anos.length < 2;
@@ -479,7 +498,8 @@ function desenhar() {
     var col = COLECOES[i];
     var b = document.createElement("button");
     b.className = "tab" + (i === colAtual ? " on" : "");
-    if (col.icone) { var im = document.createElement("img"); im.className = "ic"; im.alt = ""; im.src = "icons/" + col.icone + ".svg"; im.onerror = function () { this.style.display = "none"; }; b.appendChild(im); }
+    var ico = GRP_ICONE[col.grupo] || col.icone;
+    if (ico) { var im = document.createElement("img"); im.className = "ic"; im.alt = ""; im.src = "icons/" + ico + ".svg"; im.onerror = function () { this.style.display = "none"; }; b.appendChild(im); }
     b.appendChild(document.createTextNode(col.nome));
     var partes = [], nk = col.decks.filter(casa).length;
     if (col.ano && col.nome.indexOf(col.ano) < 0) partes.push(col.ano);
@@ -503,7 +523,7 @@ function desenhar() {
     var b = document.createElement("button");
     b.className = "tab small" + (i === deckAtual ? " on" : "");
     b.textContent = deck.nome;
-    if (deck.ci) b.appendChild(simbolos(deck.ci));
+    if (deck.ci) { b.appendChild(simbolos(deck.ci)); contornoCor(b, deck.ci); }
     b.onclick = function () { deckAtual = i; desenhar(); };
     d.appendChild(b);
   });
@@ -828,7 +848,17 @@ function escolherCor(i) {
   if (animando || i < 0) return;
   fecharMenuCor(!toque());
   corFiltro = CIS[i]; recolhido = false; pintarCor();
+  if (!corFiltro && COLECOES[colAtual]) grpAtual = COLECOES[colAtual].grupo; // sem a cor, volta ao grupo da coleção que estava aberta
   if (corFiltro && !aberto) abrirConteudo(); else desenhar();
+}
+// Contorno do botão do deck pelas cores do comandante: uma cor = a cor; duas = metade de cada (na ordem WUBRG,
+// esquerda/direita); três ou mais = dourado; incolor = cinza.
+function contornoCor(b, ci) {
+  var c1, c2;
+  if (ci === "C") c1 = c2 = "var(--mC)";
+  else if (ci.length >= 3) c1 = c2 = "var(--mOuro)";
+  else { c1 = "var(--m" + ci[0] + ")"; c2 = "var(--m" + ci[ci.length - 1] + ")"; }
+  b.style.setProperty("--b1", c1); b.style.setProperty("--b2", c2);
 }
 // Surpreenda-me: abre um deck sorteado entre os que aparecem com a busca e as cores escolhidas (sem repetir o anterior).
 var ultimaSorte = null;
@@ -846,9 +876,19 @@ function surpresa() {
   var abrindo = !aberto;
   if (abrindo) abrirConteudo(); else desenhar();
   aviso(t("sorteado", { d: d.nome + " - " + d.comandante }));
-  setTimeout(function () { // leva o deck sorteado para o meio da tela (depois de o conteúdo terminar de abrir)
+  function rolar() { // leva o deck sorteado para o meio da tela
     var el = document.querySelector("#decks .tab.on"); if (el && el.scrollIntoView) el.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "center" });
-  }, abrindo ? DUR + 60 : 40);
+  }
+  // Como se a coleção tivesse sido escolhida no menu: em Universes Within (sem busca nem cor), as outras coleções
+  // se recolhem sob a sorteada com a mesma animação do clique.
+  var recolhe = RECOLHEM.indexOf(c.grupo) >= 0 && !buscando();
+  setTimeout(function () {
+    var cEl = $("colecoes"), alvo = cEl.querySelector(".tab.on");
+    if (recolhe && alvo && cEl.children.length > 1) {
+      recolherEm(cEl, alvo, function () { recolhido = true; desenhar(); });
+      setTimeout(rolar, semAnim() ? 0 : DUR_REC + 60);
+    } else rolar();
+  }, abrindo && !semAnim() ? DUR + 60 : 0);
 }
 $("btnSorte").onclick = surpresa;
 function pintarCor() {
