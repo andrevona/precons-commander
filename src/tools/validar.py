@@ -131,14 +131,14 @@ def main():
     tab = os.path.join(dados, "decks.csv")
     if os.path.exists(tab):  # tabela de arquétipos (tools/arquetipos.py)
         ARQ = {"tribal", "tokens", "counters", "spellslinger", "graveyard", "artifacts", "enchantments", "lifegain",
-               "sacrifice", "voltron", "blink", "lands", "midrange"}
+               "sacrifice", "voltron", "blink", "lands"}
         vistos = set()
         for r in csv.DictReader(open(tab, encoding="utf-8")):
             vistos.add(r["id"] + ".txt")
             for k in ("arq1", "arq2"):
                 if r[k] and r[k] not in ARQ:
                     erros["decks.csv"].append(f"{r['id']}: {k} desconhecido: {r[k]}")
-            if not r["arq1"] or r["arq2"] == r["arq1"] or (r["arq1"] == "midrange" and r["arq2"]):
+            if not r["arq1"] or r["arq2"] == r["arq1"]:
                 erros["decks.csv"].append(f"{r['id']}: arquétipos inválidos")
         for rel in sorted(esperados - vistos):
             erros["decks.csv"].append(f"{rel} não está na tabela (rodar tools/arquetipos.py)")

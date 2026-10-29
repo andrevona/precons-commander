@@ -6,7 +6,7 @@ Entrada: as listas (<pasta>/<arquivo>.txt), cartas.csv e impressoes.csv, mais o 
 Saída: decks.csv com uma linha por deck: id, nome, comandante, colecao, arq1, arq2 e a contagem de evidências
 de cada arquétipo (colunas n_<arquétipo>). Nada é opinião: cada arquétipo é uma contagem de cartas (nomes distintos,
 terrenos fora) que casam uma regra, comparada a um limite fixo (LIMITES). O score é contagem/limite; o deck recebe os
-até 2 maiores scores com score >= 1 (o 2º só se score >= 1 e >= 60% do 1º); sem nenhum, recebe "midrange".
+até 2 maiores scores com score >= 1 (o 2º só se score >= 1 e >= 60% do 1º); se nenhum chega a 1, recebe só o de maior score e fraco=1 (não existe "midrange").
 
 Uso: python3 tools/arquetipos.py [--raiz PASTA] [--saida decks.csv] [--ver]   (--ver imprime as distribuições)
 """
@@ -155,9 +155,9 @@ def pontuar(n):
 
 def classificar(sc):
     ord_ = sorted(ARQS, key=lambda a: -sc[a])
-    a1 = ord_[0] if sc[ord_[0]] >= 1 else ""
-    if not a1:
-        return "midrange", ""
+    a1 = ord_[0]
+    if sc[a1] < 1:
+        return a1, ""  # nenhum atinge o limite: fica o de maior score (marcado como fraco)
     a2 = ord_[1] if sc[ord_[1]] >= 1 and sc[ord_[1]] >= 0.6 * sc[a1] else ""
     return a1, a2
 
@@ -201,7 +201,7 @@ def main():
             sc = pontuar(n)
             a1, a2 = classificar(sc)
             linhas.append({"id": f"{pasta}/{f}", "nome": dn, "comandante": " / ".join(cmds), "colecao": nome_col,
-                           "arq1": a1, "arq2": a2, "tribo": n["tribo"] if "tribal" in (a1, a2) else "",
+                           "arq1": a1, "arq2": a2, "fraco": 1 if sc[a1] < 1 else 0, "score1": round(sc[a1], 2), "tribo": n["tribo"] if "tribal" in (a1, a2) else "",
                            **{f"n_{k}": n[k] for k in ARQS}, "_sc": sc})
     if a.ver:
         for k in ARQS:
@@ -213,7 +213,7 @@ def main():
             if l["arq2"]:
                 c[l["arq2"]] += 1
         print(c.most_common())
-    cols = ["id", "nome", "comandante", "colecao", "arq1", "arq2", "tribo"] + [f"n_{k}" for k in ARQS]
+    cols = ["id", "nome", "comandante", "colecao", "arq1", "arq2", "fraco", "score1", "tribo"] + [f"n_{k}" for k in ARQS]
     with open(os.path.join(raiz, a.saida), "w", encoding="utf-8", newline="") as fo:
         w = csv.DictWriter(fo, fieldnames=cols, extrasaction="ignore", lineterminator="\n")
         w.writeheader()
