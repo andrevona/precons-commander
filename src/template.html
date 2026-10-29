@@ -473,7 +473,9 @@ function desenhar() {
     };
     gEl.appendChild(b);
   });
-  var recolhivel = !todas && RECOLHEM.indexOf(grpAtual) >= 0;
+  // Só Universes Within recolhe as coleções por clique; nos outros grupos elas só ficam recolhidas depois do
+  // Surpreenda-me (recolhido = true) e, nesse caso, um clique na coleção as expande (depois volta ao normal).
+  var recolhivel = !todas && (RECOLHEM.indexOf(grpAtual) >= 0 || recolhido);
   COLECOES.forEach(function (col, i) {
     if ((!todas && col.grupo !== grpAtual) || !col.decks.some(casa)) return;
     vis.push(i);
@@ -921,9 +923,10 @@ function surpresa() {
   function rolar() { // leva o deck sorteado para o meio da tela
     var el = document.querySelector("#decks .tab.on"); if (el && el.scrollIntoView) el.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "center" });
   }
-  // Como se a coleção tivesse sido escolhida no menu: em Universes Within (sem busca nem cor), as outras coleções
-  // se recolhem sob a sorteada com a mesma animação do clique.
-  var recolhe = RECOLHEM.indexOf(c.grupo) >= 0 && !buscando();
+  // Como se a coleção tivesse sido escolhida no menu: as outras coleções se recolhem sob a sorteada com a mesma
+  // animação do clique, em todos os grupos que têm camada de coleção (decisão do usuário em 29/10/2026; só aqui
+  // os outros grupos recolhem; Secret Lair não tem coleções).
+  var recolhe = SEM_COLECAO.indexOf(c.grupo) < 0 && !buscando();
   setTimeout(function () {
     var cEl = $("colecoes"), alvo = cEl.querySelector(".tab.on");
     if (recolhe && alvo && cEl.children.length > 1) {
