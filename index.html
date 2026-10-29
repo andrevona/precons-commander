@@ -154,6 +154,50 @@
   .sugestoes .txt b { font-weight:700; color:var(--acc); }
   .sugestoes .tipo { flex:none; color:var(--mut); font-size:12px; }
   .sugestoes .tipo.orig { flex:1 1 100%; min-width:0; overflow-wrap:anywhere; } /* "→ nome original" numa segunda linha, inteiro */
+  /* Sorteio em grupo: botão dividido (Surpreenda-me | grupo) com o mesmo gradiente; quadro de configuração; cartões por jogador. */
+  .sorte-grupo { display:inline-flex; align-items:stretch; border-radius:999px; background:linear-gradient(100deg, #f3e6a6, #a9d3f5 28%, #cdbde6 50%, #f6ae9c 72%, #a8dcb2); box-shadow:0 1px 3px rgba(0,0,0,.18); }
+  .sorte-grupo .sorte { background:transparent; box-shadow:none; }
+  .sorte-grupo #btnSorte { border-radius:999px 0 0 999px; }
+  .sorte-grupo .mesa-btn { border:0; border-left:1px solid rgba(0,0,0,.22); border-radius:0 999px 999px 0; padding:4px 11px 4px 9px; }
+  .mesa-cfg { max-height:calc(100vh - 32px); overflow:auto; }
+  .mesa-cfg .rot { font-size:13px; font-weight:600; color:var(--mut); margin:14px 0 6px; }
+  .seg { display:inline-flex; flex-wrap:wrap; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .seg button { font:inherit; font-size:14px; border:0; background:transparent; color:var(--fg); padding:7px 16px; cursor:pointer; }
+  .seg button + button { border-left:1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background:var(--f-acc); color:var(--f-accfg); font-weight:600; }
+  .nomes { display:grid; gap:6px; }
+  .nomes input { width:100%; font:inherit; font-size:16px; padding:8px 10px; border:1.5px solid var(--inBorda); border-radius:8px; background:var(--inBg); color:var(--fg); }
+  .nomes input::placeholder { color:var(--mut); opacity:1; }
+  .nomes input:focus { outline:none; border-color:var(--f-acc); box-shadow:0 0 0 3px var(--inAnel); }
+  #mesa { display:none; }
+  body.modo-mesa #mesa { display:block; }
+  body.modo-mesa #grupos, body.modo-mesa #caixaBusca, body.modo-mesa #cxCor, body.modo-mesa #cxAno, body.modo-mesa .sorte-grupo, body.modo-mesa #contagem,
+  body.modo-mesa #secCol, body.modo-mesa #colecoes, body.modo-mesa hr.div, body.modo-mesa #secDecks, body.modo-mesa #decks { display:none !important; }
+  .mesa-cab { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; justify-content:space-between; margin:2px 0 12px; }
+  .mesa-cab .sec { margin:0; }
+  .mesa-acoes { display:flex; gap:8px; }
+  .mesa-acoes button { display:inline-flex; align-items:center; gap:6px; }
+  .mesa-acoes svg { width:16px; height:16px; flex:none; }
+  .mesa-acoes .gira svg { animation:gira .6s cubic-bezier(.4,0,.2,1); }
+  .mesa-bloco + .mesa-bloco { margin-top:14px; }
+  .mesa-bloco > .sec { margin:0 0 6px; }
+  .mesa-grade { display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:10px; }
+  .jog { display:flex; flex-direction:column; align-items:flex-start; gap:3px; text-align:left; font:inherit; color:var(--fg); background:var(--card); border:1.5px solid var(--deckBorda); border-radius:10px; padding:10px 12px; cursor:pointer; }
+  .jog:hover { border-color:var(--fg); }
+  .jog.on { border:2.5px solid transparent; padding:9px 11px; background:linear-gradient(var(--card), var(--card)) padding-box, var(--brilho, linear-gradient(var(--deckBorda), var(--deckBorda))) border-box; }
+  @supports (background: color-mix(in srgb, red 10%, blue)) {
+    .jog.on { background:var(--tinta, linear-gradient(var(--card), var(--card))) padding-box, var(--brilho, linear-gradient(var(--deckBorda), var(--deckBorda))) border-box; }
+  }
+  .jog .quem { font-weight:700; font-size:15px; display:flex; flex-wrap:wrap; gap:4px 8px; align-items:center; overflow-wrap:anywhere; }
+  .jog .comeca { font-size:11px; font-weight:600; color:var(--f-accfg); background:var(--f-acc); border-radius:999px; padding:1px 8px; }
+  .jog .dnome { font-size:14px; font-weight:600; }
+  .jog .dnome .simbolos { margin-left:6px; vertical-align:-3px; }
+  .jog .dnome .simbolos img { width:14px; height:14px; }
+  .jog .dinfo { font-size:12.5px; color:var(--mut); }
+  .jog.rev { animation:revela .5s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes revela { from { opacity:0; transform:translateY(12px) scale(.94); } }
+  @media (prefers-reduced-motion: reduce) { .jog.rev, .mesa-acoes .gira svg { animation:none; } }
+  .mesa-dica { color:var(--mut); margin:14px 0 0; }
 </style>
 </head>
 <body>
@@ -171,18 +215,19 @@
     <div class="cor-caixa" id="cxCor"><button type="button" class="cor-btn" id="fCor" aria-haspopup="listbox" aria-expanded="false" aria-controls="corMenu"></button><ul class="cor-menu" id="corMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparCor" data-ta="tirarCor" hidden>×</button></div>
     <div class="cor-caixa" id="cxAno"><button type="button" class="cor-btn" id="fAno" aria-haspopup="listbox" aria-expanded="false" aria-controls="anoMenu"></button><ul class="cor-menu" id="anoMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparAno" data-ta="tirarAno" hidden>×</button></div>
     <button type="button" class="limpar-tudo" id="btnLimparTudo" data-ta="limparTudoDica" hidden><span aria-hidden="true">↺</span> <span data-t="limparTudo">Limpar tudo</span></button>
-    <button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg><span data-t="surpresa">Surpreenda-me</span></button>
+    <span class="sorte-grupo"><button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg><span data-t="surpresa">Surpreenda-me</span></button><button type="button" class="cor-btn sorte mesa-btn" id="btnMesa" data-ta="mesaDica" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20"/><circle cx="9" cy="7.5" r="3.5"/><path d="M22 20v-1.5a4 4 0 0 0-3-3.87"/><path d="M16 4.13a4 4 0 0 1 0 7.75"/></svg></button></span>
   </div>
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
   <div id="conteudo" hidden>
+  <div id="mesa"></div>
   <div class="sec sec-col" id="secCol"><span data-t="colecoes">Coleções</span></div>
   <div class="tabs" id="colecoes"></div>
   <hr class="div">
-  <div class="sec" data-t="decks">Decks</div>
+  <div class="sec" id="secDecks" data-t="decks">Decks</div>
 
   <div class="tabs" id="decks"></div>
 
-  <div class="panel">
+  <div class="panel" id="painel">
     <div class="row">
       <strong id="titulo" class="grow"></strong>
       <button class="ghost icone" id="btnComp" aria-label="Compartilhar o link do deck" title="Compartilhar o link do deck" data-ta="compartilhar"></button>
@@ -210,6 +255,19 @@
     </ol>
     <label class="guia-check"><input type="checkbox" id="guiaNaoMostrar"> <span data-t="naoMostrar">Não mostrar de novo</span></label>
     <div class="guia-botoes"><button class="ghost" id="guiaFechar" data-t="fechar">Fechar</button><button class="go" id="guiaAbrir" data-t="abrir">Abrir endstep.cc</button></div>
+  </div>
+</div>
+<div class="modal" id="mesaCfg" hidden>
+  <div class="modal-caixa mesa-cfg" role="dialog" aria-modal="true" aria-labelledby="mesaCfgTit">
+    <h2 id="mesaCfgTit" data-t="mesaTitulo">Sorteio em grupo</h2>
+    <p class="guia-sub" data-t="mesaSub">Cada jogador recebe um deck diferente, sorteado entre todos.</p>
+    <div class="rot" id="rotN" data-t="mesaJog">Jogadores</div>
+    <div class="seg" id="mesaN" role="group" aria-labelledby="rotN"><button type="button" data-n="2">2</button><button type="button" data-n="3">3</button><button type="button" data-n="4">4</button></div>
+    <div class="rot" data-t="mesaNomes">Nomes (opcional)</div>
+    <div class="nomes" id="mesaNomes"></div>
+    <div id="mesaModoCx"><div class="rot" id="rotModo" data-t="mesaModo">Modo</div>
+      <div class="seg" id="mesaModo" role="group" aria-labelledby="rotModo"><button type="button" data-d="0" data-t="ffa">Free-for-all</button><button type="button" data-d="1" data-t="duplasOpc">Duplas (2 contra 2)</button></div></div>
+    <div class="guia-botoes" style="margin-top:20px"><button class="ghost" id="mesaCancelar" data-t="cancelar">Cancelar</button><button class="go" id="mesaSortear" data-t="sortear">Sortear</button></div>
   </div>
 </div>
 <div class="aviso" id="aviso" role="status" hidden></div>
@@ -250,7 +308,12 @@ var TXT = {
     tCol: 'coleção', tDeck: 'deck', tCmd: 'comandante', tCarta: 'carta',
     filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Por cor', tirarCor: 'Tirar o filtro de cores',
     cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'WUBRG',
-    surpresa: 'Surpreenda-me', surpresaDica: 'Abre um deck aleatório entre todos (limpa a busca e os filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e os filtros e recolhe tudo'
+    surpresa: 'Surpreenda-me', surpresaDica: 'Abre um deck aleatório entre todos (limpa a busca e os filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e os filtros e recolhe tudo',
+    mesaDica: 'Sorteio em grupo (2 a 4 jogadores)', mesaTitulo: 'Sorteio em grupo', mesaSub: 'Cada jogador recebe um deck diferente, sorteado entre todos.',
+    mesaJog: 'Jogadores', mesaNomes: 'Nomes (opcional)', jogador: 'Jogador {n}', mesaModo: 'Modo', ffa: 'Free-for-all', duplasOpc: 'Duplas (2 contra 2)',
+    cancelar: 'Cancelar', sortear: 'Sortear', sortearDeNovo: 'Sortear de novo', mesaResumo: '{n} jogadores', duplasCurto: 'duplas', dupla: 'Dupla {x}',
+    comeca: 'começa', mesaToque: 'Toque num jogador para ver a lista do deck e criar no endstep.cc.',
+    compSorteio: 'Compartilhar o sorteio', linkSorteio: 'Link do sorteio copiado ✓', copieSorteio: 'Copie o link do sorteio:'
   },
   en: {
     sub: 'Pick a set and a deck, or use the filter, in English or Portuguese.',
@@ -280,7 +343,12 @@ var TXT = {
     tCol: 'set', tDeck: 'deck', tCmd: 'commander', tCarta: 'card',
     filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'By color', tirarCor: 'Clear the color filter',
     cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'WUBRG',
-    surpresa: 'Surprise me', surpresaDica: 'Opens a random deck out of all of them (clears the search and the filters)', sorteado: 'Drawn: {d}', limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and the filters and collapses everything'
+    surpresa: 'Surprise me', surpresaDica: 'Opens a random deck out of all of them (clears the search and the filters)', sorteado: 'Drawn: {d}', limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and the filters and collapses everything',
+    mesaDica: 'Group draw (2 to 4 players)', mesaTitulo: 'Group draw', mesaSub: 'Each player gets a different deck, drawn from all of them.',
+    mesaJog: 'Players', mesaNomes: 'Names (optional)', jogador: 'Player {n}', mesaModo: 'Mode', ffa: 'Free-for-all', duplasOpc: 'Teams (2 vs 2)',
+    cancelar: 'Cancel', sortear: 'Draw', sortearDeNovo: 'Draw again', mesaResumo: '{n} players', duplasCurto: 'teams', dupla: 'Team {x}',
+    comeca: 'goes first', mesaToque: 'Tap a player to see the deck list and create it on endstep.cc.',
+    compSorteio: 'Share the draw', linkSorteio: 'Draw link copied ✓', copieSorteio: 'Copy the draw link:'
   },
   es: {
     sub: 'Elige la colección y el mazo o usa el filtro, en inglés o portugués.',
@@ -310,7 +378,12 @@ var TXT = {
     tCol: 'colección', tDeck: 'mazo', tCmd: 'comandante', tCarta: 'carta',
     filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Por color', tirarCor: 'Quitar el filtro de colores',
     cores: { W: 'Blanco', U: 'Azul', B: 'Negro', R: 'Rojo', G: 'Verde', C: 'Incoloro' }, cinco: 'WUBRG',
-    surpresa: 'Sorpréndeme', surpresaDica: 'Abre un mazo al azar entre todos (borra la búsqueda y los filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Borrar todo', limparTudoDica: 'Vuelve al inicio: borra la búsqueda y los filtros y lo recoge todo'
+    surpresa: 'Sorpréndeme', surpresaDica: 'Abre un mazo al azar entre todos (borra la búsqueda y los filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Borrar todo', limparTudoDica: 'Vuelve al inicio: borra la búsqueda y los filtros y lo recoge todo',
+    mesaDica: 'Sorteo en grupo (2 a 4 jugadores)', mesaTitulo: 'Sorteo en grupo', mesaSub: 'Cada jugador recibe un mazo distinto, sorteado entre todos.',
+    mesaJog: 'Jugadores', mesaNomes: 'Nombres (opcional)', jogador: 'Jugador {n}', mesaModo: 'Modo', ffa: 'Todos contra todos', duplasOpc: 'Parejas (2 contra 2)',
+    cancelar: 'Cancelar', sortear: 'Sortear', sortearDeNovo: 'Sortear de nuevo', mesaResumo: '{n} jugadores', duplasCurto: 'parejas', dupla: 'Pareja {x}',
+    comeca: 'empieza', mesaToque: 'Toca un jugador para ver la lista del mazo y crearlo en endstep.cc.',
+    compSorteio: 'Compartir el sorteo', linkSorteio: 'Enlace del sorteo copiado ✓', copieSorteio: 'Copia el enlace del sorteo:'
   }
 };
 var IDIOMA = (function () {
@@ -362,7 +435,7 @@ function contar(texto) {
   return total;
 }
 
-COLECOES.forEach(function (col) { col.decks.forEach(function (d) { d._col = col; }); });
+COLECOES.forEach(function (col, ci) { col._i = ci; col.decks.forEach(function (d, di) { d._col = col; d._di = di; }); });
 
 var q = "";
 function nomesDe(deck) {
@@ -459,6 +532,8 @@ function aplicarId(id) {
 function idDoEndereco() { try { return decodeURIComponent(location.hash.replace(/^#/, "")); } catch (e) { return ""; } }
 
 function desenhar() {
+  if (mesa) { desenharMesa(); return; } // sorteio em grupo: tela própria (ver "Sorteio em grupo")
+  document.body.classList.remove("modo-mesa"); $("painel").hidden = false;
   $("conteudo").hidden = !aberto;
   $("btnLimparTudo").hidden = !(aberto || buscando()); // só fora da tela inicial
   var vis = [];
@@ -550,8 +625,12 @@ function desenhar() {
   });
   var deck = decks[deckAtual];
   if (aberto) guardarSelecao(deck);
-  var total = contar(deck.lista);
-  $("titulo").textContent = deck.nome + " · " + deck.comandante;
+  pintarPainel(deck, "");
+}
+// Painel do deck (título, lista, contagem, nota); usado na tela normal e no sorteio em grupo (com o nome do jogador antes).
+function pintarPainel(deck, prefixo) {
+  var s = $("status"), total = contar(deck.lista);
+  $("titulo").textContent = prefixo + deck.nome + " · " + deck.comandante;
   $("saida").value = deck.lista;
   destacar(deck);
   s.textContent = t("cartas", { n: total }) + (total === 100 ? " ✓" : t("aviso100"));
@@ -964,6 +1043,7 @@ function zerarBuscaEFiltros() {
 // Limpar tudo: volta à tela inicial (sem busca nem filtros, conteúdo recolhido sob os grupos, topo da página).
 $("btnLimparTudo").onclick = function () {
   if (animando) return;
+  if (mesa) { sairMesa(); return; }
   zerarBuscaEFiltros(); recolhido = false; grpAtual = GRUPOS[0]; colAtual = 0; deckAtual = 0; ultimaSorte = null;
   if (aberto) fecharConteudo(); else desenhar();
   try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
@@ -1067,14 +1147,192 @@ function guardarPreferencia() { if ($("guiaNaoMostrar").checked) { try { localSt
 $("guiaAbrir").onclick = function () { guardarPreferencia(); guia(false); abrirEndstep(); };
 $("guiaFechar").onclick = function () { guardarPreferencia(); guia(false); };
 $("guia").onclick = function (e) { if (e.target === this) guia(false); };
-document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("guia").hidden) guia(false); });
+document.addEventListener("keydown", function (e) {
+  if (e.key !== "Escape") return;
+  if (!$("guia").hidden) guia(false);
+  else if (!$("mesaCfg").hidden) fecharCfg();
+});
+
+// ===== Sorteio em grupo (pedido do usuário em 29/10/2026) =====
+// A setinha ao lado do Surpreenda-me abre um quadro: 2 a 4 jogadores, nomes opcionais (guardados neste aparelho) e, só com 4,
+// free-for-all ou duplas (as duplas também são sorteadas). Cada jogador recebe um deck diferente, sorteado entre TODOS os decks
+// (ignora busca e filtros), e um deles é sorteado para começar. A tela do sorteio esconde grupos, busca, filtros, coleções e
+// decks (fica só o "Limpar tudo", que sai do sorteio); tocar num jogador abre o painel do deck dele. O endereço guarda o
+// sorteio (#sorteio/modo/quem-começa/n:nome:pasta/deck,...), e o link pode ser compartilhado: quem abre vê o mesmo sorteio.
+// O Surpreenda-me de um jogador continua igual.
+var mesa = null; // { duplas, comeca, sel, novo, jog: [{ k (posição no quadro), nome, d (deck) }] }
+var CHAVE_MESA = "precons-mesa"; // últimas escolhas do quadro (só neste aparelho)
+var cfgMesa = { n: 4, nomes: ["", "", "", ""], duplas: false };
+(function () {
+  try {
+    var p = JSON.parse(localStorage.getItem(CHAVE_MESA) || "{}");
+    if (p.n >= 2 && p.n <= 4) cfgMesa.n = p.n;
+    if (Array.isArray(p.nomes)) for (var i = 0; i < 4; i++) cfgMesa.nomes[i] = String(p.nomes[i] || "").slice(0, 24);
+    cfgMesa.duplas = !!p.duplas;
+  } catch (e) {}
+})();
+function nomeJog(j) { return j.nome || t("jogador", { n: j.k + 1 }); }
+function deckPorId(id) { var r = null; COLECOES.forEach(function (c) { c.decks.forEach(function (d) { if (!r && idDe(d) === id) r = d; }); }); return r; }
+function embaralhar(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), x = a[i]; a[i] = a[j]; a[j] = x; } return a; }
+
+// Quadro de configuração
+var focoAntesMesa = null;
+function pintarCfg() {
+  [].forEach.call($("mesaN").children, function (b) { b.setAttribute("aria-pressed", +b.getAttribute("data-n") === cfgMesa.n ? "true" : "false"); });
+  var box = $("mesaNomes"); box.innerHTML = "";
+  for (var i = 0; i < cfgMesa.n; i++) (function (i) {
+    var inp = document.createElement("input");
+    inp.type = "text"; inp.maxLength = 24; inp.autocomplete = "off"; inp.spellcheck = false;
+    inp.placeholder = t("jogador", { n: i + 1 }); inp.setAttribute("aria-label", t("jogador", { n: i + 1 })); inp.value = cfgMesa.nomes[i];
+    inp.oninput = function () { cfgMesa.nomes[i] = this.value; };
+    inp.onkeydown = function (e) { if (e.key === "Enter") { e.preventDefault(); sortearDoQuadro(); } };
+    box.appendChild(inp);
+  })(i);
+  $("mesaModoCx").hidden = cfgMesa.n !== 4; // duplas só fazem sentido com 4
+  [].forEach.call($("mesaModo").children, function (b) { b.setAttribute("aria-pressed", (b.getAttribute("data-d") === "1") === cfgMesa.duplas ? "true" : "false"); });
+}
+function abrirCfg() {
+  if (animando) return;
+  fecharSug(); Object.keys(FILTROS).forEach(function (k) { fecharFiltro(FILTROS[k], false); });
+  pintarCfg(); $("mesaCfg").hidden = false;
+  focoAntesMesa = document.activeElement; $("mesaSortear").focus(); // foco no botão (no celular não abre o teclado)
+}
+function fecharCfg() { $("mesaCfg").hidden = true; if (focoAntesMesa && focoAntesMesa.focus) focoAntesMesa.focus({ preventScroll: true }); }
+[].forEach.call($("mesaN").children, function (b) { b.onclick = function () { cfgMesa.n = +this.getAttribute("data-n"); pintarCfg(); }; });
+[].forEach.call($("mesaModo").children, function (b) { b.onclick = function () { cfgMesa.duplas = this.getAttribute("data-d") === "1"; pintarCfg(); }; });
+$("btnMesa").onclick = abrirCfg;
+$("mesaCancelar").onclick = fecharCfg;
+$("mesaCfg").onclick = function (e) { if (e.target === this) fecharCfg(); };
+$("mesaSortear").onclick = function () { sortearDoQuadro(); };
+function sortearDoQuadro() {
+  try { localStorage.setItem(CHAVE_MESA, JSON.stringify({ n: cfgMesa.n, nomes: cfgMesa.nomes.map(function (x) { return x.trim(); }), duplas: cfgMesa.duplas })); } catch (e) {}
+  $("mesaCfg").hidden = true;
+  var base = [];
+  for (var i = 0; i < cfgMesa.n; i++) base.push({ k: i, nome: cfgMesa.nomes[i].trim().slice(0, 24) });
+  sortearMesa(base, cfgMesa.n === 4 && cfgMesa.duplas);
+}
+
+// Sorteio: decks diferentes entre todos; com duplas, a ordem dos jogadores também é sorteada (1º e 2º = dupla A).
+function sortearMesa(base, duplas) {
+  if (animando) return;
+  var todos = [];
+  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { todos.push(d); }); });
+  embaralhar(todos);
+  var jog = base.map(function (b, i) { return { k: b.k, nome: b.nome, d: todos[i] }; });
+  if (duplas) embaralhar(jog);
+  zerarBuscaEFiltros();
+  mesa = { duplas: duplas, comeca: Math.floor(Math.random() * jog.length), sel: -1, novo: true, jog: jog };
+  try { history.replaceState(null, "", "#" + hashMesa()); } catch (e) {}
+  desenhar();
+  window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
+}
+function hashMesa() {
+  return "sorteio/" + (mesa.duplas ? "d" : "f") + "/" + (mesa.comeca + 1) + "/" +
+    mesa.jog.map(function (j) { return (j.k + 1) + ":" + encodeURIComponent(j.nome) + ":" + idDe(j.d); }).join(",");
+}
+// Lê o sorteio do endereço (link compartilhado); devolve null se não for um sorteio válido.
+function mesaDoEndereco() {
+  var h = location.hash.replace(/^#/, "");
+  if (h.indexOf("sorteio/") !== 0) return null;
+  var p = h.split("/"); if (p.length < 4) return null;
+  var duplas = p[1] === "d", comeca = parseInt(p[2], 10) - 1, jog = [], ok = true;
+  p.slice(3).join("/").split(",").forEach(function (x) {
+    var m = /^([1-4]):([^:]*):(.+)$/.exec(x), d = m && deckPorId(m[3]), nome = "";
+    try { nome = m ? decodeURIComponent(m[2]).slice(0, 24) : ""; } catch (e) { ok = false; }
+    if (!m || !d) ok = false; else jog.push({ k: +m[1] - 1, nome: nome, d: d });
+  });
+  if (!ok || jog.length < 2 || jog.length > 4) return null;
+  if (jog.length !== 4) duplas = false;
+  if (!(comeca >= 0 && comeca < jog.length)) comeca = 0;
+  return { duplas: duplas, comeca: comeca, sel: -1, novo: true, jog: jog };
+}
+
+// Tela do sorteio
+var DADO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg>';
+function desenharMesa() {
+  document.body.classList.add("modo-mesa");
+  aberto = true; $("conteudo").hidden = false; $("btnLimparTudo").hidden = false; $("contagem").textContent = "";
+  var m = $("mesa"); m.innerHTML = "";
+  var cab = document.createElement("div"); cab.className = "mesa-cab";
+  var tit = document.createElement("div"); tit.className = "sec";
+  tit.textContent = t("mesaTitulo") + " · " + t("mesaResumo", { n: mesa.jog.length }) + (mesa.jog.length === 4 ? " · " + (mesa.duplas ? t("duplasCurto") : t("ffa")) : "");
+  var ac = document.createElement("div"); ac.className = "mesa-acoes";
+  var bn = document.createElement("button"); bn.type = "button"; bn.className = "ghost"; bn.id = "btnDeNovo";
+  bn.innerHTML = DADO; bn.appendChild(document.createTextNode(t("sortearDeNovo")));
+  bn.onclick = function () {
+    var base = mesa.jog.slice().sort(function (a, b) { return a.k - b.k; }).map(function (j) { return { k: j.k, nome: j.nome }; });
+    sortearMesa(base, mesa.duplas);
+    var b2 = $("btnDeNovo"); if (b2) { b2.classList.remove("gira"); void b2.offsetWidth; b2.classList.add("gira"); }
+  };
+  var bc = document.createElement("button"); bc.type = "button"; bc.className = "ghost icone"; bc.id = "btnCompMesa";
+  bc.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONES[SO] + '</svg>';
+  bc.setAttribute("aria-label", t("compSorteio")); bc.title = t("compSorteio"); bc.onclick = compartilharMesa;
+  ac.appendChild(bn); ac.appendChild(bc); cab.appendChild(tit); cab.appendChild(ac); m.appendChild(cab);
+  var blocos = mesa.duplas ? [[0, 1], [2, 3]] : [mesa.jog.map(function (_, i) { return i; })], ordem = 0;
+  blocos.forEach(function (idx, bi) {
+    var bl = document.createElement("div"); bl.className = "mesa-bloco";
+    if (mesa.duplas) { var st = document.createElement("div"); st.className = "sec"; st.textContent = t("dupla", { x: "AB"[bi] }); bl.appendChild(st); }
+    var g = document.createElement("div"); g.className = "mesa-grade";
+    idx.forEach(function (i) {
+      var j = mesa.jog[i], d = j.d, b = document.createElement("button");
+      b.type = "button"; b.className = "jog" + (mesa.sel === i ? " on" : "") + (mesa.novo ? " rev" : "");
+      if (mesa.novo) b.style.animationDelay = (ordem++ * 0.3) + "s"; // revela um jogador de cada vez
+      b.setAttribute("aria-pressed", mesa.sel === i ? "true" : "false");
+      if (d.ci) contornoCor(b, d.ci);
+      var qn = document.createElement("span"); qn.className = "quem"; qn.textContent = nomeJog(j);
+      if (mesa.comeca === i) { var cm = document.createElement("span"); cm.className = "comeca"; cm.textContent = t("comeca"); qn.appendChild(cm); }
+      var dn = document.createElement("span"); dn.className = "dnome"; dn.textContent = d.nome; if (d.ci) dn.appendChild(simbolos(d.ci));
+      var cmd = document.createElement("span"); cmd.className = "dinfo"; cmd.textContent = d.comandante;
+      var col = document.createElement("span"); col.className = "dinfo"; col.textContent = d._col.nome + (d._col.ano && d._col.nome.indexOf(d._col.ano) < 0 ? " · " + d._col.ano : ""); // sem repetir o ano
+      b.appendChild(qn); b.appendChild(dn); b.appendChild(cmd); b.appendChild(col);
+      b.onclick = function () {
+        mesa.sel = i; desenhar();
+        var pn = $("painel"); if (pn.scrollIntoView) pn.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "nearest" });
+      };
+      g.appendChild(b);
+    });
+    bl.appendChild(g); m.appendChild(bl);
+  });
+  var pn = $("painel");
+  if (mesa.sel < 0) {
+    pn.hidden = true;
+    var dica = document.createElement("p"); dica.className = "mesa-dica"; dica.textContent = t("mesaToque"); m.appendChild(dica);
+  } else {
+    var js = mesa.jog[mesa.sel];
+    colAtual = js.d._col._i; deckAtual = js.d._di; // o painel (copiar, endstep, compartilhar o deck) usa o deck deste jogador
+    pn.hidden = false; pintarPainel(js.d, nomeJog(js) + ": ");
+  }
+  mesa.novo = false;
+}
+function compartilharMesa() {
+  var url = location.href.split("#")[0] + "#" + hashMesa();
+  var txt = mesa.jog.map(function (j, i) {
+    return nomeJog(j) + (mesa.duplas ? " (" + t("dupla", { x: i < 2 ? "A" : "B" }) + ")" : "") + (mesa.comeca === i ? " (" + t("comeca") + ")" : "") + ": " + j.d.nome + " - " + j.d.comandante;
+  }).join("\n");
+  function copia() { copiar(url, function () { aviso(t("linkSorteio")); }, function () { prompt(t("copieSorteio"), url); }); }
+  if (SO !== "generico" && navigator.share) {
+    navigator.share({ title: t("mesaTitulo") + " · Precons Commander", text: txt, url: url }).catch(function (e) { if (!e || e.name !== "AbortError") copia(); });
+  } else copia();
+}
+// Sai do sorteio e volta à tela inicial.
+function sairMesa() {
+  mesa = null; document.body.classList.remove("modo-mesa");
+  zerarBuscaEFiltros(); recolhido = false; grpAtual = GRUPOS[0]; colAtual = 0; deckAtual = 0; ultimaSorte = null; aberto = false;
+  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+  desenhar();
+  window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
+}
 
 try { localStorage.removeItem("precons-sel"); } catch (e) {} // limpeza da memória antiga do último deck
 montarFiltros();
 aplicarId(idDoEndereco());
+mesa = mesaDoEndereco(); // link de sorteio em grupo
 desenhar();
 window.addEventListener("hashchange", function () {
+  var mm = mesaDoEndereco();
+  if (mm) { $("mesaCfg").hidden = true; zerarBuscaEFiltros(); mesa = mm; desenhar(); window.scrollTo(0, 0); return; }
   var id = idDoEndereco(), d = COLECOES[colAtual] && COLECOES[colAtual].decks[deckAtual];
+  if (mesa && id && aplicarId(id)) { mesa = null; zerarBuscaEFiltros(); desenhar(); return; } // link de deck vindo do sorteio
   if (id && (!d || idDe(d) !== id) && aplicarId(id)) { q = ""; $("filtro").value = ""; $("limpar").hidden = true; limparFiltros(); desenhar(); }
 });
 if ("serviceWorker" in navigator && /^https?:/.test(location.protocol)) { navigator.serviceWorker.register("sw.js").catch(function () {}); }
