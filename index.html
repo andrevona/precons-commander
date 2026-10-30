@@ -315,9 +315,8 @@
 <body>
 <main>
   <h1>Precons Commander</h1>
-  <p class="sub" id="sub" data-t="sub">Escolha a coleção e o deck ou utilize o filtro. A lista está no formato <code>quantidade Nome (SET) número</code>, pronta para colar no endstep.cc.</p>
+  <p class="sub" id="sub" data-t="sub">Navegue por coleção, utilize os filtros ou use a busca (em português ou inglês).</p>
 
-  <div class="tabs" id="grupos"></div>
   <div class="busca" id="caixaBusca">
     <input class="filtro" id="filtro" type="search" placeholder="Carta, deck, comandante ou coleção…" data-tp="busca" autocomplete="off" autocapitalize="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="sugestoes" aria-expanded="false">
     <button type="button" class="limpar" id="limpar" aria-label="Apagar busca" title="Apagar busca" data-ta="apagar" hidden>×</button>
@@ -331,6 +330,7 @@
     <button type="button" class="limpar-tudo" id="btnLimparTudo" data-ta="limparTudoDica" hidden><span aria-hidden="true">↺</span> <span data-t="limparTudo">Limpar tudo</span></button>
   </div>
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
+  <div class="tabs" id="grupos"></div>
   <div id="conteudo" hidden>
   <div id="mesa"></div>
   <div class="sec sec-col" id="secCol"><span data-t="colecoes">Coleções</span></div>
@@ -417,7 +417,7 @@ var ATUALIZADO = "2026-10-27"; // data (AAAA-MM-DD) da última conferência com 
 // Nomes de decks, cartas, coleções e grupos ficam sempre em inglês.
 var TXT = {
   pt: {
-    sub: 'Escolha a coleção e o deck ou utilize o filtro, em inglês ou português.',
+    sub: 'Navegue por coleção, utilize os filtros ou use a busca (em português ou inglês).',
     busca: 'Carta, deck, comandante ou coleção…', apagar: 'Apagar busca', colecoes: 'Coleções', filtroAno: 'Filtrar os decks pelo ano de lançamento', porAno: 'Por ano', tirarAno: 'Tirar o filtro de ano',
     decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck encontrado', achouN: '{n} decks encontrados',
     nenhum: 'Nenhum deck encontrado', nenhumTxt: 'Nenhum deck, comandante ou carta com esse nome.', nenhumFiltro: 'Nenhum deck com esses filtros.',
@@ -460,7 +460,7 @@ var TXT = {
     exclAbrir: 'Mostrar as coleções do grupo {g}', exclAbrirDecks: 'Mostrar os decks de {c}', verLista: 'Ver lista', esconderLista: 'Ocultar lista', trocarDeck: 'Sortear outro deck para {n}', semOutro: 'Não há outro deck disponível para sortear.'
   },
   en: {
-    sub: 'Pick a set and a deck, or use the filter, in English or Portuguese.',
+    sub: 'Browse by set, use the filters or use the search (in Portuguese or English).',
     busca: 'Card, deck, commander or set…', apagar: 'Clear search', colecoes: 'Sets', filtroAno: 'Filter decks by release year', porAno: 'By year', tirarAno: 'Clear the year filter',
     decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck found', achouN: '{n} decks found',
     nenhum: 'No deck found', nenhumTxt: 'No deck, commander or card with that name.', nenhumFiltro: 'No deck matches these filters.',
