@@ -12,12 +12,12 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <style>
   html { color-scheme:light dark; scrollbar-color:var(--line) var(--bg); }
-  :root { --bg:#fafaf8; --fg:#1d1d1b; --mut:#6b6b66; --line:#d9d8d2; --acc:#2f5fd0; --accfg:#fff; --card:#fff; --ok:#1d7a3a; --warn:#b05a00;
+  :root { --bg:#fafaf8; --fg:#1d1d1b; --mut:#6b6b66; --line:#d9d8d2; --acc:#2f5fd0; --accfg:#fff; --card:#fff; --levePct:9%; --ok:#1d7a3a; --warn:#b05a00;
     --g-acc:#1c3378; --g-accfg:#fff; --f-acc:#0b78b8; --f-accfg:#fff; /* tons de azul: grupos (escuro), coleções (--acc), filtros (claro) */
     --mW:#e4e0d2; --mU:#2b83d0; --mB:#6c588c; --mR:#d24d36; --mG:#2c8a48; --mC:#9b9a94; --deckBorda:#5f5e59;
     --inBg:#fff; --inBorda:#9a998f; --inSombra:0 1px 3px rgba(0,0,0,.10); --inAnel:rgba(11,120,184,.25); } /* campo de busca em destaque */ /* cores dos decks; borda neutra (escura no claro) */
   @media (prefers-color-scheme: dark) {
-    :root { --bg:#161615; --fg:#ecebe6; --mut:#9c9b94; --line:#34332f; --acc:#7da2ff; --accfg:#10131c; --card:#1e1e1c; --ok:#6fcf8a; --warn:#f0a04b;
+    :root { --bg:#161615; --fg:#ecebe6; --mut:#9c9b94; --line:#34332f; --acc:#7da2ff; --accfg:#10131c; --card:#1e1e1c; --levePct:9%; --ok:#6fcf8a; --warn:#f0a04b;
       --g-acc:#3c5cc4; --g-accfg:#fff; --f-acc:#5ec4ef; --f-accfg:#0b1a22;
       --mW:#f6f4ee; --mU:#5aa8ee; --mB:#a991cc; --mR:#f07a62; --mG:#5cbf7c; --mC:#7f7e78; --deckBorda:#b4b3ac;
       --inBg:#2a2a27; --inBorda:#85847c; --inSombra:0 2px 8px rgba(0,0,0,.55); --inAnel:rgba(94,196,239,.32); }
@@ -218,6 +218,7 @@
   .jog:hover { border-color:var(--fg); }
   .jog.on { border:2.5px solid transparent; padding:9px 11px; background:linear-gradient(var(--card), var(--card)) padding-box, var(--brilho, linear-gradient(var(--deckBorda), var(--deckBorda))) border-box; }
   @supports (background: color-mix(in srgb, red 10%, blue)) {
+    .jog { background:var(--leve, var(--card)); } /* cartão do sorteio levemente tingido com as cores do deck */
     .jog.on { background:var(--tinta, linear-gradient(var(--card), var(--card))) padding-box, var(--brilho, linear-gradient(var(--deckBorda), var(--deckBorda))) border-box; }
   }
   .jog .quem { font-weight:700; font-size:15px; display:flex; flex-wrap:wrap; gap:4px 8px; align-items:center; overflow-wrap:anywhere; }
@@ -1146,6 +1147,7 @@ function contornoCor(b, ci) {
   function grad(lista) { return "linear-gradient(90deg, " + (lista.length === 1 ? lista[0] + ", " + lista[0] : lista.length === 2 ? lista[0] + " 50%, " + lista[1] + " 50%" : lista.join(", ")) + ")"; }
   b.style.setProperty("--brilho", grad(cs.map(function (x) { return "var(--m" + x + ")"; })));
   b.style.setProperty("--tinta", grad(cs.map(function (x) { return "color-mix(in srgb, var(--m" + x + ") " + pct + "%, var(--card))"; })));
+  b.style.setProperty("--leve", "linear-gradient(100deg, " + (cs.length === 1 ? [cs[0], cs[0]] : cs).map(function (x) { return "color-mix(in srgb, var(--m" + x + ") var(--levePct), var(--card))"; }).join(", ") + ")"); // fundo bem claro dos cartões do sorteio (degradê suave, sem corte)
   b.style.setProperty("--selec", grad(cs.map(function (x) { return "color-mix(in srgb, var(--m" + x + ") 46%, var(--card))"; }))); // preenchimento do filtro de cor escolhido (mais forte que o tingido do deck)
 }
 // Surpreenda-me: abre um deck sorteado entre os que aparecem com a busca e as cores escolhidas (sem repetir o anterior).
