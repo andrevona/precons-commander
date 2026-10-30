@@ -263,11 +263,11 @@
   /* Trocar o deck de um jogador: o cartão vira um invólucro com o botão do jogador e um botão redondo (dado) no canto. */
   .jogw { position:relative; display:flex; }
   .jogw .jog { flex:1; min-width:0; }
-  .jogw .quem { padding-right:30px; }
+  .jogw .quem { padding-right:42px; }
   .jogw.rev { animation:revela .5s cubic-bezier(.2,.8,.2,1) both; }
-  .reroll { position:absolute; top:7px; right:7px; z-index:2; width:30px; height:30px; padding:0; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:999px; background:var(--card); color:var(--mut); cursor:pointer; }
-  .reroll:hover { color:var(--fg); border-color:var(--fg); }
-  .reroll svg { width:16px; height:16px; }
+  .reroll { position:absolute; top:7px; right:7px; z-index:2; width:34px; height:34px; padding:0; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:999px; background:var(--card); color:var(--acc); cursor:pointer; }
+  .reroll:hover { color:var(--acc); border-color:var(--acc); }
+  .reroll svg { width:23px; height:23px; }
   @media (prefers-reduced-motion: reduce) { .jogw.rev { animation:none; } }
   /* Excluir do sorteio (só no sorteio em grupo; guardado só na aba) */
   .excl { margin-top:16px; border:1px solid var(--line); border-radius:10px; padding:0 12px; }
@@ -1722,6 +1722,8 @@ function mesaDoEndereco() {
 }
 
 // Tela do sorteio
+// Dado com duas setas circulares: botão de trocar o deck de UM jogador (mostra melhor o que faz; pedido do usuário em 30/10/2026). Os pontos usam a cor do fundo do botão (--card).
+var DADO_TROCA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.68 10.83A8.4 8.4 0 0 1 16.57 4.96"/><path d="M20.18 7.30L18.21 2.44L14.94 7.47Z" fill="currentColor" stroke-width=".6"/><path d="M20.32 13.17A8.4 8.4 0 0 1 7.43 19.04"/><path d="M3.82 16.70L5.79 21.56L9.06 16.53Z" fill="currentColor" stroke-width=".6"/><rect x="8.4" y="8.4" width="7.2" height="7.2" rx="1.6" fill="currentColor" stroke="none"/><g style="fill:var(--card)" stroke="none"><circle cx="10.3" cy="10.3" r=".8"/><circle cx="13.7" cy="10.3" r=".8"/><circle cx="12" cy="12" r=".8"/><circle cx="10.3" cy="13.7" r=".8"/><circle cx="13.7" cy="13.7" r=".8"/></g></svg>';
 var DADO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg>';
 var REGRAS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
 // "Alterar regras": reabre o quadro com as opções deste sorteio (jogadores, nomes, modo, opções "mesmo(a)"; a Blacklist é a que vale).
@@ -1788,7 +1790,7 @@ function desenharMesa() {
         mesa.sel = i; desenhar();
         var pn = $("painel"); if (pn.scrollIntoView) pn.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "nearest" });
       };
-      var rr = document.createElement("button"); rr.type = "button"; rr.className = "reroll"; rr.innerHTML = DADO;
+      var rr = document.createElement("button"); rr.type = "button"; rr.className = "reroll"; rr.innerHTML = DADO_TROCA;
       rr.setAttribute("aria-label", t("trocarDeck", { n: nomeJog(j) })); rr.title = t("trocarDeck", { n: nomeJog(j) });
       rr.onclick = function () { trocarDeck(i); };
       w.appendChild(b); w.appendChild(rr); g.appendChild(w);
