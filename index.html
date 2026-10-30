@@ -244,6 +244,8 @@
   .jog .dinfo { font-size:12.5px; color:var(--mut); }
   /* Dica de que o cartão é um botão: linha "Ver lista ▾" separada no pé do cartão (vira "Ocultar lista ▴" quando aberto) e leve elevação ao passar o mouse. */
   .jog .verlista { align-self:stretch; display:flex; align-items:center; justify-content:space-between; margin-top:6px; padding-top:7px; border-top:1px solid var(--line); font-size:12.5px; font-weight:600; color:var(--acc); }
+  .jog .verlista { margin-top:auto; } /* no computador os cartões lado a lado têm a mesma altura: "Ver lista" fica sempre embaixo */
+  .jog > :nth-last-child(2) { margin-bottom:6px; }
   .jog .verlista::after { content:"▾"; font-size:11px; transition:transform .2s; }
   .jog.on .verlista::after { transform:rotate(180deg); }
   .jogw .jog { transition:transform .15s, box-shadow .15s, border-color .15s; }
@@ -1775,10 +1777,11 @@ function desenharMesa() {
       if (d.ci) contornoCor(b, d.ci);
       var qn = document.createElement("span"); qn.className = "quem"; qn.textContent = nomeJog(j);
       if (mesa.comeca === i) { var cm = document.createElement("span"); cm.className = "comeca"; cm.textContent = t("comeca"); qn.appendChild(cm); }
-      var dn = document.createElement("span"); dn.className = "dnome"; dn.textContent = d.nome; if (d.ci) dn.appendChild(simbolos(d.ci));
+      var sl = !d._col.ano && /\s\(\d{4}\)$/.test(d.nome); // Secret Lair: o ano sai do nome e vai para a linha da coleção
+      var dn = document.createElement("span"); dn.className = "dnome"; dn.textContent = sl ? d.nome.replace(/\s\(\d{4}\)$/, "") : d.nome; if (d.ci) dn.appendChild(simbolos(d.ci));
       (d.arq || []).forEach(function (a) { var tg = document.createElement("span"); tg.className = "arq-tag arq-" + a; tg.textContent = t("arqs")[a] || a; dn.appendChild(tg); });
       var cmd = document.createElement("span"); cmd.className = "dinfo"; cmd.textContent = d.comandante;
-      var col = document.createElement("span"); col.className = "dinfo"; col.textContent = d._col.nome + (d._col.ano && d._col.nome.indexOf(d._col.ano) < 0 ? " · " + d._col.ano : ""); // sem repetir o ano
+      var col = document.createElement("span"); col.className = "dinfo"; col.textContent = d._col.nome + (sl ? " · " + anoDe(d) : d._col.ano && d._col.nome.indexOf(d._col.ano) < 0 ? " · " + d._col.ano : ""); // sem repetir o ano
       var vl = document.createElement("span"); vl.className = "verlista"; vl.textContent = t(mesa.sel === i ? "esconderLista" : "verLista");
       b.appendChild(qn); b.appendChild(dn); b.appendChild(cmd); b.appendChild(col); b.appendChild(vl);
       b.onclick = function () {
