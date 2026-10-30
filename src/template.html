@@ -169,7 +169,7 @@
   .sugestoes .txt b { font-weight:700; color:var(--acc); }
   .sugestoes .tipo { flex:none; color:var(--mut); font-size:12px; }
   .sugestoes .tipo.orig { flex:1 1 100%; min-width:0; overflow-wrap:anywhere; } /* "→ nome original" numa segunda linha, inteiro */
-  /* Sorteio em grupo: botão dividido (Surpreenda-me | grupo) com o mesmo gradiente; quadro de configuração; cartões por jogador. */
+  /* Sorteio em grupo: botão dividido (Sortear deck | grupo) com o mesmo gradiente; quadro de configuração; cartões por jogador. */
   .sorte-grupo { display:inline-flex; align-items:stretch; border-radius:999px; background:linear-gradient(100deg, #f3e6a6, #a9d3f5 28%, #cdbde6 50%, #f6ae9c 72%, #a8dcb2); box-shadow:0 1px 3px rgba(0,0,0,.18); }
   .sorte-grupo .sorte { background:transparent; box-shadow:none; }
   .sorte-grupo #btnSorte { border-radius:999px 0 0 999px; }
@@ -327,7 +327,7 @@
     <div class="cor-caixa" id="cxCor"><button type="button" class="cor-btn" id="fCor" aria-haspopup="listbox" aria-expanded="false" aria-controls="corMenu"></button><ul class="cor-menu" id="corMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparCor" data-ta="tirarCor" hidden>×</button></div>
     <div class="cor-caixa" id="cxAno"><button type="button" class="cor-btn" id="fAno" aria-haspopup="listbox" aria-expanded="false" aria-controls="anoMenu"></button><ul class="cor-menu" id="anoMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparAno" data-ta="tirarAno" hidden>×</button></div>
     <div class="cor-caixa" id="cxArq"><button type="button" class="cor-btn" id="fArq" aria-haspopup="listbox" aria-expanded="false" aria-controls="arqMenu"></button><ul class="cor-menu" id="arqMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparArq" data-ta="tirarArq" hidden>×</button></div>
-    <span class="sorte-grupo"><button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg><span data-t="surpresa">Surpreenda-me</span></button><button type="button" class="cor-btn sorte mesa-btn" id="btnMesa" data-ta="mesaDica" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20"/><circle cx="9" cy="7.5" r="3.5"/><path d="M22 20v-1.5a4 4 0 0 0-3-3.87"/><path d="M16 4.13a4 4 0 0 1 0 7.75"/></svg></button></span>
+    <span class="sorte-grupo"><button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg><span data-t="surpresa">Sortear deck</span></button><button type="button" class="cor-btn sorte mesa-btn" id="btnMesa" data-ta="mesaDica" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20"/><circle cx="9" cy="7.5" r="3.5"/><path d="M22 20v-1.5a4 4 0 0 0-3-3.87"/><path d="M16 4.13a4 4 0 0 1 0 7.75"/></svg></button></span>
     <button type="button" class="limpar-tudo" id="btnLimparTudo" data-ta="limparTudoDica" hidden><span aria-hidden="true">↺</span> <span data-t="limparTudo">Limpar tudo</span></button>
   </div>
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
@@ -446,7 +446,7 @@ var TXT = {
     arqs: { tribal: 'Tribal', tokens: 'Fichas', counters: 'Marcadores +1/+1', spellslinger: 'Spellslinger', graveyard: 'Cemitério', artifacts: 'Artefatos', enchantments: 'Encantamentos', lifegain: 'Ganho de vida', sacrifice: 'Sacrifício', voltron: 'Voltron', blink: 'Blink', lands: 'Terrenos' },
     filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Por cor', tirarCor: 'Tirar o filtro de cores',
     cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'WUBRG',
-    surpresa: 'Surpreenda-me', surpresaDica: 'Abre um deck aleatório entre todos (limpa a busca e os filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e os filtros e recolhe tudo',
+    surpresa: 'Sortear deck', surpresaDica: 'Abre um deck aleatório entre todos (limpa a busca e os filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e os filtros e recolhe tudo',
     exclArqs: 'Arquétipos', arqMesmoChk: 'Todos com o mesmo arquétipo', arqSorteado: 'Arquétipo sorteado:', optFaltam: 'Com as opções marcadas não há {n} decks para sortear. Desmarque uma opção ou tire algo da Blacklist.', colMesmaChk: 'Todos da mesma coleção', anoMesmoChk: 'Todos do mesmo ano', colSorteada: 'Coleção sorteada:', anoSorteado: 'Ano sorteado:', colRot: 'Coleção: {a}', anoRot: 'Ano: {a}', arqRot: 'Arquétipo: {a}',
     mesaDica: 'Sorteio em grupo (2 a 4 jogadores)', mesaTitulo: 'Sorteio em grupo',
     ajuda1: 'Cada jogador recebe um deck diferente, sorteado entre todos (busca e filtros da página não contam). Com 4, dá para jogar em duplas; duplas e quem começa também são sorteados.', ajuda2: '"Mesma coleção", "mesmo ano" e "mesmo arquétipo" sorteiam uma coleção, um ano ou um arquétipo para todos. Coleção e ano não se combinam; o Secret Lair conta como uma coleção, cada deck no ano do nome. Uma opção fica cinza quando não sobram decks para todos.', ajuda3: 'A Blacklist tira coleções, arquétipos ou decks (um deck sai se qualquer arquétipo dele estiver nela) e vale só nesta aba. "Limpar tudo" esvazia a Blacklist e desmarca as opções.', ajuda4: 'Depois do sorteio: toque num jogador para ver a lista; o dado troca só o deck dele; "Alterar regras" reabre este quadro; o link compartilhado não leva a Blacklist.',
@@ -489,7 +489,7 @@ var TXT = {
     arqs: { tribal: 'Tribal', tokens: 'Tokens', counters: '+1/+1 counters', spellslinger: 'Spellslinger', graveyard: 'Graveyard', artifacts: 'Artifacts', enchantments: 'Enchantments', lifegain: 'Lifegain', sacrifice: 'Sacrifice', voltron: 'Voltron', blink: 'Blink', lands: 'Lands' },
     filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'By color', tirarCor: 'Clear the color filter',
     cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'WUBRG',
-    surpresa: 'Surprise me', surpresaDica: 'Opens a random deck out of all of them (clears the search and the filters)', sorteado: 'Drawn: {d}', limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and the filters and collapses everything',
+    surpresa: 'Draw a deck', surpresaDica: 'Opens a random deck out of all of them (clears the search and the filters)', sorteado: 'Drawn: {d}', limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and the filters and collapses everything',
     exclArqs: 'Archetypes', arqMesmoChk: 'Everyone gets the same archetype', arqSorteado: 'Drawn archetype:', optFaltam: 'With the ticked options there aren\'t {n} decks to draw. Untick an option or remove something from the Blacklist.', colMesmaChk: 'Everyone from the same set', anoMesmoChk: 'Everyone from the same year', colSorteada: 'Drawn set:', anoSorteado: 'Drawn year:', colRot: 'Set: {a}', anoRot: 'Year: {a}', arqRot: 'Archetype: {a}',
     mesaDica: 'Group draw (2 to 4 players)', mesaTitulo: 'Group draw',
     ajuda1: 'Each player gets a different deck, drawn from all of them (the page\'s search and filters don\'t count). With 4, you can play in teams; teams and who goes first are drawn too.', ajuda2: '"Same set", "same year" and "same archetype" draw one set, year or archetype for everyone. Set and year can\'t be combined; Secret Lair counts as one set, each deck in the year in its name. An option is greyed out when there aren\'t enough decks for everyone.', ajuda3: 'The Blacklist removes sets, archetypes or decks (a deck is out if any of its archetypes is on it) and only lasts in this tab. "Clear all" empties the Blacklist and unticks the options.', ajuda4: 'After the draw: tap a player to see the list; the die swaps only that deck; "Change rules" reopens this box; the shared link doesn\'t carry the Blacklist.',
@@ -690,7 +690,7 @@ function desenhar() {
     gEl.appendChild(b);
   });
   // Só Universes Within recolhe as coleções por clique; nos outros grupos elas só ficam recolhidas depois do
-  // Surpreenda-me (recolhido = true) e, nesse caso, um clique na coleção as expande (depois volta ao normal).
+  // Sortear deck (recolhido = true) e, nesse caso, um clique na coleção as expande (depois volta ao normal).
   var recolhivel = !todas && (RECOLHEM.indexOf(grpAtual) >= 0 || recolhido);
   COLECOES.forEach(function (col, i) {
     if ((!todas && col.grupo !== grpAtual) || !col.decks.some(casa)) return;
@@ -1150,7 +1150,7 @@ function contornoCor(b, ci) {
   b.style.setProperty("--leve", "linear-gradient(100deg, " + (cs.length === 1 ? [cs[0], cs[0]] : cs).map(function (x) { return "color-mix(in srgb, var(--m" + x + ") var(--levePct), var(--card))"; }).join(", ") + ")"); // fundo bem claro dos cartões do sorteio (degradê suave, sem corte)
   b.style.setProperty("--selec", grad(cs.map(function (x) { return "color-mix(in srgb, var(--m" + x + ") 46%, var(--card))"; }))); // preenchimento do filtro de cor escolhido (mais forte que o tingido do deck)
 }
-// Surpreenda-me: abre um deck sorteado entre os que aparecem com a busca e as cores escolhidas (sem repetir o anterior).
+// Sortear deck: abre um deck sorteado entre os que aparecem com a busca e as cores escolhidas (sem repetir o anterior).
 var ultimaSorte = null;
 function surpresa() {
   if (animando) return;
@@ -1303,12 +1303,12 @@ document.addEventListener("keydown", function (e) {
 });
 
 // ===== Sorteio em grupo (pedido do usuário em 29/10/2026) =====
-// A setinha ao lado do Surpreenda-me abre um quadro: 2 a 4 jogadores, nomes opcionais (guardados neste aparelho) e, só com 4,
+// A setinha ao lado do Sortear deck abre um quadro: 2 a 4 jogadores, nomes opcionais (guardados neste aparelho) e, só com 4,
 // free-for-all ou duplas (as duplas também são sorteadas). Cada jogador recebe um deck diferente, sorteado entre TODOS os decks
 // (ignora busca e filtros), e um deles é sorteado para começar. A tela do sorteio esconde grupos, busca, filtros, coleções e
 // decks (fica só o "Limpar tudo", que sai do sorteio); tocar num jogador abre o painel do deck dele. O endereço guarda o
 // sorteio (#sorteio/modo/quem-começa/n:nome:pasta/deck,...), e o link pode ser compartilhado: quem abre vê o mesmo sorteio.
-// O Surpreenda-me de um jogador continua igual. Exclusões (coleções e decks) e troca do deck de um jogador: ver mais abaixo.
+// O Sortear deck de um jogador continua igual. Exclusões (coleções e decks) e troca do deck de um jogador: ver mais abaixo.
 var mesa = null; // { duplas, comeca, sel, novo, jog: [{ k (posição no quadro), nome, d (deck) }] }
 var CHAVE_MESA = "precons-mesa"; // últimas escolhas do quadro (só neste aparelho)
 var cfgMesa = { n: 4, nomes: ["", "", "", ""], duplas: false, mesmaCol: false, mesmoAno: false, mesmoArq: false }; // as três opções "mesmo(a)" não são guardadas: começam desmarcadas a cada visita (pedido do usuário)
@@ -1325,7 +1325,7 @@ function deckPorId(id) { var r = null; COLECOES.forEach(function (c) { c.decks.f
 function embaralhar(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), x = a[i]; a[i] = a[j]; a[j] = x; } return a; }
 
 // Exclusões do sorteio em grupo (pedido do usuário em 29/10/2026): coleções inteiras (pelo id) e decks avulsos (pelo id da pasta/arquivo).
-// Valem só para o sorteio em grupo (o Surpreenda-me solo ignora) e ficam guardadas só nesta aba (sessionStorage: somem ao fechá-la).
+// Valem só para o sorteio em grupo (o Sortear deck solo ignora) e ficam guardadas só nesta aba (sessionStorage: somem ao fechá-la).
 // O quadro edita uma cópia (exclRasc) que só vira valer ao tocar em Sortear; Cancelar descarta.
 var CHAVE_EXCL = "precons-excl";
 var excl = { c: {}, d: {}, a: {} }, exclRasc = { c: {}, d: {}, a: {} }; // a = arquétipos excluídos (um deck sai se QUALQUER um dos seus 1–2 arquétipos estiver excluído)
