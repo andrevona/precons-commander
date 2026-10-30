@@ -33,7 +33,9 @@
   .tab.on { background:var(--acc); color:var(--accfg); border-color:var(--acc); }
   .tab.small { padding:4px 10px; font-size:14px; border-radius:8px; }
   .tab .n { opacity:.65; font-size:12px; margin-left:6px; white-space:nowrap; }
-  #titulo .arq-tag { vertical-align:2px; }
+  .arq-linha { display:flex; flex-wrap:wrap; gap:4px 6px; }
+  .arq-linha .arq-tag { margin-left:0; }
+  #titulo .arq-linha { margin:4px 0 2px; }
   #titulo .tit-cmd { display:block; font-size:13px; font-weight:400; color:var(--mut); margin-top:2px; }
   .panel { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:12px; }
   .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
@@ -752,9 +754,11 @@ function desenhar() {
 // Painel do deck (título, lista, contagem, nota); usado na tela normal e no sorteio em grupo (com o nome do jogador antes).
 function pintarPainel(deck, prefixo) {
   var s = $("status"), total = contar(deck.lista);
-  var ti = $("titulo"), cm = document.createElement("span"); // nome (e pílulas do arquétipo) na 1ª linha; comandante embaixo, menor
+  var ti = $("titulo"), cm = document.createElement("span"); // nome na 1ª linha; pílulas do arquétipo na 2ª; comandante embaixo, menor
   ti.textContent = prefixo + deck.nome;
-  (deck.arq || []).forEach(function (a) { var tg = document.createElement("span"); tg.className = "arq-tag arq-" + a; tg.textContent = t("arqs")[a] || a; ti.appendChild(tg); });
+  var al = document.createElement("span"); al.className = "arq-linha"; // etiquetas numa linha própria, como nos cartões do sorteio
+  (deck.arq || []).forEach(function (a) { var tg = document.createElement("span"); tg.className = "arq-tag arq-" + a; tg.textContent = t("arqs")[a] || a; al.appendChild(tg); });
+  if (al.firstChild) ti.appendChild(al);
   cm.className = "tit-cmd"; cm.textContent = deck.comandante; ti.appendChild(cm);
   $("saida").value = deck.lista;
   destacar(deck);
@@ -1736,11 +1740,12 @@ function desenharMesa() {
       if (mesa.comeca === i) { var cm = document.createElement("span"); cm.className = "comeca"; cm.textContent = t("comeca"); qn.appendChild(cm); }
       var sl = !d._col.ano && /\s\(\d{4}\)$/.test(d.nome); // Secret Lair: o ano sai do nome e vai para a linha da coleção
       var dn = document.createElement("span"); dn.className = "dnome"; dn.textContent = sl ? d.nome.replace(/\s\(\d{4}\)$/, "") : d.nome; if (d.ci) dn.appendChild(simbolos(d.ci));
-      (d.arq || []).forEach(function (a) { var tg = document.createElement("span"); tg.className = "arq-tag arq-" + a; tg.textContent = t("arqs")[a] || a; dn.appendChild(tg); });
+      var al = document.createElement("span"); al.className = "arq-linha"; // etiquetas de arquétipo sempre na linha de baixo do nome
+      (d.arq || []).forEach(function (a) { var tg = document.createElement("span"); tg.className = "arq-tag arq-" + a; tg.textContent = t("arqs")[a] || a; al.appendChild(tg); });
       var cmd = document.createElement("span"); cmd.className = "dinfo"; cmd.textContent = d.comandante;
       var col = document.createElement("span"); col.className = "dinfo"; col.textContent = d._col.nome + (sl ? " · " + anoDe(d) : d._col.ano && d._col.nome.indexOf(d._col.ano) < 0 ? " · " + d._col.ano : ""); // sem repetir o ano
       var vl = document.createElement("span"); vl.className = "verlista"; vl.textContent = t(mesa.sel === i ? "esconderLista" : "verLista");
-      b.appendChild(qn); b.appendChild(dn); b.appendChild(cmd); b.appendChild(col); b.appendChild(vl);
+      b.appendChild(qn); b.appendChild(dn); if (al.firstChild) b.appendChild(al); b.appendChild(cmd); b.appendChild(col); b.appendChild(vl);
       b.onclick = function () {
         if (mesa.sel === i) { mesa.sel = -1; desenhar(); return; } // tocar de novo no mesmo deck recolhe o painel
         mesa.sel = i; desenhar();
