@@ -167,6 +167,8 @@
   .sugestoes .txt { flex:1 1 0; min-width:0; overflow-wrap:anywhere; } /* nomes longos quebram em mais linhas, sem cortar */
   .sugestoes .txt b { font-weight:700; color:var(--acc); }
   .sugestoes .tipo { flex:none; color:var(--mut); font-size:12px; }
+  .sugestoes .tipo img.ic { width:14px; height:14px; vertical-align:-3px; margin-right:5px; object-fit:contain; opacity:.75; } /* símbolo da coleção onde a carta é comandante */
+  @media (prefers-color-scheme: dark) { .sugestoes .tipo img.ic { filter:invert(.92); } }
   .sugestoes .tipo.orig { flex:1 1 100%; min-width:0; overflow-wrap:anywhere; } /* "→ nome original" numa segunda linha, inteiro */
   /* Sorteio em grupo: botão dividido (Sortear deck | grupo) com o mesmo gradiente; quadro de configuração; cartões por jogador. */
   .sorte-grupo { display:inline-flex; align-items:stretch; border-radius:999px; background:linear-gradient(100deg, #f3e6a6, #a9d3f5 28%, #cdbde6 50%, #f6ae9c 72%, #a8dcb2); box-shadow:0 1px 3px rgba(0,0,0,.18); }
@@ -893,6 +895,16 @@ function tipoDe(n) {
   var i = TIPO_DE[n]; return i >= 0 ? i : -1;
 }
 var LETRAS_TP = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+var CMD_COLS = null; // nome do comandante (como na lista) -> coleções em que comanda algum deck (para o símbolo nas sugestões)
+function colsComandante(n) {
+  if (!CMD_COLS) {
+    CMD_COLS = {};
+    COLECOES.forEach(function (c) { c.decks.forEach(function (d) { d.comandante.split(" / ").forEach(function (x) {
+      var l = CMD_COLS[x] || (CMD_COLS[x] = []); if (l.indexOf(c) < 0) l.push(c);
+    }); }); });
+  }
+  return CMD_COLS[n] || [];
+}
 function indiceSug() {
   if (SUG) return SUG;
   var visto = {}; SUG = [];
@@ -963,6 +975,15 @@ function mostrarSug() {
     var nomeCarta = r.it.k >= 2 ? (r.it.en || r.it.t) : "", ti = nomeCarta ? tipoDe(nomeCarta) : -1;
     tx.className = "txt"; tp.className = "tipo";
     tp.textContent = ti >= 0 ? TIPOS[IDIOMA === "pt" ? "pt" : "en"][ti] : tipos[r.it.k];
+    if (nomeCarta) { // comandante: símbolo da(s) coleção(ões) antes do tipo
+      var vistos = {}, txtTipo = tp.lastChild;
+      colsComandante(nomeCarta).forEach(function (c) {
+        var ico = GRP_ICONE[c.grupo] || c.icone; if (!ico || vistos[ico]) return; vistos[ico] = 1;
+        var im = document.createElement("img"); im.className = "ic"; im.alt = ""; im.title = c.nome; im.src = "icons/" + ico + ".svg";
+        im.onerror = function () { this.style.display = "none"; };
+        tp.insertBefore(im, txtTipo);
+      });
+    }
     tx.appendChild(document.createTextNode(r.it.t.slice(0, r.pos)));
     b.textContent = r.it.t.slice(r.pos, r.pos + q.length); tx.appendChild(b);
     tx.appendChild(document.createTextNode(r.it.t.slice(r.pos + q.length)));
