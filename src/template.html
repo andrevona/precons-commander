@@ -35,7 +35,7 @@
   .tab .n { opacity:.65; font-size:12px; margin-left:6px; white-space:nowrap; }
   .arq-linha { display:flex; flex-wrap:wrap; gap:4px 6px; }
   .arq-linha .arq-tag { margin-left:0; }
-  #titulo .arq-linha { margin:4px 0 2px; }
+  #titulo .arq-tag { vertical-align:2px; }
   #titulo .tit-cmd { display:block; font-size:13px; font-weight:400; color:var(--mut); margin-top:2px; }
   .panel { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:12px; }
   .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
@@ -754,11 +754,9 @@ function desenhar() {
 // Painel do deck (título, lista, contagem, nota); usado na tela normal e no sorteio em grupo (com o nome do jogador antes).
 function pintarPainel(deck, prefixo) {
   var s = $("status"), total = contar(deck.lista);
-  var ti = $("titulo"), cm = document.createElement("span"); // nome na 1ª linha; pílulas do arquétipo na 2ª; comandante embaixo, menor
+  var ti = $("titulo"), cm = document.createElement("span"); // nome (e pílulas do arquétipo) na 1ª linha; comandante embaixo, menor
   ti.textContent = prefixo + deck.nome;
-  var al = document.createElement("span"); al.className = "arq-linha"; // etiquetas numa linha própria, como nos cartões do sorteio
-  (deck.arq || []).forEach(function (a) { var tg = document.createElement("span"); tg.className = "arq-tag arq-" + a; tg.textContent = t("arqs")[a] || a; al.appendChild(tg); });
-  if (al.firstChild) ti.appendChild(al);
+  (deck.arq || []).forEach(function (a) { var tg = document.createElement("span"); tg.className = "arq-tag arq-" + a; tg.textContent = t("arqs")[a] || a; ti.appendChild(tg); }); // ao lado do nome (no sorteio ficam numa linha própria)
   cm.className = "tit-cmd"; cm.textContent = deck.comandante; ti.appendChild(cm);
   $("saida").value = deck.lista;
   destacar(deck);
