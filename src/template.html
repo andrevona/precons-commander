@@ -165,7 +165,6 @@
   .sugestoes li.pt { flex-wrap:wrap; }
   .sugestoes li[aria-selected="true"] { background:var(--line); }
   .sugestoes .txt { flex:1 1 0; min-width:0; overflow-wrap:anywhere; } /* nomes longos quebram em mais linhas, sem cortar */
-  .sugestoes li.pt .txt { flex-basis:100%; }
   .sugestoes .txt b { font-weight:700; color:var(--acc); }
   .sugestoes .tipo { flex:none; color:var(--mut); font-size:12px; }
   .sugestoes .tipo.orig { flex:1 1 100%; min-width:0; overflow-wrap:anywhere; } /* "→ nome original" numa segunda linha, inteiro */
@@ -411,6 +410,7 @@
 <script>
 // Dados embutidos: cada deck ja vem pronto (comandante, linha em branco, resto em ordem alfabetica).
 var COLECOES = __DATA__;
+var TIPOS = __TIPOS__; // tipos das cartas (en/pt); deck.tp tem uma letra por carta da lista, na ordem, apontando para cá (ver build.py)
 var ATUALIZADO = "__ATUALIZADO__"; // data (AAAA-MM-DD) da última conferência com o mtg.wtf
 
 // Idioma da interface: o do sistema/navegador (pt ou en); outros idiomas usam inglês.
@@ -441,7 +441,7 @@ var TXT = {
     rodNota: '* O nome do deck vem no formato <i>Deck - Comandante (SIGLA ano)</i>, com a sigla de três letras da coleção e o ano de lançamento. Exemplo: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'sobre o projeto',
     problemas: 'Encontrou um problema ou tem uma sugestão? Avise por {email} ou abra uma {github}.', lkEmail: 'e-mail', lkGithub: 'issue no GitHub',
-    tCol: 'coleção', tDeck: 'deck', tCmd: 'comandante', tCarta: 'carta',
+    tCol: 'coleção', tDeck: 'deck', tCmd: 'comandantes', tCarta: 'carta',
     filtroArq: 'Filtrar os decks pelo arquétipo (estilo de jogo)', porArq: 'Por arquétipo', tirarArq: 'Tirar o filtro de arquétipo',
     arqs: { tribal: 'Tribal', tokens: 'Fichas', counters: 'Marcadores +1/+1', spellslinger: 'Spellslinger', graveyard: 'Cemitério', artifacts: 'Artefatos', enchantments: 'Encantamentos', lifegain: 'Ganho de vida', sacrifice: 'Sacrifício', voltron: 'Voltron', blink: 'Blink', lands: 'Terrenos' },
     filtroCor: 'Filtrar os decks pelas cores do comandante (identidade de cor)', todasCores: 'Por cor', tirarCor: 'Tirar o filtro de cores',
@@ -484,7 +484,7 @@ var TXT = {
     rodNota: '* The deck name comes in the format <i>Deck - Commander (CODE year)</i>, with the set\'s three-letter code and the release year. Example: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'about the project',
     problemas: 'Found a problem or have a suggestion? Let me know by {email} or open an {github}.', lkEmail: 'email', lkGithub: 'issue on GitHub',
-    tCol: 'set', tDeck: 'deck', tCmd: 'commander', tCarta: 'card',
+    tCol: 'set', tDeck: 'deck', tCmd: 'commanders', tCarta: 'card',
     filtroArq: 'Filter decks by archetype (play style)', porArq: 'By archetype', tirarArq: 'Clear the archetype filter',
     arqs: { tribal: 'Tribal', tokens: 'Tokens', counters: '+1/+1 counters', spellslinger: 'Spellslinger', graveyard: 'Graveyard', artifacts: 'Artifacts', enchantments: 'Enchantments', lifegain: 'Lifegain', sacrifice: 'Sacrifice', voltron: 'Voltron', blink: 'Blink', lands: 'Lands' },
     filtroCor: "Filter decks by the commander's colors (color identity)", todasCores: 'By color', tirarCor: 'Clear the color filter',
@@ -603,13 +603,13 @@ function analisar(deck) {
   if ((corFiltro && deck.ci !== corFiltro) || (anoSel && anoDe(deck) !== anoSel) || (arqSel && (deck.arq || []).indexOf(arqSel) < 0)) r.ok = false;
   else if (q) {
     var col = deck._col;
-    if (!deck._nz) deck._nz = [nz(deck.nome), nz(deck.comandante)];
+    if (!deck._nz) deck._nz = [nz(deck.nome), nz(deck.comandante)].concat((deck.pt || []).map(nz)); // nome, comandante e nomes oficiais em português
     if (!col._nz) col._nz = nz(col.nome);
     nomesDe(deck).forEach(function (n, i) {
       if (nzEn(n).indexOf(q) >= 0) { r.idx.push(i); r.rot.push(n); }
       else if (nzPt(n).indexOf(q) >= 0) { r.idx.push(i); r.rot.push(n + " (" + PT[n] + ")"); } // achou pelo nome em português: mostra os dois
     });
-    r.ok = r.idx.length > 0 || deck._nz[0].indexOf(q) >= 0 || deck._nz[1].indexOf(q) >= 0 || col._nz.indexOf(q) >= 0 || !!(col.ano && col.ano.indexOf(q) >= 0);
+    r.ok = r.idx.length > 0 || deck._nz.some(function (x) { return x.indexOf(q) >= 0; }) || col._nz.indexOf(q) >= 0 || !!(col.ano && col.ano.indexOf(q) >= 0);
   }
   deck._hk = chave; deck._h = r;
   return r;
@@ -881,8 +881,18 @@ function aplicarBusca() {
 
 // Autocomplete do filtro: sugere coleções, decks, comandantes e cartas (em inglês e, quando há, em português) conforme se digita.
 // Ordem: começa com o texto, depois início de palavra, depois contém; empate: coleção, deck, comandante, carta em inglês, carta em português.
-// Item em português (k = 4): t = nome em português, en = o nome original; ao escolher, o campo recebe o nome original.
+// Item em português (carta, k = 4, ou deck, k = 1): t = nome em português, en = o nome original; ao escolher, o campo recebe o nome original.
+// À direita: o tipo da carta (comandante único também é carta), "deck", "coleção" ou "comandantes" (dupla de comandantes).
 var SUG = null, sugLista = [], sugAtiva = -1, SEP = /[\s,\-\/(:'"!&]/, MAX_SUG = 50; // até 50 sugestões; a lista rola
+var TIPO_DE = null; // nome da carta (como na lista) -> índice em TIPOS
+function tipoDe(n) {
+  if (!TIPO_DE) {
+    TIPO_DE = {};
+    COLECOES.forEach(function (c) { c.decks.forEach(function (d) { if (d.tp) nomesDe(d).forEach(function (x, i) { if (!(x in TIPO_DE)) TIPO_DE[x] = LETRAS_TP.indexOf(d.tp.charAt(i)); }); }); });
+  }
+  var i = TIPO_DE[n]; return i >= 0 ? i : -1;
+}
+var LETRAS_TP = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 function indiceSug() {
   if (SUG) return SUG;
   var visto = {}; SUG = [];
@@ -892,7 +902,7 @@ function indiceSug() {
     SUG.push({ t: txt, l: nz(txt), k: k, en: en });
   }
   COLECOES.forEach(function (c) { add(c.nome, 0); });
-  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { add(d.nome, 1); }); });
+  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { add(d.nome, 1); (d.pt || []).forEach(function (p) { add(p, 1, d.nome); }); }); });
   COLECOES.forEach(function (c) { c.decks.forEach(function (d) { add(d.comandante, 2); }); });
   COLECOES.forEach(function (c) { c.decks.forEach(function (d) { nomesDe(d).forEach(function (n) { add(n, 3); }); }); });
   if (PT) COLECOES.forEach(function (c) { c.decks.forEach(function (d) { nomesDe(d).forEach(function (n) { if (PT[n]) add(PT[n], 4, n); }); }); });
@@ -911,6 +921,8 @@ function sugerir(txt) {
     if (melhor >= 0) res.push({ it: it, s: melhor, pos: pos });
   });
   res.sort(function (a, b) { return a.s - b.s || a.it.k - b.it.k || a.it.t.length - b.it.t.length || (a.it.l < b.it.l ? -1 : 1); });
+  var deckVisto = {}; // deck com mais de um nome em português (variantes oficiais): só a melhor sugestão
+  res = res.filter(function (r) { if (r.it.k !== 1 || !r.it.en) return true; if (deckVisto[r.it.en]) return false; return (deckVisto[r.it.en] = 1); });
   return res.slice(0, MAX_SUG);
 }
 function pintarSug(rolar) { // rolar: só com o teclado (com o mouse, rolar a lista faria o item sob o cursor mudar sozinho)
@@ -948,12 +960,14 @@ function mostrarSug() {
   res.forEach(function (r, i) {
     var li = document.createElement("li"), tx = document.createElement("span"), tp = document.createElement("span"), b = document.createElement("b");
     li.id = "sug-" + i; li.setAttribute("role", "option"); li.setAttribute("aria-selected", "false");
-    tx.className = "txt"; tp.className = "tipo"; tp.textContent = r.it.en ? "→ " + r.it.en : tipos[r.it.k];
-    if (r.it.en) { tp.className = "tipo orig"; li.className = "pt"; }
+    var nomeCarta = r.it.k >= 2 ? (r.it.en || r.it.t) : "", ti = nomeCarta ? tipoDe(nomeCarta) : -1;
+    tx.className = "txt"; tp.className = "tipo";
+    tp.textContent = ti >= 0 ? TIPOS[IDIOMA === "pt" ? "pt" : "en"][ti] : tipos[r.it.k];
     tx.appendChild(document.createTextNode(r.it.t.slice(0, r.pos)));
     b.textContent = r.it.t.slice(r.pos, r.pos + q.length); tx.appendChild(b);
     tx.appendChild(document.createTextNode(r.it.t.slice(r.pos + q.length)));
     li.appendChild(tx); li.appendChild(tp);
+    if (r.it.en) { var or = document.createElement("span"); or.className = "tipo orig"; or.textContent = "→ " + r.it.en; li.className = "pt"; li.appendChild(or); }
     li.onmousedown = function (e) { e.preventDefault(); }; // não tira o foco do campo
     li.onmouseover = function () { sugAtiva = i; pintarSug(); };
     li.onclick = function () { escolherSug(i); };

@@ -94,8 +94,45 @@ if os.path.exists("decks.csv"):
             d["arq"]=arqs[k]
 else:
     print("AVISO: decks.csv não encontrado; o site sai sem o filtro de arquétipo")
+# Sugestões da busca: tipo de cada carta ("tp" = uma letra por linha da lista, na ordem da lista, índice em TIPOS)
+# e nomes oficiais dos decks em português ("pt" = [nome, variantes...], de decks_pt.csv, com a fonte de cada um).
+# Tradução dos tipos: a forma impressa nas cartas em português (Scryfall); "Kindred" usa a forma atual, "de Estirpe".
+TIPO_PT={"Creature":"Criatura","Legendary Creature":"Criatura Lendária","Sorcery":"Feitiço","Enchantment":"Encantamento",
+  "Instant":"Mágica Instantânea","Land":"Terreno","Artifact":"Artefato","Artifact Creature":"Criatura Artefato",
+  "Legendary Planeswalker":"Planeswalker Lendário","Legendary Artifact":"Artefato Lendário",
+  "Legendary Artifact Creature":"Criatura Artefato Lendária","Enchantment Creature":"Criatura Encantamento",
+  "Artifact Land":"Terreno Artefato","Legendary Enchantment Creature":"Criatura Encantamento Lendária",
+  "Legendary Enchantment":"Encantamento Lendário","Legendary Land":"Terreno Lendário","Kindred Enchantment":"Encantamento de Estirpe",
+  "Kindred Sorcery":"Feitiço de Estirpe","Basic Land":"Terreno Básico","Kindred Instant":"Mágica Instantânea de Estirpe",
+  "Snow Land":"Terreno da Neve","Legendary Sorcery":"Feitiço Lendário","Snow Creature":"Criatura da Neve",
+  "Legendary Enchantment Artifact":"Artefato Encantamento Lendário","Snow Artifact":"Artefato da Neve",
+  "Kindred Artifact":"Artefato de Estirpe","Legendary Snow Land":"Terreno da Neve Lendário","Land Creature":"Criatura Terreno",
+  "Legendary Snow Creature":"Criatura da Neve Lendária","Snow Sorcery":"Feitiço da Neve"}
+LETRAS="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+TIPOS={"en":[],"pt":[]}
+if os.path.exists("cartas.csv") and os.path.exists("impressoes.csv"):
+    if "tipo" not in next(iter(cartas.values())): raise SystemExit("ERRO: cartas.csv sem a coluna tipo (rode tools/atributos.py)")
+    novos=sorted({c["tipo"] for c in cartas.values()}-set(TIPO_PT))
+    if novos: raise SystemExit("ERRO: tipos sem tradução em TIPO_PT (build.py): %s"%novos)
+    cod={}
+    for col in data:
+        for d in col["decks"]:
+            tp=""
+            for l in d["lista"].split("\n"):
+                if not LINHA.match(l): continue
+                s_,n=l.rsplit(" (",1)[1].split(") ")
+                t=cartas[impr[(s_,n)]["carta"]]["tipo"]
+                if t not in cod:
+                    cod[t]=LETRAS[len(TIPOS["en"])]; TIPOS["en"].append(t); TIPOS["pt"].append(TIPO_PT[t])
+                tp+=cod[t]
+            d["tp"]=tp
+if os.path.exists("decks_pt.csv"):
+    ids={col["id"]+"/"+d["arquivo"][:-4]:d for col in data for d in col["decks"]}
+    for r in csv.DictReader(open("decks_pt.csv",encoding="utf-8")):
+        if r["id"] not in ids: raise SystemExit("ERRO: deck de decks_pt.csv fora do build.py: "+r["id"])
+        ids[r["id"]]["pt"]=[r["nome_pt"]]+[x for x in r["variantes"].split(";") if x]
 ATUALIZADO="2026-10-27"  # data (AAAA-MM-DD) da última conferência de todos os decks com o mtg.wtf (tools/auditar.py); atualizar a cada auditoria; o rodapé é montado na página, no idioma de quem acessa
-html=open("template.html",encoding="utf-8").read().replace("__GRUPOS__",json.dumps(GRUPOS)).replace("__ATUALIZADO__",ATUALIZADO).replace("__DATA__",json.dumps(data,ensure_ascii=False).replace("</","<\\/"))
+html=open("template.html",encoding="utf-8").read().replace("__GRUPOS__",json.dumps(GRUPOS)).replace("__TIPOS__",json.dumps(TIPOS,ensure_ascii=False)).replace("__ATUALIZADO__",ATUALIZADO).replace("__DATA__",json.dumps(data,ensure_ascii=False).replace("</","<\\/"))
 open("precons_offline.html","w",encoding="utf-8").write(html)
 print(len(html))
 # nomes_pt.json: nome da carta na lista (inglês) -> nome em português, só onde existe e difere; usado só na busca (ver tools/atributos.py)

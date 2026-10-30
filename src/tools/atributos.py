@@ -61,15 +61,24 @@ def pt_do_all_cards(cache):
             if c.get("lang") != "pt":
                 continue
             faces = [fc.get("printed_name") for fc in c.get("card_faces", [])]
+            f0 = (c.get("card_faces") or [c])[0]
             out.write(json.dumps({"oracle_id": c.get("oracle_id") or (c.get("card_faces") or [{}])[0].get("oracle_id"),
                                   "released_at": c.get("released_at", ""), "printed_name": c.get("printed_name"),
-                                  "faces": faces}, ensure_ascii=False) + "\n")
+                                  "faces": faces, "set": c.get("set"),
+                                  "printed_type_line": f0.get("printed_type_line") or c.get("printed_type_line")},
+                                 ensure_ascii=False) + "\n")
             n += 1
     if p.wait() != 0:
         sys.exit("falha ao baixar o All Cards")
     os.replace(dest + ".tmp", dest)
     print("impressões em português encontradas:", n)
     return dest
+
+
+def tipo_de(c):
+    """Tipo da carta (face da frente), sem subtipos: "Legendary Creature — Elf" -> "Legendary Creature"."""
+    tl = (c.get("card_faces") or [c])[0].get("type_line") or c.get("type_line") or ""
+    return tl.split(" — ")[0].split(" // ")[0].strip()
 
 
 def colapsar(nome):
@@ -148,7 +157,7 @@ def main():
         if canon in cartas:
             cartas[canon]["oids"].add(oid)
             continue
-        cartas[canon] = {"oids": {oid}, "identidade": cores_de(c.get("color_identity") or [])}
+        cartas[canon] = {"oids": {oid}, "identidade": cores_de(c.get("color_identity") or []), "tipo": tipo_de(c)}
     if sem:
         print("SEM CORRESPONDÊNCIA:", len(sem), sem[:10])
         sys.exit(1)
@@ -173,11 +182,11 @@ def main():
         w = csv.writer(f); w.writerow(["set", "numero", "nome_lista", "carta"]); w.writerows(linhas_impr)
     with open(os.path.join(a.pasta, "cartas.csv"), "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["carta", "identidade", "nome_pt", "origem_pt"])
+        w.writerow(["carta", "identidade", "tipo", "nome_pt", "origem_pt"])
         for nome in sorted(cartas):
             d = cartas[nome]
             p = pt.get(nome)
-            w.writerow([nome, d["identidade"], p or "", "papel" if p else ""])
+            w.writerow([nome, d["identidade"], d["tipo"], p or "", "papel" if p else ""])
     com_pt = len(pt)
     print("impressões:", len(linhas_impr), "| cartas:", len(cartas), "| com nome em português:", com_pt)
 
