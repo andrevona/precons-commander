@@ -1009,7 +1009,7 @@ function mostrarSug() {
     b.textContent = r.it.t.slice(r.pos, r.pos + q.length); tx.appendChild(b);
     tx.appendChild(document.createTextNode(r.it.t.slice(r.pos + q.length)));
     li.appendChild(tx); li.appendChild(tp);
-    if (r.it.en) { var or = document.createElement("span"); or.className = "tipo orig"; or.textContent = "→ " + r.it.en; li.className = "pt"; li.appendChild(or); }
+    if (r.it.en && !r.par) { var or = document.createElement("span"); or.className = "tipo orig"; or.textContent = "→ " + r.it.en; li.className = "pt"; li.appendChild(or); } // com o original pareado ao lado, a linha "→ original" é dispensada (economiza altura no celular)
     if (r.par) li.className += (li.className ? " " : "") + "par par-" + r.par; // mesma carta em inglês e português: marcada e colada
     li.onmousedown = function (e) { e.preventDefault(); }; // não tira o foco do campo
     li.onmouseover = function () { sugAtiva = i; pintarSug(); };
