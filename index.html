@@ -163,6 +163,10 @@
   .sugestoes { position:absolute; left:0; right:0; top:calc(100% + 4px); z-index:20; margin:0; padding:4px; list-style:none; background:var(--card); border:1px solid var(--line); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.25); max-height:min(360px, 50vh); overflow:auto; overscroll-behavior:contain; }
   .sugestoes li { display:flex; justify-content:space-between; align-items:baseline; gap:2px 12px; padding:9px 10px; border-radius:7px; cursor:pointer; }
   .sugestoes li.pt { flex-wrap:wrap; }
+  /* Par inglês/português da mesma carta: barra de destaque à esquerda e fundo levemente tingido, os dois colados */
+  .sugestoes li.par { box-shadow:inset 3px 0 0 var(--acc); background:color-mix(in srgb, var(--acc) 7%, transparent); }
+  .sugestoes li.par-a { border-bottom-left-radius:0; border-bottom-right-radius:0; padding-bottom:5px; }
+  .sugestoes li.par-b { border-top-left-radius:0; border-top-right-radius:0; padding-top:5px; margin-bottom:4px; }
   .sugestoes li[aria-selected="true"] { background:var(--line); }
   .sugestoes .txt { flex:1 1 0; min-width:0; overflow-wrap:anywhere; } /* nomes longos quebram em mais linhas, sem cortar */
   .sugestoes .txt b { font-weight:700; color:var(--acc); }
@@ -935,7 +939,24 @@ function sugerir(txt) {
   res.sort(function (a, b) { return a.s - b.s || a.it.k - b.it.k || a.it.t.length - b.it.t.length || (a.it.l < b.it.l ? -1 : 1); });
   var deckVisto = {}; // deck com mais de um nome em português (variantes oficiais): só a melhor sugestão
   res = res.filter(function (r) { if (r.it.k !== 1 || !r.it.en) return true; if (deckVisto[r.it.en]) return false; return (deckVisto[r.it.en] = 1); });
-  return res.slice(0, MAX_SUG);
+  // Pares inglês/português da MESMA carta (ou deck): ficam um logo abaixo do outro, mesmo que a ordem de qualidade ou a
+  // alfabética os separasse (pedido do usuário em 30/10/2026). O par entra na posição do que apareceria primeiro e
+  // recebe `par` = "a" (1º) / "b" (2º), usado para marcar os dois na lista. Só junta quando os dois casam com o texto.
+  var chaveDe = function (it, nome) { return (it.k === 1 ? "d|" : "c|") + nome; };
+  var ingles = {}, portugues = {};
+  res.forEach(function (r, i) {
+    if (r.it.en) (portugues[chaveDe(r.it, r.it.en)] = portugues[chaveDe(r.it, r.it.en)] || []).push(i);
+    else if (r.it.k <= 3 && r.it.k >= 1) ingles[chaveDe(r.it, r.it.t)] = i;
+  });
+  var usado = {}, ordem = [];
+  res.forEach(function (r, i) {
+    if (usado[i]) return;
+    usado[i] = 1; ordem.push(r);
+    var parc = r.it.en ? (ingles[chaveDe(r.it, r.it.en)] !== undefined ? [ingles[chaveDe(r.it, r.it.en)]] : []) : (portugues[chaveDe(r.it, r.it.t)] || []);
+    parc = parc.filter(function (j) { return !usado[j]; });
+    if (parc.length) { r.par = "a"; parc.forEach(function (j) { usado[j] = 1; res[j].par = "b"; ordem.push(res[j]); }); }
+  });
+  return ordem.slice(0, MAX_SUG);
 }
 function pintarSug(rolar) { // rolar: só com o teclado (com o mouse, rolar a lista faria o item sob o cursor mudar sozinho)
   var f = $("filtro");
@@ -989,6 +1010,7 @@ function mostrarSug() {
     tx.appendChild(document.createTextNode(r.it.t.slice(r.pos + q.length)));
     li.appendChild(tx); li.appendChild(tp);
     if (r.it.en) { var or = document.createElement("span"); or.className = "tipo orig"; or.textContent = "→ " + r.it.en; li.className = "pt"; li.appendChild(or); }
+    if (r.par) li.className += (li.className ? " " : "") + "par par-" + r.par; // mesma carta em inglês e português: marcada e colada
     li.onmousedown = function (e) { e.preventDefault(); }; // não tira o foco do campo
     li.onmouseover = function () { sugAtiva = i; pintarSug(); };
     li.onclick = function () { escolherSug(i); };
