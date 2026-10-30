@@ -39,7 +39,7 @@ As listas dos decks vêm do [mtg.wtf](https://mtg.wtf) (página de cada deck). C
 3. Toque em **Criar no endstep.cc** (copia a lista e abre o editor; é preciso estar logado lá) ou em **Copiar lista**.
 4. No endstep.cc: *Paste a list* › cole › *Apply*; em *Set format*, escolha *Commander*.
 
-Extras: link direto por deck (por exemplo `#mkc/blame_game`), botão de compartilhar, interface em português, inglês ou espanhol conforme o navegador (nomes de decks, cartas e coleções ficam sempre em inglês) e funcionamento offline depois do primeiro acesso. No celular, use "Adicionar à tela inicial" para abrir como app. Os mesmos passos estão em "Dica de uso", no rodapé do site.
+Extras: link direto por deck (por exemplo `#mkc/blame_game`), botão de compartilhar, interface em português ou inglês conforme o navegador (outros idiomas veem em inglês; nomes de decks, cartas e coleções ficam sempre em inglês) e funcionamento offline depois do primeiro acesso. No celular, use "Adicionar à tela inicial" para abrir como app. Os mesmos passos estão em "Dica de uso", no rodapé do site.
 
 ## Cobertura atual
 

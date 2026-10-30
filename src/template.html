@@ -408,7 +408,7 @@
 var COLECOES = __DATA__;
 var ATUALIZADO = "__ATUALIZADO__"; // data (AAAA-MM-DD) da última conferência com o mtg.wtf
 
-// Idioma da interface: o do sistema/navegador (pt, en ou es); outros idiomas usam inglês.
+// Idioma da interface: o do sistema/navegador (pt ou en); outros idiomas usam inglês.
 // Nomes de decks, cartas, coleções e grupos ficam sempre em inglês.
 var TXT = {
   pt: {
@@ -496,49 +496,6 @@ var TXT = {
     exclTit: 'Blacklist', exclResumo: 'Drawing from {a} of {b} decks', exclBuscar: 'Search deck or commander…',
     exclNota: 'Exclusions only last for this tab: they disappear when you close it.', exclFaltam: 'Too few decks for {n} players. Remove some exclusions.', exclTirar: 'Remove {d} from the exclusions',
     exclAbrir: 'Show the sets in the {g} group', exclAbrirDecks: 'Show the decks in {c}', verLista: 'View list', esconderLista: 'Hide list', trocarDeck: 'Draw another deck for {n}', semOutro: 'There is no other deck available to draw.'
-  },
-  es: {
-    sub: 'Elige la colección y el mazo o usa el filtro, en inglés o portugués.',
-    busca: 'Carta, mazo, comandante o colección…', apagar: 'Borrar búsqueda', colecoes: 'Colecciones', filtroAno: 'Filtrar mazos por año de lanzamiento', porAno: 'Por año', tirarAno: 'Quitar el filtro de año',
-    decks: 'Mazos', deck1: 'mazo', deckN: 'mazos', achou1: '1 mazo encontrado', achouN: '{n} mazos encontrados',
-    nenhum: 'Ningún mazo encontrado', nenhumTxt: 'Ningún mazo, comandante o carta con ese nombre.', nenhumFiltro: 'Ningún mazo con esos filtros.',
-    cartas: '{n} cartas', aviso100: ' (atención: se esperaban 100)', encontrado: 'encontrado',
-    notas_mossfire: 'Este mazo se imprimió con 2 Mossfire Valley en lugar de una tierra básica más (Wizards confirmó el error). La lista sigue el mazo tal como se vendió; para jugarlo en Commander, cambia la copia extra por una tierra básica.',
-    outras: 'Mostrar las otras colecciones', compartilhar: 'Compartir el enlace del mazo', criar: 'Crear en endstep.cc',
-    copiar: 'Copiar lista', copiado: 'Copiado ✓', falhaCopiar: 'No se pudo copiar: selecciona el texto y cópialo manualmente.',
-    linkCopiado: 'Enlace del mazo copiado ✓', copieLink: 'Copia el enlace del mazo:',
-    listaCopiada: 'Lista copiada ✓', falhaLista: 'No se pudo copiar la lista', usarCopiar: 'No se pudo copiar: usa Copiar lista',
-    direto: 'Lista copiada ✓ En endstep.cc: Paste a list › pegar › Apply',
-    guiaSub: 'endstep.cc se abrirá con un mazo nuevo (necesitas haber iniciado sesión allí). En la página del mazo:',
-    passo1: 'Toca <b>Paste a list</b>.', passo2: 'Pega la lista (<span id="guiaColar"></span>).',
-    passo3: 'Toca <b>Apply</b>: el nombre, las 100 cartas y el comandante se cargan solos.', passo4: 'En <b>Set format</b>, elige <b>Commander</b>.',
-    colarToque: 'mantén pulsado › Pegar', naoMostrar: 'No volver a mostrar', fechar: 'Cerrar', abrir: 'Abrir endstep.cc',
-    rodape: '{nd} mazos en {nc} colecciones · listas verificadas con {mtgwtf} el {data} · {sobre}',
-    rodIntro: 'Una ayuda para quien juega en {endstep} (proyecto no oficial). Sigue estos pasos en orden:', dicaUso: 'Consejo de uso',
-    rodPassos: ['Elige el mazo y toca <b>Crear en endstep.cc</b>: la lista se copia y {endstep} se abre con un mazo nuevo (necesitas haber iniciado sesión allí).',
-      'En el mazo nuevo, toca <b>Paste a list</b>.',
-      'Pega la lista completa ({colar}) y toca <b>Apply</b>: el nombre del mazo*, las 100 cartas y el comandante se cargan solos.',
-      'En <b>Set format</b>, elige <b>Commander</b>.'],
-    rodNota: '* El nombre del mazo viene con el formato <i>Mazo - Comandante (SIGLA año)</i>, con la sigla de tres letras de la colección y el año de lanzamiento. Ejemplo: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
-    sobre: 'sobre el proyecto',
-    problemas: '¿Encontraste un problema o tienes una sugerencia? Avísame por {email} o abre un {github}.', lkEmail: 'correo', lkGithub: 'issue en GitHub',
-    tCol: 'colección', tDeck: 'mazo', tCmd: 'comandante', tCarta: 'carta',
-    filtroArq: 'Filtrar mazos por arquetipo (estilo de juego)', porArq: 'Por arquetipo', tirarArq: 'Quitar el filtro de arquetipo',
-    arqs: { tribal: 'Tribal', tokens: 'Fichas', counters: 'Contadores +1/+1', spellslinger: 'Spellslinger', graveyard: 'Cementerio', artifacts: 'Artefactos', enchantments: 'Encantamientos', lifegain: 'Ganar vida', sacrifice: 'Sacrificio', voltron: 'Voltron', blink: 'Blink', lands: 'Tierras' },
-    filtroCor: 'Filtrar mazos por los colores del comandante (identidad de color)', todasCores: 'Por color', tirarCor: 'Quitar el filtro de colores',
-    cores: { W: 'Blanco', U: 'Azul', B: 'Negro', R: 'Rojo', G: 'Verde', C: 'Incoloro' }, cinco: 'WUBRG',
-    surpresa: 'Sorpréndeme', surpresaDica: 'Abre un mazo al azar entre todos (borra la búsqueda y los filtros)', sorteado: 'Sorteado: {d}', limparTudo: 'Borrar todo', limparTudoDica: 'Vuelve al inicio: borra la búsqueda y los filtros y lo recoge todo',
-    exclArqs: 'Arquetipos', arqMesmoChk: 'Todos con el mismo arquetipo', arqSorteado: 'Arquetipo sorteado:', optFaltam: 'Con las opciones marcadas no hay {n} mazos para sortear. Desmarca una opción o quita algo de la Blacklist.', colMesmaChk: 'Todos de la misma colección', anoMesmoChk: 'Todos del mismo año', colSorteada: 'Colección sorteada:', anoSorteado: 'Año sorteado:', colRot: 'Colección: {a}', anoRot: 'Año: {a}', arqRot: 'Arquetipo: {a}',
-    mesaDica: 'Sorteo en grupo (2 a 4 jugadores)', mesaTitulo: 'Sorteo en grupo',
-    ajuda1: 'Cada jugador recibe un mazo distinto, sorteado entre todos (la búsqueda y los filtros de la página no cuentan). Con 4, se puede jugar por parejas; las parejas y quién empieza también se sortean.', ajuda2: '"Misma colección", "mismo año" y "mismo arquetipo" sortean una colección, un año o un arquetipo para todos. Colección y año no se combinan; Secret Lair cuenta como una colección, cada mazo en el año de su nombre. Una opción queda en gris cuando no quedan mazos para todos.', ajuda3: 'La Blacklist quita colecciones, arquetipos o mazos (un mazo sale si alguno de sus arquetipos está en ella) y vale solo en esta pestaña. "Borrar todo" vacía la Blacklist y desmarca las opciones.', ajuda4: 'Tras el sorteo: toca un jugador para ver la lista; el dado cambia solo su mazo; "Cambiar reglas" vuelve a abrir este cuadro; el enlace compartido no lleva la Blacklist.',
- ajudaBtn: 'Cómo funciona el sorteo',
-    mesaJog: 'Jugadores', mesaNomes: 'Nombres (opcional)', jogador: 'Jugador {n}', mesaModo: 'Modo', ffa: 'Todos contra todos', duplasOpc: 'Parejas (2 contra 2)',
-    cancelar: 'Cancelar', sortear: 'Sortear', sortearDeNovo: 'Sortear de nuevo', alterarRegras: 'Cambiar reglas', mesaResumo: '{n} jugadores', duplasCurto: 'parejas', dupla: 'Pareja {x}',
-    comeca: 'empieza', mesaToque: 'Toca un jugador para ver la lista del mazo y crearlo en endstep.cc.',
-    compSorteio: 'Compartir el sorteo', linkSorteio: 'Enlace del sorteo copiado ✓', copieSorteio: 'Copia el enlace del sorteo:',
-    exclTit: 'Blacklist', exclResumo: 'Sorteando entre {a} de {b} mazos', exclBuscar: 'Buscar mazo o comandante…',
-    exclNota: 'Las exclusiones solo valen en esta pestaña: se borran al cerrarla.', exclFaltam: 'Hay pocos mazos para {n} jugadores. Quita alguna exclusión.', exclTirar: 'Quitar {d} de las exclusiones',
-    exclAbrir: 'Mostrar las colecciones del grupo {g}', exclAbrirDecks: 'Mostrar los mazos de {c}', verLista: 'Ver lista', esconderLista: 'Ocultar lista', trocarDeck: 'Sortear otro mazo para {n}', semOutro: 'No hay otro mazo disponible para sortear.'
   }
 };
 var IDIOMA = (function () {
@@ -554,13 +511,13 @@ function atalhoColar() {
   return celular ? t("colarToque") : (/Mac/i.test(pl) ? "⌘V" : "Ctrl+V");
 }
 function aplicarIdioma() {
-  document.documentElement.lang = { pt: "pt-BR", en: "en", es: "es" }[IDIOMA];
+  document.documentElement.lang = { pt: "pt-BR", en: "en" }[IDIOMA];
   [].forEach.call(document.querySelectorAll("[data-t]"), function (e) { e.innerHTML = t(e.getAttribute("data-t")); });
   [].forEach.call(document.querySelectorAll("[data-tp]"), function (e) { e.placeholder = t(e.getAttribute("data-tp")); });
   [].forEach.call(document.querySelectorAll("[data-ta]"), function (e) { var v = t(e.getAttribute("data-ta")); e.setAttribute("aria-label", v); e.title = v; });
   var nd = 0; COLECOES.forEach(function (c) { nd += c.decks.length; });
   var p = ATUALIZADO.split("-"), data = ATUALIZADO;
-  var nl = navigator.language || "", loc = nl.slice(0, 2).toLowerCase() === IDIOMA ? nl : { pt: "pt-BR", en: "en-US", es: "es" }[IDIOMA];
+  var nl = navigator.language || "", loc = nl.slice(0, 2).toLowerCase() === IDIOMA ? nl : { pt: "pt-BR", en: "en-US" }[IDIOMA];
   try { data = new Intl.DateTimeFormat(loc, { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(+p[0], p[1] - 1, +p[2])); } catch (e) {}
   var NA = ' target="_blank" rel="noopener noreferrer"'; // links do rodapé abrem em nova aba
   var ln = { mtgwtf: '<a href="https://mtg.wtf"' + NA + '>mtg.wtf</a>', endstep: '<a href="https://endstep.cc"' + NA + '>endstep.cc</a>' };

@@ -1,22 +1,18 @@
 #!/usr/bin/env python3
-"""Gera cartas.csv e impressoes.csv (atributos das cartas) a partir das listas dos decks e do Scryfall.
+"""Gera cartas.csv e impressoes.csv a partir das listas dos decks e do Scryfall (só o que o site usa: identidade de cor
+dos comandantes e nome em português; também confere que toda carta das listas existe no Scryfall).
 
 Uso:  python3 tools/atributos.py [--cache PASTA] [--pasta RAIZ]   (RAIZ padrão: PRECONS_RAIZ ou a pasta acima de tools/)
 
 Lê todos os decks (RAIZ/<pasta>/<deck>.txt, ignorando raw, site, tools e precons-commander) e grava em RAIZ:
 
   impressoes.csv  uma linha por impressão (edição + número, como no mtg.wtf):
-                  set, numero, nome_lista, carta (nome canônico do Scryfall), raridade
+                  set, numero, nome_lista, carta (nome canônico do Scryfall)
   cartas.csv      uma linha por carta (chave = carta):
-                  carta, cores, identidade, custo, mv, tipos, tipo_linha, nome_pt, origem_pt
+                  carta, identidade, nome_pt, origem_pt
 
 Convenções:
-  cores / identidade: letras na ordem WUBRG (ex. "WU"); "C" = incolor. Cartas de duas faces ou divididas:
-                      cores e tipos das duas faces (união); custo = o da frente (ou o das duas partes, nas divididas).
-  mv:                 valor de mana (cmc do Scryfall; terras = 0).
-  tipos:              tipos de carta de todas as faces, separados por espaço (Artifact Creature Land ...);
-                      "Tribal" vira "Kindred". tipo_linha = type_line original do Scryfall.
-  raridade:           common, uncommon, rare, mythic, special ou bonus (da impressão, não da carta).
+  identidade:         identidade de cor, letras na ordem WUBRG (ex. "WU"); "C" = incolor.
   nome_pt / origem_pt: nome impresso em português no Scryfall ("papel"); vazio se nunca foi impresso em português.
                       (Tradução do Arena: ainda sem fonte.)
 
@@ -28,7 +24,6 @@ import argparse, csv, glob, gzip, json, os, re, subprocess, sys, collections
 
 UA = "precons-commander/1.0"
 ORDEM = "WUBRG"
-TIPOS = ["Artifact", "Battle", "Creature", "Dungeon", "Enchantment", "Instant", "Kindred", "Land", "Planeswalker", "Sorcery"]
 
 
 def curl_json(url):
@@ -148,25 +143,12 @@ def main():
             sem.append((s, num, nome))
             continue
         canon = colapsar(c["name"])
-        linhas_impr.append([s, num, nome, canon, c["rarity"]])
+        linhas_impr.append([s, num, nome, canon])
         oid = c.get("oracle_id") or faces_de(c)[0].get("oracle_id")
         if canon in cartas:
             cartas[canon]["oids"].add(oid)
             continue
-        fs = faces_de(c)
-        cor = set(c.get("colors") or []) | {x for f in fs for x in (f.get("colors") or [])}
-        custo = c.get("mana_cost") or fs[0].get("mana_cost") or ""
-        tl = c.get("type_line") or " // ".join(f.get("type_line", "") for f in fs)
-        tipos = []
-        for parte in tl.split("//"):
-            for w in parte.split("—")[0].split():
-                w = "Kindred" if w == "Tribal" else w
-                if w in TIPOS and w not in tipos:
-                    tipos.append(w)
-        mv = c.get("cmc", 0)
-        cartas[canon] = {"oids": {oid}, "cores": cores_de(cor),
-                             "identidade": cores_de(c.get("color_identity") or []), "custo": custo,
-                             "mv": int(mv) if float(mv).is_integer() else mv, "tipos": " ".join(sorted(tipos)), "tipo_linha": tl}
+        cartas[canon] = {"oids": {oid}, "identidade": cores_de(c.get("color_identity") or [])}
     if sem:
         print("SEM CORRESPONDÊNCIA:", len(sem), sem[:10])
         sys.exit(1)
@@ -188,14 +170,14 @@ def main():
     pt = {n: max(v)[3] for n, v in cand.items()}
 
     with open(os.path.join(a.pasta, "impressoes.csv"), "w", newline="", encoding="utf-8") as f:
-        w = csv.writer(f); w.writerow(["set", "numero", "nome_lista", "carta", "raridade"]); w.writerows(linhas_impr)
+        w = csv.writer(f); w.writerow(["set", "numero", "nome_lista", "carta"]); w.writerows(linhas_impr)
     with open(os.path.join(a.pasta, "cartas.csv"), "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["carta", "cores", "identidade", "custo", "mv", "tipos", "tipo_linha", "nome_pt", "origem_pt"])
+        w.writerow(["carta", "identidade", "nome_pt", "origem_pt"])
         for nome in sorted(cartas):
             d = cartas[nome]
             p = pt.get(nome)
-            w.writerow([nome, d["cores"], d["identidade"], d["custo"], d["mv"], d["tipos"], d["tipo_linha"], p or "", "papel" if p else ""])
+            w.writerow([nome, d["identidade"], p or "", "papel" if p else ""])
     com_pt = len(pt)
     print("impressões:", len(linhas_impr), "| cartas:", len(cartas), "| com nome em português:", com_pt)
 
