@@ -1138,7 +1138,7 @@ function pintarFiltro(f) {
   b.title = t(f.cfg.dica);
   b.setAttribute("aria-label", t(f.cfg.dica) + ": " + (v ? (f.cfg.aria ? f.cfg.aria(v) : f.cfg.rotulo(v)) : t(f.cfg.vazio)));
   f.cx.classList.toggle("on", !!v);
-  if (f.k === "cor") { // o filtro de cor escolhido ganha as cores da identidade, com o mesmo esquema dos decks (uma cor, metade/metade, degradê)
+  if (f.k === "cor") { // o filtro de cor escolhido ganha as cores da identidade, com o mesmo esquema dos decks (uma cor ou degradê)
     f.cx.classList.toggle("cor-cores", !!v);
     if (v) contornoCor(f.cx, v); else ["--brilho", "--tinta", "--selec"].forEach(function (k) { f.cx.style.removeProperty(k); });
   }
@@ -1175,11 +1175,11 @@ function montarFiltros() {
 }
 function limparFiltros() { semSel = false; corFiltro = ""; anoSel = ""; arqSel = ""; Object.keys(FILTROS).forEach(function (k) { pintarFiltro(FILTROS[k]); }); }
 // Cores do deck escolhido (identidade do comandante, na ordem WUBRG; incolor = cinza): --brilho = cores puras, usadas na
-// borda e no brilho embaixo; --tinta = as mesmas cores misturadas com o fundo. Uma cor: tom único; duas: metade de cada;
+// borda e no brilho embaixo; --tinta = as mesmas cores misturadas com o fundo. Uma cor: tom único; duas ou mais: degradê suave entre todas (desde a v101, antes duas cores eram metade/metade);
 // três ou mais: degradê suave entre todas. Os decks não escolhidos têm todos a mesma borda neutra (--deckBorda).
 function contornoCor(b, ci) {
   var cs = ci === "C" ? ["C"] : ci.split(""), pct = cs.length >= 3 ? 24 : 18;
-  function grad(lista) { return "linear-gradient(90deg, " + (lista.length === 1 ? lista[0] + ", " + lista[0] : lista.length === 2 ? lista[0] + " 50%, " + lista[1] + " 50%" : lista.join(", ")) + ")"; }
+  function grad(lista) { return "linear-gradient(90deg, " + (lista.length === 1 ? lista[0] + ", " + lista[0] : lista.join(", ")) + ")"; }
   b.style.setProperty("--brilho", grad(cs.map(function (x) { return "var(--m" + x + ")"; })));
   b.style.setProperty("--tinta", grad(cs.map(function (x) { return "color-mix(in srgb, var(--m" + x + ") " + pct + "%, var(--card))"; })));
   b.style.setProperty("--leve", "linear-gradient(100deg, " + (cs.length === 1 ? [cs[0], cs[0]] : cs).map(function (x) { return "color-mix(in srgb, var(--m" + x + ") var(--levePct), var(--card))"; }).join(", ") + ")"); // fundo bem claro dos cartões do sorteio (degradê suave, sem corte)
