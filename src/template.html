@@ -246,7 +246,7 @@
   @media (prefers-color-scheme: dark) { .mesa-arq b.arq-tag { background:hsl(var(--h) calc(var(--s) * .55) 20%); color:hsl(var(--h) var(--s) 80%); border-color:hsl(var(--h) calc(var(--s) * .55) 34%); } }
   .jog .dinfo { font-size:12.5px; color:var(--mut); }
   /* Dica de que o cartão é um botão: linha "Ver lista ▾" separada no pé do cartão (vira "Ocultar lista ▴" quando aberto) e leve elevação ao passar o mouse. */
-  .jog .verlista { align-self:stretch; display:flex; align-items:center; justify-content:space-between; margin-top:6px; padding-top:7px; border-top:1px solid var(--line); font-size:12.5px; font-weight:600; color:var(--acc); }
+  .jog .verlista { align-self:stretch; display:flex; align-items:center; justify-content:space-between; margin-top:6px; padding-top:7px; border-top:1px solid var(--deckBorda); border-top-color:color-mix(in srgb, var(--fg) 32%, transparent); font-size:12.5px; font-weight:600; color:var(--acc); }
   .jog .verlista { margin-top:auto; } /* no computador os cartões lado a lado têm a mesma altura: "Ver lista" fica sempre embaixo */
   .jog > :nth-last-child(2) { margin-bottom:6px; }
   .jog .arq-linha { margin-top:auto; padding-top:6px; } /* etiquetas no pé do cartão, logo acima do "Ver lista" */
