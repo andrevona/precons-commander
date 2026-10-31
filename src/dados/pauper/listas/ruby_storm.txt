@@ -1,28 +1,28 @@
-3 Big Score (MSC) 802
-2 Crossover Collaboration (MSC) 684
-4 Desperate Ritual (CHK) 163
-3 First Day of Class (PLST) STX-102
-4 Geothermal Crevice (INV) 323
-4 Glimpse the Impossible (MH3) 124
-4 Goblin Anarchomancer (MH2) 421
-4 Hickory Woodlot (MMQ) 319
-4 Manamorphose (2XM) 208
-5 Mountain (THB) 253
-4 Reckless Impulse (PLST) VOW-174
-4 Sandstone Needle (MMQ) 326
-4 Seething Song (9ED) 216
-2 Seize the Storm (MID) 158
-4 Thornscape Familiar (PLS) 95
-3 Twinned Vision (FRA) 157
-2 Wrenn's Resolve (PLST) MOM-173
+3 Big Score
+2 Crossover Collaboration
+4 Desperate Ritual
+3 First Day of Class
+4 Geothermal Crevice
+4 Glimpse the Impossible
+4 Goblin Anarchomancer
+4 Hickory Woodlot
+4 Manamorphose
+5 Mountain
+4 Reckless Impulse
+4 Sandstone Needle
+4 Seething Song
+2 Seize the Storm
+4 Thornscape Familiar
+3 Twinned Vision
+2 Wrenn's Resolve
 
-1 Abandon Attachments (TLA) 205
-1 Firebending Lesson (TLA) 138
-1 Flaring Pain (PLST) JUD-89
-1 Gruul Turf (HOP) 134
-1 It'll Quench Ya! (TLA) 58
-1 Origin of Metalbending (TLA) 187
-4 Pyroblast (ICE) 213
-2 Red Elemental Blast (3ED) 171
-1 Waterbending Lesson (TLA) 80
-2 Weather the Storm (MH1) 191
+1 Abandon Attachments
+1 Firebending Lesson
+1 Flaring Pain
+1 Gruul Turf
+1 It'll Quench Ya!
+1 Origin of Metalbending
+4 Pyroblast
+2 Red Elemental Blast
+1 Waterbending Lesson
+2 Weather the Storm

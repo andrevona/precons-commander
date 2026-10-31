@@ -1,29 +1,29 @@
-2 Abjure (WTH) 31
-4 Baleful Strix (FIC) 318
-1 Blood Fountain (PLST) VOW-95
-3 Cast Down (CLB) 119
-4 Counterspell (FCA) 4
-3 Cryogen Relic (EOE) 52
-2 Cut Down (DMU) 89
-2 Gearseeker Serpent (DFT) 43
-1 Ghostly Flicker (PLST) KHC-39
-4 Hard Evidence (MH2) 46
-2 Ice Tunnel (KHM) 262
-4 Island (THB) 251
-4 Lórien Revealed (LTR) 60
-4 Mistvault Bridge (MH2) 249
-1 Mukotai Ambusher (NEO) 112
-2 Ninja of the Deep Hours (C15) 99
-4 Refurbished Familiar (MH3) 105
-4 Seat of the Synod (J25) 773
-4 Thoughtcast (TRC) 444
-1 Tithing Blade // Consuming Sepulcher (LCI) 128
-4 Vault of Whispers (BRC) 211
+2 Abjure
+4 Baleful Strix
+1 Blood Fountain
+3 Cast Down
+4 Counterspell
+3 Cryogen Relic
+2 Cut Down
+2 Gearseeker Serpent
+1 Ghostly Flicker
+4 Hard Evidence
+2 Ice Tunnel
+4 Island
+4 Lórien Revealed
+4 Mistvault Bridge
+1 Mukotai Ambusher
+2 Ninja of the Deep Hours
+4 Refurbished Familiar
+4 Seat of the Synod
+4 Thoughtcast
+1 Tithing Blade // Consuming Sepulcher
+4 Vault of Whispers
 
-3 Annul (THS) 38
-3 Blue Elemental Blast (4ED) 63
-2 Drown in Sorrow (CMM) 154
-2 Faerie Macabre (MMA) 86
-2 Hydroblast (ICE) 72
-2 Mukotai Ambusher (NEO) 112
-1 Nihil Spellbomb (A25) 226
+3 Annul
+3 Blue Elemental Blast
+2 Drown in Sorrow
+2 Faerie Macabre
+2 Hydroblast
+2 Mukotai Ambusher
+1 Nihil Spellbomb

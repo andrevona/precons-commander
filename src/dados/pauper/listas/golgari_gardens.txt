@@ -1,30 +1,30 @@
-1 Accursed Marauder (MH3) 80
-1 Avenging Hunter (CLB) 215
-2 Bojuka Bog (SOC) 363
-2 Campfire (CMM) 374
-4 Cast Down (CLB) 119
-3 Crypt Rats (MH1) 84
-3 Defile (MH1) 86
-4 Eviscerator's Insight (MH3) 93
-4 Fanatical Offering (LCI) 105
-1 Fungal Infection (J22) 416
-1 Haunted Mire (SOC) 379
-4 Ichor Wellspring (BRR) 21
-4 Khalni Garden (PLST) DDR-28
-2 Lembas (LTR) 243
-3 Nihil Spellbomb (A25) 226
-1 Sagu Wildling // Roost Seek (TDM) 157
-1 Snuff Out (FIC) 285
-1 Spinning Darkness (WTH) 81
-1 Suffocating Fumes (PLST) IKO-100
-10 Swamp (THB) 252
-2 Tithing Blade // Consuming Sepulcher (LCI) 128
-3 Troll of Khazad-dûm (LTR) 111
-2 Witch's Cottage (ELD) 249
+1 Accursed Marauder
+1 Avenging Hunter
+2 Bojuka Bog
+2 Campfire
+4 Cast Down
+3 Crypt Rats
+3 Defile
+4 Eviscerator's Insight
+4 Fanatical Offering
+1 Fungal Infection
+1 Haunted Mire
+4 Ichor Wellspring
+4 Khalni Garden
+2 Lembas
+3 Nihil Spellbomb
+1 Sagu Wildling // Roost Seek
+1 Snuff Out
+1 Spinning Darkness
+1 Suffocating Fumes
+10 Swamp
+2 Tithing Blade // Consuming Sepulcher
+3 Troll of Khazad-dûm
+2 Witch's Cottage
 
-1 Avenging Hunter (CLB) 215
-2 Drown in Sorrow (CMM) 154
-3 Duress (EMA) 86
-2 Faerie Macabre (MMA) 86
-3 Troublemaker Ouphe (WOE) 194
-4 Weather the Storm (MH1) 191
+1 Avenging Hunter
+2 Drown in Sorrow
+3 Duress
+2 Faerie Macabre
+3 Troublemaker Ouphe
+4 Weather the Storm

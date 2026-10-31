@@ -1,0 +1,1818 @@
+{
+ "fonte": "DeckSnipe",
+ "geral": {
+  "blue_terror": [
+   364,
+   343,
+   10
+  ],
+  "bogles": [
+   173,
+   204,
+   3
+  ],
+  "boros_synthesizer": [
+   124,
+   136,
+   14
+  ],
+  "dimir_control": [
+   271,
+   239,
+   21
+  ],
+  "dimir_faeries": [
+   300,
+   282,
+   16
+  ],
+  "elves": [
+   245,
+   258,
+   24
+  ],
+  "esper_affinity": [
+   196,
+   185,
+   23
+  ],
+  "familiars": [
+   77,
+   67,
+   18
+  ],
+  "golgari_gardens": [
+   117,
+   118,
+   11
+  ],
+  "grixis_affinity": [
+   273,
+   269,
+   20
+  ],
+  "jeskai_ephemerate": [
+   53,
+   57,
+   11
+  ],
+  "jund_wildfire": [
+   107,
+   136,
+   19
+  ],
+  "mono_blue_faeries": [
+   109,
+   93,
+   13
+  ],
+  "mono_red_madness": [
+   568,
+   547,
+   11
+  ],
+  "mono_red_rally": [
+   203,
+   215,
+   1
+  ],
+  "rakdos_madness": [
+   79,
+   88,
+   1
+  ],
+  "ruby_storm": [
+   164,
+   137,
+   5
+  ],
+  "spy_combo": [
+   243,
+   196,
+   22
+  ],
+  "tron": [
+   172,
+   169,
+   27
+  ]
+ },
+ "m": {
+  "blue_terror|bogles": [
+   15,
+   7,
+   0
+  ],
+  "blue_terror|boros_synthesizer": [
+   9,
+   4,
+   0
+  ],
+  "blue_terror|dimir_control": [
+   20,
+   31,
+   0
+  ],
+  "blue_terror|dimir_faeries": [
+   21,
+   33,
+   0
+  ],
+  "blue_terror|elves": [
+   18,
+   18,
+   0
+  ],
+  "blue_terror|esper_affinity": [
+   5,
+   12,
+   0
+  ],
+  "blue_terror|familiars": [
+   4,
+   4,
+   1
+  ],
+  "blue_terror|golgari_gardens": [
+   10,
+   12,
+   0
+  ],
+  "blue_terror|grixis_affinity": [
+   21,
+   26,
+   0
+  ],
+  "blue_terror|jeskai_ephemerate": [
+   3,
+   2,
+   1
+  ],
+  "blue_terror|jund_wildfire": [
+   13,
+   10,
+   1
+  ],
+  "blue_terror|mono_blue_faeries": [
+   6,
+   5,
+   1
+  ],
+  "blue_terror|mono_red_madness": [
+   70,
+   38,
+   0
+  ],
+  "blue_terror|mono_red_rally": [
+   18,
+   17,
+   0
+  ],
+  "blue_terror|rakdos_madness": [
+   4,
+   8,
+   0
+  ],
+  "blue_terror|ruby_storm": [
+   8,
+   11,
+   0
+  ],
+  "blue_terror|spy_combo": [
+   14,
+   17,
+   0
+  ],
+  "blue_terror|tron": [
+   13,
+   11,
+   1
+  ],
+  "bogles|blue_terror": [
+   7,
+   15,
+   0
+  ],
+  "bogles|boros_synthesizer": [
+   5,
+   3,
+   0
+  ],
+  "bogles|dimir_control": [
+   7,
+   16,
+   0
+  ],
+  "bogles|dimir_faeries": [
+   13,
+   20,
+   1
+  ],
+  "bogles|elves": [
+   3,
+   14,
+   0
+  ],
+  "bogles|esper_affinity": [
+   10,
+   7,
+   0
+  ],
+  "bogles|familiars": [
+   3,
+   0,
+   0
+  ],
+  "bogles|golgari_gardens": [
+   5,
+   4,
+   1
+  ],
+  "bogles|grixis_affinity": [
+   10,
+   16,
+   0
+  ],
+  "bogles|jeskai_ephemerate": [
+   4,
+   1,
+   0
+  ],
+  "bogles|jund_wildfire": [
+   8,
+   5,
+   0
+  ],
+  "bogles|mono_blue_faeries": [
+   3,
+   5,
+   0
+  ],
+  "bogles|mono_red_madness": [
+   27,
+   15,
+   0
+  ],
+  "bogles|mono_red_rally": [
+   8,
+   5,
+   0
+  ],
+  "bogles|rakdos_madness": [
+   0,
+   2,
+   0
+  ],
+  "bogles|ruby_storm": [
+   2,
+   9,
+   0
+  ],
+  "bogles|spy_combo": [
+   3,
+   12,
+   0
+  ],
+  "bogles|tron": [
+   8,
+   9,
+   0
+  ],
+  "boros_synthesizer|blue_terror": [
+   4,
+   9,
+   0
+  ],
+  "boros_synthesizer|bogles": [
+   3,
+   5,
+   0
+  ],
+  "boros_synthesizer|dimir_control": [
+   6,
+   1,
+   1
+  ],
+  "boros_synthesizer|dimir_faeries": [
+   7,
+   7,
+   0
+  ],
+  "boros_synthesizer|elves": [
+   9,
+   8,
+   1
+  ],
+  "boros_synthesizer|esper_affinity": [
+   2,
+   8,
+   1
+  ],
+  "boros_synthesizer|familiars": [
+   1,
+   1,
+   0
+  ],
+  "boros_synthesizer|golgari_gardens": [
+   0,
+   3,
+   0
+  ],
+  "boros_synthesizer|grixis_affinity": [
+   11,
+   7,
+   1
+  ],
+  "boros_synthesizer|jeskai_ephemerate": [
+   1,
+   4,
+   1
+  ],
+  "boros_synthesizer|jund_wildfire": [
+   4,
+   1,
+   0
+  ],
+  "boros_synthesizer|mono_blue_faeries": [
+   4,
+   8,
+   0
+  ],
+  "boros_synthesizer|mono_red_madness": [
+   15,
+   22,
+   2
+  ],
+  "boros_synthesizer|mono_red_rally": [
+   9,
+   0,
+   0
+  ],
+  "boros_synthesizer|rakdos_madness": [
+   4,
+   0,
+   0
+  ],
+  "boros_synthesizer|ruby_storm": [
+   0,
+   10,
+   0
+  ],
+  "boros_synthesizer|spy_combo": [
+   5,
+   10,
+   1
+  ],
+  "boros_synthesizer|tron": [
+   1,
+   6,
+   2
+  ],
+  "dimir_control|blue_terror": [
+   31,
+   20,
+   0
+  ],
+  "dimir_control|bogles": [
+   16,
+   7,
+   0
+  ],
+  "dimir_control|boros_synthesizer": [
+   1,
+   6,
+   1
+  ],
+  "dimir_control|dimir_faeries": [
+   28,
+   15,
+   0
+  ],
+  "dimir_control|elves": [
+   16,
+   12,
+   2
+  ],
+  "dimir_control|esper_affinity": [
+   6,
+   8,
+   1
+  ],
+  "dimir_control|familiars": [
+   4,
+   4,
+   0
+  ],
+  "dimir_control|golgari_gardens": [
+   6,
+   9,
+   0
+  ],
+  "dimir_control|grixis_affinity": [
+   13,
+   10,
+   0
+  ],
+  "dimir_control|jeskai_ephemerate": [
+   0,
+   0,
+   1
+  ],
+  "dimir_control|jund_wildfire": [
+   11,
+   6,
+   2
+  ],
+  "dimir_control|mono_blue_faeries": [
+   6,
+   3,
+   0
+  ],
+  "dimir_control|mono_red_madness": [
+   41,
+   36,
+   2
+  ],
+  "dimir_control|mono_red_rally": [
+   2,
+   13,
+   0
+  ],
+  "dimir_control|rakdos_madness": [
+   5,
+   6,
+   0
+  ],
+  "dimir_control|ruby_storm": [
+   7,
+   4,
+   1
+  ],
+  "dimir_control|spy_combo": [
+   19,
+   3,
+   2
+  ],
+  "dimir_control|tron": [
+   8,
+   11,
+   4
+  ],
+  "dimir_faeries|blue_terror": [
+   33,
+   21,
+   0
+  ],
+  "dimir_faeries|bogles": [
+   20,
+   13,
+   1
+  ],
+  "dimir_faeries|boros_synthesizer": [
+   7,
+   7,
+   0
+  ],
+  "dimir_faeries|dimir_control": [
+   15,
+   28,
+   0
+  ],
+  "dimir_faeries|elves": [
+   14,
+   14,
+   0
+  ],
+  "dimir_faeries|esper_affinity": [
+   10,
+   12,
+   1
+  ],
+  "dimir_faeries|familiars": [
+   4,
+   5,
+   2
+  ],
+  "dimir_faeries|golgari_gardens": [
+   15,
+   9,
+   0
+  ],
+  "dimir_faeries|grixis_affinity": [
+   16,
+   34,
+   0
+  ],
+  "dimir_faeries|jeskai_ephemerate": [
+   2,
+   1,
+   1
+  ],
+  "dimir_faeries|jund_wildfire": [
+   8,
+   4,
+   0
+  ],
+  "dimir_faeries|mono_blue_faeries": [
+   2,
+   0,
+   0
+  ],
+  "dimir_faeries|mono_red_madness": [
+   42,
+   38,
+   0
+  ],
+  "dimir_faeries|mono_red_rally": [
+   13,
+   9,
+   0
+  ],
+  "dimir_faeries|rakdos_madness": [
+   4,
+   4,
+   0
+  ],
+  "dimir_faeries|ruby_storm": [
+   19,
+   9,
+   0
+  ],
+  "dimir_faeries|spy_combo": [
+   16,
+   11,
+   3
+  ],
+  "dimir_faeries|tron": [
+   7,
+   7,
+   3
+  ],
+  "elves|blue_terror": [
+   18,
+   18,
+   0
+  ],
+  "elves|bogles": [
+   14,
+   3,
+   0
+  ],
+  "elves|boros_synthesizer": [
+   8,
+   9,
+   1
+  ],
+  "elves|dimir_control": [
+   12,
+   16,
+   2
+  ],
+  "elves|dimir_faeries": [
+   14,
+   14,
+   0
+  ],
+  "elves|esper_affinity": [
+   15,
+   11,
+   1
+  ],
+  "elves|familiars": [
+   5,
+   5,
+   0
+  ],
+  "elves|golgari_gardens": [
+   4,
+   7,
+   1
+  ],
+  "elves|grixis_affinity": [
+   18,
+   15,
+   0
+  ],
+  "elves|jeskai_ephemerate": [
+   2,
+   2,
+   1
+  ],
+  "elves|jund_wildfire": [
+   10,
+   3,
+   3
+  ],
+  "elves|mono_blue_faeries": [
+   5,
+   4,
+   0
+  ],
+  "elves|mono_red_madness": [
+   11,
+   53,
+   0
+  ],
+  "elves|mono_red_rally": [
+   4,
+   9,
+   0
+  ],
+  "elves|rakdos_madness": [
+   6,
+   3,
+   0
+  ],
+  "elves|ruby_storm": [
+   2,
+   10,
+   0
+  ],
+  "elves|spy_combo": [
+   14,
+   14,
+   2
+  ],
+  "elves|tron": [
+   12,
+   6,
+   2
+  ],
+  "esper_affinity|blue_terror": [
+   12,
+   5,
+   0
+  ],
+  "esper_affinity|bogles": [
+   7,
+   10,
+   0
+  ],
+  "esper_affinity|boros_synthesizer": [
+   8,
+   2,
+   1
+  ],
+  "esper_affinity|dimir_control": [
+   8,
+   6,
+   1
+  ],
+  "esper_affinity|dimir_faeries": [
+   12,
+   10,
+   1
+  ],
+  "esper_affinity|elves": [
+   11,
+   15,
+   1
+  ],
+  "esper_affinity|familiars": [
+   1,
+   5,
+   1
+  ],
+  "esper_affinity|golgari_gardens": [
+   9,
+   4,
+   0
+  ],
+  "esper_affinity|grixis_affinity": [
+   12,
+   8,
+   0
+  ],
+  "esper_affinity|jeskai_ephemerate": [
+   1,
+   4,
+   0
+  ],
+  "esper_affinity|jund_wildfire": [
+   13,
+   9,
+   1
+  ],
+  "esper_affinity|mono_blue_faeries": [
+   7,
+   5,
+   1
+  ],
+  "esper_affinity|mono_red_madness": [
+   23,
+   20,
+   0
+  ],
+  "esper_affinity|mono_red_rally": [
+   12,
+   9,
+   0
+  ],
+  "esper_affinity|rakdos_madness": [
+   3,
+   1,
+   0
+  ],
+  "esper_affinity|ruby_storm": [
+   6,
+   5,
+   0
+  ],
+  "esper_affinity|spy_combo": [
+   5,
+   13,
+   2
+  ],
+  "esper_affinity|tron": [
+   6,
+   7,
+   4
+  ],
+  "familiars|blue_terror": [
+   4,
+   4,
+   1
+  ],
+  "familiars|bogles": [
+   0,
+   3,
+   0
+  ],
+  "familiars|boros_synthesizer": [
+   1,
+   1,
+   0
+  ],
+  "familiars|dimir_control": [
+   4,
+   4,
+   0
+  ],
+  "familiars|dimir_faeries": [
+   5,
+   4,
+   2
+  ],
+  "familiars|elves": [
+   5,
+   5,
+   0
+  ],
+  "familiars|esper_affinity": [
+   5,
+   1,
+   1
+  ],
+  "familiars|golgari_gardens": [
+   0,
+   1,
+   0
+  ],
+  "familiars|grixis_affinity": [
+   3,
+   3,
+   1
+  ],
+  "familiars|jeskai_ephemerate": [
+   1,
+   1,
+   1
+  ],
+  "familiars|jund_wildfire": [
+   2,
+   1,
+   1
+  ],
+  "familiars|mono_blue_faeries": [
+   1,
+   2,
+   2
+  ],
+  "familiars|mono_red_madness": [
+   12,
+   4,
+   2
+  ],
+  "familiars|mono_red_rally": [
+   3,
+   3,
+   0
+  ],
+  "familiars|rakdos_madness": [
+   0,
+   1,
+   0
+  ],
+  "familiars|ruby_storm": [
+   2,
+   4,
+   0
+  ],
+  "familiars|spy_combo": [
+   4,
+   2,
+   0
+  ],
+  "familiars|tron": [
+   3,
+   2,
+   2
+  ],
+  "golgari_gardens|blue_terror": [
+   12,
+   10,
+   0
+  ],
+  "golgari_gardens|bogles": [
+   4,
+   5,
+   1
+  ],
+  "golgari_gardens|boros_synthesizer": [
+   3,
+   0,
+   0
+  ],
+  "golgari_gardens|dimir_control": [
+   9,
+   6,
+   0
+  ],
+  "golgari_gardens|dimir_faeries": [
+   9,
+   15,
+   0
+  ],
+  "golgari_gardens|elves": [
+   7,
+   4,
+   1
+  ],
+  "golgari_gardens|esper_affinity": [
+   4,
+   9,
+   0
+  ],
+  "golgari_gardens|familiars": [
+   1,
+   0,
+   0
+  ],
+  "golgari_gardens|grixis_affinity": [
+   2,
+   8,
+   0
+  ],
+  "golgari_gardens|jeskai_ephemerate": [
+   2,
+   3,
+   0
+  ],
+  "golgari_gardens|jund_wildfire": [
+   1,
+   3,
+   0
+  ],
+  "golgari_gardens|mono_blue_faeries": [
+   5,
+   1,
+   0
+  ],
+  "golgari_gardens|mono_red_madness": [
+   15,
+   14,
+   1
+  ],
+  "golgari_gardens|mono_red_rally": [
+   1,
+   3,
+   0
+  ],
+  "golgari_gardens|rakdos_madness": [
+   2,
+   4,
+   0
+  ],
+  "golgari_gardens|ruby_storm": [
+   6,
+   3,
+   0
+  ],
+  "golgari_gardens|spy_combo": [
+   11,
+   2,
+   1
+  ],
+  "golgari_gardens|tron": [
+   1,
+   4,
+   1
+  ],
+  "grixis_affinity|blue_terror": [
+   26,
+   21,
+   0
+  ],
+  "grixis_affinity|bogles": [
+   16,
+   10,
+   0
+  ],
+  "grixis_affinity|boros_synthesizer": [
+   7,
+   11,
+   1
+  ],
+  "grixis_affinity|dimir_control": [
+   10,
+   13,
+   0
+  ],
+  "grixis_affinity|dimir_faeries": [
+   34,
+   16,
+   0
+  ],
+  "grixis_affinity|elves": [
+   15,
+   18,
+   0
+  ],
+  "grixis_affinity|esper_affinity": [
+   8,
+   12,
+   0
+  ],
+  "grixis_affinity|familiars": [
+   3,
+   3,
+   1
+  ],
+  "grixis_affinity|golgari_gardens": [
+   8,
+   2,
+   0
+  ],
+  "grixis_affinity|jeskai_ephemerate": [
+   2,
+   3,
+   1
+  ],
+  "grixis_affinity|jund_wildfire": [
+   3,
+   6,
+   1
+  ],
+  "grixis_affinity|mono_blue_faeries": [
+   4,
+   6,
+   2
+  ],
+  "grixis_affinity|mono_red_madness": [
+   30,
+   26,
+   0
+  ],
+  "grixis_affinity|mono_red_rally": [
+   14,
+   14,
+   0
+  ],
+  "grixis_affinity|rakdos_madness": [
+   3,
+   3,
+   0
+  ],
+  "grixis_affinity|ruby_storm": [
+   12,
+   11,
+   0
+  ],
+  "grixis_affinity|spy_combo": [
+   10,
+   16,
+   2
+  ],
+  "grixis_affinity|tron": [
+   3,
+   7,
+   3
+  ],
+  "jeskai_ephemerate|blue_terror": [
+   2,
+   3,
+   1
+  ],
+  "jeskai_ephemerate|bogles": [
+   1,
+   4,
+   0
+  ],
+  "jeskai_ephemerate|boros_synthesizer": [
+   4,
+   1,
+   1
+  ],
+  "jeskai_ephemerate|dimir_control": [
+   0,
+   0,
+   1
+  ],
+  "jeskai_ephemerate|dimir_faeries": [
+   1,
+   2,
+   1
+  ],
+  "jeskai_ephemerate|elves": [
+   2,
+   2,
+   1
+  ],
+  "jeskai_ephemerate|esper_affinity": [
+   4,
+   1,
+   0
+  ],
+  "jeskai_ephemerate|familiars": [
+   1,
+   1,
+   1
+  ],
+  "jeskai_ephemerate|golgari_gardens": [
+   3,
+   2,
+   0
+  ],
+  "jeskai_ephemerate|grixis_affinity": [
+   3,
+   2,
+   1
+  ],
+  "jeskai_ephemerate|jund_wildfire": [
+   2,
+   0,
+   0
+  ],
+  "jeskai_ephemerate|mono_blue_faeries": [
+   1,
+   1,
+   0
+  ],
+  "jeskai_ephemerate|mono_red_madness": [
+   7,
+   2,
+   0
+  ],
+  "jeskai_ephemerate|mono_red_rally": [
+   4,
+   3,
+   0
+  ],
+  "jeskai_ephemerate|rakdos_madness": [
+   0,
+   1,
+   0
+  ],
+  "jeskai_ephemerate|ruby_storm": [
+   1,
+   3,
+   0
+  ],
+  "jeskai_ephemerate|spy_combo": [
+   0,
+   7,
+   0
+  ],
+  "jeskai_ephemerate|tron": [
+   2,
+   4,
+   0
+  ],
+  "jund_wildfire|blue_terror": [
+   10,
+   13,
+   1
+  ],
+  "jund_wildfire|bogles": [
+   5,
+   8,
+   0
+  ],
+  "jund_wildfire|boros_synthesizer": [
+   1,
+   4,
+   0
+  ],
+  "jund_wildfire|dimir_control": [
+   6,
+   11,
+   2
+  ],
+  "jund_wildfire|dimir_faeries": [
+   4,
+   8,
+   0
+  ],
+  "jund_wildfire|elves": [
+   3,
+   10,
+   3
+  ],
+  "jund_wildfire|esper_affinity": [
+   9,
+   13,
+   1
+  ],
+  "jund_wildfire|familiars": [
+   1,
+   2,
+   1
+  ],
+  "jund_wildfire|golgari_gardens": [
+   3,
+   1,
+   0
+  ],
+  "jund_wildfire|grixis_affinity": [
+   6,
+   3,
+   1
+  ],
+  "jund_wildfire|jeskai_ephemerate": [
+   0,
+   2,
+   0
+  ],
+  "jund_wildfire|mono_blue_faeries": [
+   3,
+   0,
+   1
+  ],
+  "jund_wildfire|mono_red_madness": [
+   12,
+   16,
+   0
+  ],
+  "jund_wildfire|mono_red_rally": [
+   7,
+   2,
+   0
+  ],
+  "jund_wildfire|rakdos_madness": [
+   2,
+   2,
+   0
+  ],
+  "jund_wildfire|ruby_storm": [
+   2,
+   1,
+   0
+  ],
+  "jund_wildfire|spy_combo": [
+   5,
+   3,
+   2
+  ],
+  "jund_wildfire|tron": [
+   2,
+   7,
+   0
+  ],
+  "mono_blue_faeries|blue_terror": [
+   5,
+   6,
+   1
+  ],
+  "mono_blue_faeries|bogles": [
+   5,
+   3,
+   0
+  ],
+  "mono_blue_faeries|boros_synthesizer": [
+   8,
+   4,
+   0
+  ],
+  "mono_blue_faeries|dimir_control": [
+   3,
+   6,
+   0
+  ],
+  "mono_blue_faeries|dimir_faeries": [
+   0,
+   2,
+   0
+  ],
+  "mono_blue_faeries|elves": [
+   4,
+   5,
+   0
+  ],
+  "mono_blue_faeries|esper_affinity": [
+   5,
+   7,
+   1
+  ],
+  "mono_blue_faeries|familiars": [
+   2,
+   1,
+   2
+  ],
+  "mono_blue_faeries|golgari_gardens": [
+   1,
+   5,
+   0
+  ],
+  "mono_blue_faeries|grixis_affinity": [
+   6,
+   4,
+   2
+  ],
+  "mono_blue_faeries|jeskai_ephemerate": [
+   1,
+   1,
+   0
+  ],
+  "mono_blue_faeries|jund_wildfire": [
+   0,
+   3,
+   1
+  ],
+  "mono_blue_faeries|mono_red_madness": [
+   15,
+   12,
+   0
+  ],
+  "mono_blue_faeries|mono_red_rally": [
+   7,
+   3,
+   0
+  ],
+  "mono_blue_faeries|rakdos_madness": [
+   6,
+   1,
+   0
+  ],
+  "mono_blue_faeries|ruby_storm": [
+   2,
+   0,
+   0
+  ],
+  "mono_blue_faeries|spy_combo": [
+   2,
+   6,
+   1
+  ],
+  "mono_blue_faeries|tron": [
+   4,
+   2,
+   0
+  ],
+  "mono_red_madness|blue_terror": [
+   38,
+   70,
+   0
+  ],
+  "mono_red_madness|bogles": [
+   15,
+   27,
+   0
+  ],
+  "mono_red_madness|boros_synthesizer": [
+   22,
+   15,
+   2
+  ],
+  "mono_red_madness|dimir_control": [
+   36,
+   41,
+   2
+  ],
+  "mono_red_madness|dimir_faeries": [
+   38,
+   42,
+   0
+  ],
+  "mono_red_madness|elves": [
+   53,
+   11,
+   0
+  ],
+  "mono_red_madness|esper_affinity": [
+   20,
+   23,
+   0
+  ],
+  "mono_red_madness|familiars": [
+   4,
+   12,
+   2
+  ],
+  "mono_red_madness|golgari_gardens": [
+   14,
+   15,
+   1
+  ],
+  "mono_red_madness|grixis_affinity": [
+   26,
+   30,
+   0
+  ],
+  "mono_red_madness|jeskai_ephemerate": [
+   2,
+   7,
+   0
+  ],
+  "mono_red_madness|jund_wildfire": [
+   16,
+   12,
+   0
+  ],
+  "mono_red_madness|mono_blue_faeries": [
+   12,
+   15,
+   0
+  ],
+  "mono_red_madness|mono_red_rally": [
+   22,
+   39,
+   0
+  ],
+  "mono_red_madness|rakdos_madness": [
+   8,
+   17,
+   0
+  ],
+  "mono_red_madness|ruby_storm": [
+   28,
+   26,
+   1
+  ],
+  "mono_red_madness|spy_combo": [
+   35,
+   12,
+   0
+  ],
+  "mono_red_madness|tron": [
+   18,
+   19,
+   1
+  ],
+  "mono_red_rally|blue_terror": [
+   17,
+   18,
+   0
+  ],
+  "mono_red_rally|bogles": [
+   5,
+   8,
+   0
+  ],
+  "mono_red_rally|boros_synthesizer": [
+   0,
+   9,
+   0
+  ],
+  "mono_red_rally|dimir_control": [
+   13,
+   2,
+   0
+  ],
+  "mono_red_rally|dimir_faeries": [
+   9,
+   13,
+   0
+  ],
+  "mono_red_rally|elves": [
+   9,
+   4,
+   0
+  ],
+  "mono_red_rally|esper_affinity": [
+   9,
+   12,
+   0
+  ],
+  "mono_red_rally|familiars": [
+   3,
+   3,
+   0
+  ],
+  "mono_red_rally|golgari_gardens": [
+   3,
+   1,
+   0
+  ],
+  "mono_red_rally|grixis_affinity": [
+   14,
+   14,
+   0
+  ],
+  "mono_red_rally|jeskai_ephemerate": [
+   3,
+   4,
+   0
+  ],
+  "mono_red_rally|jund_wildfire": [
+   2,
+   7,
+   0
+  ],
+  "mono_red_rally|mono_blue_faeries": [
+   3,
+   7,
+   0
+  ],
+  "mono_red_rally|mono_red_madness": [
+   39,
+   22,
+   0
+  ],
+  "mono_red_rally|rakdos_madness": [
+   4,
+   1,
+   0
+  ],
+  "mono_red_rally|ruby_storm": [
+   9,
+   7,
+   0
+  ],
+  "mono_red_rally|spy_combo": [
+   5,
+   9,
+   0
+  ],
+  "mono_red_rally|tron": [
+   7,
+   12,
+   0
+  ],
+  "rakdos_madness|blue_terror": [
+   8,
+   4,
+   0
+  ],
+  "rakdos_madness|bogles": [
+   2,
+   0,
+   0
+  ],
+  "rakdos_madness|boros_synthesizer": [
+   0,
+   4,
+   0
+  ],
+  "rakdos_madness|dimir_control": [
+   6,
+   5,
+   0
+  ],
+  "rakdos_madness|dimir_faeries": [
+   4,
+   4,
+   0
+  ],
+  "rakdos_madness|elves": [
+   3,
+   6,
+   0
+  ],
+  "rakdos_madness|esper_affinity": [
+   1,
+   3,
+   0
+  ],
+  "rakdos_madness|familiars": [
+   1,
+   0,
+   0
+  ],
+  "rakdos_madness|golgari_gardens": [
+   4,
+   2,
+   0
+  ],
+  "rakdos_madness|grixis_affinity": [
+   3,
+   3,
+   0
+  ],
+  "rakdos_madness|jeskai_ephemerate": [
+   1,
+   0,
+   0
+  ],
+  "rakdos_madness|jund_wildfire": [
+   2,
+   2,
+   0
+  ],
+  "rakdos_madness|mono_blue_faeries": [
+   1,
+   6,
+   0
+  ],
+  "rakdos_madness|mono_red_madness": [
+   17,
+   8,
+   0
+  ],
+  "rakdos_madness|mono_red_rally": [
+   1,
+   4,
+   0
+  ],
+  "rakdos_madness|ruby_storm": [
+   3,
+   3,
+   0
+  ],
+  "rakdos_madness|spy_combo": [
+   2,
+   8,
+   0
+  ],
+  "rakdos_madness|tron": [
+   3,
+   3,
+   0
+  ],
+  "ruby_storm|blue_terror": [
+   11,
+   8,
+   0
+  ],
+  "ruby_storm|bogles": [
+   9,
+   2,
+   0
+  ],
+  "ruby_storm|boros_synthesizer": [
+   10,
+   0,
+   0
+  ],
+  "ruby_storm|dimir_control": [
+   4,
+   7,
+   1
+  ],
+  "ruby_storm|dimir_faeries": [
+   9,
+   19,
+   0
+  ],
+  "ruby_storm|elves": [
+   10,
+   2,
+   0
+  ],
+  "ruby_storm|esper_affinity": [
+   5,
+   6,
+   0
+  ],
+  "ruby_storm|familiars": [
+   4,
+   2,
+   0
+  ],
+  "ruby_storm|golgari_gardens": [
+   3,
+   6,
+   0
+  ],
+  "ruby_storm|grixis_affinity": [
+   11,
+   12,
+   0
+  ],
+  "ruby_storm|jeskai_ephemerate": [
+   3,
+   1,
+   0
+  ],
+  "ruby_storm|jund_wildfire": [
+   1,
+   2,
+   0
+  ],
+  "ruby_storm|mono_blue_faeries": [
+   0,
+   2,
+   0
+  ],
+  "ruby_storm|mono_red_madness": [
+   26,
+   28,
+   1
+  ],
+  "ruby_storm|mono_red_rally": [
+   7,
+   9,
+   0
+  ],
+  "ruby_storm|rakdos_madness": [
+   3,
+   3,
+   0
+  ],
+  "ruby_storm|spy_combo": [
+   7,
+   6,
+   0
+  ],
+  "ruby_storm|tron": [
+   7,
+   1,
+   0
+  ],
+  "spy_combo|blue_terror": [
+   17,
+   14,
+   0
+  ],
+  "spy_combo|bogles": [
+   12,
+   3,
+   0
+  ],
+  "spy_combo|boros_synthesizer": [
+   10,
+   5,
+   1
+  ],
+  "spy_combo|dimir_control": [
+   3,
+   19,
+   2
+  ],
+  "spy_combo|dimir_faeries": [
+   11,
+   16,
+   3
+  ],
+  "spy_combo|elves": [
+   14,
+   14,
+   2
+  ],
+  "spy_combo|esper_affinity": [
+   13,
+   5,
+   2
+  ],
+  "spy_combo|familiars": [
+   2,
+   4,
+   0
+  ],
+  "spy_combo|golgari_gardens": [
+   2,
+   11,
+   1
+  ],
+  "spy_combo|grixis_affinity": [
+   16,
+   10,
+   2
+  ],
+  "spy_combo|jeskai_ephemerate": [
+   7,
+   0,
+   0
+  ],
+  "spy_combo|jund_wildfire": [
+   3,
+   5,
+   2
+  ],
+  "spy_combo|mono_blue_faeries": [
+   6,
+   2,
+   1
+  ],
+  "spy_combo|mono_red_madness": [
+   12,
+   35,
+   0
+  ],
+  "spy_combo|mono_red_rally": [
+   9,
+   5,
+   0
+  ],
+  "spy_combo|rakdos_madness": [
+   8,
+   2,
+   0
+  ],
+  "spy_combo|ruby_storm": [
+   6,
+   7,
+   0
+  ],
+  "spy_combo|tron": [
+   18,
+   10,
+   0
+  ],
+  "tron|blue_terror": [
+   11,
+   13,
+   1
+  ],
+  "tron|bogles": [
+   9,
+   8,
+   0
+  ],
+  "tron|boros_synthesizer": [
+   6,
+   1,
+   2
+  ],
+  "tron|dimir_control": [
+   11,
+   8,
+   4
+  ],
+  "tron|dimir_faeries": [
+   7,
+   7,
+   3
+  ],
+  "tron|elves": [
+   6,
+   12,
+   2
+  ],
+  "tron|esper_affinity": [
+   7,
+   6,
+   4
+  ],
+  "tron|familiars": [
+   2,
+   3,
+   2
+  ],
+  "tron|golgari_gardens": [
+   4,
+   1,
+   1
+  ],
+  "tron|grixis_affinity": [
+   7,
+   3,
+   3
+  ],
+  "tron|jeskai_ephemerate": [
+   4,
+   2,
+   0
+  ],
+  "tron|jund_wildfire": [
+   7,
+   2,
+   0
+  ],
+  "tron|mono_blue_faeries": [
+   2,
+   4,
+   0
+  ],
+  "tron|mono_red_madness": [
+   19,
+   18,
+   1
+  ],
+  "tron|mono_red_rally": [
+   12,
+   7,
+   0
+  ],
+  "tron|rakdos_madness": [
+   3,
+   3,
+   0
+  ],
+  "tron|ruby_storm": [
+   1,
+   7,
+   0
+  ],
+  "tron|spy_combo": [
+   10,
+   18,
+   0
+  ]
+ },
+ "periodo": {
+  "en": "paper and MTGO, 10/02/2026 to 10/30/2026",
+  "pt": "papel e MTGO, de 02/10/2026 a 30/10/2026"
+ },
+ "raspado_em": "2026-10-31",
+ "url": "https://decksnipe.com/matrix/pauper"
+}

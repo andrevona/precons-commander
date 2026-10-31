@@ -1,37 +1,37 @@
-1 Bojuka Bog (SOC) 363
-4 Bonder's Ornament (PLST) C20-67
-1 Bramble Wurm (VOW) 189
-1 Breath Weapon (CLB) 165
-1 Conduit Pylons (OTJ) 254
-1 Crop Rotation (DMR) 154
-1 Custodi Squire (CMM) 19
-1 Energy Refractor (BRO) 234
-1 Ephemerate (MAR) 44
-4 Expedition Map (MM2) 213
-2 Ghostly Flicker (PLST) KHC-39
-4 Giant's Boulder (HOB) 173
-3 Island (THB) 251
-3 Lórien Revealed (LTR) 60
-2 Mnemonic Wall (IMA) 67
-2 Moment's Peace (PLST) TD0-A80
-2 Mystical Teachings (FDN) 594
-1 Prohibit (DDM) 25
-4 Prophetic Prism (GTC) 234
-1 Pulse of Murasa (BBD) 209
-1 Stonehorn Dignitary (PLST) M12-37
-1 Tangled Islet (FIC) 434
-1 Unwind (DOM) 72
-4 Urza's Mine (CHR) 114a
-4 Urza's Power Plant (CHR) 115a
-4 Urza's Tower (CHR) 116a
-4 Visionary's Dance (SOS) 242
-1 Weather the Storm (MH1) 191
+1 Bojuka Bog
+4 Bonder's Ornament
+1 Bramble Wurm
+1 Breath Weapon
+1 Conduit Pylons
+1 Crop Rotation
+1 Custodi Squire
+1 Energy Refractor
+1 Ephemerate
+4 Expedition Map
+2 Ghostly Flicker
+4 Giant's Boulder
+3 Island
+3 Lórien Revealed
+2 Mnemonic Wall
+2 Moment's Peace
+2 Mystical Teachings
+1 Prohibit
+4 Prophetic Prism
+1 Pulse of Murasa
+1 Stonehorn Dignitary
+1 Tangled Islet
+1 Unwind
+4 Urza's Mine
+4 Urza's Power Plant
+4 Urza's Tower
+4 Visionary's Dance
+1 Weather the Storm
 
-2 Blue Elemental Blast (4ED) 63
-1 Bramble Wurm (VOW) 189
-4 Hydroblast (ICE) 72
-3 Pyroblast (ICE) 213
-1 Stonehorn Dignitary (PLST) M12-37
-1 Thraben Charm (MH3) 45
-2 Vandalblast (FIC) 298
-1 Weather the Storm (MH1) 191
+2 Blue Elemental Blast
+1 Bramble Wurm
+4 Hydroblast
+3 Pyroblast
+1 Stonehorn Dignitary
+1 Thraben Charm
+2 Vandalblast
+1 Weather the Storm

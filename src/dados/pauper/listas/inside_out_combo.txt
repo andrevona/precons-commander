@@ -1,28 +1,28 @@
-2 Abandon Attachments (TLA) 205
-4 Aurora Eidolon (DIS) 1
-1 Bitter Reunion (PLST) BRO-127
-2 Boros Garrison (CLU) 231
-4 Escape Tunnel (TMT) 184
-1 Fields of Strife (SOS) 255
-2 Fling (DKA) 90
-4 Inside Out (PLST) EVE-103
-4 Lightning Bolt (FCA) 40
-3 Loran's Escape (BRO) 14
-3 Magmakin Artillerist (DFT) 137
-4 Mountain (THB) 253
-4 Plains (THB) 250
-4 Pursue the Past (SOS) 216
-2 Sandstorm Eidolon (DIS) 70
-4 Sneaky Snacker (MH3) 205
-4 Thrilling Discovery (STX) 243
-4 Tireless Tribe (PLST) ODY-56
-4 Wind-Scarred Crag (MOM) 276
+2 Abandon Attachments
+4 Aurora Eidolon
+1 Bitter Reunion
+2 Boros Garrison
+4 Escape Tunnel
+1 Fields of Strife
+2 Fling
+4 Inside Out
+4 Lightning Bolt
+3 Loran's Escape
+3 Magmakin Artillerist
+4 Mountain
+4 Plains
+4 Pursue the Past
+2 Sandstorm Eidolon
+4 Sneaky Snacker
+4 Thrilling Discovery
+4 Tireless Tribe
+4 Wind-Scarred Crag
 
-1 Flaring Pain (PLST) JUD-89
-1 Loran's Escape (BRO) 14
-2 Prismatic Strands (PLST) JUD-18
-3 Pyroblast (ICE) 213
-3 Red Elemental Blast (3ED) 171
-2 Shenanigans (MH1) 146
-2 Thraben Charm (MH3) 45
-1 Vandalblast (FIC) 298
+1 Flaring Pain
+1 Loran's Escape
+2 Prismatic Strands
+3 Pyroblast
+3 Red Elemental Blast
+2 Shenanigans
+2 Thraben Charm
+1 Vandalblast

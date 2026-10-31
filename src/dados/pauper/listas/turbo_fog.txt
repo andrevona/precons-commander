@@ -1,33 +1,33 @@
-4 Arcane Denial (DRC) 70
-4 Behold the Multiverse (KHM) 46
-1 Bojuka Bog (SOC) 363
-2 Campfire (CMM) 374
-1 Counterspell (FCA) 4
-1 Echoing Truth (PLST) DMC-109
-1 Fog (7ED) 245
-3 Forest (THB) 254
-1 Growth Spiral (CMR) 446
-6 Island (THB) 251
-4 Lórien Revealed (LTR) 60
-4 Moment's Peace (PLST) TD0-A80
-1 Opt (FDN) 512
-1 Pieces of the Puzzle (SOI) 78
-4 Plunder the Trollshaws (HOB) 51
-2 Radiant Fountain (IMA) 244
-1 Respite (CNS) 176
-4 Simic Growth Chamber (CLU) 247
-2 Stream of Thought (MH1) 71
-3 Tangle (PLST) INV-213
-2 Tangled Islet (FIC) 434
-4 Thornwood Falls (DFT) 266
-4 Weather the Storm (MH1) 191
+4 Arcane Denial
+4 Behold the Multiverse
+1 Bojuka Bog
+2 Campfire
+1 Counterspell
+1 Echoing Truth
+1 Fog
+3 Forest
+1 Growth Spiral
+6 Island
+4 Lórien Revealed
+4 Moment's Peace
+1 Opt
+1 Pieces of the Puzzle
+4 Plunder the Trollshaws
+2 Radiant Fountain
+1 Respite
+4 Simic Growth Chamber
+2 Stream of Thought
+3 Tangle
+2 Tangled Islet
+4 Thornwood Falls
+4 Weather the Storm
 
-2 Blue Elemental Blast (4ED) 63
-1 Bojuka Bog (SOC) 363
-1 Envelop (JUD) 39
-2 Faerie Macabre (MMA) 86
-1 Faerie Trickery (LRW) 62
-4 Hydroblast (ICE) 72
-2 Murmuring Mystic (PLST) GRN-45
-1 Sagittars' Volley (RNA) 138
-1 Steel Sabotage (2XM) 70
+2 Blue Elemental Blast
+1 Bojuka Bog
+1 Envelop
+2 Faerie Macabre
+1 Faerie Trickery
+4 Hydroblast
+2 Murmuring Mystic
+1 Sagittars' Volley
+1 Steel Sabotage

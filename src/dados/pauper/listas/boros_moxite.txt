@@ -1,30 +1,30 @@
-3 Ancient Den (EOC) 148
-1 Asgardian Citadel (MSH) 258
-1 Bojuka Bog (SOC) 363
-1 Boros Garrison (CLU) 231
-3 Dispatch (MSC) 130
-4 Galvanic Blast (SOM) 91
-4 Glint Hawk (SOM) 10
-2 Great Furnace (MRD) 282
-4 Kor Skyfisher (PLST) DDO-16
-4 Lightning Bolt (FCA) 40
-1 Makeshift Munitions (CMR) 191
-1 Mana Tithe (PLC) 25
-4 Melded Moxite (EOE) 143
-3 Mountain (THB) 253
-1 Novice Inspector (MKM) 29
-3 Plains (THB) 250
-3 Pursue the Past (SOS) 216
-3 Ragged Short Spear (HOB) 108
-4 Rustvale Bridge (PLST) MH2-253
-4 Sneaky Snacker (MH3) 205
-2 Soul-Guide Lantern (FDN) 680
-1 Thraben Charm (MH3) 45
-2 Thraben Inspector (2XM) 35
-1 Wind-Scarred Crag (MOM) 276
+3 Ancient Den
+1 Asgardian Citadel
+1 Bojuka Bog
+1 Boros Garrison
+3 Dispatch
+4 Galvanic Blast
+4 Glint Hawk
+2 Great Furnace
+4 Kor Skyfisher
+4 Lightning Bolt
+1 Makeshift Munitions
+1 Mana Tithe
+4 Melded Moxite
+3 Mountain
+1 Novice Inspector
+3 Plains
+3 Pursue the Past
+3 Ragged Short Spear
+4 Rustvale Bridge
+4 Sneaky Snacker
+2 Soul-Guide Lantern
+1 Thraben Charm
+2 Thraben Inspector
+1 Wind-Scarred Crag
 
-3 Cleansing Wildfire (ZNR) 137
-4 Dust to Dust (MBC) 71
-2 Electrickery (PLST) GK1-29
-2 Prismatic Strands (PLST) JUD-18
-4 Red Elemental Blast (3ED) 171
+3 Cleansing Wildfire
+4 Dust to Dust
+2 Electrickery
+2 Prismatic Strands
+4 Red Elemental Blast

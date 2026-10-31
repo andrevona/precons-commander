@@ -1,36 +1,36 @@
-4 Behold the Multiverse (KHM) 46
-1 Bojuka Bog (SOC) 363
-4 Bonder's Ornament (PLST) C20-67
-2 Bramble Wurm (VOW) 189
-1 Conduit Pylons (OTJ) 254
-2 Crop Rotation (DMR) 154
-1 Energy Refractor (BRO) 234
-1 Ethereal Haze (CHK) 9
-4 Expedition Map (MM2) 213
-1 Forest (THB) 254
-3 Generous Ent (LTR) 169
-4 Giant's Boulder (HOB) 173
-1 Island (THB) 251
-4 Moment's Peace (PLST) TD0-A80
-3 Mystical Teachings (FDN) 594
-2 Prohibit (DDM) 25
-2 Prophetic Prism (GTC) 234
-1 Remote Isle (DMR) 254
-2 Stream of Thought (MH1) 71
-3 Tangle (PLST) INV-213
-1 Tangled Islet (FIC) 434
-4 Urza's Mine (CHR) 114a
-4 Urza's Power Plant (CHR) 115a
-4 Urza's Tower (CHR) 116a
-1 Weather the Storm (MH1) 191
+4 Behold the Multiverse
+1 Bojuka Bog
+4 Bonder's Ornament
+2 Bramble Wurm
+1 Conduit Pylons
+2 Crop Rotation
+1 Energy Refractor
+1 Ethereal Haze
+4 Expedition Map
+1 Forest
+3 Generous Ent
+4 Giant's Boulder
+1 Island
+4 Moment's Peace
+3 Mystical Teachings
+2 Prohibit
+2 Prophetic Prism
+1 Remote Isle
+2 Stream of Thought
+3 Tangle
+1 Tangled Islet
+4 Urza's Mine
+4 Urza's Power Plant
+4 Urza's Tower
+1 Weather the Storm
 
-1 Ancient Grudge (TSR) 151
-1 Blue Elemental Blast (4ED) 63
-1 Bramble Wurm (VOW) 189
-1 Breath Weapon (CLB) 165
-2 Circle of Protection: Blue (ICE) 13
-1 Crypt Incursion (DGM) 23
-1 Faerie Macabre (MMA) 86
-4 Hydroblast (ICE) 72
-2 Murmuring Mystic (PLST) GRN-45
-1 Vandalblast (FIC) 298
+1 Ancient Grudge
+1 Blue Elemental Blast
+1 Bramble Wurm
+1 Breath Weapon
+2 Circle of Protection: Blue
+1 Crypt Incursion
+1 Faerie Macabre
+4 Hydroblast
+2 Murmuring Mystic
+1 Vandalblast

@@ -1,10 +1,10 @@
 """Raspa o metagame de Pauper do MTGGoldfish (base MTGO, últimos 30 dias, o padrão do site).
 
 Para cada arquétipo com pelo menos MIN_DECKS decks no período, baixa a lista representativa que o
-MTGGoldfish mostra na página do arquétipo (uma lista real de um jogador), com a edição de cada carta.
+MTGGoldfish mostra na página do arquétipo (uma lista real de um jogador), só com quantidade e nome.
 
 Saída (na pasta de trabalho):
-  raw_pauper/<slug>.txt      lista como o MTGGoldfish exporta ("qtd Nome [SET]"; linha em branco; sideboard)
+  raw_pauper/<slug>.txt      lista como o MTGGoldfish exporta ("qtd Nome"; linha em branco; sideboard)
   raw_pauper/metagame.json   arquétipos (nome, slug, %, nº de decks, deck de origem, jogador, evento, data)
 
 Uso: python3 tools/pauper_raspar.py [--min 5]
@@ -85,7 +85,7 @@ def main():
             raise SystemExit("ERRO: slug repetido " + a["slug"])
         vistos.add(a["slug"])
         time.sleep(1)
-        lista = baixar("/deck/download/%s?output=mtggoldfish&type=tabletop" % a["deck"]).replace("\r", "").strip() + "\n"
+        lista = baixar("/deck/download/%s" % a["deck"]).replace("\r", "").strip() + "\n"
         open(os.path.join(SAIDA, a["slug"] + ".txt"), "w", encoding="utf-8").write(lista)
         print("%5.1f%% %4d  %-28s deck %s  %s  %s" % (a["pct"], a["decks"], a["nome"], a["deck"], a["data"], a["jogador"]))
     info = {"fonte": BASE + "/metagame/pauper/full", "periodo_dias": 30, "base": "online (MTGO)",

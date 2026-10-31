@@ -1,31 +1,31 @@
-1 Azure Fleet Admiral (CMR) 58
-4 Baleful Strix (FIC) 318
-1 Bojuka Bog (SOC) 363
-2 Brainstorm (FRC) 39
-2 Campfire (CMM) 374
-3 Cast Down (CLB) 119
-4 Contaminated Aquifer (FIC) 383
-4 Counterspell (FCA) 4
-1 Cut Down (DMU) 89
-1 Extract a Confession (MKM) 84
-10 Island (THB) 251
-1 Lose Focus (MH2) 49
-4 Lórien Revealed (LTR) 60
-3 Murmuring Mystic (PLST) GRN-45
-3 Plunder the Trollshaws (HOB) 51
-3 Ponder (M12) 73
-2 Seething Landscape (MH3) 225
-4 Snuff Out (FIC) 285
-2 Spell Pierce (XLN) 81
-2 Suffocating Fumes (PLST) IKO-100
-1 Swamp (THB) 252
-2 Thorn of the Black Rose (CMM) 190
+1 Azure Fleet Admiral
+4 Baleful Strix
+1 Bojuka Bog
+2 Brainstorm
+2 Campfire
+3 Cast Down
+4 Contaminated Aquifer
+4 Counterspell
+1 Cut Down
+1 Extract a Confession
+10 Island
+1 Lose Focus
+4 Lórien Revealed
+3 Murmuring Mystic
+3 Plunder the Trollshaws
+3 Ponder
+2 Seething Landscape
+4 Snuff Out
+2 Spell Pierce
+2 Suffocating Fumes
+1 Swamp
+2 Thorn of the Black Rose
 
-3 Annul (THS) 38
-1 Arms of Hadar (CLB) 113
-1 Campfire (CMM) 374
-1 Extract a Confession (MKM) 84
-4 Hydroblast (ICE) 72
-1 Mountain (THB) 253
-2 Nihil Spellbomb (A25) 226
-2 Vandalblast (FIC) 298
+3 Annul
+1 Arms of Hadar
+1 Campfire
+1 Extract a Confession
+4 Hydroblast
+1 Mountain
+2 Nihil Spellbomb
+2 Vandalblast

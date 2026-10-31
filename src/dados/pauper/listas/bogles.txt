@@ -1,29 +1,29 @@
-4 Abundant Growth (AFC) 150
-4 Ancestral Mask (PLST) EMA-157
-1 Angelic Gift (BFZ) 19
-3 Armadillo Cloak (INV) 229
-1 Ash Barrens (C16) 56
-1 Benevolent Blessing (CMR) 13
-2 Bushwhack (FDN) 215
-1 Cartouche of Solidarity (AKH) 7
-4 Ethereal Armor (DSK) 7
-9 Forest (THB) 254
-4 Gladecover Scout (M14) 176
-1 Heliod's Pilgrim (M15) 14
-3 Malevolent Rumble (MH3) 161
-3 Plains (THB) 250
-3 Rancor (PLST) A25-186
-3 Sheltering Landscape (MH3) 227
-3 Silhana Ledgewalker (RVR) 354
-4 Slippery Bogle (PLST) EVE-160
-2 Spirit Link (DMR) 274
-4 Utopia Sprawl (PLST) DIS-99
+4 Abundant Growth
+4 Ancestral Mask
+1 Angelic Gift
+3 Armadillo Cloak
+1 Ash Barrens
+1 Benevolent Blessing
+2 Bushwhack
+1 Cartouche of Solidarity
+4 Ethereal Armor
+9 Forest
+4 Gladecover Scout
+1 Heliod's Pilgrim
+3 Malevolent Rumble
+3 Plains
+3 Rancor
+3 Sheltering Landscape
+3 Silhana Ledgewalker
+4 Slippery Bogle
+2 Spirit Link
+4 Utopia Sprawl
 
-1 Benevolent Blessing (CMR) 13
-2 Call Damage Control (MSH) 162
-2 Flaring Pain (PLST) JUD-89
-2 Ram Through (IKO) 170
-2 Scattershot Archer (CON) 90
-1 Sentinel's Eyes (THB) 36
-2 Spirit Link (DMR) 274
-3 Thraben Charm (MH3) 45
+1 Benevolent Blessing
+2 Call Damage Control
+2 Flaring Pain
+2 Ram Through
+2 Scattershot Archer
+1 Sentinel's Eyes
+2 Spirit Link
+3 Thraben Charm

@@ -1,25 +1,25 @@
-1 Annoyed Altisaur (CMR) 216
-4 Arbor Elf (M13) 160
-4 Avenging Hunter (CLB) 215
-1 Bannerhide Krushok (MH2) 149
-4 Boarding Party (PLST) CMR-163
-4 Eldrazi Repurposer (MH3) 150
-15 Forest (THB) 254
-4 Jewel Thief (PLST) SNC-151
-4 Malevolent Rumble (MH3) 161
-1 Mountain (THB) 253
-1 Nyxborn Hydra (MH3) 164
-1 Ram Through (IKO) 170
-3 Sagu Wildling // Roost Seek (TDM) 157
-4 Utopia Sprawl (PLST) DIS-99
-3 Wild Growth (DMR) 352
-4 Writhing Chrysalis (MH3) 208
-2 You Meet in a Tavern (AFR) 215
+1 Annoyed Altisaur
+4 Arbor Elf
+4 Avenging Hunter
+1 Bannerhide Krushok
+4 Boarding Party
+4 Eldrazi Repurposer
+15 Forest
+4 Jewel Thief
+4 Malevolent Rumble
+1 Mountain
+1 Nyxborn Hydra
+1 Ram Through
+3 Sagu Wildling // Roost Seek
+4 Utopia Sprawl
+3 Wild Growth
+4 Writhing Chrysalis
+2 You Meet in a Tavern
 
-2 Breath Weapon (CLB) 165
-2 Deglamer (PLST) MOR-118
-1 Faerie Macabre (MMA) 86
-2 Ram Through (IKO) 170
-2 Relic of Progenitus (MMA) 213
-3 Vandalblast (FIC) 298
-3 Weather the Storm (MH1) 191
+2 Breath Weapon
+2 Deglamer
+1 Faerie Macabre
+2 Ram Through
+2 Relic of Progenitus
+3 Vandalblast
+3 Weather the Storm

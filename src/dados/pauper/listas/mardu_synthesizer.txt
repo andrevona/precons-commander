@@ -1,29 +1,29 @@
-2 Black Mage's Rod (FIN) 90
-1 Bojuka Bog (SOC) 363
-4 Cleansing Wildfire (ZNR) 137
-4 Dispatch (MSC) 130
-4 Drossforge Bridge (MH2) 246
-4 Experimental Synthesizer (PLST) NEO-138
-2 Fanatical Offering (LCI) 105
-4 Galvanic Blast (SOM) 91
-4 Glint Hawk (SOM) 10
-4 Kor Skyfisher (PLST) DDO-16
-2 Krark-Clan Shaman (MRD) 98
-4 Lembas (LTR) 243
-2 Mountain (THB) 253
-1 Nihil Spellbomb (A25) 226
-1 Omen of the Dead (THB) 110
-2 Plains (THB) 250
-4 Refurbished Familiar (MH3) 105
-4 Rustvale Bridge (PLST) MH2-253
-4 Shattered Landscape (MH3) 226
-2 Swamp (THB) 252
-1 Vault of Whispers (BRC) 211
+2 Black Mage's Rod
+1 Bojuka Bog
+4 Cleansing Wildfire
+4 Dispatch
+4 Drossforge Bridge
+4 Experimental Synthesizer
+2 Fanatical Offering
+4 Galvanic Blast
+4 Glint Hawk
+4 Kor Skyfisher
+2 Krark-Clan Shaman
+4 Lembas
+2 Mountain
+1 Nihil Spellbomb
+1 Omen of the Dead
+2 Plains
+4 Refurbished Familiar
+4 Rustvale Bridge
+4 Shattered Landscape
+2 Swamp
+1 Vault of Whispers
 
-3 Cast into the Fire (LTR) 118
-2 Duress (EMA) 86
-1 Krark-Clan Shaman (MRD) 98
-2 Navigator's Compass (DOM) 225
-4 Red Elemental Blast (3ED) 171
-2 Thraben Charm (MH3) 45
-1 Tithing Blade // Consuming Sepulcher (LCI) 128
+3 Cast into the Fire
+2 Duress
+1 Krark-Clan Shaman
+2 Navigator's Compass
+4 Red Elemental Blast
+2 Thraben Charm
+1 Tithing Blade // Consuming Sepulcher

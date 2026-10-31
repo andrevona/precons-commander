@@ -1,27 +1,27 @@
-4 Abandon Attachments (TLA) 205
-4 Brainstorm (FRC) 39
-2 Cast Down (CLB) 119
-2 Contaminated Aquifer (FIC) 383
-4 Counterspell (FCA) 4
-2 Cut Down (DMU) 89
-2 Gurmag Angler (FRF) 72
-2 Ice Tunnel (KHM) 262
-10 Island (THB) 251
-2 Lórien Revealed (LTR) 60
-2 Mental Note (PLST) JUD-46
-4 Ponder (M12) 73
-4 Sneaky Snacker (MH3) 205
-2 Snuff Out (FIC) 285
-2 Spell Pierce (XLN) 81
-2 Swamp (THB) 252
-4 Thought Scour (DKA) 52
-4 Tolarian Terror (FDN) 167
-2 Unexpected Fangs (PLST) IKO-102
+4 Abandon Attachments
+4 Brainstorm
+2 Cast Down
+2 Contaminated Aquifer
+4 Counterspell
+2 Cut Down
+2 Gurmag Angler
+2 Ice Tunnel
+10 Island
+2 Lórien Revealed
+2 Mental Note
+4 Ponder
+4 Sneaky Snacker
+2 Snuff Out
+2 Spell Pierce
+2 Swamp
+4 Thought Scour
+4 Tolarian Terror
+2 Unexpected Fangs
 
-2 Annul (THS) 38
-2 Arms of Hadar (CLB) 113
-3 Blue Elemental Blast (4ED) 63
-2 Extract a Confession (MKM) 84
-1 Gut Shot (MM2) 117
-2 Steel Sabotage (2XM) 70
-3 Tormod's Crypt (M21) 241
+2 Annul
+2 Arms of Hadar
+3 Blue Elemental Blast
+2 Extract a Confession
+1 Gut Shot
+2 Steel Sabotage
+3 Tormod's Crypt

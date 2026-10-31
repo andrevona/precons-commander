@@ -1,22 +1,22 @@
-1 Apostle's Blessing (NPH) 2
-4 Blight Mamba (PLST) SOM-112
-4 Embiggen (UNF) 137
-4 Escape Tunnel (TMT) 184
-9 Forest (THB) 254
-4 Glistener Elf (NPH) 111
-3 Go Forth (J25) 20
-4 Hickory Woodlot (MMQ) 319
-4 Ichorclaw Myr (SOM) 166
-4 Llanowar Augur (FUT) 129
-4 Might of Old Krosa (PLST) TSP-204
-4 Mutagenic Growth (PLST) NPH-116
-4 Rancor (PLST) A25-186
-4 Snakeskin Veil (CMM) 323
-3 Vines of Vastwood (PLST) ZEN-193
+1 Apostle's Blessing
+4 Blight Mamba
+4 Embiggen
+4 Escape Tunnel
+9 Forest
+4 Glistener Elf
+3 Go Forth
+4 Hickory Woodlot
+4 Ichorclaw Myr
+4 Llanowar Augur
+4 Might of Old Krosa
+4 Mutagenic Growth
+4 Rancor
+4 Snakeskin Veil
+3 Vines of Vastwood
 
-1 Apostle's Blessing (NPH) 2
-1 Bojuka Bog (SOC) 363
-2 Crop Rotation (DMR) 154
-3 Gut Shot (MM2) 117
-4 Scattershot Archer (CON) 90
-4 Seal of Strength (EMA) 184
+1 Apostle's Blessing
+1 Bojuka Bog
+2 Crop Rotation
+3 Gut Shot
+4 Scattershot Archer
+4 Seal of Strength

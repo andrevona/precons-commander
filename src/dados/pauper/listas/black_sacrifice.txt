@@ -1,21 +1,21 @@
-2 Accursed Marauder (MH3) 80
-1 Apostle's Blessing (NPH) 2
-4 Bloodthrone Vampire (DDP) 46
-4 Carrion Feeder (MH1) 81
-4 Infestation Sage (FDN) 64
-4 Mortician Beetle (MM3) 78
-4 Nested Shambler (MH2) 95
-4 Nezumi Linkbreaker (OTJ) 96
-2 Rite of Consumption (PLST) SHM-76
-4 Shambling Ghast (PLST) AFR-119
-4 Supernatural Stamina (GN3) 62
-17 Swamp (THB) 252
-2 Tragic Slip (C14) 167
-4 Unearth (MH1) 113
+2 Accursed Marauder
+1 Apostle's Blessing
+4 Bloodthrone Vampire
+4 Carrion Feeder
+4 Infestation Sage
+4 Mortician Beetle
+4 Nested Shambler
+4 Nezumi Linkbreaker
+2 Rite of Consumption
+4 Shambling Ghast
+4 Supernatural Stamina
+17 Swamp
+2 Tragic Slip
+4 Unearth
 
-2 Accursed Marauder (MH3) 80
-2 Mesmeric Fiend (PLST) TOR-69
-3 Mutagenic Growth (PLST) NPH-116
-2 Rotten Reunion (MID) 119
-4 Snuff Out (FIC) 285
-2 Tragic Slip (C14) 167
+2 Accursed Marauder
+2 Mesmeric Fiend
+3 Mutagenic Growth
+2 Rotten Reunion
+4 Snuff Out
+2 Tragic Slip

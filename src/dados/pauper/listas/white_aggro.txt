@@ -1,23 +1,23 @@
-4 Battle Screech (DMR) 2
-1 Eagles of the North (LTR) 7
-1 Greatsword of Tyr (CLB) 22
-2 Guardians' Pledge (M12) 22
-2 Idyllic Grange (ELD) 246
-1 Journey to Nowhere (PLST) ZEN-14
-4 Kor Skyfisher (PLST) DDO-16
-3 Leonardo, Big Brother (TMT) 14
-4 Lunarch Veteran // Luminous Phantom (MID) 27
-4 Novice Inspector (MKM) 29
-17 Plains (THB) 250
-3 Prismatic Strands (PLST) JUD-18
-4 Raffine's Informant (PLST) SNC-26
-2 Spider-Man, Web-Slinger (SPM) 16
-4 Thraben Charm (MH3) 45
-4 Thraben Inspector (2XM) 35
+4 Battle Screech
+1 Eagles of the North
+1 Greatsword of Tyr
+2 Guardians' Pledge
+2 Idyllic Grange
+1 Journey to Nowhere
+4 Kor Skyfisher
+3 Leonardo, Big Brother
+4 Lunarch Veteran // Luminous Phantom
+4 Novice Inspector
+17 Plains
+3 Prismatic Strands
+4 Raffine's Informant
+2 Spider-Man, Web-Slinger
+4 Thraben Charm
+4 Thraben Inspector
 
-2 Destroy Evil (MSC) 128
-4 Dust to Dust (MBC) 71
-2 Journey to Nowhere (PLST) ZEN-14
-3 Martyr of Sands (UMA) 25
-2 Palace Sentinels (CMR) 36
-2 Standard Bearer (PLST) APC-18
+2 Destroy Evil
+4 Dust to Dust
+2 Journey to Nowhere
+3 Martyr of Sands
+2 Palace Sentinels
+2 Standard Bearer

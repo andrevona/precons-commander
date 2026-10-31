@@ -1,22 +1,22 @@
-4 Ancient Den (EOC) 148
-4 Candy Trail (WOE) 243
-4 Clockwork Percussionist (DSK) 130
-4 Clowning Around (UNF) 6
-4 Experimental Synthesizer (PLST) NEO-138
-4 Galvanic Blast (SOM) 91
-4 Glint Hawk (SOM) 10
-4 Great Furnace (MRD) 282
-4 HYDRA Assault Robot (MSH) 137
-4 Mechanized Ninja Cavalry (TMT) 156
-4 Melded Moxite (EOE) 143
-4 Mountain (THB) 253
-2 Plains (THB) 250
-2 Rally the Peasants (EMA) 25
-4 Reckless Fireweaver (DRC) 106
-4 Rustvale Bridge (PLST) MH2-253
+4 Ancient Den
+4 Candy Trail
+4 Clockwork Percussionist
+4 Clowning Around
+4 Experimental Synthesizer
+4 Galvanic Blast
+4 Glint Hawk
+4 Great Furnace
+4 HYDRA Assault Robot
+4 Mechanized Ninja Cavalry
+4 Melded Moxite
+4 Mountain
+2 Plains
+2 Rally the Peasants
+4 Reckless Fireweaver
+4 Rustvale Bridge
 
-4 Leonin Elder (MRD) 10
-2 Makeshift Munitions (CMR) 191
-2 Prismatic Strands (PLST) JUD-18
-4 Red Elemental Blast (3ED) 171
-3 Relic of Progenitus (MMA) 213
+4 Leonin Elder
+2 Makeshift Munitions
+2 Prismatic Strands
+4 Red Elemental Blast
+3 Relic of Progenitus

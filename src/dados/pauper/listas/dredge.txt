@@ -1,25 +1,25 @@
-3 Circle of the Land Druid (CLB) 220
-4 Dread Return (CMM) 153
-4 Forest (THB) 254
-4 Generous Ent (LTR) 169
-1 Gnaw to the Bone (PLST) ISD-183
-1 Haunted Mire (SOC) 379
-2 Holdout Settlement (OGW) 172
-4 Khalni Garden (PLST) DDR-28
-4 Lotleth Giant (SCD) 89
-4 Malevolent Rumble (MH3) 161
-4 Masked Vandal (KHM) 184
-4 Molten Gatekeeper (MH3) 128
-4 Satyr Wayfinder (CMA) 143
-4 Scrapwork Mutt (PLST) BRO-164
-4 Stinkweed Imp (DDJ) 54
-4 Survivors' Encampment (PLST) HOU-184
-4 Town Greeter (FIN) 209
-1 Wooded Ridgeline (BLC) 353
+3 Circle of the Land Druid
+4 Dread Return
+4 Forest
+4 Generous Ent
+1 Gnaw to the Bone
+1 Haunted Mire
+2 Holdout Settlement
+4 Khalni Garden
+4 Lotleth Giant
+4 Malevolent Rumble
+4 Masked Vandal
+4 Molten Gatekeeper
+4 Satyr Wayfinder
+4 Scrapwork Mutt
+4 Stinkweed Imp
+4 Survivors' Encampment
+4 Town Greeter
+1 Wooded Ridgeline
 
-2 Ancient Grudge (TSR) 151
-2 Coffin Purge (ODY) 124
-3 Fang Dragon // Forktail Sweep (CLB) 173
-1 Flaring Pain (PLST) JUD-89
-3 Gnaw to the Bone (PLST) ISD-183
-4 Writhing Chrysalis (MH3) 208
+2 Ancient Grudge
+2 Coffin Purge
+3 Fang Dragon // Forktail Sweep
+1 Flaring Pain
+3 Gnaw to the Bone
+4 Writhing Chrysalis

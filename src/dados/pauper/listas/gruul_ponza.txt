@@ -1,22 +1,22 @@
-2 Annoyed Altisaur (CMR) 216
-4 Arbor Elf (M13) 160
-4 Avenging Hunter (CLB) 215
-4 Boarding Party (PLST) CMR-163
-1 Bonder's Ornament (PLST) C20-67
-4 Eldrazi Repurposer (MH3) 150
-1 Highland Forest (KHM) 261
-2 Jewel Thief (PLST) SNC-151
-3 Malevolent Rumble (MH3) 161
-4 Mwonvuli Acid-Moss (PLST) TSP-207
-14 Snow-Covered Forest (KHM) 284
-2 Snow-Covered Mountain (KHM) 283
-4 Thermokarst (ICE) 268
-4 Utopia Sprawl (PLST) DIS-99
-3 Wild Growth (DMR) 352
-4 Writhing Chrysalis (MH3) 208
+2 Annoyed Altisaur
+4 Arbor Elf
+4 Avenging Hunter
+4 Boarding Party
+1 Bonder's Ornament
+4 Eldrazi Repurposer
+1 Highland Forest
+2 Jewel Thief
+3 Malevolent Rumble
+4 Mwonvuli Acid-Moss
+14 Snow-Covered Forest
+2 Snow-Covered Mountain
+4 Thermokarst
+4 Utopia Sprawl
+3 Wild Growth
+4 Writhing Chrysalis
 
-3 Breath Weapon (CLB) 165
-4 Deglamer (PLST) MOR-118
-2 Relic of Progenitus (MMA) 213
-3 Suplex (FIN) 164
-3 Weather the Storm (MH1) 191
+3 Breath Weapon
+4 Deglamer
+2 Relic of Progenitus
+3 Suplex
+3 Weather the Storm

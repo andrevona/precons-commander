@@ -1,29 +1,29 @@
-2 Bojuka Bog (SOC) 363
-1 Bonder's Ornament (PLST) C20-67
-3 Campfire (CMM) 374
-3 Cast Down (CLB) 119
-3 Cauldron Familiar (ELD) 81
-2 Cut Down (DMU) 89
-3 Eviscerator's Insight (MH3) 93
-4 Fanatical Offering (LCI) 105
-2 Golgari Rot Farm (TDC) 368
-1 Grapple with Death (SOS) 192
-1 Haunted Mire (SOC) 379
-1 Heritage Reclamation (TDM) 145
-2 Ichor Wellspring (BRR) 21
-4 Khalni Garden (PLST) DDR-28
-4 Lembas (LTR) 243
-2 Nihil Spellbomb (A25) 226
-4 Nutrient Block (EOE) 243
-3 Pestilence (4ED) 152
-1 Snuff Out (FIC) 285
-9 Swamp (THB) 252
-2 Tithing Blade // Consuming Sepulcher (LCI) 128
-3 Troll of Khazad-dûm (LTR) 111
+2 Bojuka Bog
+1 Bonder's Ornament
+3 Campfire
+3 Cast Down
+3 Cauldron Familiar
+2 Cut Down
+3 Eviscerator's Insight
+4 Fanatical Offering
+2 Golgari Rot Farm
+1 Grapple with Death
+1 Haunted Mire
+1 Heritage Reclamation
+2 Ichor Wellspring
+4 Khalni Garden
+4 Lembas
+2 Nihil Spellbomb
+4 Nutrient Block
+3 Pestilence
+1 Snuff Out
+9 Swamp
+2 Tithing Blade // Consuming Sepulcher
+3 Troll of Khazad-dûm
 
-2 Desert (AFC) 233
-3 Drown in Sorrow (CMM) 154
-2 Faerie Macabre (MMA) 86
-2 Snuff Out (FIC) 285
-2 Troublemaker Ouphe (WOE) 194
-4 Weather the Storm (MH1) 191
+2 Desert
+3 Drown in Sorrow
+2 Faerie Macabre
+2 Snuff Out
+2 Troublemaker Ouphe
+4 Weather the Storm

@@ -1,28 +1,28 @@
-4 Balustrade Spy (GTC) 57
-2 Dread Return (CMM) 153
-1 Elves of Deep Shadow (GK1) 56
-3 Forest (THB) 254
-2 Gatecreeper Vine (DDM) 48
-4 Generous Ent (LTR) 169
-4 Land Grant (PLST) MMQ-255
-4 Lead the Stampede (MBS) 82
-2 Lotleth Giant (SCD) 89
-2 Lotus Petal (TMP) 294
-4 Masked Vandal (KHM) 184
-4 Mesmeric Fiend (PLST) TOR-69
-2 Nyxborn Hydra (MH3) 164
-4 Overgrown Battlement (JMP) 417
-2 Quirion Ranger (PLST) VIS-117
-4 Sagu Wildling // Roost Seek (TDM) 157
-4 Saruli Caretaker (RNA) 139
-1 Swamp (THB) 252
-1 Troll of Khazad-dûm (LTR) 111
-2 Wall of Roots (PLST) NCC-319
-4 Winding Way (PLST) MH1-193
+4 Balustrade Spy
+2 Dread Return
+1 Elves of Deep Shadow
+3 Forest
+2 Gatecreeper Vine
+4 Generous Ent
+4 Land Grant
+4 Lead the Stampede
+2 Lotleth Giant
+2 Lotus Petal
+4 Masked Vandal
+4 Mesmeric Fiend
+2 Nyxborn Hydra
+4 Overgrown Battlement
+2 Quirion Ranger
+4 Sagu Wildling // Roost Seek
+4 Saruli Caretaker
+1 Swamp
+1 Troll of Khazad-dûm
+2 Wall of Roots
+4 Winding Way
 
-3 Faerie Macabre (MMA) 86
-1 Flaring Pain (PLST) JUD-89
-1 Mountain (THB) 253
-4 Nylea's Disciple (THS) 167
-2 Vandalblast (FIC) 298
-4 Writhing Chrysalis (MH3) 208
+3 Faerie Macabre
+1 Flaring Pain
+1 Mountain
+4 Nylea's Disciple
+2 Vandalblast
+4 Writhing Chrysalis

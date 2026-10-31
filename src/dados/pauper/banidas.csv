@@ -1,77 +1,77 @@
-carta,tipo,nome_pt
-"""Name Sticker"" Goblin",Creature,
-_____ Bird Gets the Worm,Creature,
-_____ Goblin,Creature,
-_____-o-saurus,Creature,
-Aarakocra Sneak,Creature,Aarakocra Furtivo
-Adriana's Valor,Conspiracy,
-Aerialephant,Creature,
-All That Glitters,Enchantment,Tudo que Reluz
-Arcum's Astrolabe,Snow Artifact,Astrolábio de Arcum
-Assemble the Rank and Vile,Conspiracy,
-Atog,Creature,Atogue
-Basking Broodscale,Creature,Escamoso Preguiçoso
-Brago's Favor,Conspiracy,
-Carnival Carnivore,Creature,
-Chatterstorm,Sorcery,Tempestade Serelepe
-Chicken Troupe,Creature,
-Cloud of Faeries,Creature,Nuvem de Fadas
-Cloudpost,Land,Posto das Nuvens
-Coming Attraction,Sorcery,
-Command Performance,Sorcery,
-Cranial Plating,Artifact,Chapeamento Craniano
-Cranial Ram,Artifact,Aríete Craniano
-Daze,Instant,Pasmar
-Deadbeat Attendant,Creature,
-Deadly Dispute,Instant,Disputa Mortífera
-Disciple of the Vault,Creature,Discípulo da Câmara
-Draconian Gate-Bot,Artifact Creature,
-Empty the Warrens,Sorcery,Esvaziar os Viveiros
-Fall from Favor,Enchantment,Cair em Desgraça
-Finishing Move,Sorcery,
-Frantic Search,Instant,Busca Frenética
-Galvanic Relay,Sorcery,Relé Galvânico
-Gitaxian Probe,Sorcery,Sonda Gitaxiana
-Glitterflitter,Creature,
-Grapeshot,Sorcery,Metralha
-Gush,Instant,Jorro
-High Tide,Instant,Maré Alta
-Hired Heist,Conspiracy,
-Hymn to Tourach,Sorcery,
-Immediate Action,Conspiracy,
-Incendiary Dissent,Conspiracy,
-Invigorate,Instant,Envigorar
-Kuldotha Rebirth,Sorcery,Renascimento de Kuldotha
-Line Cutter,Creature,
-Minotaur de Force,Creature,
-Monastery Swiftspear,Creature,Lança Veloz do Monastério
-Muzzio's Preparations,Conspiracy,
-Mystic Sanctuary,Land,Santuário Místico
-Narcomoeba,Creature,Narcoameba
-Natural Unity,Conspiracy,
-Peregrine Drake,Creature,Dragonete Peregrino
-Petting Zookeeper,Creature,
-Pradesh Gypsies,Creature,Ciganos de Pradesh
-Price of Progress,Instant,Preco do Progresso
-Prize Wall,Creature,
-Rad Rascal,Creature,
-Ride Guide,Creature,
-Robo-Piñata,Artifact Creature,
-Seasoned Buttoneer,Creature,
-Secrets of Paradise,Conspiracy,
-Seeker of Skybreak,Creature,Perscrutador da Fenda do Céu
-Sentinel Dispatch,Conspiracy,
-Sinkhole,Sorcery,
-Sojourner's Companion,Artifact Creature,Companheiro do Visitante
-Soul Swindler,Creature,
-Step Right Up,Sorcery,
-Stiltstrider,Creature,
-Stirring Bard,Creature,Barda Despertadora
-Stone-Throwing Devils,Creature,
-Temporal Fissure,Sorcery,Fissura Temporal
-Ticketomaton,Artifact Creature,
-Treasure Cruise,Sorcery,Cruzeiro do Tesouro
-Underdark Explorer,Creature,Explorador do Subterrâneo
-Vicious Battlerager,Creature,Furioso de Batalha Ferino
-Wizards of the _____,Creature,
-Wolf in _____ Clothing,Creature,
+carta,tipo,nome_pt,grupo
+"""Name Sticker"" Goblin",Creature,,unf
+_____ Bird Gets the Worm,Creature,,unf
+_____ Goblin,Creature,,unf
+_____-o-saurus,Creature,,unf
+Aarakocra Sneak,Creature,Aarakocra Furtivo,
+Adriana's Valor,Conspiracy,,conspiracy
+Aerialephant,Creature,,unf
+All That Glitters,Enchantment,Tudo que Reluz,
+Arcum's Astrolabe,Snow Artifact,Astrolábio de Arcum,
+Assemble the Rank and Vile,Conspiracy,,conspiracy
+Atog,Creature,Atogue,
+Basking Broodscale,Creature,Escamoso Preguiçoso,
+Brago's Favor,Conspiracy,,conspiracy
+Carnival Carnivore,Creature,,unf
+Chatterstorm,Sorcery,Tempestade Serelepe,
+Chicken Troupe,Creature,,unf
+Cloud of Faeries,Creature,Nuvem de Fadas,
+Cloudpost,Land,Posto das Nuvens,
+Coming Attraction,Sorcery,,unf
+Command Performance,Sorcery,,unf
+Cranial Plating,Artifact,Chapeamento Craniano,
+Cranial Ram,Artifact,Aríete Craniano,
+Daze,Instant,Pasmar,
+Deadbeat Attendant,Creature,,unf
+Deadly Dispute,Instant,Disputa Mortífera,
+Disciple of the Vault,Creature,Discípulo da Câmara,
+Draconian Gate-Bot,Artifact Creature,,unf
+Empty the Warrens,Sorcery,Esvaziar os Viveiros,
+Fall from Favor,Enchantment,Cair em Desgraça,
+Finishing Move,Sorcery,,unf
+Frantic Search,Instant,Busca Frenética,
+Galvanic Relay,Sorcery,Relé Galvânico,
+Gitaxian Probe,Sorcery,Sonda Gitaxiana,
+Glitterflitter,Creature,,unf
+Grapeshot,Sorcery,Metralha,
+Gush,Instant,Jorro,
+High Tide,Instant,Maré Alta,
+Hired Heist,Conspiracy,,conspiracy
+Hymn to Tourach,Sorcery,,
+Immediate Action,Conspiracy,,conspiracy
+Incendiary Dissent,Conspiracy,,conspiracy
+Invigorate,Instant,Envigorar,
+Kuldotha Rebirth,Sorcery,Renascimento de Kuldotha,
+Line Cutter,Creature,,unf
+Minotaur de Force,Creature,,unf
+Monastery Swiftspear,Creature,Lança Veloz do Monastério,
+Muzzio's Preparations,Conspiracy,,conspiracy
+Mystic Sanctuary,Land,Santuário Místico,
+Narcomoeba,Creature,Narcoameba,
+Natural Unity,Conspiracy,,conspiracy
+Peregrine Drake,Creature,Dragonete Peregrino,
+Petting Zookeeper,Creature,,unf
+Pradesh Gypsies,Creature,Ciganos de Pradesh,
+Price of Progress,Instant,Preco do Progresso,
+Prize Wall,Creature,,unf
+Rad Rascal,Creature,,unf
+Ride Guide,Creature,,unf
+Robo-Piñata,Artifact Creature,,unf
+Seasoned Buttoneer,Creature,,unf
+Secrets of Paradise,Conspiracy,,conspiracy
+Seeker of Skybreak,Creature,Perscrutador da Fenda do Céu,
+Sentinel Dispatch,Conspiracy,,conspiracy
+Sinkhole,Sorcery,,
+Sojourner's Companion,Artifact Creature,Companheiro do Visitante,
+Soul Swindler,Creature,,unf
+Step Right Up,Sorcery,,unf
+Stiltstrider,Creature,,unf
+Stirring Bard,Creature,Barda Despertadora,
+Stone-Throwing Devils,Creature,,
+Temporal Fissure,Sorcery,Fissura Temporal,
+Ticketomaton,Artifact Creature,,unf
+Treasure Cruise,Sorcery,Cruzeiro do Tesouro,
+Underdark Explorer,Creature,Explorador do Subterrâneo,
+Vicious Battlerager,Creature,Furioso de Batalha Ferino,
+Wizards of the _____,Creature,,unf
+Wolf in _____ Clothing,Creature,,unf

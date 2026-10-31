@@ -1,27 +1,27 @@
-3 Archaeomancer (M13) 41
-4 Azorius Chancery (CLU) 229
-2 Contaminated Landscape (MH3) 218
-2 Ephemerate (MAR) 44
-2 Ghostly Flicker (PLST) KHC-39
-1 Glacial Floodplain (KHM) 257
-3 Glorious Gale (LTR) 51
-4 God-Pharaoh's Faithful (HOU) 14
-1 Lonely Arroyo (OTJ) 260
-4 Lórien Revealed (LTR) 60
-3 Meeting of Minds (PLST) MOM-66
-1 Mortuary Mire (BFZ) 240
-4 Mulldrifter (AFC) 87
-2 Negate (DTK) 65
-4 Preordain (TDC) 161
-3 Sea Gate Oracle (GN3) 38
-4 Snap (DMR) 66
-7 Snow-Covered Island (KHM) 279
-2 Snow-Covered Plains (KHM) 276
-4 Sunscape Familiar (PLST) PLS-17
+3 Archaeomancer
+4 Azorius Chancery
+2 Contaminated Landscape
+2 Ephemerate
+2 Ghostly Flicker
+1 Glacial Floodplain
+3 Glorious Gale
+4 God-Pharaoh's Faithful
+1 Lonely Arroyo
+4 Lórien Revealed
+3 Meeting of Minds
+1 Mortuary Mire
+4 Mulldrifter
+2 Negate
+4 Preordain
+3 Sea Gate Oracle
+4 Snap
+7 Snow-Covered Island
+2 Snow-Covered Plains
+4 Sunscape Familiar
 
-3 Dust to Dust (MBC) 71
-2 Envelop (JUD) 39
-4 Hydroblast (ICE) 72
-2 Last Breath (THS) 22
-2 Negate (DTK) 65
-2 Stonehorn Dignitary (PLST) M12-37
+3 Dust to Dust
+2 Envelop
+4 Hydroblast
+2 Last Breath
+2 Negate
+2 Stonehorn Dignitary

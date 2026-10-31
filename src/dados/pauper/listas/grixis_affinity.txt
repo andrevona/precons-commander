@@ -1,30 +1,30 @@
-2 Black Mage's Rod (FIN) 90
-2 Blood Fountain (PLST) VOW-95
-4 Drossforge Bridge (MH2) 246
-4 Galvanic Blast (SOM) 91
-3 Great Furnace (MRD) 282
-4 Ichor Wellspring (BRR) 21
-3 Krark-Clan Shaman (MRD) 98
-1 Makeshift Munitions (CMR) 191
-4 Mistvault Bridge (MH2) 249
-4 Myr Enforcer (J25) 756
-2 Nihil Spellbomb (A25) 226
-4 Reckoner's Bargain (NEO) 120
-4 Refurbished Familiar (MH3) 105
-2 Seat of the Synod (J25) 773
-2 Sewer-veillance Cam (TMT) 53
-2 Silverbluff Bridge (EOC) 180
-1 Swamp (THB) 252
-4 Thoughtcast (TRC) 444
-2 Toxin Analysis (MKM) 107
-3 Utrom Monitor (TMC) 113
-3 Vault of Whispers (BRC) 211
+2 Black Mage's Rod
+2 Blood Fountain
+4 Drossforge Bridge
+4 Galvanic Blast
+3 Great Furnace
+4 Ichor Wellspring
+3 Krark-Clan Shaman
+1 Makeshift Munitions
+4 Mistvault Bridge
+4 Myr Enforcer
+2 Nihil Spellbomb
+4 Reckoner's Bargain
+4 Refurbished Familiar
+2 Seat of the Synod
+2 Sewer-veillance Cam
+2 Silverbluff Bridge
+1 Swamp
+4 Thoughtcast
+2 Toxin Analysis
+3 Utrom Monitor
+3 Vault of Whispers
 
-4 Blue Elemental Blast (4ED) 63
-2 Breath Weapon (CLB) 165
-2 Extract a Confession (MKM) 84
-1 Gorilla Shaman (PLST) MH2-280
-2 Hydroblast (ICE) 72
-1 Pyroblast (ICE) 213
-2 Red Elemental Blast (3ED) 171
-1 Unexpected Fangs (PLST) IKO-102
+4 Blue Elemental Blast
+2 Breath Weapon
+2 Extract a Confession
+1 Gorilla Shaman
+2 Hydroblast
+1 Pyroblast
+2 Red Elemental Blast
+1 Unexpected Fangs

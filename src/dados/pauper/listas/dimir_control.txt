@@ -1,30 +1,30 @@
-2 Augur of Bolas (C13) 30
-4 Baleful Strix (FIC) 318
-1 Bojuka Bog (SOC) 363
-2 Campfire (CMM) 374
-2 Cast Down (CLB) 119
-4 Contaminated Aquifer (FIC) 383
-4 Counterspell (FCA) 4
-2 Cut Down (DMU) 89
-1 Dimir Aqueduct (CLU) 233
-3 Duress (EMA) 86
-1 Extract a Confession (MKM) 84
-2 Ice Tunnel (KHM) 262
-9 Island (THB) 251
-4 Lórien Revealed (LTR) 60
-3 Murmuring Mystic (PLST) GRN-45
-2 Nihil Spellbomb (A25) 226
-3 Plunder the Trollshaws (HOB) 51
-3 Preordain (TDC) 161
-4 Snuff Out (FIC) 285
-1 Suffocating Fumes (PLST) IKO-100
-1 Swamp (THB) 252
-2 Thorn of the Black Rose (CMM) 190
+2 Augur of Bolas
+4 Baleful Strix
+1 Bojuka Bog
+2 Campfire
+2 Cast Down
+4 Contaminated Aquifer
+4 Counterspell
+2 Cut Down
+1 Dimir Aqueduct
+3 Duress
+1 Extract a Confession
+2 Ice Tunnel
+9 Island
+4 Lórien Revealed
+3 Murmuring Mystic
+2 Nihil Spellbomb
+3 Plunder the Trollshaws
+3 Preordain
+4 Snuff Out
+1 Suffocating Fumes
+1 Swamp
+2 Thorn of the Black Rose
 
-4 Annul (THS) 38
-2 Arms of Hadar (CLB) 113
-1 Campfire (CMM) 374
-1 Extract a Confession (MKM) 84
-4 Hydroblast (ICE) 72
-2 Nihil Spellbomb (A25) 226
-1 Okiba-Gang Shinobi (PLST) PCA-35
+4 Annul
+2 Arms of Hadar
+1 Campfire
+1 Extract a Confession
+4 Hydroblast
+2 Nihil Spellbomb
+1 Okiba-Gang Shinobi

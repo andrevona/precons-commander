@@ -1,21 +1,21 @@
-4 Clockwork Percussionist (DSK) 130
-4 Experimental Synthesizer (PLST) NEO-138
-1 Fireblast (DMR) 319
-4 Galvanic Blast (SOM) 91
-4 Gingerbrute (ELD) 219
-3 Goblin Bushwhacker (PLST) ZEN-125
-4 Goblin Tomb Raider (LCI) 151
-4 Great Furnace (MRD) 282
-4 Inventor's Axe (MH3) 126
-4 Lightning Bolt (FCA) 40
-2 Mirran Banesplitter (MOM) 154
-14 Mountain (THB) 253
-4 Reckless Lackey (OTJ) 140
-4 Voldaren Epicure (VOW) 308
+4 Clockwork Percussionist
+4 Experimental Synthesizer
+1 Fireblast
+4 Galvanic Blast
+4 Gingerbrute
+3 Goblin Bushwhacker
+4 Goblin Tomb Raider
+4 Great Furnace
+4 Inventor's Axe
+4 Lightning Bolt
+2 Mirran Banesplitter
+14 Mountain
+4 Reckless Lackey
+4 Voldaren Epicure
 
-3 Cast into the Fire (LTR) 118
-2 End the Festivities (VOW) 155
-1 Faerie Macabre (MMA) 86
-4 Pyroblast (ICE) 213
-2 Red Elemental Blast (3ED) 171
-3 Relic of Progenitus (MMA) 213
+3 Cast into the Fire
+2 End the Festivities
+1 Faerie Macabre
+4 Pyroblast
+2 Red Elemental Blast
+3 Relic of Progenitus

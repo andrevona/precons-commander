@@ -1,19 +1,19 @@
-3 Battle Screech (DMR) 2
-4 Fortress Kin-Guard (TDM) 12
-1 Guardians' Pledge (M12) 22
-4 Leonardo, Big Brother (TMT) 14
-4 Lunarch Veteran // Luminous Phantom (MID) 27
-4 Martyr's Soul (MH1) 19
-4 Novice Inspector (MKM) 29
-17 Plains (THB) 250
-4 Raffine's Informant (PLST) SNC-26
-4 Ramosian Rally (PLST) MMQ-38
-4 Salt Road Packbeast (TDM) 23
-4 Search Party Captain (J25) 250
-3 Thraben Inspector (2XM) 35
+3 Battle Screech
+4 Fortress Kin-Guard
+1 Guardians' Pledge
+4 Leonardo, Big Brother
+4 Lunarch Veteran // Luminous Phantom
+4 Martyr's Soul
+4 Novice Inspector
+17 Plains
+4 Raffine's Informant
+4 Ramosian Rally
+4 Salt Road Packbeast
+4 Search Party Captain
+3 Thraben Inspector
 
-4 Dust to Dust (MBC) 71
-2 Holy Light (DRK) 10
-3 Standard Bearer (PLST) APC-18
-3 Thraben Charm (MH3) 45
-3 Ultimate Alliance (MSC) 611
+4 Dust to Dust
+2 Holy Light
+3 Standard Bearer
+3 Thraben Charm
+3 Ultimate Alliance

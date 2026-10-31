@@ -1,28 +1,28 @@
-1 Ancient Den (EOC) 148
-2 Blood Fountain (PLST) VOW-95
-4 Cryogen Relic (EOE) 52
-3 Dispatch (MSC) 130
-3 Drossforge Bridge (MH2) 246
-4 Galvanic Blast (SOM) 91
-4 Giant's Boulder (HOB) 173
-3 Glint Hawk (SOM) 10
-1 Great Furnace (MRD) 282
-1 Makeshift Munitions (CMR) 191
-2 Mistvault Bridge (MH2) 249
-3 Myr Enforcer (J25) 756
-2 Nihil Spellbomb (A25) 226
-4 Razortide Bridge (EOC) 171
-3 Reckoner's Bargain (NEO) 120
-4 Refurbished Familiar (MH3) 105
-1 Rustvale Bridge (PLST) MH2-253
-4 Seat of the Synod (J25) 773
-4 Thoughtcast (TRC) 444
-4 Utrom Monitor (TMC) 113
-3 Vault of Whispers (BRC) 211
+1 Ancient Den
+2 Blood Fountain
+4 Cryogen Relic
+3 Dispatch
+3 Drossforge Bridge
+4 Galvanic Blast
+4 Giant's Boulder
+3 Glint Hawk
+1 Great Furnace
+1 Makeshift Munitions
+2 Mistvault Bridge
+3 Myr Enforcer
+2 Nihil Spellbomb
+4 Razortide Bridge
+3 Reckoner's Bargain
+4 Refurbished Familiar
+1 Rustvale Bridge
+4 Seat of the Synod
+4 Thoughtcast
+4 Utrom Monitor
+3 Vault of Whispers
 
-4 Blue Elemental Blast (4ED) 63
-3 Krark-Clan Shaman (MRD) 98
-4 Pyroblast (ICE) 213
-1 Tithing Blade // Consuming Sepulcher (LCI) 128
-2 Toxin Analysis (MKM) 107
-1 Vandalblast (FIC) 298
+4 Blue Elemental Blast
+3 Krark-Clan Shaman
+4 Pyroblast
+1 Tithing Blade // Consuming Sepulcher
+2 Toxin Analysis
+1 Vandalblast

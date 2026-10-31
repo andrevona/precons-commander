@@ -1,32 +1,32 @@
-2 Ancient Den (EOC) 148
-3 Archaeomancer (M13) 41
-4 Baleful Strix (FIC) 318
-2 Bender's Waterskin (TLA) 255
-1 Contaminated Aquifer (FIC) 383
-4 Counterspell (FCA) 4
-2 Cut Down (DMU) 89
-4 Dispatch (MSC) 130
-1 Dispel (BFZ) 76
-4 Ephemerate (MAR) 44
-1 Glacial Floodplain (KHM) 257
-2 Island (THB) 251
-4 Lórien Revealed (LTR) 60
-4 Mistvault Bridge (MH2) 249
-4 Mulldrifter (AFC) 87
-1 Murmuring Mystic (PLST) GRN-45
-3 Preordain (TDC) 161
-3 Razortide Bridge (EOC) 171
-3 Refurbished Familiar (MH3) 105
-3 Seat of the Synod (J25) 773
-1 Suffocating Fumes (PLST) IKO-100
-1 Union of the Third Path (BRO) 31
-3 Vault of Whispers (BRC) 211
+2 Ancient Den
+3 Archaeomancer
+4 Baleful Strix
+2 Bender's Waterskin
+1 Contaminated Aquifer
+4 Counterspell
+2 Cut Down
+4 Dispatch
+1 Dispel
+4 Ephemerate
+1 Glacial Floodplain
+2 Island
+4 Lórien Revealed
+4 Mistvault Bridge
+4 Mulldrifter
+1 Murmuring Mystic
+3 Preordain
+3 Razortide Bridge
+3 Refurbished Familiar
+3 Seat of the Synod
+1 Suffocating Fumes
+1 Union of the Third Path
+3 Vault of Whispers
 
-3 Annul (THS) 38
-2 Blue Elemental Blast (4ED) 63
-1 Dispel (BFZ) 76
-1 Envelop (JUD) 39
-1 Ethereal Haze (CHK) 9
-3 Hydroblast (ICE) 72
-2 Nihil Spellbomb (A25) 226
-2 Stonehorn Dignitary (PLST) M12-37
+3 Annul
+2 Blue Elemental Blast
+1 Dispel
+1 Envelop
+1 Ethereal Haze
+3 Hydroblast
+2 Nihil Spellbomb
+2 Stonehorn Dignitary

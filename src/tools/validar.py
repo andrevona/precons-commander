@@ -121,11 +121,12 @@ def validar_pauper(raiz, dados, site):
         if len(blocos) > 2:
             erros[rel].append(f"{len(blocos)} blocos (esperado deck e sideboard)"); continue
         qtd, tot = [], collections.Counter()
+        LP = re.compile(r"^([1-9]\d*) (\S(?:.*\S)?)$")  # "qtd Nome" (no Pauper as listas não têm edição)
         for b in blocos:
             n, chaves = 0, []
             for l in b.split("\n"):
-                m = LINHA.match(l)
-                if not m:
+                m = LP.match(l)
+                if not m or LINHA.match(l):
                     erros[rel].append(f"linha fora do formato: {l!r}"); continue
                 n += int(m[1]); tot[m[2]] += int(m[1]); chaves.append(m[2].casefold())
                 if m[2] not in cartas:

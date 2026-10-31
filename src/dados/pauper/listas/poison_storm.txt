@@ -1,29 +1,29 @@
-4 Contentious Plan (WAR) 46
-4 Experimental Augury (PLST) ONE-49
-2 Focus the Mind (TDM) 45
-1 Forest (THB) 254
-4 Hickory Woodlot (MMQ) 319
-4 Infectious Inquiry (ONE) 97
-2 Island (THB) 251
-4 Manamorphose (2XM) 208
-1 Merchant Scroll (8ED) 91
-1 Mountain (THB) 253
-1 Peat Bog (PLST) MMQ-322
-4 Pentad Prism (EOC) 56
-1 Prologue to Phyresis (ONE) 65
-3 Sandstone Needle (MMQ) 326
-4 Saprazzan Skerry (MMQ) 328
-3 Snap (DMR) 66
-2 Steady Progress (MM2) 58
-1 Swamp (THB) 252
-2 Teach by Example (FDN) 666
-4 Thirsting Roots (ONE) 185
-4 Vivisurgeon's Insight (ONE) 77
-4 Weather the Storm (MH1) 191
+4 Contentious Plan
+4 Experimental Augury
+2 Focus the Mind
+1 Forest
+4 Hickory Woodlot
+4 Infectious Inquiry
+2 Island
+4 Manamorphose
+1 Merchant Scroll
+1 Mountain
+1 Peat Bog
+4 Pentad Prism
+1 Prologue to Phyresis
+3 Sandstone Needle
+4 Saprazzan Skerry
+3 Snap
+2 Steady Progress
+1 Swamp
+2 Teach by Example
+4 Thirsting Roots
+4 Vivisurgeon's Insight
+4 Weather the Storm
 
-3 Breath Weapon (CLB) 165
-2 Dispel (BFZ) 76
-3 Faerie Macabre (MMA) 86
-2 Hydroblast (ICE) 72
-2 Moment's Peace (PLST) TD0-A80
-3 Pyroblast (ICE) 213
+3 Breath Weapon
+2 Dispel
+3 Faerie Macabre
+2 Hydroblast
+2 Moment's Peace
+3 Pyroblast
