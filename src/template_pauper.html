@@ -479,13 +479,13 @@ var ATUALIZADO = META.data; // data (AAAA-MM-DD) em que as listas foram baixadas
 var TXT = {
   pt: {
     titulo: 'Decks de Pauper',
-    sub: 'Os arquétipos do Pauper nos últimos 30 dias, do mais jogado ao menos, cada um com as suas variações. Em cada variação, a lista de consenso e as listas reais de torneios (MTGO e papel), das melhores colocações para as piores. Use a busca (em português ou inglês) ou compare dois decks.',
+    sub: 'Os arquétipos do Pauper nos últimos 30 dias, do mais jogado ao menos, cada um com as suas variações. Em cada variação, a lista de consenso e até 5 listas reais de torneios (MTGO e papel) que fogem do consenso, das melhores colocações para as piores. Use a busca (em português ou inglês) ou compare dois decks.',
     busca: 'Carta, arquétipo ou variação…', apagar: 'Apagar busca', grupoCores: 'Variações',
     outrasVar: 'Outras', consenso: 'Consenso', nListas: '{n} listas', nLista: '1 lista', mostrarMais: 'Mostrar mais ({n})',
     carregando: 'Carregando as listas…', falhaCarregar: 'Não consegui carregar as listas agora. Toque no arquétipo para tentar de novo.',
     infoCons: 'Consenso de {n} listas ({m} MTGO, {p} papel) · {pc} das listas · {b} com bom resultado',
     consDica: 'Lista de consenso: cada carta na quantidade média das listas desta variação (as maiores médias até completar 60 + 15). Ninguém jogou exatamente assim, mas mostra o que quase todos usam.',
-    infoReal: 'Lista de {j}{r} · {e} · {d} · {o}', mtgo: 'MTGO', papel: 'papel', apelido: 'Nome dado pelo jogador: {n}',
+    infoReal: 'Lista de {j}{r} · {e} · {d} · {o}', difCons: '{d} cartas diferentes do consenso no deck principal e {s} no sideboard', mtgo: 'MTGO', papel: 'papel', apelido: 'Nome dado pelo jogador: {n}',
     sideTipico: 'Sideboard típico (% das listas da variação que levam a carta): {l}.', listaDe: 'Lista de {j}{r}', escolhaListas: 'Listas',
     confrNivel: 'Números do arquétipo inteiro ({a} x {b}, todas as variações), segundo o DeckSnipe.', outrasDe: '{f} (outras)',
     ban_unf: '{n} cartas do Unfinity com adesivos ou atrações', ban_conspiracy: '{n} cartas do tipo Conspiracy:',
@@ -504,7 +504,7 @@ var TXT = {
     confrFonte: 'Fonte: {f}, {p}. Com menos de 20 partidas o número é pouco confiável.',
     semConfr: 'Não há dados suficientes deste confronto.', semConfrFonte: 'O histórico de confrontos ainda não foi carregado nesta página.',
     encontro: '{b} é {p}% das listas: num torneio, quem joga {a} enfrenta {b} em cerca de 1 a cada {k} partidas.',
-    rodExtra: 'Os <b>arquétipos</b> estão em ordem de participação (% das listas dos últimos 30 dias, MTGO e papel). Dentro de cada um ficam as <b>variações</b> (agrupadas pelas cores e pelas cartas) e, em cada variação, o <b>Consenso</b> (cada carta na quantidade média, com o sideboard típico e a % de listas que levam cada carta) e as listas reais, das melhores colocações para as piores. <b>Comparar decks</b> deixa você escolher o deck 1 e o deck 2 (uma variação ou uma lista; pode ser o mesmo dos dois lados) e mostra o histórico do confronto entre os arquétipos (DeckSnipe, papel e MTGO, só entre os mais jogados), um comparativo dos dois decks e a chance de se encontrarem; o lápis no canto de cada cartão troca só aquele deck, e o link do confronto pode ser compartilhado.',
+    rodExtra: 'Os <b>arquétipos</b> estão em ordem de participação (% das listas dos últimos 30 dias, MTGO e papel). Dentro de cada um ficam as <b>variações</b> (agrupadas pelas cores e pelas cartas) e, em cada variação, o <b>Consenso</b> (cada carta na quantidade média, com o sideboard típico e a % de listas que levam cada carta) e até 5 listas reais de jogadores diferentes que trocam pelo menos 5 cartas do deck principal em relação ao consenso (e entre si), das melhores colocações para as piores; em <b>Outras</b>, as 5 melhores listas que não formam variação. <b>Comparar decks</b> deixa você escolher o deck 1 e o deck 2 (uma variação ou uma lista; pode ser o mesmo dos dois lados) e mostra o histórico do confronto entre os arquétipos (DeckSnipe, papel e MTGO, só entre os mais jogados), um comparativo dos dois decks e a chance de se encontrarem; o lápis no canto de cada cartão troca só aquele deck, e o link do confronto pode ser compartilhado.',
     cMeta: 'Metagame', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
     emComum: 'Cartas em comum no deck principal: {l}.', nadaComum: 'Nenhuma carta em comum no deck principal (fora os terrenos básicos).',
     decks: 'Listas', deck1: 'lista', deckN: 'listas', achou1: '1 variação encontrada', achouN: '{n} variações encontradas',
@@ -537,13 +537,13 @@ var TXT = {
   },
   en: {
     titulo: 'Pauper decks',
-    sub: 'The Pauper archetypes of the last 30 days, from most to least played, each with its variations. In each variation, the consensus list and the real tournament lists (MTGO and paper), from the best finishes down. Use the search (in Portuguese or English) or compare two decks.',
+    sub: 'The Pauper archetypes of the last 30 days, from most to least played, each with its variations. In each variation, the consensus list and up to 5 real tournament lists (MTGO and paper) that stray from the consensus, from the best finishes down. Use the search (in Portuguese or English) or compare two decks.',
     busca: 'Card, archetype or variation…', apagar: 'Clear search', grupoCores: 'Variations',
     outrasVar: 'Others', consenso: 'Consensus', nListas: '{n} lists', nLista: '1 list', mostrarMais: 'Show more ({n})',
     carregando: 'Loading the lists…', falhaCarregar: 'Could not load the lists now. Tap the archetype to try again.',
     infoCons: 'Consensus of {n} lists ({m} MTGO, {p} paper) · {pc} of the lists · {b} with a good finish',
     consDica: 'Consensus list: each card in the average quantity of this variation\'s lists (the highest averages up to 60 + 15). Nobody played exactly this, but it shows what almost everyone uses.',
-    infoReal: 'List by {j}{r} · {e} · {d} · {o}', mtgo: 'MTGO', papel: 'paper', apelido: 'Name given by the player: {n}',
+    infoReal: 'List by {j}{r} · {e} · {d} · {o}', difCons: '{d} cards different from the consensus in the main deck and {s} in the sideboard', mtgo: 'MTGO', papel: 'paper', apelido: 'Name given by the player: {n}',
     sideTipico: 'Typical sideboard (% of the variation\'s lists that run the card): {l}.', listaDe: 'List by {j}{r}', escolhaListas: 'Lists',
     confrNivel: 'Numbers for the whole archetype ({a} vs {b}, all variations), according to DeckSnipe.', outrasDe: '{f} (others)',
     ban_unf: '{n} Unfinity cards with stickers or attractions', ban_conspiracy: '{n} Conspiracy cards:',
@@ -562,7 +562,7 @@ var TXT = {
     confrFonte: 'Source: {f}, {p}. With fewer than 20 matches the number is not very reliable.',
     semConfr: 'There is not enough data on this matchup.', semConfrFonte: 'The matchup history has not been loaded on this page yet.',
     encontro: '{b} is {p}% of the lists: in a tournament, a {a} player faces {b} in about 1 of every {k} matches.',
-    rodExtra: 'The <b>archetypes</b> are sorted by share (% of the lists of the last 30 days, MTGO and paper). Inside each one are its <b>variations</b> (grouped by colors and cards) and, in each variation, the <b>Consensus</b> (each card in the average quantity, with the typical sideboard and the % of lists that run each card) and the real lists, from the best finishes down. <b>Compare decks</b> lets you pick deck 1 and deck 2 (a variation or a list; it can be the same on both sides) and shows the matchup history between the archetypes (DeckSnipe, paper and MTGO, only among the most played), a comparison of both decks and the odds of meeting; the pencil in the corner of each card changes only that deck, and the matchup link can be shared.',
+    rodExtra: 'The <b>archetypes</b> are sorted by share (% of the lists of the last 30 days, MTGO and paper). Inside each one are its <b>variations</b> (grouped by colors and cards) and, in each variation, the <b>Consensus</b> (each card in the average quantity, with the typical sideboard and the % of lists that run each card) and up to 5 real lists from different players that change at least 5 main-deck cards from the consensus (and from each other), from the best finishes down; in <b>Others</b>, the 5 best lists that do not form a variation. <b>Compare decks</b> lets you pick deck 1 and deck 2 (a variation or a list; it can be the same on both sides) and shows the matchup history between the archetypes (DeckSnipe, paper and MTGO, only among the most played), a comparison of both decks and the odds of meeting; the pencil in the corner of each card changes only that deck, and the matchup link can be shared.',
     cMeta: 'Metagame', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
     emComum: 'Cards in common in the main deck: {l}.', nadaComum: 'No cards in common in the main deck (besides basic lands).',
     decks: 'Lists', deck1: 'list', deckN: 'lists', achou1: '1 variation found', achouN: '{n} variations found',
@@ -914,7 +914,8 @@ function pintarPainel(deck, prefixo) {
   ti.textContent = prefixo + deck.nome;
   cm.className = "tit-cmd";
   if (deck.real) {
-    cm.textContent = t("infoReal", { j: deck.jogador, r: deck.lugar ? " (" + rotLugar(deck.lugar) + ")" : "", e: deck.evento, d: fmtData(deck.data), o: t(deck.origem) });
+    cm.textContent = t("infoReal", { j: deck.jogador, r: deck.lugar ? " (" + rotLugar(deck.lugar) + ")" : "", e: deck.evento, d: fmtData(deck.data), o: t(deck.origem) }) +
+      (deck.dif != null ? " · " + t("difCons", { d: deck.dif, s: deck.difs }) : "");
     cm.title = deck.apelido ? t("apelido", { n: deck.apelido }) : "";
   } else {
     cm.textContent = t("infoCons", { n: deck.n, m: deck.mtgo, p: deck.papel, pc: pct(deck.pct), b: deck.bons });

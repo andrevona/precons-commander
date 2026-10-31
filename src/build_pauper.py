@@ -7,7 +7,8 @@ Entrada:
 Saída:
   pauper_offline.html          -> site/pauper/index.html: famílias e variações, com a lista de consenso de cada variação embutida
   pauper_nomes_pt.json         -> site/pauper/nomes_pt.json (nome da carta -> nome em português, para a busca)
-  pauper_fam/<família>.json    -> site/pauper/fam/: as listas reais de cada família, carregadas quando a família é aberta
+  pauper_fam/<família>.json    -> site/pauper/fam/: os destaques de cada variação (até 5 listas reais com diferenças relevantes
+                                  do consenso; ver tools/pauper_variacoes.py), carregados quando a família é aberta
 
 Na página: família = grupo (botão com a % das listas), variação = coleção (com as cores e o nº de listas), deck = "Consenso" da
 variação e, depois, as listas reais em ordem de resultado (a variação "Outras" de cada família só tem listas reais).
@@ -65,10 +66,11 @@ def montar(texto):
     return lista, tp, st
 
 
-def real(x, col):
+def real(x, col, dif=None):
     lista, tp, st = montar(x["lista"])
-    return {"nome": col["nome"], "arquivo": col["id"] + "-" + x["id"], "real": 1, "lista": lista, "ci": x["ci"], "tp": tp, "st": st,
-            "jogador": x["jogador"], "evento": x["evento"], "lugar": x["lugar"], "data": x["data"], "origem": x["origem"], "apelido": x["nome"]}
+    extra = {"dif": dif[0], "difs": dif[1]} if dif else {}  # cartas diferentes do consenso (principal sem básicos, sideboard)
+    return dict(extra, **{"nome": col["nome"], "arquivo": col["id"] + "-" + x["id"], "real": 1, "lista": lista, "ci": x["ci"], "tp": tp, "st": st,
+            "jogador": x["jogador"], "evento": x["evento"], "lugar": x["lugar"], "data": x["data"], "origem": x["origem"], "apelido": x["nome"]})
 
 
 colecoes, familias, por_fam = [], [], {}
@@ -87,12 +89,12 @@ for f in var["familias"]:
                          "n": v["n"], "mtgo": v["mtgo"], "papel": v["papel"], "bons": v["bons"], "primeiros": v["primeiros"],
                          "side": [[c, p] for q, c, p in sorted(v["side"], key=lambda t: (-t[2], t[1]))]}]  # sideboard típico: carta e % das listas
         colecoes.append(col)
-        reais[v["slug"]] = [real(listas[i], col) for i in v["listas"]]
-    if f["outras_ids"]:
+        reais[v["slug"]] = [real(listas[i], col, (d, ds)) for i, d, ds in v["destaques"]]  # só os destaques (até 5)
+    if f["outras_destaques"]:
         col = {"id": f["slug"] + "_outras", "nome": "", "outras": 1, "grupo": f["familia"], "fam": f["slug"], "ano": "", "icone": "",
                "n": len(f["outras_ids"]), "decks": []}
         colecoes.append(col)
-        reais[col["id"]] = [real(listas[i], col) for i in f["outras_ids"]]
+        reais[col["id"]] = [real(listas[i], col) for i, _, _ in f["outras_destaques"]]
     por_fam[f["slug"]] = reais
 
 banidas = [[r["carta"], r["nome_pt"] if r["nome_pt"] != r["carta"] else "", r["grupo"]]

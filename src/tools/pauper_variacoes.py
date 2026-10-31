@@ -124,6 +124,37 @@ def ordenar(ls):
     return sorted(ls, key=ordem_resultado)
 
 
+DESTAQUES, DIF_MIN = 5, 5  # até 5 listas de jogadores por variação, cada uma com 5+ cartas diferentes no principal (pedido do usuário)
+
+
+def principal_sem_basicos(x):
+    return collections.Counter({c: q for c, q in x["main"].items() if c not in BASICOS})
+
+
+def diferenca(a, b):
+    """Nº de cartas trocadas entre dois decks (soma das diferenças de cópias / 2)."""
+    return sum(abs(a[k] - b[k]) for k in set(a) | set(b)) // 2
+
+
+def destaques(ordenadas, cons=None, cons_side=None):
+    """Até DESTAQUES listas, na ordem de resultado: cada uma com pelo menos DIF_MIN cartas diferentes do consenso no deck
+    principal (sem básicos) e das já escolhidas, e de outro jogador. Sem consenso ("Outras"): só a diferença entre elas.
+    Devolve [[id, cartas diferentes no principal, no sideboard]] (as diferenças valem só com consenso)."""
+    esc, jog = [], set()
+    for x in ordenadas:
+        m = principal_sem_basicos(x)
+        d = diferenca(m, cons) if cons is not None else 0
+        if cons is not None and d < DIF_MIN:
+            continue
+        if x["jogador"] in jog or any(diferenca(m, principal_sem_basicos(y)) < DIF_MIN for y, _, _ in esc):
+            continue
+        ds = diferenca(x["side"], cons_side) if cons_side is not None else 0
+        esc.append((x, d, ds)); jog.add(x["jogador"])
+        if len(esc) == DESTAQUES:
+            break
+    return [[x["id"], d, ds] for x, d, ds in esc]
+
+
 def slug(n):
     return re.sub(r"[^a-z0-9]+", "_", chave(n).replace("'", "")).strip("_")
 
@@ -200,7 +231,9 @@ def main():
                        "consenso": sorted(([q, c] for c, q in cons.items()), key=lambda t: t[1]),
                        "side": sorted(([q, c, round(100 * pres_s[c] / n)] for c, q in side.items()), key=lambda t: t[1]),
                        "papel": n - sum(1 for x in g if x["origem"] == "mtgo"),
-                       "listas": [x["id"] for x in ordenar(g)]})
+                       "listas": [x["id"] for x in ordenar(g)],
+                       "destaques": destaques(ordenar(g), collections.Counter({c: q for c, q in cons.items() if c not in BASICOS}),
+                                              collections.Counter(side))})
         # Família que junta vários arquétipos do MTGGoldfish: a variação que é quase toda de um deles (>= 60%) fica com o nome dele
         # (ex. "Boros Moxite" dentro de Synthesizer), se nenhuma outra variação já usou esse nome.
         usados = set()
@@ -219,6 +252,7 @@ def main():
         mt = sum(1 for x in ls if x["origem"] == "mtgo")
         saida.append({"familia": fam, "slug": slug(fam), "n": len(ls), "mtgo": mt, "papel": len(ls) - mt, "pct": round(100 * len(ls) / total, 1),
                       "outras_ids": [x["id"] for x in ordenar(outras)],
+                      "outras_destaques": destaques(ordenar(outras)),
                       "arquetipos": collections.Counter(x["arquetipo"] for x in ls).most_common(),
                       "variacoes": vs, "outras": len(outras), "outras_cores": collections.Counter(x["cores"] for x in outras).most_common(5)})
     dup = [k for lista in ([v["slug"] for f in saida for v in f["variacoes"]], [f["slug"] for f in saida])
