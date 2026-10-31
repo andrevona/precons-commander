@@ -228,6 +228,26 @@
   .nomes input { width:100%; font:inherit; font-size:16px; padding:8px 10px; border:1.5px solid var(--inBorda); border-radius:8px; background:var(--inBg); color:var(--fg); }
   .nomes input::placeholder { color:var(--mut); opacity:1; }
   .nomes input:focus { outline:none; border-color:var(--f-acc); box-shadow:0 0 0 3px var(--inAnel); }
+  /* Comparar decks: quadro para escolher o deck de cada lado (lista em ordem de participação, com busca) */
+  .escolha-caixa { display:flex; flex-direction:column; max-height:calc(100vh - 32px); max-height:calc(100dvh - 32px); }
+  .escolha-busca { width:100%; font:inherit; font-size:16px; padding:8px 10px; margin:6px 0 8px; border:1.5px solid var(--inBorda); border-radius:8px; background:var(--inBg); color:var(--fg); }
+  .escolha-busca:focus { outline:none; border-color:var(--f-acc); box-shadow:0 0 0 3px var(--inAnel); }
+  .escolha-lista { list-style:none; margin:0 0 12px; padding:0; overflow:auto; overscroll-behavior:contain; flex:1 1 auto; min-height:120px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .escolha-lista button { display:flex; align-items:center; gap:8px; width:100%; text-align:left; font:inherit; font-size:14px; color:var(--fg); background:transparent; border:0; border-radius:7px; padding:8px 8px; cursor:pointer; }
+  .escolha-lista button:hover, .escolha-lista button:focus-visible { background:var(--line); outline:none; }
+  .escolha-lista button[aria-selected="true"] { font-weight:700; color:var(--acc); }
+  .escolha-lista button:disabled { opacity:.45; cursor:not-allowed; background:transparent; }
+  .escolha-lista .pos { flex:none; width:2.2em; color:var(--mut); font-size:12.5px; font-weight:400; }
+  .escolha-lista .nm { flex:1 1 auto; min-width:0; overflow-wrap:anywhere; }
+  .escolha-lista .nm .simbolos { margin-left:6px; vertical-align:-3px; }
+  .escolha-lista .nm .simbolos img { width:14px; height:14px; }
+  .escolha-lista .pc { flex:none; color:var(--mut); font-size:12.5px; font-weight:400; }
+  .escolha-lista .vazio { padding:12px 8px; color:var(--mut); font-size:14px; }
+  #escolhaSorte { display:inline-flex; align-items:center; gap:6px; margin-right:auto; }
+  #escolhaSorte svg { width:16px; height:16px; }
+  .jog.vazio { border-style:dashed; background:var(--card) !important; }
+  .jog.vazio .dnome { color:var(--acc); }
+  .duelo-falta { margin-top:12px; color:var(--mut); font-size:14px; text-align:center; }
   #mesa { display:none; }
   body.modo-mesa #mesa { display:block; }
   body.modo-mesa #grupos, body.modo-mesa #caixaBusca, body.modo-mesa #cxCor, body.modo-mesa #cxAno, body.modo-mesa #cxArq, body.modo-mesa .sorte-grupo, body.modo-mesa #contagem,
@@ -245,7 +265,6 @@
     .mesa-acoes { display:contents; }
     .mesa-cab .sec { grid-column:1 / -1; min-height:38px; display:flex; align-items:center; padding-right:50px; }
     #btnCompMesa { position:absolute; top:0; right:0; }
-    #btnDeNovo { grid-column:1 / -1; }
     .mesa-acoes button:not(.icone) { justify-content:center; padding:7px 6px; } }
   .mesa-acoes button { display:inline-flex; align-items:center; gap:6px; }
   .mesa-acoes svg { width:16px; height:16px; flex:none; }
@@ -358,7 +377,7 @@
 
   <div class="filtros" id="filtros" hidden>
     <div class="cor-caixa" id="cxCor"><button type="button" class="cor-btn" id="fCor" aria-haspopup="listbox" aria-expanded="false" aria-controls="corMenu"></button><ul class="cor-menu" id="corMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparCor" data-ta="tirarCor" hidden>×</button></div>
-    <span class="sorte-grupo"><button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg><span data-t="surpresa">Sortear duelo</span></button></span>
+    <span class="sorte-grupo"><button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="8" height="12" rx="1.6"/><rect x="14" y="8" width="8" height="12" rx="1.6"/><path d="M11.5 19.5h-5l1.6-1.6"/><path d="M12.5 4.5h5l-1.6 1.6"/></svg><span data-t="surpresa">Comparar decks</span></button></span>
     <button type="button" class="limpar-tudo" id="btnLimparTudo" data-ta="limparTudoDica" hidden><span aria-hidden="true">↺</span> <span data-t="limparTudo">Limpar tudo</span></button>
   </div>
   <div class="busca" id="caixaBusca">
@@ -407,6 +426,14 @@
     <div class="guia-botoes"><button class="ghost" id="guiaFechar" data-t="fechar">Fechar</button><button class="go" id="guiaAbrir" data-t="abrir">Abrir endstep.cc</button></div>
   </div>
 </div>
+<div class="modal" id="escolha" hidden>
+  <div class="modal-caixa escolha-caixa" role="dialog" aria-modal="true" aria-labelledby="escolhaTit">
+    <h2 id="escolhaTit"></h2>
+    <input class="escolha-busca" id="escolhaBusca" type="search" data-tp="escolhaBusca" autocomplete="off" autocapitalize="off" spellcheck="false" aria-controls="escolhaLista">
+    <ul class="escolha-lista" id="escolhaLista" role="listbox" aria-labelledby="escolhaTit"></ul>
+    <div class="guia-botoes"><button type="button" class="ghost" id="escolhaSorte"></button><button type="button" class="ghost" id="escolhaFechar" data-t="fechar">Fechar</button></div>
+  </div>
+</div>
 <div class="aviso" id="aviso" role="status" hidden></div>
 
 <script>
@@ -433,23 +460,25 @@ var ATUALIZADO = META.data; // data (AAAA-MM-DD) em que o metagame foi raspado d
 var TXT = {
   pt: {
     titulo: 'Decks de Pauper',
-    sub: 'Os arquétipos mais jogados no Pauper (MTGO, últimos 30 dias), com uma lista real de cada um. Veja o ranking, navegue por cores, use o filtro ou a busca (em português ou inglês), ou sorteie um duelo.',
+    sub: 'Os arquétipos mais jogados no Pauper (MTGO, últimos 30 dias), com uma lista real de cada um. Veja o ranking, navegue por cores, use o filtro ou a busca (em português ou inglês), ou compare dois decks.',
     busca: 'Carta ou deck…', apagar: 'Apagar busca', grupoCores: 'Lista',
     grupos: { top: 'Mais jogados', mono: 'Uma cor', duas: 'Duas cores', tres: 'Três ou mais' },
     ban_unf: '{n} cartas do Unfinity com adesivos ou atrações', ban_conspiracy: '{n} cartas do tipo Conspiracy:',
-    surpresa: 'Sortear duelo', surpresaDica: 'Sorteia dois decks para um duelo (limpa a busca e o filtro)',
-    duelo: 'Duelo', jogador: 'Jogador {n}', sortearDeNovo: 'Sortear de novo', verLista: 'Ver lista', esconderLista: 'Ocultar lista',
-    trocarDeck: 'Sortear outro deck para {n}', semOutro: 'Não há outro deck disponível para sortear.',
-    mesaToque: 'Toque num jogador para ver a lista do deck e criar no endstep.cc.',
-    compSorteio: 'Compartilhar o duelo', linkSorteio: 'Link do duelo copiado ✓', copieSorteio: 'Copie o link do duelo:',
+    surpresa: 'Comparar decks', surpresaDica: 'Escolha dois decks e compare o confronto (limpa a busca e o filtro)',
+    duelo: 'Comparar decks', jogador: 'Deck {n}', verLista: 'Ver lista', esconderLista: 'Ocultar lista',
+    trocarDeck: 'Escolher outro deck como {n}', semOutro: 'Não há outro deck disponível para sortear.',
+    escolher: 'Escolher deck…', tocarEscolher: 'Toque para escolher', escolhaTit: 'Escolher o {n}', escolhaBusca: 'Buscar deck…',
+    sortearUm: 'Sortear', escolhaNenhum: 'Nenhum deck com esse nome.', jaNoOutro: 'já é o {n}',
+    faltaDeck: 'Escolha os dois decks para ver o histórico do confronto, o comparativo e a chance de encontro.',
+    mesaToque: 'Escolha o deck 1 e o deck 2. Depois, toque num deck para ver a lista e criar no endstep.cc.',
+    compSorteio: 'Compartilhar o confronto', linkSorteio: 'Link do confronto copiado ✓', copieSorteio: 'Copie o link do confronto:',
     posicao: '{p} do metagame · {k}º mais jogado',
     hConfronto: 'Histórico do confronto', hComparativo: 'Comparativo', hEncontro: 'Chance de encontro',
     confr: '{a} venceu {v} de {n} partidas contra {b} ({e} empates).', confr0: '{a} venceu {v} de {n} partidas contra {b}.',
     confrFonte: 'Fonte: {f}, {p}. Com menos de 20 partidas o número é pouco confiável.',
     semConfr: 'Não há dados suficientes deste confronto.', semConfrFonte: 'O histórico de confrontos ainda não foi carregado nesta página.',
-    espelho: 'Os dois sortearam o mesmo arquétipo: duelo espelhado.',
     encontro: '{b} é {p}% do metagame: num torneio do MTGO, quem joga {a} enfrenta {b} em cerca de 1 a cada {k} partidas.',
-    rodExtra: '<b>Mais jogados</b> lista todos os decks em ordem de participação no metagame. <b>Sortear duelo</b> sorteia dois decks diferentes e mostra o histórico do confronto entre os arquétipos (DeckSnipe, papel e MTGO, só entre os mais jogados), um comparativo dos dois decks e a chance de se encontrarem; o dado de cada cartão troca só aquele deck, e o link do duelo pode ser compartilhado.',
+    rodExtra: '<b>Mais jogados</b> lista todos os decks em ordem de participação no metagame. <b>Comparar decks</b> deixa você escolher o deck 1 e o deck 2 (ou sortear um deles) e mostra o histórico do confronto entre os arquétipos (DeckSnipe, papel e MTGO, só entre os mais jogados), um comparativo dos dois decks e a chance de se encontrarem; o botão no canto de cada cartão troca só aquele deck, e o link do confronto pode ser compartilhado.',
     cMeta: 'Metagame', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
     emComum: 'Cartas em comum no deck principal: {l}.', nadaComum: 'Nenhuma carta em comum no deck principal (fora os terrenos básicos).',
     decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck encontrado', achouN: '{n} decks encontrados',
@@ -482,23 +511,25 @@ var TXT = {
   },
   en: {
     titulo: 'Pauper decks',
-    sub: 'The most played Pauper archetypes (MTGO, last 30 days), with a real list of each. See the ranking, browse by colors, use the filter or the search (in Portuguese or English), or draw a duel.',
+    sub: 'The most played Pauper archetypes (MTGO, last 30 days), with a real list of each. See the ranking, browse by colors, use the filter or the search (in Portuguese or English), or compare two decks.',
     busca: 'Card or deck…', apagar: 'Clear search', grupoCores: 'List',
     grupos: { top: 'Most played', mono: 'One color', duas: 'Two colors', tres: 'Three or more' },
     ban_unf: '{n} Unfinity cards with stickers or attractions', ban_conspiracy: '{n} Conspiracy cards:',
-    surpresa: 'Random duel', surpresaDica: 'Draws two decks for a duel (clears the search and the filter)',
-    duelo: 'Duel', jogador: 'Player {n}', sortearDeNovo: 'Draw again', verLista: 'View list', esconderLista: 'Hide list',
-    trocarDeck: 'Draw another deck for {n}', semOutro: 'There is no other deck available to draw.',
-    mesaToque: 'Tap a player to see the deck list and create it on endstep.cc.',
-    compSorteio: 'Share the duel', linkSorteio: 'Duel link copied ✓', copieSorteio: 'Copy the duel link:',
+    surpresa: 'Compare decks', surpresaDica: 'Pick two decks and compare the matchup (clears the search and the filter)',
+    duelo: 'Compare decks', jogador: 'Deck {n}', verLista: 'View list', esconderLista: 'Hide list',
+    trocarDeck: 'Pick another deck as {n}', semOutro: 'There is no other deck available to draw.',
+    escolher: 'Pick a deck…', tocarEscolher: 'Tap to pick', escolhaTit: 'Pick {n}', escolhaBusca: 'Search decks…',
+    sortearUm: 'Random', escolhaNenhum: 'No deck with that name.', jaNoOutro: 'already {n}',
+    faltaDeck: 'Pick both decks to see the matchup history, the comparison and the odds of meeting.',
+    mesaToque: 'Pick deck 1 and deck 2. Then tap a deck to see the list and create it on endstep.cc.',
+    compSorteio: 'Share the matchup', linkSorteio: 'Matchup link copied ✓', copieSorteio: 'Copy the matchup link:',
     posicao: '{p} of the metagame · #{k} most played',
     hConfronto: 'Matchup history', hComparativo: 'Comparison', hEncontro: 'Odds of meeting',
     confr: '{a} won {v} of {n} matches against {b} ({e} draws).', confr0: '{a} won {v} of {n} matches against {b}.',
     confrFonte: 'Source: {f}, {p}. With fewer than 20 matches the number is not very reliable.',
     semConfr: 'There is not enough data on this matchup.', semConfrFonte: 'The matchup history has not been loaded on this page yet.',
-    espelho: 'Both drew the same archetype: a mirror match.',
     encontro: '{b} is {p}% of the metagame: in an MTGO tournament, a {a} player faces {b} in about 1 of every {k} matches.',
-    rodExtra: '<b>Most played</b> lists every deck by metagame share. <b>Random duel</b> draws two different decks and shows the matchup history between the archetypes (DeckSnipe, paper and MTGO, only among the most played), a comparison of both decks and the odds of meeting; the die on each card swaps only that deck, and the duel link can be shared.',
+    rodExtra: '<b>Most played</b> lists every deck by metagame share. <b>Compare decks</b> lets you pick deck 1 and deck 2 (or draw one of them) and shows the matchup history between the archetypes (DeckSnipe, paper and MTGO, only among the most played), a comparison of both decks and the odds of meeting; the button in the corner of each card swaps only that deck, and the matchup link can be shared.',
     cMeta: 'Metagame', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
     emComum: 'Cards in common in the main deck: {l}.', nadaComum: 'No cards in common in the main deck (besides basic lands).',
     decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck found', achouN: '{n} decks found',
@@ -1257,7 +1288,7 @@ function surpresa() {
     } else rolar();
   }, abrindo && !semAnim() ? DUR + 60 : 0);
 }
-$("btnSorte").onclick = function () { zerarBuscaEFiltros(); sortearDuelo(); };
+$("btnSorte").onclick = function () { zerarBuscaEFiltros(); compararDecks(); };
 // Tira o texto da busca e os dois filtros (sem redesenhar).
 function zerarBuscaEFiltros() {
   var f = $("filtro"); f.value = ""; q = ""; $("limpar").hidden = true; fecharSug();
@@ -1278,7 +1309,7 @@ $("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; t
 // Copiar lista: copia no formato de exportação do MTG Arena (About/Name + Commander + Deck), o mesmo de
 // "Criar no endstep.cc" (decisão do usuário em 27/10/2026); a lista na tela continua no formato do site.
 $("btnCopiar").onclick = function () {
-  var texto = textoEndstep(deckAtualObj());
+  var texto = textoEndstep(deckDoPainel());
   function feito() { var b = $("btnCopiar"); b.textContent = t("copiado"); setTimeout(function () { b.textContent = t("copiar"); }, 1500); }
   copiar(texto, feito, function () { var ta = $("saida"); ta.focus(); ta.select(); alert(t("falhaCopiar")); });
 };
@@ -1304,6 +1335,8 @@ aplicarIdioma();
   $("guiaColar").textContent = atalhoColar();
 })();
 function deckAtualObj() { return COLECOES[colAtual].decks[deckAtual]; }
+// Deck do painel: no confronto, o do lado aberto (com as trocas de sideboard, quando houver); fora dele, o deck atual.
+function deckDoPainel() { return mesa && mesa.sel >= 0 && mesa.d[mesa.sel] ? deckDaMesa(mesa.sel) : deckAtualObj(); }
 function linkDoDeck() { return location.href.split("#")[0] + "#" + idDe(deckAtualObj()); }
 // Copia na hora (dentro do clique), funciona também no iOS.
 function copiarSync(texto) {
@@ -1351,7 +1384,7 @@ function guia(abrir) {
 }
 function abrirEndstep() { window.open(ENDSTEP, "_blank", "noopener"); }
 $("btnEndstep").onclick = function () {
-  var texto = textoEndstep(deckAtualObj());
+  var texto = textoEndstep(deckDoPainel());
   if (direto()) {
     copiar(texto, function () { aviso(t("direto")); }, function () { aviso(t("usarCopiar")); });
     abrirEndstep();
@@ -1371,39 +1404,125 @@ document.addEventListener("keydown", function (e) {
   if (!$("guia").hidden) guia(false);
 });
 
-// ===== Sortear duelo (pedido do usuário em 31/10/2026) =====
-// Sorteia dois decks diferentes (entre todos; busca e filtro não contam) e abre a tela do duelo, como o sorteio em grupo
-// do Commander: um cartão por jogador (tocar abre a lista; o dado troca só aquele deck) e, abaixo, o histórico do
-// confronto (quando a fonte tem dados), um comparativo dos dois decks e a chance de os dois se encontrarem no MTGO.
-// Endereço: #duelo/<deck do jogador 1>/<deck do jogador 2>; o link pode ser compartilhado.
-var mesa = null; // { d: [deck1, deck2], sel, novo, rev: [bool, bool] }
-var DADO_TROCA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.68 10.83A8.4 8.4 0 0 1 16.57 4.96"/><path d="M20.18 7.30L18.21 2.44L14.94 7.47Z" fill="currentColor" stroke-width=".6"/><path d="M20.32 13.17A8.4 8.4 0 0 1 7.43 19.04"/><path d="M3.82 16.70L5.79 21.56L9.06 16.53Z" fill="currentColor" stroke-width=".6"/><rect x="8.4" y="8.4" width="7.2" height="7.2" rx="1.6" fill="currentColor" stroke="none"/><g style="fill:var(--card)" stroke="none"><circle cx="10.3" cy="10.3" r=".8"/><circle cx="13.7" cy="10.3" r=".8"/><circle cx="12" cy="12" r=".8"/><circle cx="10.3" cy="13.7" r=".8"/><circle cx="13.7" cy="13.7" r=".8"/></g></svg>';
+// ===== Comparar decks (pedido do usuário em 31/10/2026; substitui o "Sortear duelo" da v112–v113) =====
+// O botão abre a tela do confronto com dois cartões, "Deck 1" e "Deck 2", vazios: tocar num cartão vazio (ou no botão do
+// canto de um cartão já escolhido) abre o quadro de escolha (lista em ordem de participação, com busca e um "Sortear").
+// Com os dois escolhidos aparecem o histórico do confronto, o comparativo e a chance de encontro; tocar no cartão abre a lista.
+// Endereço: #duelo/<deck 1>/<deck 2> ("-" = ainda não escolhido); o link pode ser compartilhado.
+// Base para mexer nos decks depois (trocas entre o deck principal e o sideboard): mesa.trocas[i] guarda as trocas de cada
+// lado e listaEfetiva() monta a lista já com elas; o painel, "Copiar lista" e "Criar no endstep.cc" usam essa lista.
+// Por enquanto não há tela de trocas, então a lista efetiva é a original.
+var mesa = null; // { d: [deck1|null, deck2|null], trocas: [[], []], sel, novo, rev: [bool, bool] }
+var ICONE_TROCA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h14"/><path d="M15 4.5 18.5 8 15 11.5"/><path d="M20 16H6"/><path d="M9 12.5 5.5 16 9 19.5"/></svg>';
 var DADO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg>';
 function deckPorId(id) { var r = null; decksUnicos().forEach(function (d) { if (!r && idDe(d) === id) r = d; }); return r; }
-function sortearDuelo() {
-  var todos = decksUnicos().slice(), a = todos[Math.floor(Math.random() * todos.length)];
-  var resto = todos.filter(function (d) { return d !== a; }), b = resto[Math.floor(Math.random() * resto.length)];
-  mesa = { d: [a, b], sel: -1, novo: true, rev: [false, false] };
-  try { history.pushState(null, "", "#" + hashMesa()); } catch (e) {}
-  var bt = $("btnDeNovo"); if (bt) { bt.classList.remove("gira"); void bt.offsetWidth; bt.classList.add("gira"); }
-  desenhar(); window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
+function novaMesa(a, b) { return { d: [a || null, b || null], trocas: [[], []], sel: -1, novo: true, rev: [false, false] }; }
+function completa() { return !!(mesa && mesa.d[0] && mesa.d[1]); }
+// Lista do deck i com as trocas aplicadas. Cada troca: { sai: "Nome", entra: "Nome", n: cópias } (sai do principal para o
+// sideboard e entra do sideboard no principal). Sem trocas, devolve a lista original.
+function listaEfetiva(i) {
+  var d = mesa.d[i], tr = mesa.trocas[i];
+  if (!tr || !tr.length) return d.lista;
+  var bl = d.lista.split("\n\n"), lerB = function (txt) { var m = {}, o = []; (txt || "").split("\n").forEach(function (l) { var x = /^(\d+)\s+(.+)$/.exec(l); if (x) { if (!m[x[2]]) o.push(x[2]); m[x[2]] = (m[x[2]] || 0) + +x[1]; } }); return { m: m, o: o }; };
+  var mp = lerB(bl[0]), sd = lerB(bl[1]);
+  tr.forEach(function (t1) {
+    var n = t1.n || 1;
+    if (t1.sai) { mp.m[t1.sai] = (mp.m[t1.sai] || 0) - n; sd.m[t1.sai] = (sd.m[t1.sai] || 0) + n; if (sd.o.indexOf(t1.sai) < 0) sd.o.push(t1.sai); }
+    if (t1.entra) { sd.m[t1.entra] = (sd.m[t1.entra] || 0) - n; mp.m[t1.entra] = (mp.m[t1.entra] || 0) + n; if (mp.o.indexOf(t1.entra) < 0) mp.o.push(t1.entra); }
+  });
+  var esc1 = function (b) { return b.o.filter(function (k) { return b.m[k] > 0; }).sort().map(function (k) { return b.m[k] + " " + k; }).join("\n"); };
+  var side = esc1(sd);
+  return esc1(mp) + (side ? "\n\nSideboard\n" + side : "");
 }
-function trocarDeck(i) {
-  if (animando || !mesa) return;
-  var outro = mesa.d[1 - i], atual = mesa.d[i];
-  var livres = decksUnicos().filter(function (d) { return d !== outro && d !== atual; });
-  if (!livres.length) { aviso(t("semOutro")); return; }
-  mesa.d[i] = livres[Math.floor(Math.random() * livres.length)]; mesa.rev[i] = true;
+function deckDaMesa(i) { var d = mesa.d[i], l = listaEfetiva(i); if (l === d.lista) return d; var c = Object.create(d); c.lista = l; return c; }
+function compararDecks() {
+  mesa = novaMesa(null, null);
+  try { history.pushState(null, "", "#" + hashMesa()); } catch (e) {}
+  desenhar(); window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
+  abrirEscolha(0);
+}
+// Põe o deck d no lado i (null = sortear entre os que não estão no outro lado).
+function porDeck(i, d) {
+  if (!mesa) return;
+  if (!d) {
+    var livres = decksUnicos().filter(function (x) { return x !== mesa.d[1 - i] && x !== mesa.d[i]; });
+    if (!livres.length) { aviso(t("semOutro")); return; }
+    d = livres[Math.floor(Math.random() * livres.length)];
+  }
+  if (d === mesa.d[1 - i]) return;
+  if (d !== mesa.d[i]) { mesa.d[i] = d; mesa.trocas[i] = []; mesa.rev[i] = true; }
   try { history.replaceState(null, "", "#" + hashMesa()); } catch (e) {}
+  if (mesa.sel >= 0 && !mesa.d[mesa.sel]) mesa.sel = -1;
   desenhar();
 }
-function hashMesa() { return "duelo/" + idDe(mesa.d[0]) + "/" + idDe(mesa.d[1]); }
+function hashMesa() { return "duelo/" + (mesa.d[0] ? idDe(mesa.d[0]) : "-") + "/" + (mesa.d[1] ? idDe(mesa.d[1]) : "-"); }
 function mesaDoEndereco() {
-  var m = /^#duelo\/([^\/]+)\/([^\/]+)$/.exec(location.hash), a = m && deckPorId(m[1]), b = m && deckPorId(m[2]);
-  return a && b && a !== b ? { d: [a, b], sel: -1, novo: true, rev: [false, false] } : null;
+  var m = /^#duelo\/([^\/]+)\/([^\/]+)$/.exec(location.hash);
+  if (!m) return null;
+  var a = m[1] === "-" ? null : deckPorId(m[1]), b = m[2] === "-" ? null : deckPorId(m[2]);
+  if ((m[1] !== "-" && !a) || (m[2] !== "-" && !b) || (a && a === b)) return null;
+  return novaMesa(a, b);
 }
+
+// Quadro de escolha do deck de um lado
+var escolhaLado = 0, escolhaFoco = null;
+function abrirEscolha(i) {
+  escolhaLado = i; escolhaFoco = document.activeElement;
+  $("escolhaTit").textContent = t("escolhaTit", { n: nomeJog(i) });
+  $("escolhaSorte").innerHTML = DADO; $("escolhaSorte").appendChild(document.createTextNode(t("sortearUm")));
+  var bu = $("escolhaBusca"); bu.value = ""; bu.placeholder = t("escolhaBusca");
+  pintarEscolha();
+  $("escolha").hidden = false;
+  $("escolhaLista").scrollTop = 0;
+  // No celular não abre o teclado sozinho (a lista é curta e o teclado cobriria metade dela)
+  if (window.matchMedia && matchMedia("(pointer: coarse)").matches) { var at = $("escolhaLista").querySelector("button:not(:disabled)"); if (at) at.focus({ preventScroll: true }); }
+  else bu.focus();
+}
+function fecharEscolha() {
+  $("escolha").hidden = true;
+  if (escolhaFoco && escolhaFoco.focus && document.body.contains(escolhaFoco)) escolhaFoco.focus();
+}
+function pintarEscolha() {
+  var ul = $("escolhaLista"), qq = nz($("escolhaBusca").value.trim()), i = escolhaLado, outro = mesa.d[1 - i];
+  ul.innerHTML = "";
+  var lista = decksUnicos().filter(function (d) { return !qq || nzEn(d.nome).indexOf(qq) >= 0; });
+  if (!lista.length) { ul.appendChild(el("li", "vazio", t("escolhaNenhum"))); return; }
+  lista.forEach(function (d) {
+    var li = el("li"), b = el("button"); b.type = "button"; b.setAttribute("role", "option");
+    b.setAttribute("aria-selected", mesa.d[i] === d ? "true" : "false");
+    b.appendChild(el("span", "pos", IDIOMA === "pt" ? d.pos + "º" : "#" + d.pos));
+    var nm = el("span", "nm", d.nome); if (d.ci) nm.appendChild(simbolos(d.ci)); b.appendChild(nm);
+    b.appendChild(el("span", "pc", d === outro ? t("jaNoOutro", { n: nomeJog(1 - i) }) : pct(d.pct)));
+    if (d === outro) b.disabled = true;
+    b.onclick = function () { escolherNoQuadro(d); };
+    li.appendChild(b); ul.appendChild(li);
+  });
+}
+function escolherNoQuadro(d) {
+  var i = escolhaLado;
+  $("escolha").hidden = true;
+  porDeck(i, d);
+  if (!mesa.d[1 - i]) abrirEscolha(1 - i); // primeiro deck escolhido: já abre o do outro lado
+  else { var w = document.querySelectorAll("#mesa .jogw .jog")[i]; if (w) w.focus({ preventScroll: true }); }
+}
+$("escolhaBusca").addEventListener("input", pintarEscolha);
+$("escolhaBusca").addEventListener("keydown", function (e) {
+  if (e.key === "Enter") { e.preventDefault(); var b = $("escolhaLista").querySelector("button:not(:disabled)"); if (b) b.click(); }
+  else if (e.key === "ArrowDown") { e.preventDefault(); var b2 = $("escolhaLista").querySelector("button:not(:disabled)"); if (b2) b2.focus(); }
+});
+$("escolhaLista").addEventListener("keydown", function (e) {
+  if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+  var bs = [].slice.call(this.querySelectorAll("button:not(:disabled)")), k = bs.indexOf(document.activeElement);
+  e.preventDefault();
+  if (e.key === "ArrowUp" && k <= 0) { $("escolhaBusca").focus(); return; }
+  var nx = bs[Math.min(bs.length - 1, Math.max(0, k + (e.key === "ArrowDown" ? 1 : -1)))]; if (nx) nx.focus();
+});
+$("escolhaSorte").onclick = function () { escolherNoQuadro(null); };
+$("escolhaFechar").onclick = fecharEscolha;
+$("escolha").onclick = function (e) { if (e.target === this) fecharEscolha(); };
+document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("escolha").hidden) fecharEscolha(); });
 function sairMesa() {
-  mesa = null; document.body.classList.remove("modo-mesa");
+  mesa = null; document.body.classList.remove("modo-mesa"); $("escolha").hidden = true;
   zerarBuscaEFiltros(); recolhido = false; grpAtual = GRUPOS[0]; colAtual = 0; deckAtual = 0; aberto = false;
   try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
   desenhar();
@@ -1427,22 +1546,28 @@ function desenharMesa() {
   tx.appendChild(el("span", "inteiro", t("duelo"))); tx.appendChild(document.createTextNode(" · ")); tx.appendChild(el("span", "inteiro", "Pauper"));
   tit.appendChild(tx);
   var ac = el("div", "mesa-acoes");
-  var bn = el("button", "ghost"); bn.type = "button"; bn.id = "btnDeNovo"; bn.innerHTML = DADO; bn.appendChild(document.createTextNode(t("sortearDeNovo")));
-  bn.onclick = sortearDuelo;
   var bc = el("button", "ghost icone"); bc.type = "button"; bc.id = "btnCompMesa";
   bc.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONES[SO] + '</svg>';
   bc.setAttribute("aria-label", t("compSorteio")); bc.title = t("compSorteio"); bc.onclick = compartilharMesa;
-  ac.appendChild(bn); ac.appendChild(bc); cab.appendChild(tit); cab.appendChild(ac); m.appendChild(cab);
+  bc.disabled = !completa();
+  ac.appendChild(bc); cab.appendChild(tit); cab.appendChild(ac); m.appendChild(cab);
   var g = el("div", "mesa-grade duelo-grade");
   mesa.d.forEach(function (d, i) {
-    var b = el("button", "jog" + (mesa.sel === i ? " on" : "")), w = el("div", "jogw" + (mesa.novo || mesa.rev[i] ? " rev" : ""));
+    var b = el("button", "jog" + (d ? "" : " vazio") + (d && mesa.sel === i ? " on" : "")), w = el("div", "jogw" + (d && (mesa.novo || mesa.rev[i]) ? " rev" : ""));
     b.type = "button";
     if (mesa.novo) w.style.animationDelay = (i * 0.3) + "s";
     mesa.rev[i] = false;
+    b.appendChild(el("span", "quem", nomeJog(i)));
+    if (!d) {
+      b.appendChild(el("span", "dnome", t("escolher")));
+      b.appendChild(el("span", "dinfo", t("tocarEscolher")));
+      b.onclick = function () { abrirEscolha(i); };
+      w.appendChild(b); g.appendChild(w); return;
+    }
     b.setAttribute("aria-pressed", mesa.sel === i ? "true" : "false");
     if (d.ci) contornoCor(b, d.ci);
     var dn = el("span", "dnome", d.nome); if (d.ci) dn.appendChild(simbolos(d.ci));
-    b.appendChild(el("span", "quem", nomeJog(i))); b.appendChild(dn);
+    b.appendChild(dn);
     b.appendChild(el("span", "dinfo", t("posicao", { p: pct(d.pct), k: d.pos })));
     b.appendChild(el("span", "verlista", t(mesa.sel === i ? "esconderLista" : "verLista")));
     b.onclick = function () {
@@ -1450,19 +1575,20 @@ function desenharMesa() {
       mesa.sel = i; desenhar();
       var pn = $("painel"); if (pn.scrollIntoView) pn.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "nearest" });
     };
-    var rr = el("button", "reroll"); rr.type = "button"; rr.innerHTML = DADO_TROCA;
+    var rr = el("button", "reroll"); rr.type = "button"; rr.innerHTML = ICONE_TROCA;
     rr.setAttribute("aria-label", t("trocarDeck", { n: nomeJog(i) })); rr.title = t("trocarDeck", { n: nomeJog(i) });
-    rr.onclick = function () { trocarDeck(i); };
+    rr.onclick = function () { abrirEscolha(i); };
     w.appendChild(b); w.appendChild(rr); g.appendChild(w);
   });
   m.appendChild(g);
-  m.appendChild(infoDuelo(mesa.d[0], mesa.d[1]));
+  if (completa()) m.appendChild(infoDuelo(mesa.d[0], mesa.d[1]));
+  else m.appendChild(el("p", "duelo-falta", t("faltaDeck")));
   var pn = $("painel");
-  if (mesa.sel < 0) pn.hidden = true;
+  if (mesa.sel < 0 || !mesa.d[mesa.sel]) pn.hidden = true;
   else {
     var d = mesa.d[mesa.sel];
-    colAtual = d._col._i; deckAtual = d._col.decks.indexOf(d); // o painel (copiar, endstep, compartilhar o deck) usa este deck
-    pn.hidden = false; pintarPainel(d, nomeJog(mesa.sel) + ": ");
+    colAtual = d._col._i; deckAtual = d._col.decks.indexOf(d); // o compartilhar do deck usa este deck
+    pn.hidden = false; pintarPainel(deckDaMesa(mesa.sel), nomeJog(mesa.sel) + ": ");
   }
   mesa.novo = false;
 }
@@ -1472,8 +1598,7 @@ function infoDuelo(a, b) {
   // 1. histórico do confronto
   s1.appendChild(el("h3", "", t("hConfronto")));
   var c = confronto(a, b);
-  if (a.nome === b.nome) s1.appendChild(el("p", "", t("espelho")));
-  else if (c && c[0] + c[1] > 0) {
+  if (c && c[0] + c[1] > 0) {
     var n = c[0] + c[1] + c[2], pa = Math.round(100 * c[0] / (c[0] + c[1]));
     var br = el("div", "barra"), xa = el("span", "", pa + "%"), xb = el("span", "", (100 - pa) + "%");
     contornoCor(xa, a.ci); contornoCor(xb, b.ci);
@@ -1515,7 +1640,7 @@ function infoDuelo(a, b) {
   s2.appendChild(el("p", "mut", comuns.length ? t("emComum", { l: comuns.join(", ") }) : t("nadaComum")));
   box.appendChild(s2);
   // 3. chance de os dois se encontrarem (participações independentes no metagame)
-  if (a.nome !== b.nome) {
+  {
     s3.appendChild(el("h3", "", t("hEncontro")));
     s3.appendChild(el("p", "", t("encontro", { a: a.nome, b: b.nome, p: fmt(b.pct.toFixed(1)), k: Math.max(1, Math.round(100 / b.pct)) })));
     box.appendChild(s3);
@@ -1525,6 +1650,7 @@ function infoDuelo(a, b) {
 var BASICOS = ["Plains", "Island", "Swamp", "Mountain", "Forest", "Wastes", "Snow-Covered Plains", "Snow-Covered Island", "Snow-Covered Swamp", "Snow-Covered Mountain", "Snow-Covered Forest"];
 function compartilharMesa() {
   var url = location.href.split("#")[0] + "#" + hashMesa();
+  if (!completa()) return;
   var txt = mesa.d.map(function (d, i) { return nomeJog(i) + ": " + d.nome; }).join("\n");
   function copia() { copiar(url, function () { aviso(t("linkSorteio")); }, function () { prompt(t("copieSorteio"), url); }); }
   if (SO !== "generico" && navigator.share) {
@@ -1534,11 +1660,11 @@ function compartilharMesa() {
 
 montarFiltros();
 aplicarId(idDoEndereco());
-mesa = mesaDoEndereco(); // link de sorteio em grupo
+mesa = mesaDoEndereco(); // link de confronto
 desenhar();
 window.addEventListener("hashchange", function () {
   var mm = mesaDoEndereco();
-  if (mm) { zerarBuscaEFiltros(); mesa = mm; desenhar(); window.scrollTo(0, 0); return; }
+  if (mm) { if (mesa && hashMesa() === location.hash.slice(1)) return; zerarBuscaEFiltros(); mesa = mm; desenhar(); window.scrollTo(0, 0); return; }
   if (mesa && !location.hash) { sairMesa(); return; } // voltar (navegador) a partir do duelo
   var id = idDoEndereco(), d = COLECOES[colAtual] && COLECOES[colAtual].decks[deckAtual];
   if (mesa && id && aplicarId(id)) { mesa = null; zerarBuscaEFiltros(); desenhar(); return; } // link de deck vindo do sorteio
@@ -1547,7 +1673,7 @@ window.addEventListener("hashchange", function () {
 // Voltar/avançar do navegador entre a tela inicial e o duelo (o duelo entra com pushState, que não dispara hashchange)
 window.addEventListener("popstate", function () {
   var mm = mesaDoEndereco();
-  if (mm) { zerarBuscaEFiltros(); mesa = mm; desenhar(); }
+  if (mm) { $("escolha").hidden = true; zerarBuscaEFiltros(); mesa = mm; desenhar(); }
   else if (mesa && !location.hash) sairMesa(); // link de deck: quem trata é o hashchange
 });
 if ("serviceWorker" in navigator && /^https?:/.test(location.protocol)) { navigator.serviceWorker.register("../sw.js", { scope: "../" }).catch(function () {}); }
