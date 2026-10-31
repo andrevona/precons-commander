@@ -29,6 +29,8 @@ cartas = {r["carta"]: r for r in csv.DictReader(open(os.path.join(P, "cartas.csv
 var = json.load(open(os.path.join(P, "variacoes.json"), encoding="utf-8"))
 pacote = json.load(gzip.open(os.path.join(P, "listas.json.gz"), "rt", encoding="utf-8"))
 listas = {x["id"]: x for x in pacote["listas"]}
+_pl = os.path.join(P, "placar.json")  # placar das listas que só têm a colocação na tabela (tools/pauper_placar.py)
+PLACAR = json.load(open(_pl, encoding="utf-8")) if os.path.exists(_pl) else {}
 
 # Tradução dos tipos: a mesma tabela do build.py (forma impressa nas cartas em português)
 src = open("build.py", encoding="utf-8").read()
@@ -70,7 +72,8 @@ def real(x, col, dif=None):
     lista, tp, st = montar(x["lista"])
     extra = {"dif": dif[0], "difs": dif[1]} if dif else {}  # cartas diferentes do consenso (principal sem básicos, sideboard)
     return dict(extra, **{"nome": col["nome"], "arquivo": col["id"] + "-" + x["id"], "real": 1, "lista": lista, "ci": x["ci"], "tp": tp, "st": st,
-            "jogador": x["jogador"], "evento": x["evento"], "lugar": x["lugar"], "data": x["data"], "origem": x["origem"], "apelido": x["nome"]})
+            "jogador": x["jogador"], "evento": x["evento"], "lugar": x["lugar"], "data": x["data"], "origem": x["origem"], "apelido": x["nome"],
+                         "placar": x["lugar"] if re.match(r"^\d+-\d+(-\d+)?$", x["lugar"]) else PLACAR.get(x["id"], "")})
 
 
 colecoes, familias, por_fam = [], [], {}
