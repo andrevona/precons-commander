@@ -11,6 +11,13 @@ na ordem de participação no metagame. O link de cada deck é #<slug>.
 import ast, csv, json, os, re
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+def versao_do_site():
+    """Versão publicada (ex. v117), lida do sw.js (var V = "precons-v117"): ./sw.js ou ./site/sw.js. Aparece no pé da página."""
+    for c in ("sw.js", os.path.join("site", "sw.js")):
+        if os.path.exists(c):
+            m = re.search(r'precons-(v\d+)', open(c, encoding="utf-8").read())
+            if m: return m.group(1)
+    raise SystemExit("sw.js não encontrado (esperado em ./sw.js ou ./site/sw.js): sem ele o build não sabe a versão")
 P = "pauper"
 meta = json.load(open(os.path.join(P, "metagame.json"), encoding="utf-8"))
 cartas = {r["carta"]: r for r in csv.DictReader(open(os.path.join(P, "cartas.csv"), encoding="utf-8"))}
@@ -74,6 +81,7 @@ html = (open("template_pauper.html", encoding="utf-8").read()
         .replace("__CONFRONTOS__", json.dumps(confrontos, ensure_ascii=False, sort_keys=True, separators=(",", ":")) if confrontos else "null")
         .replace("__TIPOS__", json.dumps(TIPOS, ensure_ascii=False))
         .replace("__META__", json.dumps(info))
+        .replace("__VERSAO__", versao_do_site())
         .replace("__BANIDAS__", json.dumps(banidas, ensure_ascii=False).replace("</", "<\\/"))
         .replace("__DATA__", json.dumps(data, ensure_ascii=False).replace("</", "<\\/")))
 open("pauper_offline.html", "w", encoding="utf-8").write(html)

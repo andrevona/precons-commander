@@ -77,6 +77,7 @@ def gerar_site(raiz, dados, site):
     with tempfile.TemporaryDirectory() as tmp:
         for f in ("build.py", "template.html"):
             shutil.copy(os.path.join(raiz, f), tmp)
+        shutil.copy(os.path.join(site, "sw.js"), tmp)  # a versão que aparece no pé da página vem do sw.js
         for p in os.listdir(dados):
             orig = os.path.join(dados, p)
             if os.path.isdir(orig) and p not in ("raw", "site", "tools", "precons-commander"):
@@ -145,6 +146,7 @@ def validar_pauper(raiz, dados, site):
         with tempfile.TemporaryDirectory() as tmp:
             for f in ("build.py", "build_pauper.py", "template_pauper.html"):
                 shutil.copy(os.path.join(raiz, f), tmp)
+            shutil.copy(os.path.join(site, "sw.js"), tmp)  # idem
             shutil.copytree(P, os.path.join(tmp, "pauper"))
             r = subprocess.run([sys.executable, "-I", os.path.join(tmp, "build_pauper.py")], capture_output=True, text=True)
             if r.returncode != 0:

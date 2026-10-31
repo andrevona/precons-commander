@@ -141,6 +141,7 @@
   .guia-botoes { display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; }
   .aviso { position:fixed; left:50%; bottom:max(12px, env(safe-area-inset-bottom)); transform:translateX(-50%); z-index:60; width:max-content; max-width:calc(100% - 32px); background:var(--fg); color:var(--bg); padding:8px 14px; border-radius:18px; font-size:13px; box-shadow:0 6px 22px rgba(0,0,0,.25); text-align:center; }
   footer { margin-top:28px; color:var(--mut); font-size:12.5px; text-align:center; }
+  .versao { margin:14px 0 2px; color:var(--mut); opacity:.75; font-size:11px; text-align:center; letter-spacing:.03em; } /* versão publicada (vem do sw.js na hora do build): serve para conferir se a página atualizou */
   footer a { color:inherit; }
   footer .como { max-width:540px; margin:16px auto 0; text-align:left; }
   footer .como p { margin:0 0 6px; text-align:center; }
@@ -364,6 +365,7 @@
   </div>
   </div>
   <footer id="rodape"></footer>
+  <div class="versao" id="versao">__VERSAO__</div>
 </main>
 <div class="modal" id="guia" hidden>
   <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="guiaTitulo">

@@ -1,6 +1,13 @@
-import json,os
+import json,os,re
 # Lê e grava na pasta deste script (a pasta de trabalho), de onde quer que seja chamado.
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+def versao_do_site():
+    """Versão publicada (ex. v117), lida do sw.js (var V = "precons-v117"): ./sw.js ou ./site/sw.js. Aparece no pé da página."""
+    for c in ("sw.js", os.path.join("site", "sw.js")):
+        if os.path.exists(c):
+            m = re.search(r'precons-(v\d+)', open(c, encoding="utf-8").read())
+            if m: return m.group(1)
+    raise SystemExit("sw.js não encontrado (esperado em ./sw.js ou ./site/sw.js): sem ele o build não sabe a versão")
 C=[("Commander (2011)","c11",[("Counterpunch","counterpunch"),("Devour for Power","devour_for_power"),("Heavenly Inferno","heavenly_inferno"),("Mirror Mastery","mirror_mastery"),("Political Puppets","political_puppets")]),
    ("Commander 2013","c13",[("Eternal Bargain","eternal_bargain"),("Evasive Maneuvers","evasive_maneuvers"),("Mind Seize","mind_seize"),("Nature of the Beast","nature_of_the_beast"),("Power Hungry","power_hungry")]),
    ("Commander 2014","c14",[("Built from Scratch","built_from_scratch"),("Forged in Stone","forged_in_stone"),("Guided by Nature","guided_by_nature"),("Peer Through Time","peer_through_time"),("Sworn to Darkness","sworn_to_darkness")]),
@@ -132,7 +139,7 @@ if os.path.exists("decks_pt.csv"):
         if r["id"] not in ids: raise SystemExit("ERRO: deck de decks_pt.csv fora do build.py: "+r["id"])
         ids[r["id"]]["pt"]=[r["nome_pt"]]+[x for x in r["variantes"].split(";") if x]
 ATUALIZADO="2026-10-27"  # data (AAAA-MM-DD) da última conferência de todos os decks com o mtg.wtf (tools/auditar.py); atualizar a cada auditoria; o rodapé é montado na página, no idioma de quem acessa
-html=open("template.html",encoding="utf-8").read().replace("__GRUPOS__",json.dumps(GRUPOS)).replace("__TIPOS__",json.dumps(TIPOS,ensure_ascii=False)).replace("__ATUALIZADO__",ATUALIZADO).replace("__DATA__",json.dumps(data,ensure_ascii=False).replace("</","<\\/"))
+html=open("template.html",encoding="utf-8").read().replace("__GRUPOS__",json.dumps(GRUPOS)).replace("__TIPOS__",json.dumps(TIPOS,ensure_ascii=False)).replace("__ATUALIZADO__",ATUALIZADO).replace("__VERSAO__",versao_do_site()).replace("__DATA__",json.dumps(data,ensure_ascii=False).replace("</","<\\/"))
 open("precons_offline.html","w",encoding="utf-8").write(html)
 print(len(html))
 # nomes_pt.json: nome da carta na lista (inglês) -> nome em português, só onde existe e difere; usado só na busca (ver tools/atributos.py)
