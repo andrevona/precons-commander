@@ -1203,7 +1203,14 @@ function escolherFiltro(f, i) {
   if (!tinha) abertoAntes = aberto; // como a tela estava antes de filtrar
   f.cfg.set(f.vals[i]); recolhido = false; pintarFiltro(f);
   var tem = !!(corFiltro || anoSel || arqSel);
-  semSel = tem; // filtrando: nada escolhido até o usuário tocar numa coleção
+  // Filtrando: se a tela estava fechada, nada escolhido até o usuário tocar numa coleção; se havia uma lista aberta (Mais jogados
+  // ou um grupo de cores), ela continua aberta e acompanha o filtro (pedido do usuário em 31/10/2026): o deck aberto fica, se ainda
+  // casar com o filtro; senão entra o primeiro que casar.
+  semSel = tem && (tinha ? nadaEscolhido : !aberto);
+  if (tem && !semSel && aberto) {
+    var atual = COLECOES[colAtual] && COLECOES[colAtual].decks[deckAtual];
+    if (atual && casa(atual)) { colAtual = 0; deckAtual = COLECOES[0].decks.indexOf(atual); } // com filtro só aparece "Mais jogados" (COLECOES[0])
+  }
   if (!tem && COLECOES[colAtual]) grpAtual = COLECOES[colAtual].grupo; // sem filtros, volta ao grupo da coleção aberta
   if (tem && !aberto) abrirConteudo();
   else if (!tem && tinha && nadaEscolhido && !abertoAntes && aberto && !q) fecharConteudo(); // tirou o último filtro sem escolher nada: volta à tela inicial, sem escolher nada sozinho
