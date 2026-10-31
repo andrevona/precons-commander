@@ -1,0 +1,31 @@
+2 Archaeomancer (M13) 41
+4 Augur of Bolas (C13) 30
+3 Bender's Waterskin (TLA) 255
+4 Counterspell (FCA) 4
+1 Dispel (BFZ) 76
+3 Ephemerate (MAR) 44
+1 Ethereal Haze (CHK) 9
+2 Glacial Floodplain (KHM) 257
+1 Goliath Paladin (CLB) 21
+4 Lórien Revealed (LTR) 60
+3 Mulldrifter (AFC) 87
+1 Murmuring Mystic (PLST) GRN-45
+4 Perilous Landscape (FRC) 78
+2 Plunder the Trollshaws (HOB) 51
+3 Preordain (TDC) 161
+1 Ride's End (DFT) 25
+4 Skred (CSP) 97
+7 Snow-Covered Island (KHM) 279
+2 Snow-Covered Mountain (KHM) 283
+2 Snow-Covered Plains (KHM) 276
+2 Suplex (FIN) 164
+2 Union of the Third Path (BRO) 31
+2 Volatile Fjord (KHM) 273
+
+1 Annul (THS) 38
+3 Blue Elemental Blast (4ED) 63
+2 Breath Weapon (CLB) 165
+2 Envelop (JUD) 39
+4 Red Elemental Blast (3ED) 171
+1 Thraben Charm (MH3) 45
+2 Vandalblast (FIC) 298

@@ -47,6 +47,16 @@ Commander 2011 e 2013 a 2026 completos, incluindo os Starter Commander Decks de 
 
 Problemas ou sugestões: use o link "e-mail" ou "issue no GitHub" dentro da "Dica de uso" no rodapé do site, ou abra uma issue em https://github.com/andrevona/precons-commander/issues.
 
+## Pauper
+
+Página separada, em [`/pauper/`](https://andrevona.github.io/precons-commander/pauper/) (o seletor **Commander | Pauper** no topo das duas páginas leva de uma à outra). Pauper não tem decks pré-construídos: a página traz os arquétipos mais jogados do formato, cada um com uma lista real.
+
+- **Fonte:** o metagame de Pauper do [MTGGoldfish](https://www.mtggoldfish.com/metagame/pauper/full) (Magic Online, últimos 30 dias). Entram os arquétipos com pelo menos 5 decks no período (48 arquétipos, 98% do metagame em 31/10/2026). Para cada um, a lista é a que o MTGGoldfish mostra na página do arquétipo: a de um jogador num torneio recente (o painel mostra o jogador, o resultado e a data); outras versões do mesmo arquétipo podem variar algumas cartas.
+- **Retrato numa data:** as listas não se atualizam sozinhas; a data do metagame aparece no rodapé da página.
+- **Conferência:** pelo [Scryfall](https://scryfall.com): toda carta existe na edição indicada e é legal no Pauper; 60 cartas ou mais, até 15 no sideboard e até 4 cópias (exceto terrenos básicos). O número de coleção vem do Scryfall quando o MTGGoldfish não o informa. Algumas cartas do Mystery Booster, que o Scryfall não tem nessa edição, usam a impressão do The List.
+- **Na página:** grupos por número de cores (uma, duas, três ou mais), busca por carta ou deck (também em português), **Por cor** (cores que o deck usa: as dos custos de mana que os terrenos do deck produzem), **Sortear deck** e a lista de **cartas banidas** no formato (Scryfall), no rodapé.
+- **Ao copiar:** formato de exportação do MTG Arena com `Name` (*Arquétipo - Pauper (ano-mês)*), `Deck` e `Sideboard`.
+
 ## Licença
 
-O código (página, scripts e ferramentas) é distribuído sob a licença [MIT](LICENSE). Ela **não** cobre o que não é do projeto: nomes e textos de cartas, nomes de decks e coleções (Wizards of the Coast), as listas obtidas do mtg.wtf, nem os ícones e símbolos de mana do Scryfall.
+O código (página, scripts e ferramentas) é distribuído sob a licença [MIT](LICENSE). Ela **não** cobre o que não é do projeto: nomes e textos de cartas, nomes de decks e coleções (Wizards of the Coast), as listas obtidas do mtg.wtf, nem os ícones e símbolos de mana do Scryfall, nem as listas de Pauper obtidas do MTGGoldfish.

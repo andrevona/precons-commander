@@ -1,0 +1,32 @@
+1 Blood Fountain (PLST) VOW-95
+1 Bojuka Bog (SOC) 363
+3 Cast Down (CLB) 119
+4 Cleansing Wildfire (ZNR) 137
+3 Drossforge Bridge (MH2) 246
+2 Eviscerator's Insight (MH3) 93
+4 Fanatical Offering (LCI) 105
+2 Forest (THB) 254
+4 Ichor Wellspring (BRR) 21
+3 Krark-Clan Shaman (MRD) 98
+2 Lembas (LTR) 243
+1 Makeshift Munitions (CMR) 191
+1 Mountain (THB) 253
+2 Nihil Spellbomb (A25) 226
+2 Nyxborn Hydra (MH3) 164
+1 Pulse of Murasa (BBD) 209
+4 Refurbished Familiar (MH3) 105
+4 Slagwoods Bridge (DRC) 171
+3 Swamp (THB) 252
+1 Terminate (ECC) 134
+2 Toxin Analysis (MKM) 107
+4 Twisted Landscape (MH3) 232
+2 Vault of Whispers (BRC) 211
+4 Writhing Chrysalis (MH3) 208
+
+2 Breath Weapon (CLB) 165
+3 Duress (EMA) 86
+1 Heritage Reclamation (TDM) 145
+2 Red Elemental Blast (3ED) 171
+2 Troublemaker Ouphe (WOE) 194
+2 Vandalblast (FIC) 298
+3 Weather the Storm (MH1) 191

@@ -1,0 +1,28 @@
+1 Azorius Guildgate (RNA) 243
+4 Basilisk Gate (M3C) 320
+4 Brainstorm (FRC) 39
+4 Citadel Gate (CLB) 349
+4 Counterspell (FCA) 4
+1 Deep Analysis (2X2) 44
+1 Dispel (BFZ) 76
+2 Heap Gate (CLB) 354
+1 Idyllic Beachfront (DMU) 249
+3 Island (THB) 251
+4 Journey to Nowhere (PLST) ZEN-14
+3 Lórien Revealed (LTR) 60
+3 Outlaw Medic (OTJ) 23
+1 Plains (THB) 250
+4 Prismatic Strands (PLST) JUD-18
+1 Riling Dawnbreaker // Signaling Roar (TDM) 21
+4 Sacred Cat (AKH) 27
+4 Sea Gate (CLB) 359
+4 Squadron Hawk (A25) 34
+4 The Modern Age // Vector Glider (NEO) 66
+3 Thraben Charm (MH3) 45
+
+4 Blue Elemental Blast (4ED) 63
+3 Breath Weapon (CLB) 165
+1 Hydroblast (ICE) 72
+3 Pyroblast (ICE) 213
+1 Soul-Guide Lantern (FDN) 680
+3 Vandalblast (FIC) 298

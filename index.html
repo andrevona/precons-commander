@@ -26,6 +26,10 @@
   body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
   main { max-width: 860px; margin: 0 auto; padding: 20px 16px 48px; }
   h1 { font-size: 20px; margin: 0 0 4px; }
+  .formato { display:inline-flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; margin:0 0 10px; font-size:13px; background:var(--card); }
+  .formato a { padding:3px 12px; color:var(--mut); text-decoration:none; font-weight:600; }
+  .formato a[aria-current] { background:var(--g-acc); color:var(--g-accfg); }
+  .formato a:not([aria-current]):hover { color:var(--fg); }
   .sub { color: var(--mut); margin: 0 0 16px; }
   .tabs { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
   .tab { border:1px solid var(--line); background:var(--card); color:var(--fg); padding:6px 12px; border-radius:999px; cursor:pointer; font:inherit; }
@@ -318,6 +322,7 @@
 </head>
 <body>
 <main>
+  <nav class="formato" aria-label="Commander / Pauper"><a href="./" aria-current="page">Commander</a><a href="pauper/">Pauper</a></nav>
   <h1>Precons Commander</h1>
   <p class="sub" id="sub" data-t="sub">Navegue por coleção, utilize os filtros ou use a busca (em português ou inglês).</p>
 

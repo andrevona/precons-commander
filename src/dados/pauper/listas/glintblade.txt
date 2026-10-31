@@ -1,0 +1,27 @@
+4 Ancient Den (EOC) 148
+1 Blood Fountain (PLST) VOW-95
+4 Dispatch (MSC) 130
+1 Eviscerator's Insight (MH3) 93
+4 Fanatical Offering (LCI) 105
+4 Glint Hawk (SOM) 10
+4 Goldmire Bridge (MH2) 247
+4 Kor Skyfisher (PLST) DDO-16
+4 Lembas (LTR) 243
+2 Mukotai Ambusher (NEO) 112
+2 Nihil Spellbomb (A25) 226
+2 Oroku Saki, Shredder Rising (TMT) 68
+3 Orzhov Basilica (CLU) 241
+3 Plains (THB) 250
+4 Refurbished Familiar (MH3) 105
+1 Suffocating Fumes (PLST) IKO-100
+2 Swamp (THB) 252
+4 Thraben Inspector (2XM) 35
+3 Tithing Blade // Consuming Sepulcher (LCI) 128
+4 Vault of Whispers (BRC) 211
+
+3 Duress (EMA) 86
+4 Dust to Dust (MBC) 71
+3 Navigator's Compass (DOM) 225
+2 Nihil Spellbomb (A25) 226
+2 Suffocating Fumes (PLST) IKO-100
+1 Thraben Charm (MH3) 45

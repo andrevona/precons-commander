@@ -1,0 +1,29 @@
+1 Arms of Hadar (CLB) 113
+2 Augur of Bolas (C13) 30
+4 Baleful Strix (FIC) 318
+2 Bojuka Bog (SOC) 363
+4 Brainstorm (FRC) 39
+3 Cast Down (CLB) 119
+4 Contaminated Aquifer (FIC) 383
+4 Counterspell (FCA) 4
+2 Dispel (BFZ) 76
+1 Extract a Confession (MKM) 84
+3 Faerie Seer (PLST) MH1-51
+10 Island (THB) 251
+4 Lórien Revealed (LTR) 60
+1 Moon-Circuit Hacker (NEO) 334
+1 Mukotai Ambusher (NEO) 112
+2 Ninja of the Deep Hours (C15) 99
+1 Seething Landscape (MH3) 225
+4 Snuff Out (FIC) 285
+4 Spellstutter Sprite (PLST) LRW-89
+1 Swamp (THB) 252
+2 Thorn of the Black Rose (CMM) 190
+
+3 Annul (THS) 38
+1 Arms of Hadar (CLB) 113
+4 Blue Elemental Blast (4ED) 63
+2 Hydroblast (ICE) 72
+1 Molten Tributary (SOC) 387
+2 Relic of Progenitus (MMA) 213
+2 Vandalblast (FIC) 298

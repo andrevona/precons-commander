@@ -4,3 +4,6 @@ __pycache__/
 *.pyc
 precons_offline.html
 .DS_Store
+raw_pauper/
+pauper_offline.html
+pauper_nomes_pt.json

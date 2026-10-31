@@ -1,0 +1,1315 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pauper · Precons Commander</title>
+<link rel="manifest" href="../manifest.json">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fafaf8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#161615" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icon-180.png">
+<style>
+  html { color-scheme:light dark; scrollbar-color:var(--line) var(--bg); }
+  :root { --bg:#fafaf8; --fg:#1d1d1b; --mut:#6b6b66; --line:#d9d8d2; --acc:#2f5fd0; --accfg:#fff; --card:#fff; --levePct:9%; --ok:#1d7a3a; --warn:#b05a00;
+    --g-acc:#1c3378; --g-accfg:#fff; --f-acc:#0b78b8; --f-accfg:#fff; /* tons de azul: grupos (escuro), coleções (--acc), filtros (claro) */
+    --mW:#e4e0d2; --mU:#2b83d0; --mB:#6c588c; --mR:#d24d36; --mG:#2c8a48; --mC:#9b9a94; --deckBorda:#5f5e59;
+    --inBg:#fff; --inBorda:#9a998f; --inSombra:0 1px 3px rgba(0,0,0,.10); --inAnel:rgba(11,120,184,.25); } /* campo de busca em destaque */ /* cores dos decks; borda neutra (escura no claro) */
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#161615; --fg:#ecebe6; --mut:#9c9b94; --line:#34332f; --acc:#7da2ff; --accfg:#10131c; --card:#1e1e1c; --levePct:9%; --ok:#6fcf8a; --warn:#f0a04b;
+      --g-acc:#3c5cc4; --g-accfg:#fff; --f-acc:#5ec4ef; --f-accfg:#0b1a22;
+      --mW:#f6f4ee; --mU:#5aa8ee; --mB:#a991cc; --mR:#f07a62; --mG:#5cbf7c; --mC:#7f7e78; --deckBorda:#b4b3ac;
+      --inBg:#2a2a27; --inBorda:#85847c; --inSombra:0 2px 8px rgba(0,0,0,.55); --inAnel:rgba(94,196,239,.32); }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 20px 16px 48px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .formato { display:inline-flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; margin:0 0 10px; font-size:13px; background:var(--card); }
+  .formato a { padding:3px 12px; color:var(--mut); text-decoration:none; font-weight:600; }
+  .formato a[aria-current] { background:var(--g-acc); color:var(--g-accfg); }
+  .formato a:not([aria-current]):hover { color:var(--fg); }
+  .sub { color: var(--mut); margin: 0 0 16px; }
+  .tabs { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .tab { border:1px solid var(--line); background:var(--card); color:var(--fg); padding:6px 12px; border-radius:999px; cursor:pointer; font:inherit; }
+  .tab:hover { border-color: var(--acc); }
+  .tab.on { background:var(--acc); color:var(--accfg); border-color:var(--acc); }
+  .tab.small { padding:4px 10px; font-size:14px; border-radius:8px; }
+  .tab .n { opacity:.65; font-size:12px; margin-left:6px; white-space:nowrap; }
+  .arq-linha { display:flex; flex-wrap:wrap; gap:4px 6px; }
+  .arq-linha .arq-tag { margin-left:0; }
+  #titulo .arq-tag { vertical-align:2px; }
+  #titulo .tit-cmd { display:block; font-size:13px; font-weight:400; color:var(--mut); margin-top:2px; }
+  .panel { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:12px; }
+  .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
+  .grow { flex:1; min-width:180px; }
+  button.go { background:var(--acc); color:var(--accfg); border:0; padding:8px 16px; border-radius:8px; font:inherit; font-weight:600; cursor:pointer; }
+  button.ghost { background:transparent; color:var(--acc); border:1px solid var(--line); padding:7px 12px; border-radius:8px; font:inherit; cursor:pointer; }
+  .lista { position:relative; background:var(--bg); border-radius:8px; }
+  textarea { display:block; position:relative; z-index:1; width:100%; min-height:420px; margin:0; background:transparent; -webkit-appearance:none; appearance:none; color:var(--fg); border:1px solid var(--line); border-radius:8px; padding:10px; font:13px/19px ui-monospace, Menlo, Consolas, monospace; resize:vertical; white-space:pre; overflow:auto; }
+  .espelho { position:absolute; inset:0; overflow:hidden; border:1px solid transparent; border-radius:8px; padding:10px; font:13px/19px ui-monospace, Menlo, Consolas, monospace; white-space:pre; color:transparent; pointer-events:none; }
+  .espelho div { height:19px; }
+  .espelho div.hl { background:#ffe58a; border-radius:3px; }
+  @media (prefers-color-scheme: dark) { .espelho div.hl { background:#5c4a00; } }
+  input.filtro { width:100%; margin:0 0 12px; padding:10px 12px; background:var(--inBg); color:var(--fg); border:1.5px solid var(--inBorda); border-radius:10px; box-shadow:var(--inSombra); font:inherit; }
+  input.filtro::placeholder { color:var(--mut); opacity:1; }
+  input.filtro:focus { outline:none; border-color:var(--f-acc); box-shadow:0 0 0 3px var(--inAnel); }
+  .status { color:var(--mut); margin-bottom:8px; }
+  .status.ok { color:var(--ok); } .status.warn { color:var(--warn); }
+  .sec { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--mut); font-weight:600; margin:16px 0 8px; }
+  hr.div { border:0; border-top:2px solid var(--line); margin:18px 0 0; }
+  .tab:not(.small) { font-weight:600; padding:8px 16px; }
+  .tab.small { border-radius:6px; background:transparent; }
+  /* Decks: borda neutra igual para todos (contrasta com o fundo); só o deck escolhido ganha as cores (borda, fundo e brilho). */
+  .tab.small { --fd:var(--bg); border:1.5px solid var(--deckBorda); background:var(--fd); position:relative; transition:transform .15s; }
+  .tab.small:hover { border-color:var(--fg); }
+  .tab.small.on { --fd:var(--card); color:var(--fg); font-weight:600; border:2.5px solid transparent; background:linear-gradient(var(--card), var(--card)) padding-box, var(--brilho, linear-gradient(var(--deckBorda), var(--deckBorda))) border-box; transform:translateY(-2px); }
+  @supports (background: color-mix(in srgb, red 10%, blue)) {
+    .tab.small.on { background:var(--tinta, linear-gradient(var(--card), var(--card))) padding-box, var(--brilho, linear-gradient(var(--deckBorda), var(--deckBorda))) border-box; }
+  }
+  .tab.small.on::after { content:""; position:absolute; left:8%; right:8%; top:100%; height:9px; margin-top:1px; border-radius:50%; background:var(--brilho, var(--deckBorda)); filter:blur(5px); opacity:.9; pointer-events:none; }
+  @media (prefers-reduced-motion: reduce) { .tab.small { transition:none; } }
+  .tab img.ic { width:18px; height:18px; vertical-align:-4px; margin-right:8px; object-fit:contain; }
+  .tab.on img.ic { filter:invert(1); }
+  @media (prefers-color-scheme: dark) { .tab img.ic { filter:invert(.92); } .tab.on img.ic { filter:none; } }
+  #grupos { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px; }
+  #grupos .tab.on { background:var(--g-acc); color:var(--g-accfg); border-color:var(--g-acc); }
+  #grupos .tab:hover { border-color:var(--g-acc); }
+  #grupos .tab { border-radius:8px; text-align:center; padding:10px 8px; display:flex; align-items:center; justify-content:center; }
+  @media (min-width:640px) { #grupos { grid-template-columns:repeat(4,1fr); } }
+  @media (max-width:439px) { #grupos .tab { padding:10px 4px; font-size:14px; } #grupos .tab .n, #grupos .tab .mais { margin-left:4px; } }
+  [hidden] { display:none !important; }
+  .sec-col { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:30px; }
+  .filtros { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:0 0 12px; }
+  .cor-caixa { position:relative; display:inline-flex; }
+  .cor-btn { position:relative; display:inline-flex; align-items:center; gap:6px; font:inherit; font-size:13px; font-weight:500; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:4px 28px 4px 12px; min-height:29px; cursor:pointer; }
+  .cor-btn:hover { border-color:var(--f-acc); }
+  .cor-btn::after { content:"▾"; position:absolute; right:11px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:12px; color:var(--mut); }
+  .cor-caixa.on .cor-btn { background:var(--f-acc); color:var(--f-accfg); border-color:var(--f-acc); }
+  .cor-caixa.on .cor-btn::after { color:var(--f-accfg); }
+  /* Celular: grade fixa de 2 colunas, para as pílulas não mudarem de lugar quando o texto muda (símbolos, nome do arquétipo,
+     × de tirar o filtro, "Limpar tudo" que aparece e some). O × fica por cima da seta, sem aumentar a pílula. */
+  @media (max-width:520px) {
+    .filtros { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 6px; }
+    .filtros .cor-caixa { min-width:0; }
+    .filtros .cor-caixa .cor-btn { flex:1; min-width:0; overflow:hidden; white-space:nowrap; padding-left:10px; padding-right:26px; }
+    .filtros .limpar-cor { position:absolute; right:3px; top:50%; transform:translateY(-50%); margin:0; width:20px; height:20px; font-size:14px; z-index:1; }
+    .filtros .cor-caixa.on .cor-btn::after { visibility:hidden; }
+    .filtros .limpar-tudo { justify-self:center; grid-column:1 / -1; }
+    .filtros .sorte-grupo { justify-self:start; }
+    .filtros .sorte-grupo #btnSorte { white-space:nowrap; gap:4px; padding:4px 12px 4px 9px; }
+    .filtros .sorte-grupo .mesa-btn { padding:4px 8px 4px 7px; }
+    .filtros .cor-btn { gap:4px; }
+    .filtros .cor-btn .simbolos { gap:2px; }
+    .filtros .cor-btn .simbolos img { width:13px; height:13px; }
+    .filtros .cor-caixa:nth-child(even) .cor-menu { left:auto; right:0; }
+  }
+  .limpar-cor { width:26px; height:26px; margin-left:4px; align-self:center; border:0; border-radius:999px; background:var(--line); color:var(--fg); font:inherit; font-size:17px; line-height:1; padding:0; cursor:pointer; }
+  .limpar-cor:hover { background:var(--f-acc); color:var(--f-accfg); }
+  .simbolos { display:inline-flex; gap:2px; flex:none; }
+  .simbolos img { width:17px; height:17px; display:block; }
+  .cor-btn .simbolos img { width:16px; height:16px; }
+  .cor-menu { position:absolute; left:0; top:calc(100% + 4px); z-index:20; margin:0; padding:4px; list-style:none; min-width:220px; max-width:calc(100vw - 32px); background:var(--card); border:1px solid var(--line); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.25); max-height:min(380px, 60vh); overflow:auto; overscroll-behavior:contain; outline:none; }
+  .cor-menu li { display:flex; justify-content:space-between; align-items:center; gap:14px; padding:7px 10px; border-radius:7px; cursor:pointer; font-size:14px; white-space:nowrap; }
+  .cor-menu .num { color:var(--mut); font-size:12px; margin-left:7px; }
+  .sorte { padding-right:12px; font-weight:600; color:#1d1d1b; border:0; background:linear-gradient(100deg, #f3e6a6, #a9d3f5 28%, #cdbde6 50%, #f6ae9c 72%, #a8dcb2); box-shadow:0 1px 3px rgba(0,0,0,.18); }
+  .sorte:hover { filter:brightness(1.05) saturate(1.15); }
+  .sorte:active { transform:scale(.97); }
+  .limpar-tudo { font:inherit; font-size:13px; color:var(--mut); background:transparent; border:1px dashed var(--line); border-radius:999px; padding:4px 12px; min-height:29px; cursor:pointer; }
+  .limpar-tudo:hover { color:var(--fg); border-color:var(--fg); }
+  .sorte::after { content:none; }
+  .sorte svg { width:16px; height:16px; flex:none; }
+  .sorte.gira svg { animation:gira .6s cubic-bezier(.4,0,.2,1); }
+  @keyframes gira { to { transform:rotate(540deg) scale(1.15); } }
+  @media (prefers-reduced-motion: reduce) { .sorte.gira svg { animation:none; } }
+  #decks { row-gap:10px; padding-bottom:4px; }
+  .tab.small .simbolos { margin-left:8px; vertical-align:-3px; }
+  .tab.small .simbolos img { width:14px; height:14px; }
+  .cor-menu li.ativo { background:var(--line); }
+  .cor-menu li[aria-selected="true"] { font-weight:600; color:var(--acc); }
+  button.icone { padding:7px 10px; display:inline-flex; align-items:center; }
+  button.icone svg { width:18px; height:18px; display:block; }
+  .acoes { margin-bottom:8px; }
+  .modal { position:fixed; inset:0; z-index:50; background:rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center; padding:16px; }
+  .modal-caixa { background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:14px; padding:20px; width:100%; max-width:430px; box-shadow:0 12px 40px rgba(0,0,0,.35); }
+  .modal-caixa h2 { font-size:18px; margin:0 0 6px; }
+  .modal-caixa h2.ok { color:var(--ok); } .modal-caixa h2.erro { color:var(--warn); }
+  .guia-sub { color:var(--mut); margin:0 0 10px; }
+  .passos { margin:0 0 14px; padding-left:22px; } .passos li { margin:7px 0; }
+  .guia-check { display:flex; gap:8px; align-items:center; color:var(--mut); font-size:14px; margin-bottom:16px; cursor:pointer; }
+  .guia-botoes { display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; }
+  .aviso { position:fixed; left:50%; bottom:max(12px, env(safe-area-inset-bottom)); transform:translateX(-50%); z-index:60; width:max-content; max-width:calc(100% - 32px); background:var(--fg); color:var(--bg); padding:8px 14px; border-radius:18px; font-size:13px; box-shadow:0 6px 22px rgba(0,0,0,.25); text-align:center; }
+  footer { margin-top:28px; color:var(--mut); font-size:12.5px; text-align:center; }
+  footer a { color:inherit; }
+  footer .como { max-width:540px; margin:16px auto 0; text-align:left; }
+  footer .como p { margin:0 0 6px; text-align:center; }
+  footer details { margin-top:4px; }
+  footer summary { display:flex; width:max-content; margin:0 auto; align-items:center; gap:6px; list-style:none; cursor:pointer; color:var(--acc); font-weight:600; padding:4px 12px; border:1px solid var(--line); border-radius:999px; background:var(--card); }
+  footer summary::-webkit-details-marker { display:none; }
+  footer summary::after { content:"▾"; font-size:11px; transition:transform .2s; }
+  footer details[open] summary::after { transform:rotate(180deg); }
+  footer details[open] summary { margin-bottom:10px; }
+  footer .como ol { margin:0; padding-left:22px; }
+  footer .como li { margin:4px 0; }
+  footer .como p.intro { margin:10px 0 6px; text-align:left; }
+  footer .como p.nota { margin:8px 0 0; text-align:left; }
+  footer .como b { color:var(--fg); }
+  footer .ban ul { columns:2 200px; column-gap:20px; margin:0; padding:0; list-style:none; }
+  footer .ban li { margin:0 0 4px; break-inside:avoid; }
+  footer .ban li span { color:var(--mut); }
+  #colecoes .tab, #grupos .tab { position:relative; z-index:1; }
+  #colecoes .tab.on, #grupos .tab.on { z-index:3; }
+  .tab .mais { margin-left:8px; font-size:12px; opacity:.8; white-space:nowrap; }
+  .busca { position:relative; margin:0 0 12px; }
+  #caixaBusca { margin-top:12px; }
+  .busca input.filtro { margin:0; padding-right:44px; }
+  .busca input.filtro::-webkit-search-cancel-button { -webkit-appearance:none; display:none; }
+  .limpar { position:absolute; right:6px; top:50%; transform:translateY(-50%); width:32px; height:32px; border:0; border-radius:999px; background:var(--line); color:var(--fg); font-size:20px; line-height:1; font-family:inherit; cursor:pointer; padding:0; }
+  .limpar:hover { background:var(--acc); color:var(--accfg); }
+  .sugestoes { position:absolute; left:0; right:0; top:calc(100% + 4px); z-index:20; margin:0; padding:4px; list-style:none; background:var(--card); border:1px solid var(--line); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.25); max-height:min(360px, 50vh); overflow:auto; overscroll-behavior:contain; }
+  .sugestoes li { display:flex; justify-content:space-between; align-items:baseline; gap:2px 12px; padding:9px 10px; border-radius:7px; cursor:pointer; }
+  .sugestoes li.pt { flex-wrap:wrap; }
+  /* Par inglês/português da mesma carta: barra de destaque à esquerda e fundo levemente tingido, os dois colados */
+  .sugestoes li.par { box-shadow:inset 3px 0 0 var(--acc); background:color-mix(in srgb, var(--acc) 7%, transparent); }
+  .sugestoes li.par-a { border-bottom-left-radius:0; border-bottom-right-radius:0; padding-bottom:5px; }
+  .sugestoes li.par-b { border-top-left-radius:0; border-top-right-radius:0; padding-top:5px; margin-bottom:4px; }
+  .sugestoes li[aria-selected="true"] { background:var(--line); }
+  .sugestoes .txt { flex:1 1 0; min-width:0; overflow-wrap:anywhere; } /* nomes longos quebram em mais linhas, sem cortar */
+  .sugestoes .txt b { font-weight:700; color:var(--acc); }
+  .sugestoes .tipo { flex:none; color:var(--mut); font-size:12px; }
+  .sugestoes .tipo img.ic { width:14px; height:14px; vertical-align:-3px; margin-right:5px; object-fit:contain; opacity:.75; } /* símbolo da coleção onde a carta é comandante */
+  @media (prefers-color-scheme: dark) { .sugestoes .tipo img.ic { filter:invert(.92); } }
+  .sugestoes .tipo.orig { flex:1 1 100%; min-width:0; overflow-wrap:anywhere; } /* "→ nome original" numa segunda linha, inteiro */
+  /* Sorteio em grupo: botão dividido (Sortear deck | grupo) com o mesmo gradiente; quadro de configuração; cartões por jogador. */
+  .sorte-grupo { display:inline-flex; align-items:stretch; border-radius:999px; background:linear-gradient(100deg, #f3e6a6, #a9d3f5 28%, #cdbde6 50%, #f6ae9c 72%, #a8dcb2); box-shadow:0 1px 3px rgba(0,0,0,.18); }
+  .sorte-grupo .sorte { background:transparent; box-shadow:none; }
+  .sorte-grupo #btnSorte { border-radius:999px; }
+  .sorte-grupo .mesa-btn { border:0; border-left:1px solid rgba(0,0,0,.22); border-radius:0 999px 999px 0; padding:4px 11px 4px 9px; }
+  .mesa-cfg { max-height:calc(100vh - 32px); overflow:auto; }
+  .mesa-tit { display:flex; align-items:center; gap:8px; margin:0 0 6px; }
+  .mesa-tit h2 { margin:0; }
+  .ajuda-btn { flex:none; width:24px; height:24px; padding:0; border-radius:50%; border:1.5px solid var(--line); background:transparent; color:var(--acc); font:inherit; font-size:14px; font-weight:700; line-height:1; cursor:pointer; }
+  .ajuda-btn[aria-expanded="true"] { background:var(--f-acc); border-color:var(--f-acc); color:var(--f-accfg); }
+  .ajuda { margin:2px 0 4px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; font-size:14px; color:var(--mut); }
+  .ajuda ul { margin:0; padding-left:18px; } .ajuda li { margin:5px 0; }
+  .mesa-cfg .rot { font-size:13px; font-weight:600; color:var(--mut); margin:14px 0 6px; }
+  .seg { display:inline-flex; flex-wrap:wrap; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .seg button { font:inherit; font-size:14px; border:0; background:transparent; color:var(--fg); padding:7px 16px; cursor:pointer; }
+  .seg button + button { border-left:1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background:var(--f-acc); color:var(--f-accfg); font-weight:600; }
+  .nomes { display:grid; gap:6px; }
+  .nomes input { width:100%; font:inherit; font-size:16px; padding:8px 10px; border:1.5px solid var(--inBorda); border-radius:8px; background:var(--inBg); color:var(--fg); }
+  .nomes input::placeholder { color:var(--mut); opacity:1; }
+  .nomes input:focus { outline:none; border-color:var(--f-acc); box-shadow:0 0 0 3px var(--inAnel); }
+  #mesa { display:none; }
+  body.modo-mesa #mesa { display:block; }
+  body.modo-mesa #grupos, body.modo-mesa #caixaBusca, body.modo-mesa #cxCor, body.modo-mesa #cxAno, body.modo-mesa #cxArq, body.modo-mesa .sorte-grupo, body.modo-mesa #contagem,
+  body.modo-mesa #secCol, body.modo-mesa #colecoes, body.modo-mesa hr.div, body.modo-mesa #secDecks, body.modo-mesa #decks { display:none !important; }
+  .mesa-cab { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; justify-content:space-between; margin:2px 0 12px; }
+  .mesa-cab .sec { margin:0; }
+  .mesa-cab .sec .inteiro { white-space:nowrap; }
+  .mesa-chk { margin-top:12px; }
+  .mesa-chk .excl-l:has(input:disabled) { cursor:default; }
+  .mesa-arq { display:flex; flex-wrap:wrap; gap:6px 14px; margin:-4px 0 12px; font-size:14px; color:var(--mut); }
+  .mesa-arq b { display:inline-block; margin-left:4px; padding:2px 10px; border-radius:999px; background:var(--f-acc); color:var(--f-accfg); font-weight:600; }
+  .mesa-acoes { display:flex; flex-wrap:wrap; gap:8px; }
+  @media (max-width:520px) { /* celular: título + compartilhar na 1ª linha; "Sortear de novo" e "Alterar regras" lado a lado (mesma largura) na 2ª */
+    .mesa-cab { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:8px 6px; position:relative; }
+    .mesa-acoes { display:contents; }
+    .mesa-cab .sec { grid-column:1 / -1; min-height:38px; display:flex; align-items:center; padding-right:50px; }
+    #btnCompMesa { position:absolute; top:0; right:0; }
+    .mesa-acoes button:not(.icone) { justify-content:center; padding:7px 6px; } }
+  .mesa-acoes button { display:inline-flex; align-items:center; gap:6px; }
+  .mesa-acoes svg { width:16px; height:16px; flex:none; }
+  .mesa-acoes .gira svg { animation:gira .6s cubic-bezier(.4,0,.2,1); }
+  .mesa-bloco + .mesa-bloco { margin-top:14px; }
+  .mesa-bloco > .sec { margin:0 0 6px; }
+  .mesa-grade { display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:10px; }
+  .jog { display:flex; flex-direction:column; align-items:flex-start; gap:3px; text-align:left; font:inherit; color:var(--fg); background:var(--card); border:1.5px solid var(--deckBorda); border-radius:10px; padding:10px 12px; cursor:pointer; }
+  .jog:hover { border-color:var(--fg); }
+  .jog.on { border:2.5px solid transparent; padding:9px 11px; background:linear-gradient(var(--card), var(--card)) padding-box, var(--brilho, linear-gradient(var(--deckBorda), var(--deckBorda))) border-box; }
+  @supports (background: color-mix(in srgb, red 10%, blue)) {
+    .jog { background:var(--leve, var(--card)); } /* cartão do sorteio levemente tingido com as cores do deck */
+    .jog.on { background:var(--tinta, linear-gradient(var(--card), var(--card))) padding-box, var(--brilho, linear-gradient(var(--deckBorda), var(--deckBorda))) border-box; }
+  }
+  .jog .quem { font-weight:700; font-size:15px; display:flex; flex-wrap:wrap; gap:4px 8px; align-items:center; overflow-wrap:anywhere; }
+  .jog .dnome { font-size:14px; font-weight:600; }
+  .jog .dnome .simbolos { margin-left:6px; vertical-align:-3px; }
+  .jog .dnome .simbolos img { width:14px; height:14px; }
+  /* Tags de arquétipo nos cartões do sorteio: um matiz por arquétipo (--h; artefatos em cinza-aço, --s baixo), fundo claro e texto escuro no tema claro, o contrário no escuro */
+  .arq-tag { --s:62%; display:inline-block; margin-left:6px; padding:1px 7px; border-radius:999px; font-size:11px; font-weight:600; line-height:1.5; vertical-align:1px; white-space:nowrap;
+    background:hsl(var(--h) var(--s) 92%); color:hsl(var(--h) var(--s) 27%); border:1px solid hsl(var(--h) var(--s) 80%); }
+  @media (prefers-color-scheme: dark) { .arq-tag { background:hsl(var(--h) calc(var(--s) * .55) 20%); color:hsl(var(--h) var(--s) 80%); border-color:hsl(var(--h) calc(var(--s) * .55) 34%); } }
+  .arq-sacrifice { --h:2; } .arq-tribal { --h:26; } .arq-tokens { --h:46; } .arq-lands { --h:82; } .arq-counters { --h:132; } .arq-blink { --h:186; }
+  .arq-spellslinger { --h:214; } .arq-voltron { --h:244; } .arq-graveyard { --h:274; } .arq-enchantments { --h:304; } .arq-lifegain { --h:340; } .arq-artifacts { --h:210; --s:14%; }
+  /* Filtro "Por arquétipo" escolhido: a cor do arquétipo (--h/--s vêm das classes .arq-<id>, as mesmas das etiquetas), um pouco mais forte que a etiqueta */
+  /* Filtro "Por cor" escolhido: preenchimento nas cores da identidade (--selec) e borda de 1,5 px nas cores puras (--brilho), como o deck escolhido */
+  .cor-caixa.on.cor-cores .cor-btn { background:var(--selec) padding-box, var(--brilho) border-box; color:var(--fg); border:1.5px solid transparent; font-weight:600; }
+  .cor-caixa.on.cor-cores .cor-btn::after { color:var(--fg); }
+  .cor-caixa.on[class*="arq-"] .cor-btn { background:hsl(var(--h) var(--s, 62%) 85%); color:hsl(var(--h) var(--s, 62%) 20%); border-color:hsl(var(--h) var(--s, 62%) 58%); }
+  .cor-caixa.on[class*="arq-"] .cor-btn::after { color:hsl(var(--h) var(--s, 62%) 20%); }
+  @media (prefers-color-scheme: dark) {
+    .cor-caixa.on[class*="arq-"] .cor-btn { background:hsl(var(--h) calc(var(--s, 62%) * .6) 27%); color:hsl(var(--h) var(--s, 62%) 88%); border-color:hsl(var(--h) calc(var(--s, 62%) * .6) 46%); }
+    .cor-caixa.on[class*="arq-"] .cor-btn::after { color:hsl(var(--h) var(--s, 62%) 88%); }
+  }
+  .mesa-arq b.arq-tag { font-size:inherit; padding:1px 9px; margin-left:4px; vertical-align:baseline; background:hsl(var(--h) var(--s) 92%); color:hsl(var(--h) var(--s) 27%); border:1px solid hsl(var(--h) var(--s) 80%); } /* "Arquétipo sorteado" com a cor do arquétipo */
+  @media (prefers-color-scheme: dark) { .mesa-arq b.arq-tag { background:hsl(var(--h) calc(var(--s) * .55) 20%); color:hsl(var(--h) var(--s) 80%); border-color:hsl(var(--h) calc(var(--s) * .55) 34%); } }
+  .jog .dinfo { font-size:12.5px; color:var(--mut); }
+  /* Dica de que o cartão é um botão: linha "Ver lista ▾" separada no pé do cartão (vira "Ocultar lista ▴" quando aberto) e leve elevação ao passar o mouse. */
+  .jog .verlista { align-self:stretch; display:flex; align-items:center; justify-content:space-between; margin-top:6px; padding-top:7px; border-top:1px solid var(--deckBorda); border-top-color:color-mix(in srgb, var(--fg) 32%, transparent); font-size:12.5px; font-weight:600; color:var(--acc); }
+  .jog .verlista { margin-top:auto; } /* no computador os cartões lado a lado têm a mesma altura: "Ver lista" fica sempre embaixo */
+  .jog > :nth-last-child(2) { margin-bottom:6px; }
+  .jog .arq-linha { margin-top:auto; padding-top:6px; } /* etiquetas no pé do cartão, logo acima do "Ver lista" */
+  .jog .arq-linha + .verlista { margin-top:0; }
+  .jog .verlista::after { content:"▾"; font-size:11px; transition:transform .2s; }
+  .jog.on .verlista::after { transform:rotate(180deg); }
+  .jogw .jog { transition:transform .15s, box-shadow .15s, border-color .15s; }
+  .jogw .jog:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,.18); }
+  .jogw .jog:active { transform:translateY(0); box-shadow:none; }
+  @media (prefers-reduced-motion: reduce) { .jogw .jog { transition:none; } .jogw .jog:hover { transform:none; } }
+  @keyframes revela { from { opacity:0; transform:translateY(12px) scale(.94); } }
+  @media (prefers-reduced-motion: reduce) { .mesa-acoes .gira svg { animation:none; } }
+  /* Trocar o deck de um jogador: o cartão vira um invólucro com o botão do jogador e um botão redondo (dado) no canto. */
+  .jogw { position:relative; display:flex; }
+  .jogw .jog { flex:1; min-width:0; }
+  .jogw .quem { padding-right:42px; }
+  .jogw.rev { animation:revela .5s cubic-bezier(.2,.8,.2,1) both; }
+  .reroll { position:absolute; top:7px; right:7px; z-index:2; width:34px; height:34px; padding:0; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:999px; background:var(--card); color:var(--acc); cursor:pointer; }
+  .reroll:hover { color:var(--acc); border-color:var(--acc); }
+  .reroll svg { width:23px; height:23px; }
+  @media (prefers-reduced-motion: reduce) { .jogw.rev { animation:none; } }
+  /* Excluir do sorteio (só no sorteio em grupo; guardado só na aba) */
+  .excl { margin-top:16px; border:1px solid var(--line); border-radius:10px; padding:0 12px; }
+  .excl > summary { display:flex; align-items:center; gap:10px; padding:10px 0; cursor:pointer; list-style:none; font-size:14px; font-weight:600; }
+  .excl > summary::-webkit-details-marker { display:none; }
+  .excl > summary::after { content:"▾"; font-size:11px; color:var(--mut); margin-left:auto; transition:transform .2s; }
+  .excl[open] > summary::after { transform:rotate(180deg); }
+  .excl .resumo { font-weight:400; font-size:12.5px; color:var(--mut); }
+  .excl-corpo { padding:0 0 12px; }
+  .excl-corpo > .rot:first-child { margin-top:2px; }
+  .excl-gh { display:flex; align-items:center; gap:4px; }
+  .excl-l { display:flex; align-items:center; gap:8px; padding:5px 0; font-size:14px; cursor:pointer; flex:1; min-width:0; }
+  .excl-gh .excl-l { font-weight:600; }
+  .excl-l input { width:18px; height:18px; flex:none; margin:0; accent-color:var(--f-acc); }
+  .excl-l .n { margin-left:auto; color:var(--mut); font-size:12px; font-weight:400; }
+  .excl-row { display:flex; align-items:center; gap:4px; }
+  .excl-l .txt { flex:1; min-width:0; overflow-wrap:anywhere; }
+  .excl-l .txt small { display:block; color:var(--mut); font-size:12px; }
+  .excl-tg { flex:none; width:30px; height:30px; border:0; border-radius:8px; background:transparent; color:var(--mut); font:inherit; font-size:11px; cursor:pointer; }
+  .excl-tg:hover { background:var(--line); color:var(--fg); }
+  .excl-tg[aria-expanded="true"] { transform:rotate(180deg); }
+  .excl-cols { margin:0 0 6px 8px; padding-left:12px; border-left:2px solid var(--line); }
+  .excl-cols[hidden] { display:none; }
+  .excl-arq { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); column-gap:12px; }
+  .excl-arq .excl-l { flex:none; }
+  .excl-l input:disabled + .txt { color:var(--mut); }
+  .excl-busca input { width:100%; font:inherit; font-size:16px; padding:8px 10px; border:1.5px solid var(--inBorda); border-radius:8px; background:var(--inBg); color:var(--fg); }
+  .excl-busca input::placeholder { color:var(--mut); opacity:1; }
+  .excl-busca input:focus { outline:none; border-color:var(--f-acc); box-shadow:0 0 0 3px var(--inAnel); }
+  .excl-sug { list-style:none; margin:4px 0 0; padding:4px; border:1px solid var(--line); border-radius:10px; background:var(--card); max-height:220px; overflow:auto; }
+  .excl-sug[hidden] { display:none; }
+  .excl-sug li { padding:7px 8px; border-radius:7px; cursor:pointer; font-size:14px; overflow-wrap:anywhere; }
+  .excl-sug li small { display:block; color:var(--mut); font-size:12px; }
+  .excl-sug li[aria-selected="true"], .excl-sug li:hover { background:var(--line); }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .chip { font:inherit; font-size:13px; display:inline-flex; align-items:center; gap:6px; max-width:100%; text-align:left; border:1px solid var(--line); border-radius:999px; padding:3px 8px 3px 11px; background:var(--bg); color:var(--fg); cursor:pointer; overflow-wrap:anywhere; }
+  .chip:hover { border-color:var(--fg); }
+  .chip i { font-style:normal; color:var(--mut); flex:none; }
+  .excl-rod { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 12px; margin-top:12px; }
+  .excl-rod p { margin:0; flex:1 1 200px; font-size:12px; color:var(--mut); }
+  .excl-aviso { margin:8px 0 0; color:var(--warn); font-size:13px; }
+  .excl-aviso[hidden] { display:none; }
+  button:disabled { opacity:.5; cursor:not-allowed; }
+</style>
+</head>
+<body>
+<main>
+  <nav class="formato" aria-label="Commander / Pauper"><a href="../">Commander</a><a href="./" aria-current="page">Pauper</a></nav>
+  <h1 data-t="titulo">Decks de Pauper</h1>
+  <p class="sub" id="sub" data-t="sub"></p>
+
+  <div class="filtros" id="filtros" hidden>
+    <div class="cor-caixa" id="cxCor"><button type="button" class="cor-btn" id="fCor" aria-haspopup="listbox" aria-expanded="false" aria-controls="corMenu"></button><ul class="cor-menu" id="corMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparCor" data-ta="tirarCor" hidden>×</button></div>
+    <span class="sorte-grupo"><button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg><span data-t="surpresa">Sortear deck</span></button></span>
+    <button type="button" class="limpar-tudo" id="btnLimparTudo" data-ta="limparTudoDica" hidden><span aria-hidden="true">↺</span> <span data-t="limparTudo">Limpar tudo</span></button>
+  </div>
+  <div class="busca" id="caixaBusca">
+    <input class="filtro" id="filtro" type="search" placeholder="Carta, deck, comandante ou coleção…" data-tp="busca" autocomplete="off" autocapitalize="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="sugestoes" aria-expanded="false">
+    <button type="button" class="limpar" id="limpar" aria-label="Apagar busca" title="Apagar busca" data-ta="apagar" hidden>×</button>
+    <ul class="sugestoes" id="sugestoes" role="listbox" hidden></ul>
+  </div>
+  <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
+  <div class="tabs" id="grupos"></div>
+  <div id="conteudo" hidden>
+  <div class="sec sec-col" id="secCol"><span data-t="grupoCores">Cores</span></div>
+  <div class="tabs" id="colecoes"></div>
+  <hr class="div">
+  <div class="sec" id="secDecks" data-t="decks">Decks</div>
+
+  <div class="tabs" id="decks"></div>
+
+  <div class="panel" id="painel">
+    <div class="row">
+      <strong id="titulo" class="grow"></strong>
+      <button class="ghost icone" id="btnComp" aria-label="Compartilhar o link do deck" title="Compartilhar o link do deck" data-ta="compartilhar"></button>
+    </div>
+    <div class="row acoes">
+      <button class="go" id="btnEndstep" data-t="criar">Criar no endstep.cc</button>
+      <button class="ghost" id="btnCopiar" data-t="copiar">Copiar lista</button>
+    </div>
+    <div class="status" id="status"></div>
+    <div class="status" id="notaDeck" hidden></div>
+    <div class="lista"><div class="espelho" id="espelho" aria-hidden="true"></div><textarea id="saida" readonly spellcheck="false" wrap="off"></textarea></div>
+  </div>
+  </div>
+  <footer id="rodape"></footer>
+</main>
+<div class="modal" id="guia" hidden>
+  <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="guiaTitulo">
+    <h2 id="guiaTitulo" class="ok">Lista copiada ✓</h2>
+    <p class="guia-sub" data-t="guiaSub">O endstep.cc vai abrir com um deck novo (é preciso estar logado lá). Na página do deck:</p>
+    <ol class="passos">
+      <li data-t="passo1">Toque em <b>Paste a list</b>.</li>
+      <li data-t="passo2">Cole a lista (<span id="guiaColar">Ctrl+V</span>).</li>
+      <li data-t="passo3"></li>
+      <li data-t="passo4"></li>
+    </ol>
+    <label class="guia-check"><input type="checkbox" id="guiaNaoMostrar"> <span data-t="naoMostrar">Não mostrar de novo</span></label>
+    <div class="guia-botoes"><button class="ghost" id="guiaFechar" data-t="fechar">Fechar</button><button class="go" id="guiaAbrir" data-t="abrir">Abrir endstep.cc</button></div>
+  </div>
+</div>
+<div class="aviso" id="aviso" role="status" hidden></div>
+
+<script>
+// Dados embutidos (gerados por build_pauper.py): um "grupo" por número de cores (mono, duas, tres), cada um com os seus decks
+// em ordem de participação no metagame. Cada deck: nome, lista (principal, linha em branco, "Sideboard" e o sideboard),
+// ci (cores), pct e nmeta (participação e nº de decks no metagame), jogador, res (resultado), evento e data da lista.
+var COLECOES = [{"id": "mono", "nome": "mono", "ano": "", "grupo": "mono", "icone": "", "decks": [{"nome": "Mono Red Madness", "comandante": "", "arquivo": "mono_red_madness.txt", "lista": "3 Faithless Looting (TDC) 213\n4 Fiery Temper (SOI) 156\n3 Fireblast (DMR) 319\n4 Grab the Prize (DSK) 138\n3 Guttersnipe (M19) 145\n4 Highway Robbery (OTJ) 129\n4 Kessig Flamebreather (VOW) 164\n4 Lava Dart (MH1) 134\n4 Lightning Bolt (FCA) 40\n1 Melded Moxite (EOE) 143\n19 Mountain (THB) 253\n4 Sneaky Snacker (MH3) 205\n3 Voldaren Epicure (VOW) 308\n\nSideboard\n2 Campfire (CMM) 374\n2 Cast into the Fire (LTR) 118\n4 Cleansing Wildfire (ZNR) 137\n1 End the Festivities (VOW) 155\n4 Pyroblast (ICE) 213\n2 Relic of Progenitus (MMA) 213\n", "ci": "R", "tp": "abbacacbbdeccdbaabd", "pct": 13.4, "nmeta": 377, "jogador": "StefanLebtag", "res": "5-1-1", "evento": "Common Island 2 – A Tournament by Pauper to the People", "data": "2026-10-03"}, {"nome": "Blue Terror", "comandante": "", "arquivo": "blue_terror.txt", "lista": "4 Brainstorm (FRC) 39\n4 Counterspell (FCA) 4\n4 Cryptic Serpent (JMP) 146\n2 Deem Inferior (MH3) 57\n1 Deep Analysis (2X2) 44\n4 Delver of Secrets // Insectile Aberration (MID) 47\n2 Dispel (BFZ) 76\n2 Force Spike (PLST) DDJ-14\n16 Island (THB) 251\n4 Lórien Revealed (LTR) 60\n4 Mental Note (PLST) JUD-46\n2 Ponder (M12) 73\n2 Sleep of the Dead (THB) 66\n1 Spell Pierce (XLN) 81\n4 Thought Scour (DKA) 52\n4 Tolarian Terror (FDN) 167\n\nSideboard\n1 Annul (THS) 38\n2 Blue Elemental Blast (4ED) 63\n4 Gut Shot (MM2) 117\n4 Hydroblast (ICE) 72\n2 Murmuring Mystic (PLST) GRN-45\n2 Steel Sabotage (2XM) 70\n", "ci": "U", "tp": "bbcaacbbeabaabbcbbbbcb", "pct": 7.8, "nmeta": 220, "jogador": "todor1705", "res": "1st Place, 9-1", "evento": "British Pauper Open", "data": "2026-10-03"}, {"nome": "Elves", "comandante": "", "arquivo": "elves.txt", "lista": "4 Avenging Hunter (CLB) 215\n2 Elvish Mystic (M15) 173\n10 Forest (THB) 254\n3 Fyndhorn Elves (CMR) 228\n4 Generous Ent (LTR) 169\n1 Gingerbread Cabin (ELD) 245\n2 Land Grant (PLST) MMQ-255\n4 Lead the Stampede (MBS) 82\n3 Llanowar Elves (EVG) 9\n4 Masked Vandal (KHM) 184\n4 Nyxborn Hydra (MH3) 164\n4 Priest of Titania (MH3) 286\n4 Quirion Ranger (PLST) VIS-117\n3 Sagu Wildling // Roost Seek (TDM) 157\n4 Timberwatch Elf (PLST) EMA-190\n4 Winding Way (PLST) MH1-193\n\nSideboard\n3 Faerie Macabre (MMA) 86\n4 Monstrous Emergence (DSK) 191\n2 Pulse of Murasa (BBD) 209\n3 Spinewoods Paladin (OTJ) 183\n3 Vitu-Ghazi Inspector (MKM) 183\n", "ci": "G", "tp": "cceccgaacciccccacabcc", "pct": 5.2, "nmeta": 148, "jogador": "THXrhys", "res": "2nd Place, 8-2", "evento": "British Pauper Open", "data": "2026-10-03"}, {"nome": "Mono Red Rally", "comandante": "", "arquivo": "mono_red_rally.txt", "lista": "4 Burning-Tree Emissary (DDS) 55\n4 Clockwork Percussionist (DSK) 130\n4 Galvanic Blast (SOM) 91\n3 Gingerbrute (ELD) 219\n4 Goblin Bushwhacker (PLST) ZEN-125\n4 Goblin Tomb Raider (LCI) 151\n4 Great Furnace (MRD) 282\n4 Inventor's Axe (MH3) 126\n4 Lightning Bolt (FCA) 40\n14 Mountain (THB) 253\n4 Rally at the Hornburg (LTR) 142\n3 Reckless Impulse (PLST) VOW-174\n4 Voldaren Epicure (VOW) 308\n\nSideboard\n3 Cast into the Fire (LTR) 118\n3 End the Festivities (VOW) 155\n2 Flaring Pain (PLST) JUD-89\n4 Pyroblast (ICE) 213\n3 Raze (USG) 207\n", "ci": "R", "tp": "cfbfcckdbeaacbabba", "pct": 4.0, "nmeta": 112, "jogador": "Richard Stahl", "res": "6-1", "evento": "Common Island 2 – A Tournament by Pauper to the People", "data": "2026-10-03"}, {"nome": "Mono-Blue Faeries", "comandante": "", "arquivo": "mono_blue_faeries.txt", "lista": "4 Brinebarrow Intruder (KHM) 49\n4 Counterspell (FCA) 4\n3 Cryoshatter (EOE) 53\n1 Dispel (BFZ) 76\n4 Faerie Miscreant (ORI) 57\n4 Faerie Seer (PLST) MH1-51\n3 Harrier Strix (OTJ) 52\n18 Island (THB) 251\n4 Moon-Circuit Hacker (NEO) 334\n4 Ninja of the Deep Hours (C15) 99\n3 Of One Mind (IKO) 60\n3 Sewer-veillance Cam (TMT) 53\n1 Spell Pierce (XLN) 81\n4 Spellstutter Sprite (PLST) LRW-89\n\nSideboard\n3 Annul (THS) 38\n4 Blue Elemental Blast (4ED) 63\n2 Envelop (JUD) 39\n2 Hydroblast (ICE) 72\n2 Spreading Seas (PLST) ZEN-70\n2 Steel Sabotage (2XM) 70\n", "ci": "U", "tp": "cbjbccceicadbcbbbbjb", "pct": 1.7, "nmeta": 48, "jogador": "EdoardoNero", "res": "6-1", "evento": "Common Island 2 – A Tournament by Pauper to the People", "data": "2026-10-03"}, {"nome": "White Aggro", "comandante": "", "arquivo": "white_aggro.txt", "lista": "4 Battle Screech (DMR) 2\n1 Eagles of the North (LTR) 7\n1 Greatsword of Tyr (CLB) 22\n2 Guardians' Pledge (M12) 22\n2 Idyllic Grange (ELD) 246\n1 Journey to Nowhere (PLST) ZEN-14\n4 Kor Skyfisher (PLST) DDO-16\n3 Leonardo, Big Brother (TMT) 14\n4 Lunarch Veteran // Luminous Phantom (MID) 27\n4 Novice Inspector (MKM) 29\n17 Plains (THB) 250\n3 Prismatic Strands (PLST) JUD-18\n4 Raffine's Informant (PLST) SNC-26\n2 Spider-Man, Web-Slinger (SPM) 16\n4 Thraben Charm (MH3) 45\n4 Thraben Inspector (2XM) 35\n\nSideboard\n2 Destroy Evil (MSC) 128\n4 Dust to Dust (MBC) 71\n2 Journey to Nowhere (PLST) ZEN-14\n3 Martyr of Sands (UMA) 25\n2 Palace Sentinels (CMR) 36\n2 Standard Bearer (PLST) APC-18\n", "ci": "W", "tp": "acdbgjcnccebcnbcbajccc", "pct": 1.6, "nmeta": 46, "jogador": "mindoku", "res": "4-3", "evento": "Common Island 2 – A Tournament by Pauper to the People", "data": "2026-10-03"}, {"nome": "Mono-White Aggro", "comandante": "", "arquivo": "mono_white_aggro.txt", "lista": "3 Battle Screech (DMR) 2\n4 Fortress Kin-Guard (TDM) 12\n1 Guardians' Pledge (M12) 22\n4 Leonardo, Big Brother (TMT) 14\n4 Lunarch Veteran // Luminous Phantom (MID) 27\n4 Martyr's Soul (MH1) 19\n4 Novice Inspector (MKM) 29\n17 Plains (THB) 250\n4 Raffine's Informant (PLST) SNC-26\n4 Ramosian Rally (PLST) MMQ-38\n4 Salt Road Packbeast (TDM) 23\n4 Search Party Captain (J25) 250\n3 Thraben Inspector (2XM) 35\n\nSideboard\n4 Dust to Dust (MBC) 71\n2 Holy Light (DRK) 10\n3 Standard Bearer (PLST) APC-18\n3 Thraben Charm (MH3) 45\n3 Ultimate Alliance (MSC) 611\n", "ci": "W", "tp": "acbncccecbcccabcbb", "pct": 1.1, "nmeta": 30, "jogador": "cabrabr12", "res": "4th Place, 5-3", "evento": "Pauper Challenge 32 2026-10-19", "data": "2026-10-19"}, {"nome": "Black Sacrifice", "comandante": "", "arquivo": "black_sacrifice.txt", "lista": "2 Accursed Marauder (MH3) 80\n1 Apostle's Blessing (NPH) 2\n4 Bloodthrone Vampire (DDP) 46\n4 Carrion Feeder (MH1) 81\n4 Infestation Sage (FDN) 64\n4 Mortician Beetle (MM3) 78\n4 Nested Shambler (MH2) 95\n4 Nezumi Linkbreaker (OTJ) 96\n2 Rite of Consumption (PLST) SHM-76\n4 Shambling Ghast (PLST) AFR-119\n4 Supernatural Stamina (GN3) 62\n17 Swamp (THB) 252\n2 Tragic Slip (C14) 167\n4 Unearth (MH1) 113\n\nSideboard\n2 Accursed Marauder (MH3) 80\n2 Mesmeric Fiend (PLST) TOR-69\n3 Mutagenic Growth (PLST) NPH-116\n2 Rotten Reunion (MID) 119\n4 Snuff Out (FIC) 285\n2 Tragic Slip (C14) 167\n", "ci": "B", "tp": "cbccccccacbebaccbbbb", "pct": 1.0, "nmeta": 28, "jogador": "EntroPete", "res": "5th Place, 4-2", "evento": "Pauper Challenge 32 2026-10-25", "data": "2026-10-25"}, {"nome": "Burn", "comandante": "", "arquivo": "burn.txt", "lista": "4 Clockwork Percussionist (DSK) 130\n4 Experimental Synthesizer (PLST) NEO-138\n1 Fireblast (DMR) 319\n4 Galvanic Blast (SOM) 91\n4 Gingerbrute (ELD) 219\n3 Goblin Bushwhacker (PLST) ZEN-125\n4 Goblin Tomb Raider (LCI) 151\n4 Great Furnace (MRD) 282\n4 Inventor's Axe (MH3) 126\n4 Lightning Bolt (FCA) 40\n2 Mirran Banesplitter (MOM) 154\n14 Mountain (THB) 253\n4 Reckless Lackey (OTJ) 140\n4 Voldaren Epicure (VOW) 308\n\nSideboard\n3 Cast into the Fire (LTR) 118\n2 End the Festivities (VOW) 155\n1 Faerie Macabre (MMA) 86\n4 Pyroblast (ICE) 213\n2 Red Elemental Blast (3ED) 171\n3 Relic of Progenitus (MMA) 213\n", "ci": "R", "tp": "fdbbfcckdbdeccbacbbd", "pct": 0.4, "nmeta": 11, "jogador": "ohc", "res": "15th Place, 5-2", "evento": "British Pauper Open", "data": "2026-10-03"}, {"nome": "Infect", "comandante": "", "arquivo": "infect.txt", "lista": "1 Apostle's Blessing (NPH) 2\n4 Blight Mamba (PLST) SOM-112\n4 Embiggen (UNF) 137\n4 Escape Tunnel (TMT) 184\n9 Forest (THB) 254\n4 Glistener Elf (NPH) 111\n3 Go Forth (J25) 20\n4 Hickory Woodlot (MMQ) 319\n4 Ichorclaw Myr (SOM) 166\n4 Llanowar Augur (FUT) 129\n4 Might of Old Krosa (PLST) TSP-204\n4 Mutagenic Growth (PLST) NPH-116\n4 Rancor (PLST) A25-186\n4 Snakeskin Veil (CMM) 323\n3 Vines of Vastwood (PLST) ZEN-193\n\nSideboard\n1 Apostle's Blessing (NPH) 2\n1 Bojuka Bog (SOC) 363\n2 Crop Rotation (DMR) 154\n3 Gut Shot (MM2) 117\n4 Scattershot Archer (CON) 90\n4 Seal of Strength (EMA) 184\n", "ci": "G", "tp": "bcbgecbgfcbbjbbbgbbcj", "pct": 0.2, "nmeta": 7, "jogador": "sammo1986", "res": "5-0", "evento": "Pauper League 2026-10-23", "data": "2026-10-23"}, {"nome": "Walls Combo", "comandante": "", "arquivo": "walls_combo.txt", "lista": "4 Axebane Guardian (PLST) RTR-115\n1 Beastrider Vanguard (DFT) 154\n4 Drift of Phantasms (PLST) RAV-46\n11 Forest (THB) 254\n1 Freed from the Real (PLST) SOK-38\n1 Galvanic Alchemist (AVR) 54\n4 Generous Ent (LTR) 169\n4 Lead the Stampede (MBS) 82\n2 Llanowar Elves (EVG) 9\n2 Orochi Leafcaller (CHK) 234\n4 Overgrown Battlement (JMP) 417\n4 Quirion Ranger (PLST) VIS-117\n1 Reaping the Graves (PLST) SCG-72\n4 Saruli Caretaker (RNA) 139\n1 Secret Door (AFR) 71\n3 Shield-Wall Sentinel (DMU) 238\n2 Tinder Wall (ICE) 270\n1 Tuktuk Rubblefort (ZNR) 173\n1 Valakut Invoker (BFZ) 159\n2 Wall of Roots (PLST) NCC-319\n3 Winding Way (PLST) MH1-193\n\nSideboard\n2 Faerie Macabre (MMA) 86\n3 Masked Vandal (KHM) 184\n1 Mirrorshell Crab (NEO) 63\n1 Moment's Peace (PLST) TD0-A80\n1 Pulse of Murasa (BBD) 209\n2 Scattershot Archer (CON) 90\n3 Tamiyo's Safekeeping (NEO) 211\n1 Vandalblast (FIC) 298\n1 Weather the Storm (MH1) 191\n", "ci": "G", "tp": "cccejccaccccbcffccccaccfbbcbab", "pct": 0.2, "nmeta": 6, "jogador": "apas72", "res": "5-0", "evento": "Pauper League 2026-10-25", "data": "2026-10-25"}, {"nome": "Devotion", "comandante": "", "arquivo": "devotion.txt", "lista": "2 Bojuka Bog (SOC) 363\n4 Cast Down (CLB) 119\n4 Chittering Rats (PLST) J22-387\n4 Cry of Contrition (GPT) 46\n4 Cuombajj Witches (CHR) 31\n4 Defile (MH1) 86\n2 Exhume (USG) 134\n1 Geothermal Bog (DMU) 247\n4 Gray Merchant of Asphodel (THB) 99\n2 Gurmag Angler (FRF) 72\n3 Snuff Out (FIC) 285\n14 Swamp (THB) 252\n3 Thorn of the Black Rose (CMM) 190\n2 Tithing Blade // Consuming Sepulcher (LCI) 128\n4 Troll of Khazad-dûm (LTR) 111\n1 Unexpected Fangs (PLST) IKO-102\n2 Witch's Cottage (ELD) 249\n\nSideboard\n3 Choking Sands (MIR) 113\n2 Drown in Sorrow (CMM) 154\n1 Extract a Confession (MKM) 84\n2 Mukotai Ambusher (NEO) 112\n3 Nihil Spellbomb (A25) 226\n2 Unexpected Fangs (PLST) IKO-102\n2 Vandalblast (FIC) 298\n", "ci": "B", "tp": "gbcacbagccbecdcbgaaafdba", "pct": 0.2, "nmeta": 5, "jogador": "Danc1998", "res": "42nd Place, 2-3", "evento": "$1K Pauper - SCG CON Hartford - Saturday - 9:30 am", "data": "2026-10-24"}]}, {"id": "duas", "nome": "duas", "ano": "", "grupo": "duas", "icone": "", "decks": [{"nome": "Dimir Faeries", "comandante": "", "arquivo": "dimir_faeries.txt", "lista": "1 Agony Warp (MM3) 150\n2 Augur of Bolas (C13) 30\n4 Baleful Strix (FIC) 318\n1 Bojuka Bog (SOC) 363\n4 Brainstorm (FRC) 39\n2 Cast Down (CLB) 119\n4 Counterspell (FCA) 4\n2 Dispel (BFZ) 76\n1 Extract a Confession (MKM) 84\n3 Faerie Seer (PLST) MH1-51\n4 Ice Tunnel (KHM) 262\n10 Island (THB) 251\n4 Lórien Revealed (LTR) 60\n1 Moon-Circuit Hacker (NEO) 334\n1 Mukotai Ambusher (NEO) 112\n2 Ninja of the Deep Hours (C15) 99\n2 Seething Landscape (MH3) 225\n4 Snuff Out (FIC) 285\n4 Spellstutter Sprite (PLST) LRW-89\n1 Suffocating Fumes (PLST) IKO-100\n1 Swamp (THB) 252\n2 Thorn of the Black Rose (CMM) 190\n\nSideboard\n4 Annul (THS) 38\n2 Arms of Hadar (CLB) 113\n2 Blue Elemental Blast (4ED) 63\n1 Campfire (CMM) 374\n4 Hydroblast (ICE) 72\n2 Relic of Progenitus (MMA) 213\n", "ci": "UB", "tp": "bcfgbbbbacheaifcgbcbecbabdbd", "pct": 6.2, "nmeta": 175, "jogador": "ridikolaus", "res": "6-1", "evento": "Common Island 2 – A Tournament by Pauper to the People", "data": "2026-10-03"}, {"nome": "Spy Combo", "comandante": "", "arquivo": "spy_combo.txt", "lista": "4 Balustrade Spy (GTC) 57\n2 Dread Return (CMM) 153\n1 Elves of Deep Shadow (GK1) 56\n3 Forest (THB) 254\n2 Gatecreeper Vine (DDM) 48\n4 Generous Ent (LTR) 169\n4 Land Grant (PLST) MMQ-255\n4 Lead the Stampede (MBS) 82\n2 Lotleth Giant (SCD) 89\n2 Lotus Petal (TMP) 294\n4 Masked Vandal (KHM) 184\n4 Mesmeric Fiend (PLST) TOR-69\n2 Nyxborn Hydra (MH3) 164\n4 Overgrown Battlement (JMP) 417\n2 Quirion Ranger (PLST) VIS-117\n4 Sagu Wildling // Roost Seek (TDM) 157\n4 Saruli Caretaker (RNA) 139\n1 Swamp (THB) 252\n1 Troll of Khazad-dûm (LTR) 111\n2 Wall of Roots (PLST) NCC-319\n4 Winding Way (PLST) MH1-193\n\nSideboard\n3 Faerie Macabre (MMA) 86\n1 Flaring Pain (PLST) JUD-89\n1 Mountain (THB) 253\n4 Nylea's Disciple (THS) 167\n2 Vandalblast (FIC) 298\n4 Writhing Chrysalis (MH3) 208\n", "ci": "BG", "tp": "caceccaacdccicccceccacbecac", "pct": 4.3, "nmeta": 121, "jogador": "Marco De Pasquale", "res": "5th Place, 6-2", "evento": "British Pauper Open", "data": "2026-10-03"}, {"nome": "Bogles", "comandante": "", "arquivo": "bogles.txt", "lista": "4 Abundant Growth (AFC) 150\n4 Ancestral Mask (PLST) EMA-157\n1 Angelic Gift (BFZ) 19\n3 Armadillo Cloak (INV) 229\n1 Ash Barrens (C16) 56\n1 Benevolent Blessing (CMR) 13\n2 Bushwhack (FDN) 215\n1 Cartouche of Solidarity (AKH) 7\n4 Ethereal Armor (DSK) 7\n9 Forest (THB) 254\n4 Gladecover Scout (M14) 176\n1 Heliod's Pilgrim (M15) 14\n3 Malevolent Rumble (MH3) 161\n3 Plains (THB) 250\n3 Rancor (PLST) A25-186\n3 Sheltering Landscape (MH3) 227\n3 Silhana Ledgewalker (RVR) 354\n4 Slippery Bogle (PLST) EVE-160\n2 Spirit Link (DMR) 274\n4 Utopia Sprawl (PLST) DIS-99\n\nSideboard\n1 Benevolent Blessing (CMR) 13\n2 Call Damage Control (MSH) 162\n2 Flaring Pain (PLST) JUD-89\n2 Ram Through (IKO) 170\n2 Scattershot Archer (CON) 90\n1 Sentinel's Eyes (THB) 36\n2 Spirit Link (DMR) 274\n3 Thraben Charm (MH3) 45\n", "ci": "WG", "tp": "jjjjgjajjeccaejgccjjjabbcjjb", "pct": 4.2, "nmeta": 119, "jogador": "Pallm", "res": "4-3", "evento": "Common Island 2 – A Tournament by Pauper to the People", "data": "2026-10-03"}, {"nome": "Ruby Storm", "comandante": "", "arquivo": "ruby_storm.txt", "lista": "3 Big Score (MSC) 802\n2 Crossover Collaboration (MSC) 684\n4 Desperate Ritual (CHK) 163\n3 First Day of Class (PLST) STX-102\n4 Geothermal Crevice (INV) 323\n4 Glimpse the Impossible (MH3) 124\n4 Goblin Anarchomancer (MH2) 421\n4 Hickory Woodlot (MMQ) 319\n4 Manamorphose (2XM) 208\n5 Mountain (THB) 253\n4 Reckless Impulse (PLST) VOW-174\n4 Sandstone Needle (MMQ) 326\n4 Seething Song (9ED) 216\n2 Seize the Storm (MID) 158\n4 Thornscape Familiar (PLS) 95\n3 Twinned Vision (FRA) 157\n2 Wrenn's Resolve (PLST) MOM-173\n\nSideboard\n1 Abandon Attachments (TLA) 205\n1 Firebending Lesson (TLA) 138\n1 Flaring Pain (PLST) JUD-89\n1 Gruul Turf (HOP) 134\n1 It'll Quench Ya! (TLA) 58\n1 Origin of Metalbending (TLA) 187\n4 Pyroblast (ICE) 213\n2 Red Elemental Blast (3ED) 171\n1 Waterbending Lesson (TLA) 80\n2 Weather the Storm (MH1) 191\n", "ci": "RG", "tp": "bbbbgacgbeagbacbabbbgbbbbab", "pct": 3.5, "nmeta": 98, "jogador": "WickD", "res": "4-3", "evento": "Common Island 2 – A Tournament by Pauper to the People", "data": "2026-10-03"}, {"nome": "Grixis Control", "comandante": "", "arquivo": "grixis_control.txt", "lista": "1 Azure Fleet Admiral (CMR) 58\n4 Baleful Strix (FIC) 318\n1 Bojuka Bog (SOC) 363\n2 Brainstorm (FRC) 39\n2 Campfire (CMM) 374\n3 Cast Down (CLB) 119\n4 Contaminated Aquifer (FIC) 383\n4 Counterspell (FCA) 4\n1 Cut Down (DMU) 89\n1 Extract a Confession (MKM) 84\n10 Island (THB) 251\n1 Lose Focus (MH2) 49\n4 Lórien Revealed (LTR) 60\n3 Murmuring Mystic (PLST) GRN-45\n3 Plunder the Trollshaws (HOB) 51\n3 Ponder (M12) 73\n2 Seething Landscape (MH3) 225\n4 Snuff Out (FIC) 285\n2 Spell Pierce (XLN) 81\n2 Suffocating Fumes (PLST) IKO-100\n1 Swamp (THB) 252\n2 Thorn of the Black Rose (CMM) 190\n\nSideboard\n3 Annul (THS) 38\n1 Arms of Hadar (CLB) 113\n1 Campfire (CMM) 374\n1 Extract a Confession (MKM) 84\n4 Hydroblast (ICE) 72\n1 Mountain (THB) 253\n2 Nihil Spellbomb (A25) 226\n2 Vandalblast (FIC) 298\n", "ci": "UB", "tp": "cfgbdbgbbaebacbagbbbecbadabeda", "pct": 3.0, "nmeta": 84, "jogador": "carvs", "res": "2nd Place, 7-2", "evento": "Pauper Challenge 32 2026-10-23", "data": "2026-10-23"}, {"nome": "Golgari Gardens", "comandante": "", "arquivo": "golgari_gardens.txt", "lista": "1 Accursed Marauder (MH3) 80\n1 Avenging Hunter (CLB) 215\n2 Bojuka Bog (SOC) 363\n2 Campfire (CMM) 374\n4 Cast Down (CLB) 119\n3 Crypt Rats (MH1) 84\n3 Defile (MH1) 86\n4 Eviscerator's Insight (MH3) 93\n4 Fanatical Offering (LCI) 105\n1 Fungal Infection (J22) 416\n1 Haunted Mire (SOC) 379\n4 Ichor Wellspring (BRR) 21\n4 Khalni Garden (PLST) DDR-28\n2 Lembas (LTR) 243\n3 Nihil Spellbomb (A25) 226\n1 Sagu Wildling // Roost Seek (TDM) 157\n1 Snuff Out (FIC) 285\n1 Spinning Darkness (WTH) 81\n1 Suffocating Fumes (PLST) IKO-100\n10 Swamp (THB) 252\n2 Tithing Blade // Consuming Sepulcher (LCI) 128\n3 Troll of Khazad-dûm (LTR) 111\n2 Witch's Cottage (ELD) 249\n\nSideboard\n1 Avenging Hunter (CLB) 215\n2 Drown in Sorrow (CMM) 154\n3 Duress (EMA) 86\n2 Faerie Macabre (MMA) 86\n3 Troublemaker Ouphe (WOE) 194\n4 Weather the Storm (MH1) 191\n", "ci": "BG", "tp": "ccgdbcbbbbgdgddcbbbedcgcaaccb", "pct": 2.0, "nmeta": 57, "jogador": "NickNorman", "res": "7th Place, 5-2", "evento": "Pauper Challenge 32 2026-10-25", "data": "2026-10-25"}, {"nome": "Dimir Control", "comandante": "", "arquivo": "dimir_control.txt", "lista": "2 Augur of Bolas (C13) 30\n4 Baleful Strix (FIC) 318\n1 Bojuka Bog (SOC) 363\n2 Campfire (CMM) 374\n2 Cast Down (CLB) 119\n4 Contaminated Aquifer (FIC) 383\n4 Counterspell (FCA) 4\n2 Cut Down (DMU) 89\n1 Dimir Aqueduct (CLU) 233\n3 Duress (EMA) 86\n1 Extract a Confession (MKM) 84\n2 Ice Tunnel (KHM) 262\n9 Island (THB) 251\n4 Lórien Revealed (LTR) 60\n3 Murmuring Mystic (PLST) GRN-45\n2 Nihil Spellbomb (A25) 226\n3 Plunder the Trollshaws (HOB) 51\n3 Preordain (TDC) 161\n4 Snuff Out (FIC) 285\n1 Suffocating Fumes (PLST) IKO-100\n1 Swamp (THB) 252\n2 Thorn of the Black Rose (CMM) 190\n\nSideboard\n4 Annul (THS) 38\n2 Arms of Hadar (CLB) 113\n1 Campfire (CMM) 374\n1 Extract a Confession (MKM) 84\n4 Hydroblast (ICE) 72\n2 Nihil Spellbomb (A25) 226\n1 Okiba-Gang Shinobi (PLST) PCA-35\n", "ci": "UB", "tp": "cfgdbgbbgaaheacdbabbecbadabdc", "pct": 2.0, "nmeta": 57, "jogador": "cappe23", "res": "5th Place, 6-1", "evento": "Pauper Challenge 32 2026-10-19", "data": "2026-10-19"}, {"nome": "Turbo Fog", "comandante": "", "arquivo": "turbo_fog.txt", "lista": "4 Arcane Denial (DRC) 70\n4 Behold the Multiverse (KHM) 46\n1 Bojuka Bog (SOC) 363\n2 Campfire (CMM) 374\n1 Counterspell (FCA) 4\n1 Echoing Truth (PLST) DMC-109\n1 Fog (7ED) 245\n3 Forest (THB) 254\n1 Growth Spiral (CMR) 446\n6 Island (THB) 251\n4 Lórien Revealed (LTR) 60\n4 Moment's Peace (PLST) TD0-A80\n1 Opt (FDN) 512\n1 Pieces of the Puzzle (SOI) 78\n4 Plunder the Trollshaws (HOB) 51\n2 Radiant Fountain (IMA) 244\n1 Respite (CNS) 176\n4 Simic Growth Chamber (CLU) 247\n2 Stream of Thought (MH1) 71\n3 Tangle (PLST) INV-213\n2 Tangled Islet (FIC) 434\n4 Thornwood Falls (DFT) 266\n4 Weather the Storm (MH1) 191\n\nSideboard\n2 Blue Elemental Blast (4ED) 63\n1 Bojuka Bog (SOC) 363\n1 Envelop (JUD) 39\n2 Faerie Macabre (MMA) 86\n1 Faerie Trickery (LRW) 62\n4 Hydroblast (ICE) 72\n2 Murmuring Mystic (PLST) GRN-45\n1 Sagittars' Volley (RNA) 138\n1 Steel Sabotage (2XM) 70\n", "ci": "UG", "tp": "bbgdbbbebeabbabgbgabggbbgbclbcbb", "pct": 1.8, "nmeta": 50, "jogador": "WizardHat", "res": "2nd Place, 6-3", "evento": "Pauper Challenge 32 2026-10-22 (1)", "data": "2026-10-22"}, {"nome": "Dimir Affinity", "comandante": "", "arquivo": "dimir_affinity.txt", "lista": "2 Abjure (WTH) 31\n4 Baleful Strix (FIC) 318\n1 Blood Fountain (PLST) VOW-95\n3 Cast Down (CLB) 119\n4 Counterspell (FCA) 4\n3 Cryogen Relic (EOE) 52\n2 Cut Down (DMU) 89\n2 Gearseeker Serpent (DFT) 43\n1 Ghostly Flicker (PLST) KHC-39\n4 Hard Evidence (MH2) 46\n2 Ice Tunnel (KHM) 262\n4 Island (THB) 251\n4 Lórien Revealed (LTR) 60\n4 Mistvault Bridge (MH2) 249\n1 Mukotai Ambusher (NEO) 112\n2 Ninja of the Deep Hours (C15) 99\n4 Refurbished Familiar (MH3) 105\n4 Seat of the Synod (J25) 773\n4 Thoughtcast (TRC) 444\n1 Tithing Blade // Consuming Sepulcher (LCI) 128\n4 Vault of Whispers (BRC) 211\n\nSideboard\n3 Annul (THS) 38\n3 Blue Elemental Blast (4ED) 63\n2 Drown in Sorrow (CMM) 154\n2 Faerie Macabre (MMA) 86\n2 Hydroblast (ICE) 72\n2 Mukotai Ambusher (NEO) 112\n1 Nihil Spellbomb (A25) 226\n", "ci": "UB", "tp": "bfdbbdbcbaheakfcfkadkbbacbfd", "pct": 1.7, "nmeta": 48, "jogador": "Malpyrocky", "res": "3rd Place, 7-1", "evento": "Pauper Challenge 32 2026-10-22 (1)", "data": "2026-10-22"}, {"nome": "Familiars", "comandante": "", "arquivo": "familiars.txt", "lista": "3 Archaeomancer (M13) 41\n4 Azorius Chancery (CLU) 229\n2 Contaminated Landscape (MH3) 218\n2 Ephemerate (MAR) 44\n2 Ghostly Flicker (PLST) KHC-39\n1 Glacial Floodplain (KHM) 257\n3 Glorious Gale (LTR) 51\n4 God-Pharaoh's Faithful (HOU) 14\n1 Lonely Arroyo (OTJ) 260\n4 Lórien Revealed (LTR) 60\n3 Meeting of Minds (PLST) MOM-66\n1 Mortuary Mire (BFZ) 240\n4 Mulldrifter (AFC) 87\n2 Negate (DTK) 65\n4 Preordain (TDC) 161\n3 Sea Gate Oracle (GN3) 38\n4 Snap (DMR) 66\n7 Snow-Covered Island (KHM) 279\n2 Snow-Covered Plains (KHM) 276\n4 Sunscape Familiar (PLST) PLS-17\n\nSideboard\n3 Dust to Dust (MBC) 71\n2 Envelop (JUD) 39\n4 Hydroblast (ICE) 72\n2 Last Breath (THS) 22\n2 Negate (DTK) 65\n2 Stonehorn Dignitary (PLST) M12-37\n", "ci": "WU", "tp": "cggbbhbcgabgcbacbmmcabbbbc", "pct": 1.7, "nmeta": 48, "jogador": "ChaoticMTG", "res": "1st Place, 6-2", "evento": "Pauper Challenge 16 2026-10-24", "data": "2026-10-24"}, {"nome": "Rakdos Madness", "comandante": "", "arquivo": "rakdos_madness.txt", "lista": "4 Alms of the Vein (SOI) 98\n1 Demand Answers (MKM) 306\n4 Drossforge Bridge (MH2) 246\n4 Faithless Looting (TDC) 213\n4 Fiery Temper (SOI) 156\n4 Galvanic Blast (SOM) 91\n4 Grab the Prize (DSK) 138\n4 Great Furnace (MRD) 282\n4 Jagged Barrens (OTJ) 259\n4 Kitchen Imp (MH2) 343\n4 Lightning Bolt (FCA) 40\n2 Mountain (THB) 253\n1 Rakdos Carnarium (C13) 313\n4 Sneaky Snacker (MH3) 205\n4 Vampire's Kiss (VOW) 136\n4 Vault of Whispers (BRC) 211\n4 Voldaren Epicure (VOW) 308\n\nSideboard\n2 Breath Weapon (CLB) 165\n2 Cast into the Fire (LTR) 118\n2 Duress (EMA) 86\n3 Extract a Confession (MKM) 84\n2 Faerie Macabre (MMA) 86\n2 Nihil Spellbomb (A25) 226\n2 Smash to Smithereens (ORI) 163\n", "ci": "BR", "tp": "abkabbakgcbegcakcbbaacdb", "pct": 1.5, "nmeta": 41, "jogador": "Jack Staveacre", "res": "6th Place, 6-2", "evento": "British Pauper Open", "data": "2026-10-03"}, {"nome": "Gruul Ponza", "comandante": "", "arquivo": "gruul_ponza.txt", "lista": "2 Annoyed Altisaur (CMR) 216\n4 Arbor Elf (M13) 160\n4 Avenging Hunter (CLB) 215\n4 Boarding Party (PLST) CMR-163\n1 Bonder's Ornament (PLST) C20-67\n4 Eldrazi Repurposer (MH3) 150\n1 Highland Forest (KHM) 261\n2 Jewel Thief (PLST) SNC-151\n3 Malevolent Rumble (MH3) 161\n4 Mwonvuli Acid-Moss (PLST) TSP-207\n14 Snow-Covered Forest (KHM) 284\n2 Snow-Covered Mountain (KHM) 283\n4 Thermokarst (ICE) 268\n4 Utopia Sprawl (PLST) DIS-99\n3 Wild Growth (DMR) 352\n4 Writhing Chrysalis (MH3) 208\n\nSideboard\n3 Breath Weapon (CLB) 165\n4 Deglamer (PLST) MOR-118\n2 Relic of Progenitus (MMA) 213\n3 Suplex (FIN) 164\n3 Weather the Storm (MH1) 191\n", "ci": "RG", "tp": "ccccdchcaammajjcbbdab", "pct": 1.4, "nmeta": 39, "jogador": "M_EMORIE_S", "res": "2nd Place, 6-3", "evento": "Pauper Challenge 16 2026-10-24", "data": "2026-10-24"}, {"nome": "Gruul Ramp", "comandante": "", "arquivo": "gruul_ramp.txt", "lista": "1 Annoyed Altisaur (CMR) 216\n4 Arbor Elf (M13) 160\n4 Avenging Hunter (CLB) 215\n1 Bannerhide Krushok (MH2) 149\n4 Boarding Party (PLST) CMR-163\n4 Eldrazi Repurposer (MH3) 150\n15 Forest (THB) 254\n4 Jewel Thief (PLST) SNC-151\n4 Malevolent Rumble (MH3) 161\n1 Mountain (THB) 253\n1 Nyxborn Hydra (MH3) 164\n1 Ram Through (IKO) 170\n3 Sagu Wildling // Roost Seek (TDM) 157\n4 Utopia Sprawl (PLST) DIS-99\n3 Wild Growth (DMR) 352\n4 Writhing Chrysalis (MH3) 208\n2 You Meet in a Tavern (AFR) 215\n\nSideboard\n2 Breath Weapon (CLB) 165\n2 Deglamer (PLST) MOR-118\n1 Faerie Macabre (MMA) 86\n2 Ram Through (IKO) 170\n2 Relic of Progenitus (MMA) 213\n3 Vandalblast (FIC) 298\n3 Weather the Storm (MH1) 191\n", "ci": "RG", "tp": "ccccccecaeibcjjcabbcbdab", "pct": 0.6, "nmeta": 17, "jogador": "Leon35", "res": "16th Place, 4-2-1", "evento": "$1K Pauper - SCG CON Hartford - Saturday - 9:30 am", "data": "2026-10-24"}, {"nome": "Glintblade", "comandante": "", "arquivo": "glintblade.txt", "lista": "4 Ancient Den (EOC) 148\n1 Blood Fountain (PLST) VOW-95\n4 Dispatch (MSC) 130\n1 Eviscerator's Insight (MH3) 93\n4 Fanatical Offering (LCI) 105\n4 Glint Hawk (SOM) 10\n4 Goldmire Bridge (MH2) 247\n4 Kor Skyfisher (PLST) DDO-16\n4 Lembas (LTR) 243\n2 Mukotai Ambusher (NEO) 112\n2 Nihil Spellbomb (A25) 226\n2 Oroku Saki, Shredder Rising (TMT) 68\n3 Orzhov Basilica (CLU) 241\n3 Plains (THB) 250\n4 Refurbished Familiar (MH3) 105\n1 Suffocating Fumes (PLST) IKO-100\n2 Swamp (THB) 252\n4 Thraben Inspector (2XM) 35\n3 Tithing Blade // Consuming Sepulcher (LCI) 128\n4 Vault of Whispers (BRC) 211\n\nSideboard\n3 Duress (EMA) 86\n4 Dust to Dust (MBC) 71\n3 Navigator's Compass (DOM) 225\n2 Nihil Spellbomb (A25) 226\n2 Suffocating Fumes (PLST) IKO-100\n1 Thraben Charm (MH3) 45\n", "ci": "WB", "tp": "kdbbbckcdfdngefbecdkaaddbb", "pct": 0.6, "nmeta": 17, "jogador": "ILBEPPE90", "res": "1-3", "evento": "Lega Pauper Vercelli", "data": "2026-10-22"}, {"nome": "Food Gardens", "comandante": "", "arquivo": "food_gardens.txt", "lista": "2 Bojuka Bog (SOC) 363\n1 Bonder's Ornament (PLST) C20-67\n3 Campfire (CMM) 374\n3 Cast Down (CLB) 119\n3 Cauldron Familiar (ELD) 81\n2 Cut Down (DMU) 89\n3 Eviscerator's Insight (MH3) 93\n4 Fanatical Offering (LCI) 105\n2 Golgari Rot Farm (TDC) 368\n1 Grapple with Death (SOS) 192\n1 Haunted Mire (SOC) 379\n1 Heritage Reclamation (TDM) 145\n2 Ichor Wellspring (BRR) 21\n4 Khalni Garden (PLST) DDR-28\n4 Lembas (LTR) 243\n2 Nihil Spellbomb (A25) 226\n4 Nutrient Block (EOE) 243\n3 Pestilence (4ED) 152\n1 Snuff Out (FIC) 285\n9 Swamp (THB) 252\n2 Tithing Blade // Consuming Sepulcher (LCI) 128\n3 Troll of Khazad-dûm (LTR) 111\n\nSideboard\n2 Desert (AFC) 233\n3 Drown in Sorrow (CMM) 154\n2 Faerie Macabre (MMA) 86\n2 Snuff Out (FIC) 285\n2 Troublemaker Ouphe (WOE) 194\n4 Weather the Storm (MH1) 191\n", "ci": "BG", "tp": "gddbcbbbgagbdgdddjbedcgacbcb", "pct": 0.6, "nmeta": 17, "jogador": "True-Name-Nemesis", "res": "3rd Place, 6-2", "evento": "Pauper Challenge 32 2026-10-18", "data": "2026-10-18"}, {"nome": "Inside Out Combo", "comandante": "", "arquivo": "inside_out_combo.txt", "lista": "2 Abandon Attachments (TLA) 205\n4 Aurora Eidolon (DIS) 1\n1 Bitter Reunion (PLST) BRO-127\n2 Boros Garrison (CLU) 231\n4 Escape Tunnel (TMT) 184\n1 Fields of Strife (SOS) 255\n2 Fling (DKA) 90\n4 Inside Out (PLST) EVE-103\n4 Lightning Bolt (FCA) 40\n3 Loran's Escape (BRO) 14\n3 Magmakin Artillerist (DFT) 137\n4 Mountain (THB) 253\n4 Plains (THB) 250\n4 Pursue the Past (SOS) 216\n2 Sandstorm Eidolon (DIS) 70\n4 Sneaky Snacker (MH3) 205\n4 Thrilling Discovery (STX) 243\n4 Tireless Tribe (PLST) ODY-56\n4 Wind-Scarred Crag (MOM) 276\n\nSideboard\n1 Flaring Pain (PLST) JUD-89\n1 Loran's Escape (BRO) 14\n2 Prismatic Strands (PLST) JUD-18\n3 Pyroblast (ICE) 213\n3 Red Elemental Blast (3ED) 171\n2 Shenanigans (MH1) 146\n2 Thraben Charm (MH3) 45\n1 Vandalblast (FIC) 298\n", "ci": "WR", "tp": "bcjgggbbbbceeaccacgbbbbbaba", "pct": 0.5, "nmeta": 14, "jogador": "Pit Iskariot", "res": "5-2", "evento": "Common Island 2 – A Tournament by Pauper to the People", "data": "2026-10-03"}, {"nome": "Boros Synthesizer", "comandante": "", "arquivo": "boros_synthesizer.txt", "lista": "4 Ancient Den (EOC) 148\n4 Candy Trail (WOE) 243\n4 Clockwork Percussionist (DSK) 130\n4 Clowning Around (UNF) 6\n4 Experimental Synthesizer (PLST) NEO-138\n4 Galvanic Blast (SOM) 91\n4 Glint Hawk (SOM) 10\n4 Great Furnace (MRD) 282\n4 HYDRA Assault Robot (MSH) 137\n4 Mechanized Ninja Cavalry (TMT) 156\n4 Melded Moxite (EOE) 143\n4 Mountain (THB) 253\n2 Plains (THB) 250\n2 Rally the Peasants (EMA) 25\n4 Reckless Fireweaver (DRC) 106\n4 Rustvale Bridge (PLST) MH2-253\n\nSideboard\n4 Leonin Elder (MRD) 10\n2 Makeshift Munitions (CMR) 191\n2 Prismatic Strands (PLST) JUD-18\n4 Red Elemental Blast (3ED) 171\n3 Relic of Progenitus (MMA) 213\n", "ci": "WR", "tp": "kdfadbckffdeebckcjbbd", "pct": 0.5, "nmeta": 13, "jogador": "TakWrote", "res": "3-0", "evento": "ATL Pauper League - EAV - Week 3", "data": "2026-10-28"}, {"nome": "Izzet Terror", "comandante": "", "arquivo": "izzet_terror.txt", "lista": "1 Azure Fleet Admiral (CMR) 58\n4 Brainstorm (FRC) 39\n4 Counterspell (FCA) 4\n1 Crimson Fleet Commodore (PLST) CMR-171\n2 Dispel (BFZ) 76\n2 Fiery Cannonade (CMR) 178\n1 Lose Focus (MH2) 49\n4 Lórien Revealed (LTR) 60\n3 Murmuring Mystic (PLST) GRN-45\n3 Plunder the Trollshaws (HOB) 51\n4 Preordain (TDC) 161\n2 Seething Landscape (MH3) 225\n4 Skred (CSP) 97\n9 Snow-Covered Island (KHM) 279\n3 Snow-Covered Mountain (KHM) 283\n2 Spell Pierce (XLN) 81\n3 Suplex (FIN) 164\n4 Tolarian Terror (FDN) 167\n4 Volatile Fjord (KHM) 273\n\nSideboard\n2 Annul (THS) 38\n3 Blue Elemental Blast (4ED) 63\n2 Campfire (CMM) 374\n4 Red Elemental Blast (3ED) 171\n2 Soul-Guide Lantern (FDN) 680\n2 Vandalblast (FIC) 298\n", "ci": "UR", "tp": "cbbcbbbacbagbmmbachbbdbda", "pct": 0.4, "nmeta": 11, "jogador": "Alebarb", "res": "5-0", "evento": "Pauper League 2026-10-29", "data": "2026-10-29"}, {"nome": "Dimir Terror", "comandante": "", "arquivo": "dimir_terror.txt", "lista": "4 Abandon Attachments (TLA) 205\n4 Brainstorm (FRC) 39\n2 Cast Down (CLB) 119\n2 Contaminated Aquifer (FIC) 383\n4 Counterspell (FCA) 4\n2 Cut Down (DMU) 89\n2 Gurmag Angler (FRF) 72\n2 Ice Tunnel (KHM) 262\n10 Island (THB) 251\n2 Lórien Revealed (LTR) 60\n2 Mental Note (PLST) JUD-46\n4 Ponder (M12) 73\n4 Sneaky Snacker (MH3) 205\n2 Snuff Out (FIC) 285\n2 Spell Pierce (XLN) 81\n2 Swamp (THB) 252\n4 Thought Scour (DKA) 52\n4 Tolarian Terror (FDN) 167\n2 Unexpected Fangs (PLST) IKO-102\n\nSideboard\n2 Annul (THS) 38\n2 Arms of Hadar (CLB) 113\n3 Blue Elemental Blast (4ED) 63\n2 Extract a Confession (MKM) 84\n1 Gut Shot (MM2) 117\n2 Steel Sabotage (2XM) 70\n3 Tormod's Crypt (M21) 241\n", "ci": "UB", "tp": "bbbgbbcheabacbbebcbbababbd", "pct": 0.3, "nmeta": 9, "jogador": "Getrad26", "res": "43rd Place", "evento": "$1K Pauper - SCG CON Hartford - Friday - 10:30 am", "data": "2026-10-23"}, {"nome": "Azorius Gates", "comandante": "", "arquivo": "azorius_gates.txt", "lista": "1 Azorius Guildgate (RNA) 243\n4 Basilisk Gate (M3C) 320\n4 Brainstorm (FRC) 39\n4 Citadel Gate (CLB) 349\n4 Counterspell (FCA) 4\n1 Deep Analysis (2X2) 44\n1 Dispel (BFZ) 76\n2 Heap Gate (CLB) 354\n1 Idyllic Beachfront (DMU) 249\n3 Island (THB) 251\n4 Journey to Nowhere (PLST) ZEN-14\n3 Lórien Revealed (LTR) 60\n3 Outlaw Medic (OTJ) 23\n1 Plains (THB) 250\n4 Prismatic Strands (PLST) JUD-18\n1 Riling Dawnbreaker // Signaling Roar (TDM) 21\n4 Sacred Cat (AKH) 27\n4 Sea Gate (CLB) 359\n4 Squadron Hawk (A25) 34\n4 The Modern Age // Vector Glider (NEO) 66\n3 Thraben Charm (MH3) 45\n\nSideboard\n4 Blue Elemental Blast (4ED) 63\n3 Breath Weapon (CLB) 165\n1 Hydroblast (ICE) 72\n3 Pyroblast (ICE) 213\n1 Soul-Guide Lantern (FDN) 680\n3 Vandalblast (FIC) 298\n", "ci": "WU", "tp": "ggbgbabggejacebccgcjbbbbbda", "pct": 0.2, "nmeta": 7, "jogador": "Heisen01", "res": "5-0", "evento": "Pauper League 2026-10-30", "data": "2026-10-30"}, {"nome": "Grixis Faeries", "comandante": "", "arquivo": "grixis_faeries.txt", "lista": "1 Arms of Hadar (CLB) 113\n2 Augur of Bolas (C13) 30\n4 Baleful Strix (FIC) 318\n2 Bojuka Bog (SOC) 363\n4 Brainstorm (FRC) 39\n3 Cast Down (CLB) 119\n4 Contaminated Aquifer (FIC) 383\n4 Counterspell (FCA) 4\n2 Dispel (BFZ) 76\n1 Extract a Confession (MKM) 84\n3 Faerie Seer (PLST) MH1-51\n10 Island (THB) 251\n4 Lórien Revealed (LTR) 60\n1 Moon-Circuit Hacker (NEO) 334\n1 Mukotai Ambusher (NEO) 112\n2 Ninja of the Deep Hours (C15) 99\n1 Seething Landscape (MH3) 225\n4 Snuff Out (FIC) 285\n4 Spellstutter Sprite (PLST) LRW-89\n1 Swamp (THB) 252\n2 Thorn of the Black Rose (CMM) 190\n\nSideboard\n3 Annul (THS) 38\n1 Arms of Hadar (CLB) 113\n4 Blue Elemental Blast (4ED) 63\n2 Hydroblast (ICE) 72\n1 Molten Tributary (SOC) 387\n2 Relic of Progenitus (MMA) 213\n2 Vandalblast (FIC) 298\n", "ci": "UB", "tp": "acfgbbgbbaceaifcgbcecbabbgda", "pct": 0.2, "nmeta": 6, "jogador": "LudoRJ", "res": "5-0", "evento": "Pauper League 2026-10-09", "data": "2026-10-09"}, {"nome": "Boros Bully", "comandante": "", "arquivo": "boros_bully.txt", "lista": "4 Battle Screech (DMR) 2\n2 Boros Garrison (CLU) 231\n2 Faithless Looting (TDC) 213\n1 Kabira Crossroads (C17) 259\n4 Lightning Bolt (FCA) 40\n3 Lunarch Veteran // Luminous Phantom (MID) 27\n3 Mountain (THB) 253\n2 Novice Inspector (MKM) 29\n7 Plains (THB) 250\n3 Prismatic Strands (PLST) JUD-18\n4 Pursue the Past (SOS) 216\n3 Rally the Peasants (EMA) 25\n2 Sheltering Landscape (MH3) 227\n4 Sneaky Snacker (MH3) 205\n4 Squadron Hawk (A25) 34\n2 Thraben Charm (MH3) 45\n4 Thraben Inspector (2XM) 35\n2 Thrilling Discovery (STX) 243\n4 Wind-Scarred Crag (MOM) 276\n\nSideboard\n4 Dust to Dust (MBC) 71\n2 Electrickery (PLST) GK1-29\n2 Hallow (DST) 4\n1 Prismatic Strands (PLST) JUD-18\n3 Pyroblast (ICE) 213\n1 Ramosian Rally (PLST) MMQ-38\n2 Thraben Charm (MH3) 45\n", "ci": "WR", "tp": "agagbcecebabgccbcagabbbbbb", "pct": 0.2, "nmeta": 5, "jogador": "j6ix", "res": "2-0-2", "evento": "BRISTOL PAUPER LEAGUE: AUTUMN '26 - STAGE 9", "data": "2026-10-22"}]}, {"id": "tres", "nome": "tres", "ano": "", "grupo": "tres", "icone": "", "decks": [{"nome": "Tron", "comandante": "", "arquivo": "tron.txt", "lista": "4 Behold the Multiverse (KHM) 46\n1 Bojuka Bog (SOC) 363\n4 Bonder's Ornament (PLST) C20-67\n2 Bramble Wurm (VOW) 189\n1 Conduit Pylons (OTJ) 254\n2 Crop Rotation (DMR) 154\n1 Energy Refractor (BRO) 234\n1 Ethereal Haze (CHK) 9\n4 Expedition Map (MM2) 213\n1 Forest (THB) 254\n3 Generous Ent (LTR) 169\n4 Giant's Boulder (HOB) 173\n1 Island (THB) 251\n4 Moment's Peace (PLST) TD0-A80\n3 Mystical Teachings (FDN) 594\n2 Prohibit (DDM) 25\n2 Prophetic Prism (GTC) 234\n1 Remote Isle (DMR) 254\n2 Stream of Thought (MH1) 71\n3 Tangle (PLST) INV-213\n1 Tangled Islet (FIC) 434\n4 Urza's Mine (CHR) 114a\n4 Urza's Power Plant (CHR) 115a\n4 Urza's Tower (CHR) 116a\n1 Weather the Storm (MH1) 191\n\nSideboard\n1 Ancient Grudge (TSR) 151\n1 Blue Elemental Blast (4ED) 63\n1 Bramble Wurm (VOW) 189\n1 Breath Weapon (CLB) 165\n2 Circle of Protection: Blue (ICE) 13\n1 Crypt Incursion (DGM) 23\n1 Faerie Macabre (MMA) 86\n4 Hydroblast (ICE) 72\n2 Murmuring Mystic (PLST) GRN-45\n1 Vandalblast (FIC) 298\n", "ci": "WUG", "tp": "bgdcgbdbdecdebbbdgabggggbbbcbjbcbca", "pct": 5.6, "nmeta": 158, "jogador": "Lukasz Slowinski", "res": "16th Place, 5-2", "evento": "British Pauper Open", "data": "2026-10-03"}, {"nome": "Grixis Affinity", "comandante": "", "arquivo": "grixis_affinity.txt", "lista": "2 Black Mage's Rod (FIN) 90\n2 Blood Fountain (PLST) VOW-95\n4 Drossforge Bridge (MH2) 246\n4 Galvanic Blast (SOM) 91\n3 Great Furnace (MRD) 282\n4 Ichor Wellspring (BRR) 21\n3 Krark-Clan Shaman (MRD) 98\n1 Makeshift Munitions (CMR) 191\n4 Mistvault Bridge (MH2) 249\n4 Myr Enforcer (J25) 756\n2 Nihil Spellbomb (A25) 226\n4 Reckoner's Bargain (NEO) 120\n4 Refurbished Familiar (MH3) 105\n2 Seat of the Synod (J25) 773\n2 Sewer-veillance Cam (TMT) 53\n2 Silverbluff Bridge (EOC) 180\n1 Swamp (THB) 252\n4 Thoughtcast (TRC) 444\n2 Toxin Analysis (MKM) 107\n3 Utrom Monitor (TMC) 113\n3 Vault of Whispers (BRC) 211\n\nSideboard\n4 Blue Elemental Blast (4ED) 63\n2 Breath Weapon (CLB) 165\n2 Extract a Confession (MKM) 84\n1 Gorilla Shaman (PLST) MH2-280\n2 Hydroblast (ICE) 72\n1 Pyroblast (ICE) 213\n2 Red Elemental Blast (3ED) 171\n1 Unexpected Fangs (PLST) IKO-102\n", "ci": "UBR", "tp": "ddkbkdcjkfdbfkdkeabfkbbacbbbb", "pct": 4.7, "nmeta": 132, "jogador": "Philipp Schultz", "res": "5-2", "evento": "Common Island 2 – A Tournament by Pauper to the People", "data": "2026-10-03"}, {"nome": "Esper Affinity", "comandante": "", "arquivo": "esper_affinity.txt", "lista": "2 Ancient Den (EOC) 148\n4 Baleful Strix (FIC) 318\n2 Blood Fountain (PLST) VOW-95\n4 Cryogen Relic (EOE) 52\n4 Dispatch (MSC) 130\n3 Giant's Boulder (HOB) 173\n4 Glint Hawk (SOM) 10\n1 Grim Bauble (DFT) 88\n2 Kor Skyfisher (PLST) DDO-16\n4 Mistvault Bridge (MH2) 249\n4 Myr Enforcer (J25) 756\n4 Razortide Bridge (EOC) 171\n2 Reckoner's Bargain (NEO) 120\n4 Refurbished Familiar (MH3) 105\n4 Seat of the Synod (J25) 773\n4 Thoughtcast (TRC) 444\n4 Utrom Monitor (TMC) 113\n4 Vault of Whispers (BRC) 211\n\nSideboard\n2 Arms of Hadar (CLB) 113\n3 Dust to Dust (MBC) 71\n2 Envelop (JUD) 39\n4 Hydroblast (ICE) 72\n2 Nihil Spellbomb (A25) 226\n2 Tithing Blade // Consuming Sepulcher (LCI) 128\n", "ci": "WUB", "tp": "kfddbdcdckfkbfkafkaabbdd", "pct": 2.6, "nmeta": 74, "jogador": "clmgrn", "res": "11th Place, 5-2", "evento": "British Pauper Open", "data": "2026-10-03"}, {"nome": "Jund Wildfire", "comandante": "", "arquivo": "jund_wildfire.txt", "lista": "1 Blood Fountain (PLST) VOW-95\n1 Bojuka Bog (SOC) 363\n3 Cast Down (CLB) 119\n4 Cleansing Wildfire (ZNR) 137\n3 Drossforge Bridge (MH2) 246\n2 Eviscerator's Insight (MH3) 93\n4 Fanatical Offering (LCI) 105\n2 Forest (THB) 254\n4 Ichor Wellspring (BRR) 21\n3 Krark-Clan Shaman (MRD) 98\n2 Lembas (LTR) 243\n1 Makeshift Munitions (CMR) 191\n1 Mountain (THB) 253\n2 Nihil Spellbomb (A25) 226\n2 Nyxborn Hydra (MH3) 164\n1 Pulse of Murasa (BBD) 209\n4 Refurbished Familiar (MH3) 105\n4 Slagwoods Bridge (DRC) 171\n3 Swamp (THB) 252\n1 Terminate (ECC) 134\n2 Toxin Analysis (MKM) 107\n4 Twisted Landscape (MH3) 232\n2 Vault of Whispers (BRC) 211\n4 Writhing Chrysalis (MH3) 208\n\nSideboard\n2 Breath Weapon (CLB) 165\n3 Duress (EMA) 86\n1 Heritage Reclamation (TDM) 145\n2 Red Elemental Blast (3ED) 171\n2 Troublemaker Ouphe (WOE) 194\n2 Vandalblast (FIC) 298\n3 Weather the Storm (MH1) 191\n", "ci": "BRG", "tp": "dgbakbbedcdjedibfkebbgkcbabbcab", "pct": 2.5, "nmeta": 70, "jogador": "Tomasz Kasinski", "res": "4th Place, 6-1-2", "evento": "British Pauper Open", "data": "2026-10-03"}, {"nome": "Esper Ephemerate", "comandante": "", "arquivo": "esper_ephemerate.txt", "lista": "2 Ancient Den (EOC) 148\n3 Archaeomancer (M13) 41\n4 Baleful Strix (FIC) 318\n2 Bender's Waterskin (TLA) 255\n1 Contaminated Aquifer (FIC) 383\n4 Counterspell (FCA) 4\n2 Cut Down (DMU) 89\n4 Dispatch (MSC) 130\n1 Dispel (BFZ) 76\n4 Ephemerate (MAR) 44\n1 Glacial Floodplain (KHM) 257\n2 Island (THB) 251\n4 Lórien Revealed (LTR) 60\n4 Mistvault Bridge (MH2) 249\n4 Mulldrifter (AFC) 87\n1 Murmuring Mystic (PLST) GRN-45\n3 Preordain (TDC) 161\n3 Razortide Bridge (EOC) 171\n3 Refurbished Familiar (MH3) 105\n3 Seat of the Synod (J25) 773\n1 Suffocating Fumes (PLST) IKO-100\n1 Union of the Third Path (BRO) 31\n3 Vault of Whispers (BRC) 211\n\nSideboard\n3 Annul (THS) 38\n2 Blue Elemental Blast (4ED) 63\n1 Dispel (BFZ) 76\n1 Envelop (JUD) 39\n1 Ethereal Haze (CHK) 9\n3 Hydroblast (ICE) 72\n2 Nihil Spellbomb (A25) 226\n2 Stonehorn Dignitary (PLST) M12-37\n", "ci": "WUB", "tp": "kcfdgbbbbbheakccakfkbbkbbbbbbdc", "pct": 1.6, "nmeta": 44, "jogador": "TheRMurray", "res": "2nd Place, 6-2-1", "evento": "$1K Pauper - SCG CON Hartford - Friday - 10:30 am", "data": "2026-10-23"}, {"nome": "Boros Moxite", "comandante": "", "arquivo": "boros_moxite.txt", "lista": "3 Ancient Den (EOC) 148\n1 Asgardian Citadel (MSH) 258\n1 Bojuka Bog (SOC) 363\n1 Boros Garrison (CLU) 231\n3 Dispatch (MSC) 130\n4 Galvanic Blast (SOM) 91\n4 Glint Hawk (SOM) 10\n2 Great Furnace (MRD) 282\n4 Kor Skyfisher (PLST) DDO-16\n4 Lightning Bolt (FCA) 40\n1 Makeshift Munitions (CMR) 191\n1 Mana Tithe (PLC) 25\n4 Melded Moxite (EOE) 143\n3 Mountain (THB) 253\n1 Novice Inspector (MKM) 29\n3 Plains (THB) 250\n3 Pursue the Past (SOS) 216\n3 Ragged Short Spear (HOB) 108\n4 Rustvale Bridge (PLST) MH2-253\n4 Sneaky Snacker (MH3) 205\n2 Soul-Guide Lantern (FDN) 680\n1 Thraben Charm (MH3) 45\n2 Thraben Inspector (2XM) 35\n1 Wind-Scarred Crag (MOM) 276\n\nSideboard\n3 Cleansing Wildfire (ZNR) 137\n4 Dust to Dust (MBC) 71\n2 Electrickery (PLST) GK1-29\n2 Prismatic Strands (PLST) JUD-18\n4 Red Elemental Blast (3ED) 171\n", "ci": "WBR", "tp": "kgggbbckcbjbdeceadkcdbcgaabbb", "pct": 1.6, "nmeta": 44, "jogador": "Rae_the_Bard", "res": "5-2", "evento": "Common Island 2 – A Tournament by Pauper to the People", "data": "2026-10-03"}, {"nome": "Jeskai Ephemerate", "comandante": "", "arquivo": "jeskai_ephemerate.txt", "lista": "2 Archaeomancer (M13) 41\n4 Augur of Bolas (C13) 30\n3 Bender's Waterskin (TLA) 255\n4 Counterspell (FCA) 4\n1 Dispel (BFZ) 76\n3 Ephemerate (MAR) 44\n1 Ethereal Haze (CHK) 9\n2 Glacial Floodplain (KHM) 257\n1 Goliath Paladin (CLB) 21\n4 Lórien Revealed (LTR) 60\n3 Mulldrifter (AFC) 87\n1 Murmuring Mystic (PLST) GRN-45\n4 Perilous Landscape (FRC) 78\n2 Plunder the Trollshaws (HOB) 51\n3 Preordain (TDC) 161\n1 Ride's End (DFT) 25\n4 Skred (CSP) 97\n7 Snow-Covered Island (KHM) 279\n2 Snow-Covered Mountain (KHM) 283\n2 Snow-Covered Plains (KHM) 276\n2 Suplex (FIN) 164\n2 Union of the Third Path (BRO) 31\n2 Volatile Fjord (KHM) 273\n\nSideboard\n1 Annul (THS) 38\n3 Blue Elemental Blast (4ED) 63\n2 Breath Weapon (CLB) 165\n2 Envelop (JUD) 39\n4 Red Elemental Blast (3ED) 171\n1 Thraben Charm (MH3) 45\n2 Vandalblast (FIC) 298\n", "ci": "WUR", "tp": "ccdbbbbhcaccgbabbmmmabhbbbbbba", "pct": 1.3, "nmeta": 37, "jogador": "Belekuris", "res": "10th Place, 4-2", "evento": "Pauper Challenge 32 2026-10-25", "data": "2026-10-25"}, {"nome": "Snacker Gates", "comandante": "", "arquivo": "snacker_gates.txt", "lista": "4 Basilisk Gate (M3C) 320\n4 Citadel Gate (CLB) 349\n4 Cliffgate (CLB) 350\n2 Faithless Looting (TDC) 213\n2 Journey to Nowhere (PLST) ZEN-14\n3 Lightning Bolt (FCA) 40\n4 Malevolent Rumble (MH3) 161\n2 Manor Gate (CLB) 356\n2 Melded Moxite (EOE) 143\n3 Mountain (THB) 253\n4 Outlaw Medic (OTJ) 23\n3 Plains (THB) 250\n4 Prismatic Strands (PLST) JUD-18\n4 Pursue the Past (SOS) 216\n4 Sacred Cat (AKH) 27\n4 Sneaky Snacker (MH3) 205\n3 Thraben Charm (MH3) 45\n4 Writhing Chrysalis (MH3) 208\n\nSideboard\n1 Ancient Grudge (TSR) 151\n3 Breath Weapon (CLB) 165\n2 Coalition Honor Guard (APC) 3\n3 Dust to Dust (MBC) 71\n1 Guardian of the Guildpact (DIS) 10\n4 Pyroblast (ICE) 213\n1 Vandalblast (FIC) 298\n", "ci": "WUBRG", "tp": "gggajbagdecebaccbcbbcacba", "pct": 0.9, "nmeta": 26, "jogador": "OttoSaske", "res": "4th Place, 6-2", "evento": "Pauper Challenge 32 2026-10-23", "data": "2026-10-23"}, {"nome": "Mardu Synthesizer", "comandante": "", "arquivo": "mardu_synthesizer.txt", "lista": "2 Black Mage's Rod (FIN) 90\n1 Bojuka Bog (SOC) 363\n4 Cleansing Wildfire (ZNR) 137\n4 Dispatch (MSC) 130\n4 Drossforge Bridge (MH2) 246\n4 Experimental Synthesizer (PLST) NEO-138\n2 Fanatical Offering (LCI) 105\n4 Galvanic Blast (SOM) 91\n4 Glint Hawk (SOM) 10\n4 Kor Skyfisher (PLST) DDO-16\n2 Krark-Clan Shaman (MRD) 98\n4 Lembas (LTR) 243\n2 Mountain (THB) 253\n1 Nihil Spellbomb (A25) 226\n1 Omen of the Dead (THB) 110\n2 Plains (THB) 250\n4 Refurbished Familiar (MH3) 105\n4 Rustvale Bridge (PLST) MH2-253\n4 Shattered Landscape (MH3) 226\n2 Swamp (THB) 252\n1 Vault of Whispers (BRC) 211\n\nSideboard\n3 Cast into the Fire (LTR) 118\n2 Duress (EMA) 86\n1 Krark-Clan Shaman (MRD) 98\n2 Navigator's Compass (DOM) 225\n4 Red Elemental Blast (3ED) 171\n2 Thraben Charm (MH3) 45\n1 Tithing Blade // Consuming Sepulcher (LCI) 128\n", "ci": "WBR", "tp": "dgabkdbbcccdedjefkgekbacdbbd", "pct": 0.8, "nmeta": 22, "jogador": "frddlp", "res": "4-3", "evento": "Common Island 2 – A Tournament by Pauper to the People", "data": "2026-10-03"}, {"nome": "Cycle Storm", "comandante": "", "arquivo": "cycle_storm.txt", "lista": "1 Barkform Harvester (BLB) 243\n3 Cabal Ritual (TOR) 51\n4 Conduit Pylons (OTJ) 254\n4 Dark Ritual (5ED) 153\n4 Drannith Healer (IKO) 10\n4 Drannith Stinger (IKO) 113\n4 Giant's Boulder (HOB) 173\n4 Horror of the Broken Lands (A25) 93\n4 Imposing Vantasaur (PLST) IKO-17\n4 Page, Loose Leaf (SOS) 250\n4 Reaping the Graves (PLST) SCG-72\n4 Rowan's Grim Search (WOE) 104\n4 Songs of the Damned (ICE) 160\n4 Street Wraith (DMR) 102\n4 Surveillance Room (MSH) 274\n4 Vault of Whispers (BRC) 211\n\nSideboard\n4 Chitin Gravestalker (DFT) 79\n1 Dispel (BFZ) 76\n2 Faerie Macabre (MMA) 86\n3 Ingot Chewer (C14) 179\n1 Swamp (THB) 252\n4 Writhing Necromass (DMU) 115\n", "ci": "WBR", "tp": "fbgbccdccobbbcgkcbccec", "pct": 0.7, "nmeta": 21, "jogador": "MrPauper", "res": "10th Place, 5-1-1", "evento": "British Pauper Open", "data": "2026-10-03"}, {"nome": "Ephemerate Tron", "comandante": "", "arquivo": "ephemerate_tron.txt", "lista": "1 Bojuka Bog (SOC) 363\n4 Bonder's Ornament (PLST) C20-67\n1 Bramble Wurm (VOW) 189\n1 Breath Weapon (CLB) 165\n1 Conduit Pylons (OTJ) 254\n1 Crop Rotation (DMR) 154\n1 Custodi Squire (CMM) 19\n1 Energy Refractor (BRO) 234\n1 Ephemerate (MAR) 44\n4 Expedition Map (MM2) 213\n2 Ghostly Flicker (PLST) KHC-39\n4 Giant's Boulder (HOB) 173\n3 Island (THB) 251\n3 Lórien Revealed (LTR) 60\n2 Mnemonic Wall (IMA) 67\n2 Moment's Peace (PLST) TD0-A80\n2 Mystical Teachings (FDN) 594\n1 Prohibit (DDM) 25\n4 Prophetic Prism (GTC) 234\n1 Pulse of Murasa (BBD) 209\n1 Stonehorn Dignitary (PLST) M12-37\n1 Tangled Islet (FIC) 434\n1 Unwind (DOM) 72\n4 Urza's Mine (CHR) 114a\n4 Urza's Power Plant (CHR) 115a\n4 Urza's Tower (CHR) 116a\n4 Visionary's Dance (SOS) 242\n1 Weather the Storm (MH1) 191\n\nSideboard\n2 Blue Elemental Blast (4ED) 63\n1 Bramble Wurm (VOW) 189\n4 Hydroblast (ICE) 72\n3 Pyroblast (ICE) 213\n1 Stonehorn Dignitary (PLST) M12-37\n1 Thraben Charm (MH3) 45\n2 Vandalblast (FIC) 298\n1 Weather the Storm (MH1) 191\n", "ci": "WURG", "tp": "gdcbgbcdbdbdeacbbbdbcgbgggabbcbbcbab", "pct": 0.6, "nmeta": 16, "jogador": "Heisen01", "res": "1st Place, 8-1", "evento": "Pauper Challenge 32 2026-10-29", "data": "2026-10-29"}, {"nome": "Dredge", "comandante": "", "arquivo": "dredge.txt", "lista": "3 Circle of the Land Druid (CLB) 220\n4 Dread Return (CMM) 153\n4 Forest (THB) 254\n4 Generous Ent (LTR) 169\n1 Gnaw to the Bone (PLST) ISD-183\n1 Haunted Mire (SOC) 379\n2 Holdout Settlement (OGW) 172\n4 Khalni Garden (PLST) DDR-28\n4 Lotleth Giant (SCD) 89\n4 Malevolent Rumble (MH3) 161\n4 Masked Vandal (KHM) 184\n4 Molten Gatekeeper (MH3) 128\n4 Satyr Wayfinder (CMA) 143\n4 Scrapwork Mutt (PLST) BRO-164\n4 Stinkweed Imp (DDJ) 54\n4 Survivors' Encampment (PLST) HOU-184\n4 Town Greeter (FIN) 209\n1 Wooded Ridgeline (BLC) 353\n\nSideboard\n2 Ancient Grudge (TSR) 151\n2 Coffin Purge (ODY) 124\n3 Fang Dragon // Forktail Sweep (CLB) 173\n1 Flaring Pain (PLST) JUD-89\n3 Gnaw to the Bone (PLST) ISD-183\n4 Writhing Chrysalis (MH3) 208\n", "ci": "BRG", "tp": "caecbgggcacfcfcgcgbbcbbc", "pct": 0.5, "nmeta": 14, "jogador": "ScurvyDog", "res": "7th Place, 5-1-2", "evento": "British Pauper Open", "data": "2026-10-03"}, {"nome": "4c Affinity", "comandante": "", "arquivo": "4c_affinity.txt", "lista": "1 Ancient Den (EOC) 148\n2 Blood Fountain (PLST) VOW-95\n4 Cryogen Relic (EOE) 52\n3 Dispatch (MSC) 130\n3 Drossforge Bridge (MH2) 246\n4 Galvanic Blast (SOM) 91\n4 Giant's Boulder (HOB) 173\n3 Glint Hawk (SOM) 10\n1 Great Furnace (MRD) 282\n1 Makeshift Munitions (CMR) 191\n2 Mistvault Bridge (MH2) 249\n3 Myr Enforcer (J25) 756\n2 Nihil Spellbomb (A25) 226\n4 Razortide Bridge (EOC) 171\n3 Reckoner's Bargain (NEO) 120\n4 Refurbished Familiar (MH3) 105\n1 Rustvale Bridge (PLST) MH2-253\n4 Seat of the Synod (J25) 773\n4 Thoughtcast (TRC) 444\n4 Utrom Monitor (TMC) 113\n3 Vault of Whispers (BRC) 211\n\nSideboard\n4 Blue Elemental Blast (4ED) 63\n3 Krark-Clan Shaman (MRD) 98\n4 Pyroblast (ICE) 213\n1 Tithing Blade // Consuming Sepulcher (LCI) 128\n2 Toxin Analysis (MKM) 107\n1 Vandalblast (FIC) 298\n", "ci": "WUBR", "tp": "kddbkbdckjkfdkbfkkafkbcbdba", "pct": 0.4, "nmeta": 10, "jogador": "pintofmilk", "res": "8th Place, 5-2-1", "evento": "British Pauper Open", "data": "2026-10-03"}, {"nome": "Poison Storm", "comandante": "", "arquivo": "poison_storm.txt", "lista": "4 Contentious Plan (WAR) 46\n4 Experimental Augury (PLST) ONE-49\n2 Focus the Mind (TDM) 45\n1 Forest (THB) 254\n4 Hickory Woodlot (MMQ) 319\n4 Infectious Inquiry (ONE) 97\n2 Island (THB) 251\n4 Manamorphose (2XM) 208\n1 Merchant Scroll (8ED) 91\n1 Mountain (THB) 253\n1 Peat Bog (PLST) MMQ-322\n4 Pentad Prism (EOC) 56\n1 Prologue to Phyresis (ONE) 65\n3 Sandstone Needle (MMQ) 326\n4 Saprazzan Skerry (MMQ) 328\n3 Snap (DMR) 66\n2 Steady Progress (MM2) 58\n1 Swamp (THB) 252\n2 Teach by Example (FDN) 666\n4 Thirsting Roots (ONE) 185\n4 Vivisurgeon's Insight (ONE) 77\n4 Weather the Storm (MH1) 191\n\nSideboard\n3 Breath Weapon (CLB) 165\n2 Dispel (BFZ) 76\n3 Faerie Macabre (MMA) 86\n2 Hydroblast (ICE) 72\n2 Moment's Peace (PLST) TD0-A80\n3 Pyroblast (ICE) 213\n", "ci": "UBG", "tp": "abbegaebaegdbggbbebaabbbcbbb", "pct": 0.3, "nmeta": 9, "jogador": "CosmicCharles", "res": "5-0", "evento": "Pauper League 2026-10-17", "data": "2026-10-17"}]}];
+var META = {"data": "2026-10-31", "min": 5, "cob": 98.1, "banidas_em": "2026-10-31"}; // { data, min, cob, banidas_em } (ver build_pauper.py)
+var BANIDAS = [["Aarakocra Sneak", "Aarakocra Furtivo"], ["Adriana's Valor", ""], ["Aerialephant", ""], ["All That Glitters", "Tudo que Reluz"], ["Arcum's Astrolabe", "Astrolábio de Arcum"], ["Assemble the Rank and Vile", ""], ["Atog", "Atogue"], ["Basking Broodscale", "Escamoso Preguiçoso"], ["_____ Bird Gets the Worm", ""], ["Brago's Favor", ""], ["Carnival Carnivore", ""], ["Chatterstorm", "Tempestade Serelepe"], ["Chicken Troupe", ""], ["Cloud of Faeries", "Nuvem de Fadas"], ["Cloudpost", "Posto das Nuvens"], ["Coming Attraction", ""], ["Command Performance", ""], ["Cranial Plating", "Chapeamento Craniano"], ["Cranial Ram", "Aríete Craniano"], ["Daze", "Pasmar"], ["Deadbeat Attendant", ""], ["Deadly Dispute", "Disputa Mortífera"], ["Disciple of the Vault", "Discípulo da Câmara"], ["Draconian Gate-Bot", ""], ["Empty the Warrens", "Esvaziar os Viveiros"], ["Fall from Favor", "Cair em Desgraça"], ["Finishing Move", ""], ["Frantic Search", "Busca Frenética"], ["Galvanic Relay", "Relé Galvânico"], ["Gitaxian Probe", "Sonda Gitaxiana"], ["Glitterflitter", ""], ["_____ Goblin", ""], ["Grapeshot", "Metralha"], ["Gush", "Jorro"], ["High Tide", "Maré Alta"], ["Hired Heist", ""], ["Hymn to Tourach", ""], ["Immediate Action", ""], ["Incendiary Dissent", ""], ["Invigorate", "Envigorar"], ["Kuldotha Rebirth", "Renascimento de Kuldotha"], ["Line Cutter", ""], ["Minotaur de Force", ""], ["Monastery Swiftspear", "Lança Veloz do Monastério"], ["Muzzio's Preparations", ""], ["Mystic Sanctuary", "Santuário Místico"], ["\"Name Sticker\" Goblin", ""], ["Narcomoeba", "Narcoameba"], ["Natural Unity", ""], ["_____-o-saurus", ""], ["Peregrine Drake", "Dragonete Peregrino"], ["Petting Zookeeper", ""], ["Pradesh Gypsies", "Ciganos de Pradesh"], ["Price of Progress", "Preco do Progresso"], ["Prize Wall", ""], ["Rad Rascal", ""], ["Ride Guide", ""], ["Robo-Piñata", ""], ["Seasoned Buttoneer", ""], ["Secrets of Paradise", ""], ["Seeker of Skybreak", "Perscrutador da Fenda do Céu"], ["Sentinel Dispatch", ""], ["Sinkhole", ""], ["Sojourner's Companion", "Companheiro do Visitante"], ["Soul Swindler", ""], ["Step Right Up", ""], ["Stiltstrider", ""], ["Stirring Bard", "Barda Despertadora"], ["Stone-Throwing Devils", ""], ["Temporal Fissure", "Fissura Temporal"], ["Ticketomaton", ""], ["Treasure Cruise", "Cruzeiro do Tesouro"], ["Underdark Explorer", "Explorador do Subterrâneo"], ["Vicious Battlerager", "Furioso de Batalha Ferino"], ["Wizards of the _____", ""], ["Wolf in _____ Clothing", ""]]; // [[nome, nome em português ou ""], ...]
+var TIPOS = {"en": ["Sorcery", "Instant", "Creature", "Artifact", "Basic Land", "Artifact Creature", "Land", "Snow Land", "Enchantment Creature", "Enchantment", "Artifact Land", "Kindred Instant", "Basic Snow Land", "Legendary Creature", "Legendary Artifact Creature"], "pt": ["Feitiço", "Mágica Instantânea", "Criatura", "Artefato", "Terreno Básico", "Criatura Artefato", "Terreno", "Terreno da Neve", "Criatura Encantamento", "Encantamento", "Terreno Artefato", "Mágica Instantânea de Estirpe", "Terreno Básico da Neve", "Criatura Lendária", "Criatura Artefato Lendária"]}; // tipos das cartas (en/pt); deck.tp tem uma letra por carta da lista, na ordem, apontando para cá (ver build.py)
+var ATUALIZADO = META.data; // data (AAAA-MM-DD) em que o metagame foi raspado do MTGGoldfish
+
+// Idioma da interface: o do sistema/navegador (pt ou en); outros idiomas usam inglês.
+// Nomes de decks, cartas, coleções e grupos ficam sempre em inglês.
+var TXT = {
+  pt: {
+    titulo: 'Decks de Pauper',
+    sub: 'Os arquétipos mais jogados no Pauper (MTGO, últimos 30 dias), com uma lista real de cada um. Navegue por cores, use o filtro ou a busca (em português ou inglês).',
+    busca: 'Carta ou deck…', apagar: 'Apagar busca', grupoCores: 'Cores', grupos: { mono: 'Uma cor', duas: 'Duas cores', tres: 'Três ou mais' },
+    decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck encontrado', achouN: '{n} decks encontrados',
+    nenhum: 'Nenhum deck encontrado', nenhumTxt: 'Nenhum deck ou carta com esse nome.', nenhumFiltro: 'Nenhum deck com esses filtros.',
+    contagem: '{m} cartas + {s} no sideboard', avisoContagem: ' (atenção: o esperado era 60 + até 15)', encontrado: 'encontrado',
+    infoDeck: '{p}% do metagame ({n} decks) · lista de {j}{r}, {d}', infoRes: ' ({r})',
+    outras: 'Mostrar os outros grupos', compartilhar: 'Compartilhar o link do deck', criar: 'Criar no endstep.cc',
+    copiar: 'Copiar lista', copiado: 'Copiado ✓', falhaCopiar: 'Não consegui copiar: selecione o texto e copie manualmente.',
+    linkCopiado: 'Link do deck copiado ✓', copieLink: 'Copie o link do deck:',
+    listaCopiada: 'Lista copiada ✓', falhaLista: 'Não consegui copiar a lista', usarCopiar: 'Não consegui copiar: use Copiar lista',
+    direto: 'Lista copiada ✓ No endstep.cc: Paste a list › colar › Apply',
+    guiaSub: 'O endstep.cc vai abrir com um deck novo (é preciso estar logado lá). Na página do deck:',
+    passo1: 'Toque em <b>Paste a list</b>.', passo2: 'Cole a lista (<span id="guiaColar"></span>).',
+    passo3: 'Toque em <b>Apply</b>: o nome, as 60 cartas e o sideboard entram sozinhos.', passo4: 'Se o endstep.cc pedir, em <b>Set format</b> escolha <b>Pauper</b>.',
+    colarToque: 'toque longo › Colar', naoMostrar: 'Não mostrar de novo', fechar: 'Fechar', abrir: 'Abrir endstep.cc',
+    rodape: '{nd} arquétipos com pelo menos {min} decks, {cob}% do metagame do MTGO nos últimos 30 dias, segundo o {goldfish} em {data} · {sobre}',
+    rodIntro: 'Um facilitador para quem joga no {endstep} (projeto não oficial). Siga estes passos em ordem:', dicaUso: 'Dica de uso',
+    rodPassos: ['Escolha o deck e toque em <b>Criar no endstep.cc</b>: a lista é copiada e o {endstep} abre com um deck novo (é preciso estar logado lá).',
+      'No deck novo, toque em <b>Paste a list</b>.',
+      'Cole a lista inteira ({colar}) e toque em <b>Apply</b>: o nome do deck*, as 60 cartas e o sideboard entram sozinhos.',
+      'Se o endstep.cc pedir, em <b>Set format</b> escolha <b>Pauper</b>.'],
+    rodNota: '* O nome do deck vem no formato <i>Arquétipo - Pauper (ano-mês)</i>, com o mês do metagame. Exemplo: <i>Dimir Faeries - Pauper (2026-10)</i>. Cada lista é a de um jogador num torneio; outras versões do mesmo arquétipo podem variar algumas cartas.',
+    banidas: 'Cartas banidas ({n})', banNota: 'Banidas no Pauper segundo o {scryfall} em {data}. Entre parênteses, o nome em português, quando existe.',
+    sobre: 'sobre o projeto',
+    problemas: 'Encontrou um problema ou tem uma sugestão? Avise por {email} ou abra uma {github}.', lkEmail: 'e-mail', lkGithub: 'issue no GitHub',
+    tCol: 'grupo', tDeck: 'deck', tCmd: 'deck', tCarta: 'carta',
+    filtroCor: 'Filtrar os decks pelas cores que usam', todasCores: 'Por cor', tirarCor: 'Tirar o filtro de cores',
+    cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'WUBRG',
+    surpresa: 'Sortear deck', surpresaDica: 'Abre um deck aleatório entre todos (limpa a busca e o filtro)', sorteado: 'Sorteado: {d}', limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e o filtro e recolhe tudo'
+  },
+  en: {
+    titulo: 'Pauper decks',
+    sub: 'The most played Pauper archetypes (MTGO, last 30 days), with a real list of each. Browse by colors, use the filter or the search (in Portuguese or English).',
+    busca: 'Card or deck…', apagar: 'Clear search', grupoCores: 'Colors', grupos: { mono: 'One color', duas: 'Two colors', tres: 'Three or more' },
+    decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck found', achouN: '{n} decks found',
+    nenhum: 'No deck found', nenhumTxt: 'No deck or card with that name.', nenhumFiltro: 'No deck matches these filters.',
+    contagem: '{m} cards + {s} in the sideboard', avisoContagem: ' (warning: 60 + up to 15 expected)', encontrado: 'found',
+    infoDeck: '{p}% of the metagame ({n} decks) · list by {j}{r}, {d}', infoRes: ' ({r})',
+    outras: 'Show the other groups', compartilhar: 'Share the deck link', criar: 'Create on endstep.cc',
+    copiar: 'Copy list', copiado: 'Copied ✓', falhaCopiar: 'Could not copy: select the text and copy it manually.',
+    linkCopiado: 'Deck link copied ✓', copieLink: 'Copy the deck link:',
+    listaCopiada: 'List copied ✓', falhaLista: 'Could not copy the list', usarCopiar: 'Could not copy: use Copy list',
+    direto: 'List copied ✓ On endstep.cc: Paste a list › paste › Apply',
+    guiaSub: 'endstep.cc will open with a new deck (you need to be logged in there). On the deck page:',
+    passo1: 'Tap <b>Paste a list</b>.', passo2: 'Paste the list (<span id="guiaColar"></span>).',
+    passo3: 'Tap <b>Apply</b>: the name, the 60 cards and the sideboard come in on their own.', passo4: 'If endstep.cc asks, choose <b>Pauper</b> in <b>Set format</b>.',
+    colarToque: 'long-press › Paste', naoMostrar: "Don't show again", fechar: 'Close', abrir: 'Open endstep.cc',
+    rodape: '{nd} archetypes with at least {min} decks, {cob}% of the MTGO metagame in the last 30 days, according to {goldfish} on {data} · {sobre}',
+    rodIntro: 'A helper for {endstep} players (unofficial project). Follow these steps in order:', dicaUso: 'Usage tip',
+    rodPassos: ['Pick a deck and tap <b>Create on endstep.cc</b>: the list is copied and {endstep} opens with a new deck (you need to be logged in there).',
+      'On the new deck, tap <b>Paste a list</b>.',
+      'Paste the whole list ({colar}) and tap <b>Apply</b>: the deck name*, the 60 cards and the sideboard come in on their own.',
+      'If endstep.cc asks, choose <b>Pauper</b> in <b>Set format</b>.'],
+    rodNota: '* The deck name comes in the format <i>Archetype - Pauper (year-month)</i>, with the month of the metagame. Example: <i>Dimir Faeries - Pauper (2026-10)</i>. Each list is one player\'s list from a tournament; other versions of the same archetype may differ in a few cards.',
+    banidas: 'Banned cards ({n})', banNota: 'Banned in Pauper according to {scryfall} on {data}. In parentheses, the Portuguese name, when there is one.',
+    sobre: 'about the project',
+    problemas: 'Found a problem or have a suggestion? Let me know by {email} or open an {github}.', lkEmail: 'email', lkGithub: 'issue on GitHub',
+    tCol: 'group', tDeck: 'deck', tCmd: 'deck', tCarta: 'card',
+    filtroCor: 'Filter decks by the colors they use', todasCores: 'By color', tirarCor: 'Clear the color filter',
+    cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'WUBRG',
+    surpresa: 'Random deck', surpresaDica: 'Opens a random deck out of all of them (clears the search and the filter)', sorteado: 'Drawn: {d}', limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and the filter and collapses everything'
+  }
+};
+var IDIOMA = (function () {
+  var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || "pt"];
+  for (var i = 0; i < ls.length; i++) { var c = String(ls[i]).slice(0, 2).toLowerCase(); if (TXT[c]) return c; }
+  return "en";
+})();
+function t(k, v) { var s = TXT[IDIOMA][k]; if (v) for (var x in v) s = s.split("{" + x + "}").join(v[x]); return s; }
+// Como colar neste aparelho: atalho do teclado no computador, toque longo no celular.
+function atalhoColar() {
+  var pl = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "", ua = navigator.userAgent || "";
+  var celular = /Android/i.test(ua) || /iPhone|iPad|iPod/i.test(ua) || (/Mac/i.test(pl) && navigator.maxTouchPoints > 1);
+  return celular ? t("colarToque") : (/Mac/i.test(pl) ? "⌘V" : "Ctrl+V");
+}
+function aplicarIdioma() {
+  document.documentElement.lang = { pt: "pt-BR", en: "en" }[IDIOMA];
+  [].forEach.call(document.querySelectorAll("[data-t]"), function (e) { e.innerHTML = t(e.getAttribute("data-t")); });
+  [].forEach.call(document.querySelectorAll("[data-tp]"), function (e) { e.placeholder = t(e.getAttribute("data-tp")); });
+  [].forEach.call(document.querySelectorAll("[data-ta]"), function (e) { var v = t(e.getAttribute("data-ta")); e.setAttribute("aria-label", v); e.title = v; });
+  var nd = 0; COLECOES.forEach(function (c) { nd += c.decks.length; });
+  var p = ATUALIZADO.split("-"), data = ATUALIZADO;
+  var nl = navigator.language || "", loc = nl.slice(0, 2).toLowerCase() === IDIOMA ? nl : { pt: "pt-BR", en: "en-US" }[IDIOMA];
+  try { data = new Intl.DateTimeFormat(loc, { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(+p[0], p[1] - 1, +p[2])); } catch (e) {}
+  var NA = ' target="_blank" rel="noopener noreferrer"'; // links do rodapé abrem em nova aba
+  var ln = { goldfish: '<a href="https://www.mtggoldfish.com/metagame/pauper/full"' + NA + '>MTGGoldfish</a>', endstep: '<a href="https://endstep.cc"' + NA + '>endstep.cc</a>',
+    scryfall: '<a href="https://scryfall.com/search?q=banned%3Apauper"' + NA + '>Scryfall</a>' };
+  // O endereço de e-mail é montado aqui (não aparece inteiro no texto da página, para não ser coletado por robôs).
+  var mail = ["congelar_dor.5a", "icloud.com"].join("@");
+  var problemas = t("problemas", { email: '<a href="mailto:' + mail + '?subject=Precons%20Commander%20(Pauper)">' + t("lkEmail") + '</a>',
+    github: '<a href="https://github.com/andrevona/precons-commander/issues/new"' + NA + '>' + t("lkGithub") + '</a>' });
+  var ban = BANIDAS.map(function (x) { return '<li>' + esc(x[0]) + (x[1] ? ' <span>(' + esc(x[1]) + ')</span>' : '') + '</li>'; }).join("");
+  var pb = META.banidas_em.split("-"), dataBan = META.banidas_em;
+  try { dataBan = new Intl.DateTimeFormat(loc, { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(+pb[0], pb[1] - 1, +pb[2])); } catch (e) {}
+  $("rodape").innerHTML = '<div>' + t("rodape", { nd: nd, min: META.min, cob: String(META.cob).replace(".", IDIOMA === "pt" ? "," : "."), data: data, goldfish: ln.goldfish,
+    sobre: '<a href="https://github.com/andrevona/precons-commander"' + NA + '>' + t("sobre") + '</a>' }) + '</div>' +
+    '<div class="como ban"><details><summary>' + t("banidas", { n: BANIDAS.length }) + '</summary><p class="nota" style="margin:0 0 10px">' + t("banNota", { scryfall: ln.scryfall, data: dataBan }) + '</p><ul>' + ban + '</ul></details></div>' +
+    '<div class="como"><details><summary>' + t("dicaUso") + '</summary><p class="intro">' + t("rodIntro", ln) + '</p><ol>' +
+    TXT[IDIOMA].rodPassos.map(function (x) { return '<li>' + x.split("{endstep}").join(ln.endstep).split("{colar}").join(atalhoColar()) + '</li>'; }).join("") + '</ol><p class="nota">' + t("rodNota") + '</p><p class="nota">' + problemas + '</p></details></div>';
+}
+COLECOES.forEach(function (c) { c.nome = c.grupo = t("grupos")[c.id]; }); // nome do grupo no idioma da interface
+var GRUPOS = COLECOES.map(function (c) { return c.grupo; });
+var grpAtual = GRUPOS[0];
+var GRP_ICONE = {};
+var RECOLHEM = []; // nenhum grupo recolhe
+var SEM_COLECAO = GRUPOS; // cada grupo tem uma "coleção" só: lista os decks direto
+
+var colAtual = 0, deckAtual = 0;
+// semSel: com filtro de cor/ano/arquétipo (sem texto na busca) só se mostram as coleções que sobraram, sem nenhuma coleção nem deck
+// escolhido e sem o painel; escolher uma coleção ou um deck (ou limpar os filtros) desliga.
+var semSel = false, abertoAntes = false; // abertoAntes: o conteúdo estava aberto quando o primeiro filtro foi escolhido
+var recolhido = false, animando = false; // coleções recolhidas sob o botão escolhido (só em RECOLHEM)
+var aberto = false; // conteúdo abaixo dos grupos: a página abre só com os 4 grupos
+function $(id) { return document.getElementById(id); }
+
+function contar(texto) {
+  var total = 0;
+  texto.split("\n").forEach(function (l) { var m = /^(\d+)\s/.exec(l); if (m) total += parseInt(m[1], 10); });
+  return total;
+}
+
+COLECOES.forEach(function (col, ci) { col._i = ci; col.decks.forEach(function (d, di) { d._col = col; d._di = di; }); });
+
+var q = "";
+function nomesDe(deck) {
+  if (!deck._n) {
+    deck._n = [];
+    deck.lista.split("\n").forEach(function (l) { var m = /^\d+\s+(.+?)\s+\(\w+\)\s+\S+$/.exec(l); if (m) deck._n.push(m[1]); });
+  }
+  return deck._n;
+}
+// Busca sem maiúsculas e sem acentos ("relampago" acha "Relâmpago"; "Jotun" acha "Jötun").
+function nz(s) { return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+var memoEn = {}, memoPt = {};
+function nzEn(n) { var v = memoEn[n]; return v === undefined ? (memoEn[n] = nz(n)) : v; }
+
+// Nomes das cartas em português (nomes_pt.json: nome em inglês -> nome em português), só para buscar e sugerir;
+// a lista na tela e a lista copiada continuam em inglês. Carrega ao tocar no filtro; sem o arquivo, a busca segue só em inglês.
+var PT = null, ptEstado = 0, ptFalha = 0; // ptEstado: 0 não carregou, 1 carregando, 2 carregado
+// Só carrega (e só sugere em português) quem tem português entre os idiomas do navegador, em qualquer posição da lista.
+function nzPt(n) {
+  if (!PT || !PT[n]) return "";
+  var v = memoPt[n]; return v === undefined ? (memoPt[n] = nz(PT[n])) : v;
+}
+function carregarPT() {
+  if (ptEstado || (ptFalha && Date.now() - ptFalha < 30000) || !window.fetch) return;
+  ptEstado = 1;
+  fetch("nomes_pt.json").then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (o) {
+    PT = o; memoPt = {}; SUG = null; ptEstado = 2;
+    if (q) { desenhar(); if (document.activeElement === $("filtro")) mostrarSug(); } // refaz a busca já em andamento
+  }).catch(function () { ptEstado = 0; ptFalha = Date.now(); });
+}
+
+// Filtro "Decks por cores" (ao lado da busca): identidade de cor do deck = a do(s) comandante(s), correspondência exata (deck.ci, ver build.py).
+var corFiltro = "", anoSel = "", arqSel = ""; // filtros "Decks por cores" e "Decks por ano"
+var ARQUETIPOS = ["tribal", "tokens", "counters", "spellslinger", "graveyard", "artifacts", "enchantments", "lifegain", "sacrifice", "voltron", "blink", "lands"]; // ordem da lista do filtro "Por arquétipo" (deck.arq = até 2, ver tools/arquetipos.py)
+var COM_ARQ = !!(COLECOES[0] && COLECOES[0].decks[0] && COLECOES[0].decks[0].arq);
+var COM_CORES = !!(COLECOES[0] && COLECOES[0].decks[0] && COLECOES[0].decks[0].ci);
+function buscando() { return !!(q || corFiltro || anoSel || arqSel); }
+// Ano do deck: o da coleção; nos Secret Lair (coleção sem ano), o que vem no nome do deck.
+function anoDe(deck) { if (deck._ano === undefined) { var m = /\((\d{4})\)$/.exec(deck.nome); deck._ano = deck._col.ano || (m ? m[1] : ""); } return deck._ano; }
+// Resultado da busca para um deck: ok (aparece?), idx (cartas a destacar, na ordem de nomesDe) e rot (nomes para o status).
+function analisar(deck) {
+  var chave = q + "|" + corFiltro + "|" + anoSel + "|" + arqSel + "|" + ptEstado;
+  if (deck._hk === chave) return deck._h;
+  var r = { ok: true, idx: [], rot: [] };
+  if ((corFiltro && deck.ci !== corFiltro) || (anoSel && anoDe(deck) !== anoSel) || (arqSel && (deck.arq || []).indexOf(arqSel) < 0)) r.ok = false;
+  else if (q) {
+    var col = deck._col;
+    if (!deck._nz) deck._nz = [nz(deck.nome)];
+    if (!col._nz) col._nz = nz(col.nome);
+    nomesDe(deck).forEach(function (n, i) {
+      if (nzEn(n).indexOf(q) >= 0) { r.idx.push(i); r.rot.push(n); }
+      else if (nzPt(n).indexOf(q) >= 0) { r.idx.push(i); r.rot.push(n + " (" + PT[n] + ")"); } // achou pelo nome em português: mostra os dois
+    });
+    r.ok = r.idx.length > 0 || deck._nz.some(function (x) { return x.indexOf(q) >= 0; }) || col._nz.indexOf(q) >= 0 || !!(col.ano && col.ano.indexOf(q) >= 0);
+  }
+  deck._hk = chave; deck._h = r;
+  return r;
+}
+function casa(deck) { return analisar(deck).ok; }
+
+function esc(t) { return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+// Destaca as linhas cujo nome de carta contem a busca e rola a lista ate a primeira.
+function destacar(deck) {
+  var ta = $("saida"), esp = $("espelho");
+  var linhas = deck.lista.split("\n"), primeira = -1, idx = analisar(deck).idx, k = -1;
+  esp.innerHTML = linhas.map(function (l, i) {
+    var m = /^\d+\s+(.+?)\s+\(\w+\)\s+\S+$/.exec(l);
+    if (m) k++;
+    var hit = m && idx.indexOf(k) >= 0;
+    if (hit && primeira < 0) primeira = i;
+    return '<div' + (hit ? ' class="hl"' : '') + '>' + (l ? esc(l) : "&nbsp;") + '</div>';
+  }).join("");
+  var lh = parseFloat(getComputedStyle(ta).lineHeight) || 19;
+  ta.scrollTop = primeira < 0 ? 0 : Math.max(0, primeira * lh - (ta.clientHeight - lh) / 2);
+  ta.scrollLeft = 0;
+  esp.scrollTop = ta.scrollTop; esp.scrollLeft = 0;
+}
+
+// Link direto: o endereço (#pasta/deck) acompanha o deck escolhido.
+function idDe(deck) { return deck.arquivo.replace(/\.txt$/, ""); }
+function guardarSelecao(deck) {
+  var id = idDe(deck);
+  try { if (location.hash !== "#" + id) history.replaceState(null, "", "#" + id); } catch (e) {}
+}
+function aplicarId(id) {
+  var ok = false;
+  COLECOES.forEach(function (col, ci) {
+    col.decks.forEach(function (dk, di) {
+      if (ok || idDe(dk) !== id) return;
+      ok = true; semSel = false; grpAtual = col.grupo; colAtual = ci; deckAtual = di;
+      recolhido = RECOLHEM.indexOf(col.grupo) >= 0; aberto = true;
+    });
+  });
+  return ok;
+}
+function idDoEndereco() { try { return decodeURIComponent(location.hash.replace(/^#/, "")); } catch (e) { return ""; } }
+
+function desenhar() {
+  var sb = $("sub"), sm = mesa ? "mesaToque" : "sub"; // na tela do sorteio, o subtítulo vira a dica "Toque num jogador…"
+  if (sb.getAttribute("data-t") !== sm) { sb.setAttribute("data-t", sm); sb.innerHTML = t(sm); }
+  if (mesa) { desenharMesa(); return; } // sorteio em grupo: tela própria (ver "Sorteio em grupo")
+  document.body.classList.remove("modo-mesa"); $("painel").hidden = false;
+  $("conteudo").hidden = !aberto;
+  $("btnLimparTudo").hidden = !(aberto || buscando()); // só fora da tela inicial
+  var vis = [];
+  var nd = 0;
+  COLECOES.forEach(function (col) { col.decks.forEach(function (dk) { if (casa(dk)) nd++; }); });
+  $("contagem").textContent = buscando() ? (nd === 1 ? t("achou1") : t("achouN", { n: nd })) : "";
+  var cont = {};
+  COLECOES.forEach(function (col) { var k = col.decks.filter(casa).length; if (k) cont[col.grupo] = (cont[col.grupo] || 0) + k; });
+  var gvis = GRUPOS.filter(function (g) { return cont[g]; });
+  // Com o filtro "Decks por cores" ou "Decks por ano" a separação por grupos some: os grupos ficam ocultos e todas as
+  // coleções aparecem juntas, em ordem de lançamento (Secret Lair vira um botão de coleção, por último).
+  var todas = !!(corFiltro || anoSel || arqSel);
+  var gEl = $("grupos"); gEl.innerHTML = ""; gEl.hidden = todas;
+  if (!todas && gvis.length && gvis.indexOf(grpAtual) < 0) { grpAtual = gvis[0]; colAtual = -1; }
+  gvis.forEach(function (g) {
+    var b = document.createElement("button");
+    var ativo = aberto && g === grpAtual;
+    b.className = "tab" + (ativo ? " on" : "");
+    if (GRP_ICONE[g]) { var gi = document.createElement("img"); gi.className = "ic"; gi.alt = ""; gi.src = "../icons/" + GRP_ICONE[g] + ".svg"; gi.onerror = function () { this.style.display = "none"; }; b.appendChild(gi); }
+    b.appendChild(document.createTextNode(g));
+    var gn = document.createElement("span"); gn.className = "n"; gn.textContent = cont[g]; b.appendChild(gn);
+    if (ativo) { var gt = document.createElement("span"); gt.className = "mais"; gt.textContent = "▾"; gt.setAttribute("aria-hidden", "true"); b.appendChild(gt); }
+    b.setAttribute("aria-expanded", ativo ? "true" : "false");
+    b.onclick = function () {
+      if (animando) return;
+      if (ativo) { fecharConteudo(); return; }
+      if (g !== grpAtual) { grpAtual = g; colAtual = -1; deckAtual = 0; recolhido = false; }
+      if (aberto) desenhar(); else abrirConteudo();
+    };
+    gEl.appendChild(b);
+  });
+  // Só Universes Within recolhe as coleções por clique; nos outros grupos elas só ficam recolhidas depois do
+  // Sortear deck (recolhido = true) e, nesse caso, um clique na coleção as expande (depois volta ao normal).
+  var recolhivel = !todas && (RECOLHEM.indexOf(grpAtual) >= 0 || recolhido);
+  COLECOES.forEach(function (col, i) {
+    if ((!todas && col.grupo !== grpAtual) || !col.decks.some(casa)) return;
+    vis.push(i);
+  });
+  var sem = semSel && todas && !q; // filtrando só pelas pílulas: nada escolhido
+  var semCol = !todas && SEM_COLECAO.indexOf(grpAtual) >= 0;
+  $("secCol").hidden = semCol; $("colecoes").hidden = semCol;
+  var c = $("colecoes"); c.innerHTML = "";
+  var d = $("decks"); d.innerHTML = "";
+  var s = $("status");
+  if (!vis.length) {
+    $("titulo").textContent = t("nenhum");
+    $("saida").value = "";
+    s.textContent = t(q ? "nenhumTxt" : "nenhumFiltro"); s.className = "status warn"; $("espelho").innerHTML = ""; $("notaDeck").hidden = true;
+    return;
+  }
+  if (!sem && vis.indexOf(colAtual) < 0) { colAtual = vis[0]; deckAtual = 0; recolhido = false; }
+  var colRec = recolhido && recolhivel && !buscando(); // com busca ou filtro ativo, as coleções não recolhem
+  var decks = sem ? [] : COLECOES[colAtual].decks;
+  $("secDecks").hidden = sem; d.hidden = sem; $("painel").hidden = sem;
+  if (!sem && (!decks[deckAtual] || !casa(decks[deckAtual]))) {
+    for (var k = 0; k < decks.length; k++) { if (casa(decks[k])) { deckAtual = k; break; } }
+  }
+  vis.forEach(function (i) {
+    if (colRec && i !== colAtual) return;
+    var col = COLECOES[i];
+    var b = document.createElement("button");
+    b.className = "tab" + (!sem && i === colAtual ? " on" : "");
+    var ico = GRP_ICONE[col.grupo] || col.icone;
+    if (ico) { var im = document.createElement("img"); im.className = "ic"; im.alt = ""; im.src = "../icons/" + ico + ".svg"; im.onerror = function () { this.style.display = "none"; }; b.appendChild(im); }
+    b.appendChild(document.createTextNode(col.nome));
+    var partes = [], nk = col.decks.filter(casa).length;
+    if (col.ano && col.nome.indexOf(col.ano) < 0) partes.push(col.ano);
+    partes.push(nk + " " + (nk === 1 ? t("deck1") : t("deckN")));
+    var y = document.createElement("span"); y.className = "n"; y.textContent = partes.join(" · "); b.appendChild(y);
+    if (colRec && vis.length > 1) {
+      var m = document.createElement("span"); m.className = "mais"; m.textContent = "▾ +" + (vis.length - 1); b.appendChild(m);
+      b.title = t("outras");
+    }
+    b.setAttribute("aria-expanded", colRec ? "false" : "true");
+    b.onclick = function () {
+      if (animando) return;
+      if (!recolhivel || buscando()) { semSel = false; colAtual = i; deckAtual = 0; desenhar(); return; }
+      if (colRec) expandirEm(c, function () { recolhido = false; desenhar(); });
+      else recolherEm(c, b, function () { colAtual = i; deckAtual = 0; recolhido = true; desenhar(); });
+    };
+    c.appendChild(b);
+  });
+  decks.forEach(function (deck, i) {
+    if (!casa(deck)) return;
+    var b = document.createElement("button");
+    b.className = "tab small" + (i === deckAtual ? " on" : "");
+    b.textContent = deck.nome;
+    if (deck.ci) { b.appendChild(simbolos(deck.ci)); contornoCor(b, deck.ci); }
+    b.onclick = function () { semSel = false; deckAtual = i; desenhar(); };
+    d.appendChild(b);
+  });
+  if (sem) { try { if (location.hash) history.replaceState(null, "", location.pathname + location.search); } catch (e) {} return; }
+  var deck = decks[deckAtual];
+  if (aberto) guardarSelecao(deck);
+  pintarPainel(deck, "");
+}
+// Painel do deck (título, lista, contagem, nota); usado na tela normal e no sorteio em grupo (com o nome do jogador antes).
+function pintarPainel(deck, prefixo) {
+  var s = $("status"), bl = deck.lista.split("\n\n"), m = contar(bl[0]), sd = bl[1] ? contar(bl[1]) : 0, ok = m >= 60 && sd <= 15;
+  var ti = $("titulo"), cm = document.createElement("span"); // nome na 1ª linha; participação no metagame e origem da lista embaixo, menor
+  ti.textContent = prefixo + deck.nome;
+  var pd = deck.data.split("-"), dt = deck.data;
+  try { dt = new Intl.DateTimeFormat(IDIOMA === "pt" ? "pt-BR" : "en-US", { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(+pd[0], pd[1] - 1, +pd[2])); } catch (e) {}
+  cm.className = "tit-cmd"; cm.textContent = t("infoDeck", { p: String(deck.pct).replace(".", IDIOMA === "pt" ? "," : "."), n: deck.nmeta, j: deck.jogador, r: deck.res ? t("infoRes", { r: deck.res }) : "", d: dt });
+  cm.title = deck.evento; ti.appendChild(cm);
+  $("saida").value = deck.lista;
+  destacar(deck);
+  s.textContent = t("contagem", { m: m, s: sd }) + (ok ? " ✓" : t("avisoContagem"));
+  var ac = analisar(deck).rot;
+  if (ac.length) s.textContent += " · " + t("encontrado") + ": " + ac.join(", ");
+  s.className = "status " + (ok ? "ok" : "warn");
+  $("notaDeck").hidden = true;
+}
+
+// Animação das coleções: as outras entram por baixo do botão clicado (recolher) e saem de baixo dele (expandir).
+var DUR = 340, CURVA = "cubic-bezier(.4,0,.2,1)";
+function semAnim() { return window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches; }
+function centro(r) { return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; }
+function limpar(els) { els.forEach(function (x) { x.style.transition = x.style.transform = x.style.opacity = x.style.height = x.style.overflow = ""; }); animando = false; }
+
+// Rola a página para o botão escolhido ficar onde estava na tela; devolve quanto rolou de fato.
+function manter(el, rAnt) {
+  var y0 = window.scrollY;
+  window.scrollBy(0, el.getBoundingClientRect().top - rAnt.top);
+  return window.scrollY - y0;
+}
+
+// Encolher: numa só etapa curta, o botão escolhido sobe ao topo da área e os outros convergem sobre ele
+// (o inverso de expandir) enquanto a área diminui; no fim a lista é redesenhada já recolhida.
+var DUR_REC = 260;
+function recolherEm(c, alvo, aplicar) {
+  var btns = [].slice.call(c.children);
+  if (semAnim() || btns.length < 2) { aplicar(); return; }
+  animando = true;
+  btns.forEach(function (x) { x.classList.toggle("on", x === alvo); });
+  var cr = c.getBoundingClientRect(), ar = alvo.getBoundingClientRect();
+  var dx = cr.left - ar.left, dy = cr.top - ar.top;
+  var dest = { x: ar.left + ar.width / 2 + dx, y: ar.top + ar.height / 2 + dy };
+  var pos = btns.map(function (x) { return centro(x.getBoundingClientRect()); });
+  c.style.height = c.offsetHeight + "px";
+  c.offsetHeight;
+  var t = "transform " + DUR_REC + "ms " + CURVA + ", opacity " + DUR_REC + "ms " + CURVA;
+  btns.forEach(function (x, k) {
+    x.style.transition = t;
+    if (x === alvo) { x.style.transform = "translate(" + dx + "px," + dy + "px)"; }
+    else { x.style.transform = "translate(" + (dest.x - pos[k].x) + "px," + (dest.y - pos[k].y) + "px) scale(.5)"; x.style.opacity = "0"; }
+  });
+  c.style.transition = "height " + DUR_REC + "ms " + CURVA; c.style.height = alvo.offsetHeight + "px";
+  // mantém o botão escolhido parado na tela enquanto a área encolhe (a página rola junto)
+  var html = document.documentElement, t0 = performance.now();
+  html.style.overflowAnchor = "none";
+  (function passo() {
+    var d = alvo.getBoundingClientRect().top - ar.top;
+    if (d) window.scrollBy(0, d);
+    if (performance.now() - t0 < DUR_REC + 20) requestAnimationFrame(passo);
+  })();
+  setTimeout(function () {
+    aplicar();
+    manter(c.querySelector(".on"), ar);
+    html.style.overflowAnchor = "";
+    limpar([c]);
+  }, DUR_REC + 20);
+}
+
+function expandirEm(c, aplicar) {
+  var sel = c.querySelector(".on");
+  var rAnt = sel.getBoundingClientRect(), hAnt = c.offsetHeight;
+  aplicar();
+  var novo = c.querySelector(".on"), rolou = manter(novo, rAnt);
+  if (semAnim()) return;
+  animando = true;
+  var btns = [].slice.call(c.children), a = centro(rAnt), hNov = c.offsetHeight;
+  btns.forEach(function (x) {
+    var r = x.getBoundingClientRect();
+    if (x === novo) { x.style.transform = "translate(" + (rAnt.left - r.left) + "px," + (rAnt.top - r.top) + "px)"; }
+    else { var b = centro(r); x.style.transform = "translate(" + (a.x - b.x) + "px," + (a.y - b.y) + "px) scale(.5)"; x.style.opacity = "0"; }
+  });
+  c.style.height = Math.min(hNov, hAnt + rolou) + "px"; c.style.overflow = "hidden";
+  c.offsetHeight;
+  btns.forEach(function (x) {
+    x.style.transition = "transform " + DUR + "ms " + CURVA + ", opacity " + DUR + "ms " + CURVA;
+    x.style.transform = ""; x.style.opacity = "";
+  });
+  c.style.transition = "height " + DUR + "ms " + CURVA; c.style.height = hNov + "px";
+  setTimeout(function () { limpar(btns.concat([c])); }, DUR + 20);
+}
+
+// Conteúdo abaixo dos grupos: abre deslizando de baixo dos grupos e recolhe para baixo deles.
+function abrirConteudo() {
+  var el = $("conteudo");
+  aberto = true; desenhar();
+  if (semAnim()) return;
+  animando = true;
+  var h = el.scrollHeight;
+  el.style.overflow = "hidden"; el.style.height = "0px"; el.style.opacity = "0"; el.style.transform = "translateY(-8px)";
+  el.offsetHeight;
+  el.style.transition = "height " + DUR + "ms " + CURVA + ", opacity " + DUR + "ms " + CURVA + ", transform " + DUR + "ms " + CURVA;
+  el.style.height = h + "px"; el.style.opacity = "1"; el.style.transform = "";
+  setTimeout(function () { limpar([el]); }, DUR + 20);
+}
+function fecharConteudo() {
+  var el = $("conteudo");
+  function fim() {
+    aberto = false; desenhar();
+    try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+  }
+  if (semAnim()) { fim(); return; }
+  animando = true;
+  el.style.overflow = "hidden"; el.style.height = el.offsetHeight + "px";
+  el.offsetHeight;
+  el.style.transition = "height " + DUR_REC + "ms " + CURVA + ", opacity " + DUR_REC + "ms " + CURVA + ", transform " + DUR_REC + "ms " + CURVA;
+  el.style.height = "0px"; el.style.opacity = "0"; el.style.transform = "translateY(-8px)";
+  setTimeout(function () { fim(); limpar([el]); }, DUR_REC + 20);
+}
+
+$("saida").addEventListener("scroll", function () { $("espelho").scrollTop = this.scrollTop; $("espelho").scrollLeft = this.scrollLeft; });
+function aplicarBusca() {
+  var f = $("filtro");
+  q = nz(f.value.trim()); recolhido = false; $("limpar").hidden = !f.value;
+  if (q && !aberto) abrirConteudo(); else desenhar();
+}
+
+// Autocomplete do filtro: sugere coleções, decks, comandantes e cartas (em inglês e, quando há, em português) conforme se digita.
+// Ordem: começa com o texto, depois início de palavra, depois contém; empate: coleção, deck, comandante, carta em inglês, carta em português.
+// Item em português (carta, k = 4, ou deck, k = 1): t = nome em português, en = o nome original; ao escolher, o campo recebe o nome original.
+// À direita: o tipo da carta (comandante único também é carta), "deck", "coleção" ou "comandantes" (dupla de comandantes).
+var SUG = null, sugLista = [], sugAtiva = -1, SEP = /[\s,\-\/(:'"!&]/, MAX_SUG = 50; // até 50 sugestões; a lista rola
+var TIPO_DE = null; // nome da carta (como na lista) -> índice em TIPOS
+function tipoDe(n) {
+  if (!TIPO_DE) {
+    TIPO_DE = {};
+    COLECOES.forEach(function (c) { c.decks.forEach(function (d) { if (d.tp) nomesDe(d).forEach(function (x, i) { if (!(x in TIPO_DE)) TIPO_DE[x] = LETRAS_TP.indexOf(d.tp.charAt(i)); }); }); });
+  }
+  var i = TIPO_DE[n]; return i >= 0 ? i : -1;
+}
+var LETRAS_TP = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+var CMD_COLS = null; // nome do comandante (como na lista) -> coleções em que comanda algum deck (para o símbolo nas sugestões)
+function colsComandante(n) {
+  if (!CMD_COLS) {
+    CMD_COLS = {};
+    COLECOES.forEach(function (c) { c.decks.forEach(function (d) { d.comandante.split(" / ").forEach(function (x) {
+      var l = CMD_COLS[x] || (CMD_COLS[x] = []); if (l.indexOf(c) < 0) l.push(c);
+    }); }); });
+  }
+  return CMD_COLS[n] || [];
+}
+function indiceSug() {
+  if (SUG) return SUG;
+  var visto = {}; SUG = [];
+  function add(txt, k, en) {
+    var chave = (en ? "pt|" + en + "|" : "") + txt.toLowerCase();
+    if (visto[chave]) return; visto[chave] = 1;
+    SUG.push({ t: txt, l: nz(txt), k: k, en: en });
+  }
+  COLECOES.forEach(function (c) { add(c.nome, 0); });
+  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { add(d.nome, 1); (d.pt || []).forEach(function (p) { add(p, 1, d.nome); }); }); });
+  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { nomesDe(d).forEach(function (n) { add(n, 3); }); }); });
+  if (PT) COLECOES.forEach(function (c) { c.decks.forEach(function (d) { nomesDe(d).forEach(function (n) { if (PT[n]) add(PT[n], 4, n); }); }); });
+  return SUG;
+}
+function sugerir(txt) {
+  var res = [];
+  indiceSug().forEach(function (it) {
+    if (it.l === txt) return; // já é exatamente o que foi digitado
+    var i = -1, melhor = -1, pos = -1;
+    while ((i = it.l.indexOf(txt, i + 1)) >= 0) {
+      var s = i === 0 ? 0 : (SEP.test(it.l.charAt(i - 1)) ? 1 : 2);
+      if (melhor < 0 || s < melhor) { melhor = s; pos = i; }
+      if (s === 0) break;
+    }
+    if (melhor >= 0) res.push({ it: it, s: melhor, pos: pos });
+  });
+  res.sort(function (a, b) { return a.s - b.s || a.it.k - b.it.k || a.it.t.length - b.it.t.length || (a.it.l < b.it.l ? -1 : 1); });
+  var deckVisto = {}; // deck com mais de um nome em português (variantes oficiais): só a melhor sugestão
+  res = res.filter(function (r) { if (r.it.k !== 1 || !r.it.en) return true; if (deckVisto[r.it.en]) return false; return (deckVisto[r.it.en] = 1); });
+  // Pares inglês/português da MESMA carta (ou deck): ficam um logo abaixo do outro, mesmo que a ordem de qualidade ou a
+  // alfabética os separasse (pedido do usuário em 30/10/2026). O par entra na posição do que apareceria primeiro e
+  // recebe `par` = "a" (1º) / "b" (2º), usado para marcar os dois na lista. Só junta quando os dois casam com o texto.
+  var chaveDe = function (it, nome) { return (it.k === 1 ? "d|" : "c|") + nome; };
+  var ingles = {}, portugues = {};
+  res.forEach(function (r, i) {
+    if (r.it.en) (portugues[chaveDe(r.it, r.it.en)] = portugues[chaveDe(r.it, r.it.en)] || []).push(i);
+    else if (r.it.k <= 3 && r.it.k >= 1) ingles[chaveDe(r.it, r.it.t)] = i;
+  });
+  var usado = {}, ordem = [];
+  res.forEach(function (r, i) {
+    if (usado[i]) return;
+    usado[i] = 1; ordem.push(r);
+    var parc = r.it.en ? (ingles[chaveDe(r.it, r.it.en)] !== undefined ? [ingles[chaveDe(r.it, r.it.en)]] : []) : (portugues[chaveDe(r.it, r.it.t)] || []);
+    parc = parc.filter(function (j) { return !usado[j]; });
+    if (parc.length) { r.par = "a"; parc.forEach(function (j) { usado[j] = 1; res[j].par = "b"; ordem.push(res[j]); }); }
+  });
+  return ordem.slice(0, MAX_SUG);
+}
+function pintarSug(rolar) { // rolar: só com o teclado (com o mouse, rolar a lista faria o item sob o cursor mudar sozinho)
+  var f = $("filtro");
+  [].forEach.call($("sugestoes").children, function (li, i) { li.setAttribute("aria-selected", i === sugAtiva ? "true" : "false"); });
+  if (sugAtiva >= 0) { f.setAttribute("aria-activedescendant", "sug-" + sugAtiva); var li = $("sug-" + sugAtiva); if (rolar && li) rolarAte(li); }
+  else f.removeAttribute("aria-activedescendant");
+}
+// Rola só a lista de sugestões (não a página) até o item ficar à vista.
+function rolarAte(li) {
+  var ul = $("sugestoes"), a = li.offsetTop, b = a + li.offsetHeight;
+  if (a < ul.scrollTop) ul.scrollTop = a - 4; else if (b > ul.scrollTop + ul.clientHeight) ul.scrollTop = b - ul.clientHeight + 4;
+}
+// A altura da lista acompanha a área realmente visível (no celular, a que sobra acima do teclado), para o último item
+// poder ser alcançado; recalcula quando o teclado abre/fecha ou a página rola (visualViewport).
+function ajustarAlturaSug() {
+  var ul = $("sugestoes"), vv = window.visualViewport;
+  if (ul.hidden || !vv) return;
+  var livre = vv.offsetTop + vv.height - ul.getBoundingClientRect().top - 16;
+  ul.style.maxHeight = Math.min(360, Math.max(120, livre)) + "px";
+}
+if (window.visualViewport) { visualViewport.addEventListener("resize", ajustarAlturaSug); visualViewport.addEventListener("scroll", ajustarAlturaSug); }
+function toque() { return !!(window.matchMedia && matchMedia("(pointer: coarse)").matches); }
+function fecharSug() {
+  var ul = $("sugestoes"); ul.hidden = true; ul.innerHTML = ""; sugLista = []; sugAtiva = -1;
+  $("filtro").setAttribute("aria-expanded", "false"); $("filtro").removeAttribute("aria-activedescendant");
+}
+function mostrarSug() {
+  var ul = $("sugestoes"), tipos = [t("tCol"), t("tDeck"), t("tCmd"), t("tCarta")];
+  if (q.length >= 3) carregarPT(); // garante que os nomes em português estejam a caminho (ex.: texto colado)
+  var res = q.length >= 3 ? sugerir(q) : []; // só a partir da terceira letra, senão são sugestões demais
+  if (!res.length) { fecharSug(); return; }
+  sugLista = res.map(function (r) { return r.it; }); sugAtiva = -1;
+  ul.innerHTML = "";
+  res.forEach(function (r, i) {
+    var li = document.createElement("li"), tx = document.createElement("span"), tp = document.createElement("span"), b = document.createElement("b");
+    li.id = "sug-" + i; li.setAttribute("role", "option"); li.setAttribute("aria-selected", "false");
+    var nomeCarta = r.it.k >= 3 ? (r.it.en || r.it.t) : "", ti = nomeCarta ? tipoDe(nomeCarta) : -1;
+    tx.className = "txt"; tp.className = "tipo";
+    tp.textContent = ti >= 0 ? TIPOS[IDIOMA === "pt" ? "pt" : "en"][ti] : tipos[r.it.k];
+    tx.appendChild(document.createTextNode(r.it.t.slice(0, r.pos)));
+    b.textContent = r.it.t.slice(r.pos, r.pos + q.length); tx.appendChild(b);
+    tx.appendChild(document.createTextNode(r.it.t.slice(r.pos + q.length)));
+    li.appendChild(tx); li.appendChild(tp);
+    if (r.it.en && !r.par) { var or = document.createElement("span"); or.className = "tipo orig"; or.textContent = "→ " + r.it.en; li.className = "pt"; li.appendChild(or); } // com o original pareado ao lado, a linha "→ original" é dispensada (economiza altura no celular)
+    if (r.par) li.className += (li.className ? " " : "") + "par par-" + r.par; // mesma carta em inglês e português: marcada e colada
+    li.onmousedown = function (e) { e.preventDefault(); }; // não tira o foco do campo
+    li.onmouseover = function () { sugAtiva = i; pintarSug(); };
+    li.onclick = function () { escolherSug(i); };
+    ul.appendChild(li);
+  });
+  ul.hidden = false; $("filtro").setAttribute("aria-expanded", "true");
+  ajustarAlturaSug();
+}
+function escolherSug(i) {
+  var it = sugLista[i]; if (!it) return;
+  var f = $("filtro"); f.value = it.en || it.t; fecharSug(); aplicarBusca(); // sugestão em português: o campo recebe o nome original
+  if (window.matchMedia && matchMedia("(pointer: coarse)").matches) f.blur(); // no celular, fecha o teclado para ver o resultado
+}
+$("filtro").oninput = function () { carregarPT(); aplicarBusca(); mostrarSug(); };
+$("filtro").addEventListener("focus", carregarPT);
+$("filtro").addEventListener("keydown", function (e) {
+  var ul = $("sugestoes");
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+    if (ul.hidden) { mostrarSug(); if (ul.hidden) return; }
+    e.preventDefault();
+    var n = sugLista.length;
+    sugAtiva = e.key === "ArrowDown" ? (sugAtiva + 1) % n : (sugAtiva <= 0 ? n - 1 : sugAtiva - 1);
+    pintarSug(true);
+  } else if (e.key === "Enter") {
+    if (!ul.hidden && sugAtiva >= 0) { e.preventDefault(); escolherSug(sugAtiva); }
+    else if (toque()) { this.blur(); } // celular: "ok/ir" baixa o teclado e a lista de sugestões continua à vista
+    else fecharSug();
+  } else if (e.key === "Escape") {
+    if (!ul.hidden) { e.preventDefault(); fecharSug(); }
+  }
+});
+// Computador: a lista fecha ao perder o foco. Celular: baixar o teclado (✓) tira o foco mas a lista fica, para rolar até o fim;
+// ela fecha ao tocar fora (pointerup só dispara em toque, não ao começar a rolar a página), ao escolher, ao limpar ou com Esc.
+$("filtro").addEventListener("blur", function () { if (toque()) return; setTimeout(function () { if (document.activeElement !== $("filtro")) fecharSug(); }, 200); });
+document.addEventListener("pointerup", function (e) {
+  if ($("sugestoes").hidden || (e.target.closest && e.target.closest("#caixaBusca"))) return;
+  fecharSug();
+});
+// Filtro "Decks por cores": pílula igual à do ano. Só as combinações que existem nos decks, de uma a cinco cores (nomes das guildas
+// e clãs, que são os mesmos em todos os idiomas; quatro cores: Yore, Witch, Ink, Dune e Glint). A primeira opção ("Decks por cores") é sem filtro.
+var NOME_COR = { WU: "Azorius", UB: "Dimir", BR: "Rakdos", RG: "Gruul", WG: "Selesnya", WB: "Orzhov", UR: "Izzet", BG: "Golgari", WR: "Boros", UG: "Simic",
+  WUB: "Esper", UBR: "Grixis", BRG: "Jund", WRG: "Naya", WUG: "Bant", WBG: "Abzan", WUR: "Jeskai", UBG: "Sultai", WBR: "Mardu", URG: "Temur",
+  UBRG: "Glint", WBRG: "Dune", WURG: "Ink", WUBG: "Witch", WUBR: "Yore" }; // quatro cores: os nomes (sem a cor que falta)
+function rotuloCor(c) { // nome curto; as cores aparecem nos símbolos de mana ao lado
+  var L = TXT[IDIOMA].cores;
+  if (c.length === 1) return L[c];
+  if (c.length === 5) return t("cinco");
+  return NOME_COR[c] || c;
+}
+// Símbolos de mana (SVGs do Scryfall em icons/mana/, coloridos), um por cor, na ordem WUBRG; "C" = incolor.
+function simbolos(c) {
+  var sp = document.createElement("span"); sp.className = "simbolos"; sp.setAttribute("aria-hidden", "true");
+  c.split("").forEach(function (x) { var im = document.createElement("img"); im.src = "../icons/mana/" + x + ".svg"; im.alt = ""; sp.appendChild(im); });
+  return sp;
+}
+// Filtros "Decks por cores" e "Decks por ano": mesma pílula e mesma lista própria (o <select> nativo não mostra imagens),
+// com contagem de decks em cada opção e um × para tirar o filtro. Com qualquer um ativo, os grupos somem e todas as coleções
+// aparecem juntas. Teclado: ↑/↓ no botão abre; na lista ↑/↓, Home/End, Enter/espaço escolhe, Esc fecha, Tab fecha.
+var FILTROS = {};
+function criarFiltro(k, cfg) {
+  var f = { k: k, cfg: cfg, todos: cfg.valores, vals: [""], ativa: -1,
+    ul: $(cfg.menu), btn: $(cfg.btn), cx: $(cfg.caixa), x: $(cfg.limpar) };
+  FILTROS[k] = f;
+  f.btn.onclick = function () { if (f.ul.hidden) abrirFiltro(f); else fecharFiltro(f, true); };
+  f.btn.onkeydown = function (e) { if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); abrirFiltro(f); } };
+  f.ul.onkeydown = function (e) {
+    var n = f.vals.length;
+    if (e.key === "ArrowDown") f.ativa = Math.min(n - 1, f.ativa + 1);
+    else if (e.key === "ArrowUp") f.ativa = Math.max(0, f.ativa - 1);
+    else if (e.key === "Home") f.ativa = 0;
+    else if (e.key === "End") f.ativa = n - 1;
+    else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); escolherFiltro(f, f.ativa); return; }
+    else if (e.key === "Escape" || e.key === "Tab") { if (e.key === "Escape") e.preventDefault(); fecharFiltro(f, e.key === "Escape"); return; }
+    else return;
+    e.preventDefault(); marcarFiltro(f, true);
+  };
+  f.ul.addEventListener("blur", function () { setTimeout(function () { if (document.activeElement !== f.ul && document.activeElement !== f.btn) fecharFiltro(f, false); }, 150); });
+  document.addEventListener("pointerup", function (e) { if (!f.ul.hidden && !(e.target.closest && e.target.closest("#" + cfg.caixa))) fecharFiltro(f, false); });
+  f.x.onclick = function () { escolherFiltro(f, 0); f.btn.focus({ preventScroll: true }); }; // tira o filtro com um toque
+  pintarFiltro(f);
+  return f;
+}
+// Monta as opções na hora de abrir: só os valores que existem entre os decks que passam na busca e no(s) OUTRO(s)
+// filtro(s), com essa contagem (ex.: com "Branco", o filtro de ano só mostra os anos com decks mono-brancos). O valor
+// escolhido continua na lista mesmo que a busca o tenha zerado.
+function montarOpcoes(f) {
+  var cfg = f.cfg, atual = cfg.get(), conta = {};
+  cfg.set(""); // conta sem este filtro (mas com a busca e o outro filtro)
+  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { if (casa(d)) { (cfg.valoresDe ? cfg.valoresDe(d) : [cfg.valorDe(d)]).forEach(function (v) { conta[v] = (conta[v] || 0) + 1; }); } }); });
+  cfg.set(atual);
+  f.vals = [""].concat(f.todos.filter(function (v) { return conta[v] || v === atual; }));
+  f.ul.innerHTML = "";
+  f.vals.forEach(function (v, i) {
+    var li = document.createElement("li"), tx = document.createElement("span");
+    li.id = f.k + "-" + i; li.setAttribute("role", "option");
+    tx.textContent = v ? cfg.rotulo(v) : t(cfg.vazio);
+    if (v) { var nm = document.createElement("span"); nm.className = "num"; nm.textContent = conta[v] || 0; tx.appendChild(nm); } // quantos decks
+    li.appendChild(tx);
+    if (v && cfg.extra) li.appendChild(cfg.extra(v));
+    if (v && cfg.aria) li.setAttribute("aria-label", cfg.aria(v));
+    li.onmousedown = function (e) { e.preventDefault(); };
+    li.onmousemove = function () { if (f.ativa !== i) { f.ativa = i; marcarFiltro(f, false); } };
+    li.onclick = function () { escolherFiltro(f, i); };
+    f.ul.appendChild(li);
+  });
+}
+function marcarFiltro(f, rolar) {
+  var atual = f.cfg.get();
+  [].forEach.call(f.ul.children, function (li, i) { li.classList.toggle("ativo", i === f.ativa); li.setAttribute("aria-selected", f.vals[i] === atual ? "true" : "false"); });
+  if (f.ativa >= 0) {
+    f.ul.setAttribute("aria-activedescendant", f.k + "-" + f.ativa);
+    var li = $(f.k + "-" + f.ativa), ul = f.ul;
+    if (rolar && li) { var a = li.offsetTop, b = a + li.offsetHeight; if (a < ul.scrollTop) ul.scrollTop = a - 4; else if (b > ul.scrollTop + ul.clientHeight) ul.scrollTop = b - ul.clientHeight + 4; }
+  }
+}
+function abrirFiltro(f) {
+  if (animando) return;
+  fecharSug(); Object.keys(FILTROS).forEach(function (k) { if (FILTROS[k] !== f) fecharFiltro(FILTROS[k], false); });
+  montarOpcoes(f);
+  f.ul.hidden = false; f.btn.setAttribute("aria-expanded", "true");
+  f.ativa = Math.max(0, f.vals.indexOf(f.cfg.get())); f.ul.scrollTop = 0; marcarFiltro(f, true);
+  f.ul.focus({ preventScroll: true });
+}
+function fecharFiltro(f, voltarFoco) {
+  if (f.ul.hidden) return;
+  f.ul.hidden = true; f.btn.setAttribute("aria-expanded", "false"); f.ul.removeAttribute("aria-activedescendant");
+  if (voltarFoco) f.btn.focus({ preventScroll: true });
+}
+function escolherFiltro(f, i) {
+  if (animando || i < 0) return;
+  fecharFiltro(f, !toque());
+  var tinha = !!(corFiltro || anoSel || arqSel), nadaEscolhido = semSel;
+  if (!tinha) abertoAntes = aberto; // como a tela estava antes de filtrar
+  f.cfg.set(f.vals[i]); recolhido = false; pintarFiltro(f);
+  var tem = !!(corFiltro || anoSel || arqSel);
+  semSel = tem; // filtrando: nada escolhido até o usuário tocar numa coleção
+  if (!tem && COLECOES[colAtual]) grpAtual = COLECOES[colAtual].grupo; // sem filtros, volta ao grupo da coleção aberta
+  if (tem && !aberto) abrirConteudo();
+  else if (!tem && tinha && nadaEscolhido && !abertoAntes && aberto && !q) fecharConteudo(); // tirou o último filtro sem escolher nada: volta à tela inicial, sem escolher nada sozinho
+  else desenhar();
+}
+function pintarFiltro(f) {
+  var v = f.cfg.get(), b = f.btn;
+  b.innerHTML = "";
+  if (v && f.cfg.extra) b.appendChild(f.cfg.extra(v));
+  b.appendChild(document.createTextNode(v ? f.cfg.rotulo(v) : t(f.cfg.vazio)));
+  b.title = t(f.cfg.dica);
+  b.setAttribute("aria-label", t(f.cfg.dica) + ": " + (v ? (f.cfg.aria ? f.cfg.aria(v) : f.cfg.rotulo(v)) : t(f.cfg.vazio)));
+  f.cx.classList.toggle("on", !!v);
+  if (f.k === "cor") { // o filtro de cor escolhido ganha as cores da identidade, com o mesmo esquema dos decks (uma cor ou degradê)
+    f.cx.classList.toggle("cor-cores", !!v);
+    if (v) contornoCor(f.cx, v); else ["--brilho", "--tinta", "--selec"].forEach(function (k) { f.cx.style.removeProperty(k); });
+  }
+  if (f.k === "arq") { // o filtro de arquétipo escolhido ganha a cor do arquétipo (mesmas cores das etiquetas: classe arq-<id>)
+    ARQUETIPOS.forEach(function (a) { f.cx.classList.remove("arq-" + a); });
+    if (v) f.cx.classList.add("arq-" + v);
+  }
+  f.x.hidden = !v;
+}
+function montarFiltros() {
+  if (!COM_CORES) return;
+  $("filtros").hidden = false;
+  var ordem = "WUBRGC", cis = [], anos = [];
+  COLECOES.forEach(function (c) { c.decks.forEach(function (d) {
+    if (cis.indexOf(d.ci) < 0) cis.push(d.ci);
+    var a = anoDe(d); if (a && anos.indexOf(a) < 0) anos.push(a);
+  }); });
+  cis.sort(function (a, b) {
+    var na = a === "C" ? 1.5 : a.length, nb = b === "C" ? 1.5 : b.length; // incolor logo depois das cores únicas
+    if (na !== nb) return na - nb;
+    for (var i = 0; i < a.length; i++) { var d = ordem.indexOf(a[i]) - ordem.indexOf(b[i]); if (d) return d; }
+    return 0;
+  });
+  anos.sort().reverse(); // mais recentes primeiro
+  criarFiltro("cor", { caixa: "cxCor", btn: "fCor", menu: "corMenu", limpar: "limparCor", valores: cis, vazio: "todasCores", dica: "filtroCor",
+    valorDe: function (d) { return d.ci; }, rotulo: rotuloCor, extra: simbolos, aria: function (c) { return rotuloCor(c) + " (" + c + ")"; },
+    get: function () { return corFiltro; }, set: function (v) { corFiltro = v; } });
+}
+function limparFiltros() { semSel = false; corFiltro = ""; anoSel = ""; arqSel = ""; Object.keys(FILTROS).forEach(function (k) { pintarFiltro(FILTROS[k]); }); }
+// Cores do deck escolhido (identidade do comandante, na ordem WUBRG; incolor = cinza): --brilho = cores puras, usadas na
+// borda e no brilho embaixo; --tinta = as mesmas cores misturadas com o fundo. Uma cor: tom único; duas ou mais: degradê suave entre todas (desde a v101, antes duas cores eram metade/metade);
+// três ou mais: degradê suave entre todas. Os decks não escolhidos têm todos a mesma borda neutra (--deckBorda).
+function contornoCor(b, ci) {
+  var cs = ci === "C" ? ["C"] : ci.split(""), pct = cs.length >= 3 ? 24 : 18;
+  function grad(lista) { return "linear-gradient(90deg, " + (lista.length === 1 ? lista[0] + ", " + lista[0] : lista.join(", ")) + ")"; }
+  b.style.setProperty("--brilho", grad(cs.map(function (x) { return "var(--m" + x + ")"; })));
+  b.style.setProperty("--tinta", grad(cs.map(function (x) { return "color-mix(in srgb, var(--m" + x + ") " + pct + "%, var(--card))"; })));
+  b.style.setProperty("--leve", "linear-gradient(100deg, " + (cs.length === 1 ? [cs[0], cs[0]] : cs).map(function (x) { return "color-mix(in srgb, var(--m" + x + ") var(--levePct), var(--card))"; }).join(", ") + ")"); // fundo bem claro dos cartões do sorteio (degradê suave, sem corte)
+  b.style.setProperty("--selec", grad(cs.map(function (x) { return "color-mix(in srgb, var(--m" + x + ") 46%, var(--card))"; }))); // preenchimento do filtro de cor escolhido (mais forte que o tingido do deck)
+}
+// Sortear deck: abre um deck sorteado entre os que aparecem com a busca e as cores escolhidas (sem repetir o anterior).
+var ultimaSorte = null;
+function surpresa() {
+  if (animando) return;
+  zerarBuscaEFiltros(); // sorteia entre todos os decks, passando por cima da busca e dos filtros
+  var todos = [];
+  COLECOES.forEach(function (c, ci) { c.decks.forEach(function (d, di) { if (casa(d)) todos.push([ci, di, d]); }); });
+  if (!todos.length) { aviso(t("nenhum")); return; }
+  var pool = todos.filter(function (x) { return x[2] !== ultimaSorte; });
+  if (!pool.length) pool = todos;
+  var x = pool[Math.floor(Math.random() * pool.length)], c = COLECOES[x[0]], d = x[2];
+  ultimaSorte = d;
+  var b = $("btnSorte"); b.classList.remove("gira"); void b.offsetWidth; b.classList.add("gira");
+  grpAtual = c.grupo; colAtual = x[0]; deckAtual = x[1]; recolhido = false;
+  var abrindo = !aberto;
+  if (abrindo) abrirConteudo(); else desenhar();
+  aviso(t("sorteado", { d: d.nome }));
+  function rolar() { // leva o deck sorteado para o meio da tela
+    var el = document.querySelector("#decks .tab.on"); if (el && el.scrollIntoView) el.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "center" });
+  }
+  // Como se a coleção tivesse sido escolhida no menu: as outras coleções se recolhem sob a sorteada com a mesma
+  // animação do clique, em todos os grupos que têm camada de coleção (decisão do usuário em 29/10/2026; só aqui
+  // os outros grupos recolhem; Secret Lair não tem coleções).
+  var recolhe = SEM_COLECAO.indexOf(c.grupo) < 0 && !buscando();
+  setTimeout(function () {
+    var cEl = $("colecoes"), alvo = cEl.querySelector(".tab.on");
+    if (recolhe && alvo && cEl.children.length > 1) {
+      recolherEm(cEl, alvo, function () { recolhido = true; desenhar(); });
+      setTimeout(rolar, semAnim() ? 0 : DUR_REC + 60);
+    } else rolar();
+  }, abrindo && !semAnim() ? DUR + 60 : 0);
+}
+$("btnSorte").onclick = surpresa;
+// Tira o texto da busca e os dois filtros (sem redesenhar).
+function zerarBuscaEFiltros() {
+  var f = $("filtro"); f.value = ""; q = ""; $("limpar").hidden = true; fecharSug();
+  Object.keys(FILTROS).forEach(function (k) { fecharFiltro(FILTROS[k], false); });
+  limparFiltros();
+}
+// Limpar tudo: volta à tela inicial (sem busca nem filtros, conteúdo recolhido sob os grupos, topo da página).
+$("btnLimparTudo").onclick = function () {
+  if (animando) return;
+  if (mesa) { sairMesa(); return; }
+  zerarBuscaEFiltros(); recolhido = false; grpAtual = GRUPOS[0]; colAtual = 0; deckAtual = 0; ultimaSorte = null;
+  if (aberto) fecharConteudo(); else desenhar();
+  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+  window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
+};
+$("limpar").onclick = function () { var f = $("filtro"); f.value = ""; q = ""; this.hidden = true; fecharSug(); desenhar(); f.focus(); };
+
+// Copiar lista: copia no formato de exportação do MTG Arena (About/Name + Commander + Deck), o mesmo de
+// "Criar no endstep.cc" (decisão do usuário em 27/10/2026); a lista na tela continua no formato do site.
+$("btnCopiar").onclick = function () {
+  var texto = textoEndstep(deckAtualObj());
+  function feito() { var b = $("btnCopiar"); b.textContent = t("copiado"); setTimeout(function () { b.textContent = t("copiar"); }, 1500); }
+  copiar(texto, feito, function () { var ta = $("saida"); ta.focus(); ta.select(); alert(t("falhaCopiar")); });
+};
+
+// Compartilhar: ícone do sistema (iOS, Android ou genérico). No celular abre a folha de compartilhamento
+// do sistema com o link do deck; nos demais aparelhos copia o link.
+var ICONES = {
+  ios: '<path d="M12 15V3"/><path d="M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/>',
+  android: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>',
+  generico: '<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>'
+};
+function sistema() {
+  var ua = navigator.userAgent || "", pl = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "";
+  if (/Android/i.test(ua) || /Android/i.test(pl)) return "android";
+  if (/iPhone|iPad|iPod/i.test(ua) || (/Mac/i.test(pl) && navigator.maxTouchPoints > 1)) return "ios";
+  return "generico";
+}
+var SO = sistema();
+aplicarIdioma();
+(function () {
+  $("btnComp").innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONES[SO] + '</svg>';
+  $("btnComp").setAttribute("data-so", SO);
+  $("guiaColar").textContent = atalhoColar();
+})();
+function deckAtualObj() { return COLECOES[colAtual].decks[deckAtual]; }
+function linkDoDeck() { return location.href.split("#")[0] + "#" + idDe(deckAtualObj()); }
+// Copia na hora (dentro do clique), funciona também no iOS.
+function copiarSync(texto) {
+  var t = document.createElement("textarea"); t.value = texto; t.setAttribute("readonly", "");
+  t.style.cssText = "position:fixed;top:0;left:0;opacity:0;font-size:16px";
+  document.body.appendChild(t); t.focus(); t.select();
+  try { t.setSelectionRange(0, texto.length); } catch (e) {}
+  var ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+  document.body.removeChild(t);
+  return ok;
+}
+// Copia e avisa: ok() se deu certo, falhou() se não deu.
+function copiar(texto, ok, falhou) {
+  if (copiarSync(texto)) { ok(); return; }
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(texto).then(ok, falhou); else falhou();
+}
+function aviso(txt) {
+  var a = $("aviso"); a.textContent = txt; a.hidden = false;
+  clearTimeout(aviso.t); aviso.t = setTimeout(function () { a.hidden = true; }, 2800);
+}
+$("btnComp").onclick = function () {
+  var d = deckAtualObj(), url = linkDoDeck();
+  function copiaLink() { copiar(url, function () { aviso(t("linkCopiado")); }, function () { prompt(t("copieLink"), url); }); }
+  if (SO !== "generico" && navigator.share) {
+    navigator.share({ title: d.nome + " · Pauper", url: url }).catch(function (e) { if (!e || e.name !== "AbortError") copiaLink(); });
+  } else copiaLink();
+};
+
+// Criar no endstep.cc: copia a lista no formato de exportação do MTG Arena e mostra os passos antes de abrir o site.
+var ENDSTEP = "https://endstep.cc/decks/new"; // editor de deck novo do endstep.cc
+// Ao colar esse texto ("Paste a list" > Apply), o endstep.cc já troca o "Untitled" pelo nome do deck,
+// carrega as cartas e põe o(s) comandante(s) no trono. O formato "Commander" (Set format) é um clique a mais lá.
+function textoEndstep(deck) {
+  // Nome do deck no endstep.cc: "Arquétipo - Pauper (ano-mês do metagame)", ex. "Dimir Faeries - Pauper (2026-10)".
+  var bl = deck.lista.split("\n\n"), side = (bl[1] || "").split("\n").filter(function (l) { return /^\d+\s/.test(l); }).join("\n");
+  return "About\nName " + deck.nome + " - Pauper (" + META.data.slice(0, 7) + ")\n\nDeck\n" + bl[0].trim() + "\n" + (side ? "\nSideboard\n" + side + "\n" : "");
+}
+var CHAVE_DIRETO = "precons-endstep-direto"; // mesma preferência da página de Commander; // "Não mostrar de novo" (só neste aparelho)
+function direto() { try { return localStorage.getItem(CHAVE_DIRETO) === "1"; } catch (e) { return false; } }
+var focoAntes = null;
+function guia(abrir) {
+  $("guia").hidden = !abrir;
+  if (abrir) { focoAntes = document.activeElement; $("guiaAbrir").focus(); }
+  else if (focoAntes && focoAntes.focus) focoAntes.focus();
+}
+function abrirEndstep() { window.open(ENDSTEP, "_blank", "noopener"); }
+$("btnEndstep").onclick = function () {
+  var texto = textoEndstep(deckAtualObj());
+  if (direto()) {
+    copiar(texto, function () { aviso(t("direto")); }, function () { aviso(t("usarCopiar")); });
+    abrirEndstep();
+    return;
+  }
+  $("guiaNaoMostrar").checked = false;
+  $("guiaTitulo").textContent = t("listaCopiada"); $("guiaTitulo").className = "ok";
+  copiar(texto, function () {}, function () { $("guiaTitulo").textContent = t("falhaLista"); $("guiaTitulo").className = "erro"; });
+  guia(true);
+};
+function guardarPreferencia() { if ($("guiaNaoMostrar").checked) { try { localStorage.setItem(CHAVE_DIRETO, "1"); } catch (e) {} } }
+$("guiaAbrir").onclick = function () { guardarPreferencia(); guia(false); abrirEndstep(); };
+$("guiaFechar").onclick = function () { guardarPreferencia(); guia(false); };
+$("guia").onclick = function (e) { if (e.target === this) guia(false); };
+document.addEventListener("keydown", function (e) {
+  if (e.key !== "Escape") return;
+  if (!$("guia").hidden) guia(false);
+});
+
+// Sem sorteio em grupo no Pauper (formato 1 contra 1): só o que o resto do código consulta.
+var mesa = null;
+function mesaDoEndereco() { return null; }
+function sairMesa() {}
+
+montarFiltros();
+aplicarId(idDoEndereco());
+mesa = mesaDoEndereco(); // link de sorteio em grupo
+desenhar();
+window.addEventListener("hashchange", function () {
+  var mm = mesaDoEndereco();
+  var id = idDoEndereco(), d = COLECOES[colAtual] && COLECOES[colAtual].decks[deckAtual];
+  if (mesa && id && aplicarId(id)) { mesa = null; zerarBuscaEFiltros(); desenhar(); return; } // link de deck vindo do sorteio
+  if (id && (!d || idDe(d) !== id) && aplicarId(id)) { q = ""; $("filtro").value = ""; $("limpar").hidden = true; limparFiltros(); desenhar(); }
+});
+if ("serviceWorker" in navigator && /^https?:/.test(location.protocol)) { navigator.serviceWorker.register("../sw.js", { scope: "../" }).catch(function () {}); }
+</script>
+</body>
+</html>

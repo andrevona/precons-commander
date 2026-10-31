@@ -1,0 +1,26 @@
+4 Basilisk Gate (M3C) 320
+4 Citadel Gate (CLB) 349
+4 Cliffgate (CLB) 350
+2 Faithless Looting (TDC) 213
+2 Journey to Nowhere (PLST) ZEN-14
+3 Lightning Bolt (FCA) 40
+4 Malevolent Rumble (MH3) 161
+2 Manor Gate (CLB) 356
+2 Melded Moxite (EOE) 143
+3 Mountain (THB) 253
+4 Outlaw Medic (OTJ) 23
+3 Plains (THB) 250
+4 Prismatic Strands (PLST) JUD-18
+4 Pursue the Past (SOS) 216
+4 Sacred Cat (AKH) 27
+4 Sneaky Snacker (MH3) 205
+3 Thraben Charm (MH3) 45
+4 Writhing Chrysalis (MH3) 208
+
+1 Ancient Grudge (TSR) 151
+3 Breath Weapon (CLB) 165
+2 Coalition Honor Guard (APC) 3
+3 Dust to Dust (MBC) 71
+1 Guardian of the Guildpact (DIS) 10
+4 Pyroblast (ICE) 213
+1 Vandalblast (FIC) 298

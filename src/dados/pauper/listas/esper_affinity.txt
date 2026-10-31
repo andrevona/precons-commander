@@ -1,0 +1,25 @@
+2 Ancient Den (EOC) 148
+4 Baleful Strix (FIC) 318
+2 Blood Fountain (PLST) VOW-95
+4 Cryogen Relic (EOE) 52
+4 Dispatch (MSC) 130
+3 Giant's Boulder (HOB) 173
+4 Glint Hawk (SOM) 10
+1 Grim Bauble (DFT) 88
+2 Kor Skyfisher (PLST) DDO-16
+4 Mistvault Bridge (MH2) 249
+4 Myr Enforcer (J25) 756
+4 Razortide Bridge (EOC) 171
+2 Reckoner's Bargain (NEO) 120
+4 Refurbished Familiar (MH3) 105
+4 Seat of the Synod (J25) 773
+4 Thoughtcast (TRC) 444
+4 Utrom Monitor (TMC) 113
+4 Vault of Whispers (BRC) 211
+
+2 Arms of Hadar (CLB) 113
+3 Dust to Dust (MBC) 71
+2 Envelop (JUD) 39
+4 Hydroblast (ICE) 72
+2 Nihil Spellbomb (A25) 226
+2 Tithing Blade // Consuming Sepulcher (LCI) 128

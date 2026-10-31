@@ -1,0 +1,21 @@
+4 Brinebarrow Intruder (KHM) 49
+4 Counterspell (FCA) 4
+3 Cryoshatter (EOE) 53
+1 Dispel (BFZ) 76
+4 Faerie Miscreant (ORI) 57
+4 Faerie Seer (PLST) MH1-51
+3 Harrier Strix (OTJ) 52
+18 Island (THB) 251
+4 Moon-Circuit Hacker (NEO) 334
+4 Ninja of the Deep Hours (C15) 99
+3 Of One Mind (IKO) 60
+3 Sewer-veillance Cam (TMT) 53
+1 Spell Pierce (XLN) 81
+4 Spellstutter Sprite (PLST) LRW-89
+
+3 Annul (THS) 38
+4 Blue Elemental Blast (4ED) 63
+2 Envelop (JUD) 39
+2 Hydroblast (ICE) 72
+2 Spreading Seas (PLST) ZEN-70
+2 Steel Sabotage (2XM) 70

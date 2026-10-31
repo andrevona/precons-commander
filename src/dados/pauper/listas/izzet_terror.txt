@@ -1,0 +1,26 @@
+1 Azure Fleet Admiral (CMR) 58
+4 Brainstorm (FRC) 39
+4 Counterspell (FCA) 4
+1 Crimson Fleet Commodore (PLST) CMR-171
+2 Dispel (BFZ) 76
+2 Fiery Cannonade (CMR) 178
+1 Lose Focus (MH2) 49
+4 Lórien Revealed (LTR) 60
+3 Murmuring Mystic (PLST) GRN-45
+3 Plunder the Trollshaws (HOB) 51
+4 Preordain (TDC) 161
+2 Seething Landscape (MH3) 225
+4 Skred (CSP) 97
+9 Snow-Covered Island (KHM) 279
+3 Snow-Covered Mountain (KHM) 283
+2 Spell Pierce (XLN) 81
+3 Suplex (FIN) 164
+4 Tolarian Terror (FDN) 167
+4 Volatile Fjord (KHM) 273
+
+2 Annul (THS) 38
+3 Blue Elemental Blast (4ED) 63
+2 Campfire (CMM) 374
+4 Red Elemental Blast (3ED) 171
+2 Soul-Guide Lantern (FDN) 680
+2 Vandalblast (FIC) 298

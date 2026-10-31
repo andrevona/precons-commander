@@ -15,7 +15,7 @@ RODAPE=""
 }Claude-Session: $SESSAO"
 cd "$REPO"
 git fetch -q origin main
-cp -r "$SITE/index.html" "$SITE/nomes_pt.json" "$SITE/sw.js" "$SITE/README.md" "$SITE/icons" .
+cp -r "$SITE/index.html" "$SITE/nomes_pt.json" "$SITE/sw.js" "$SITE/README.md" "$SITE/icons" "$SITE/pauper" .
 git add -A
 if [ -n "$RODAPE" ]; then
   git -c user.name="Claude" -c user.email="noreply@anthropic.com" commit -q -m "$1" -m "$RODAPE"

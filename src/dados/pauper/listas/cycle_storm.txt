@@ -1,0 +1,23 @@
+1 Barkform Harvester (BLB) 243
+3 Cabal Ritual (TOR) 51
+4 Conduit Pylons (OTJ) 254
+4 Dark Ritual (5ED) 153
+4 Drannith Healer (IKO) 10
+4 Drannith Stinger (IKO) 113
+4 Giant's Boulder (HOB) 173
+4 Horror of the Broken Lands (A25) 93
+4 Imposing Vantasaur (PLST) IKO-17
+4 Page, Loose Leaf (SOS) 250
+4 Reaping the Graves (PLST) SCG-72
+4 Rowan's Grim Search (WOE) 104
+4 Songs of the Damned (ICE) 160
+4 Street Wraith (DMR) 102
+4 Surveillance Room (MSH) 274
+4 Vault of Whispers (BRC) 211
+
+4 Chitin Gravestalker (DFT) 79
+1 Dispel (BFZ) 76
+2 Faerie Macabre (MMA) 86
+3 Ingot Chewer (C14) 179
+1 Swamp (THB) 252
+4 Writhing Necromass (DMU) 115
