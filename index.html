@@ -1150,7 +1150,10 @@ function escolherFiltro(f, i) {
   if (!tinha) abertoAntes = aberto; // como a tela estava antes de filtrar
   f.cfg.set(f.vals[i]); recolhido = false; pintarFiltro(f);
   var tem = !!(corFiltro || anoSel || arqSel);
-  semSel = tem; // filtrando: nada escolhido até o usuário tocar numa coleção
+  // Filtrando: se a tela estava fechada, nada escolhido até o usuário tocar numa coleção; se havia uma lista aberta, ela continua
+  // aberta e acompanha o filtro (pedido do usuário em 31/10/2026, igual ao Pauper): a coleção e o deck abertos ficam, se ainda
+  // casarem com o filtro; senão entra a primeira coleção/o primeiro deck que casar.
+  semSel = tem && (tinha ? nadaEscolhido : !aberto);
   if (!tem && COLECOES[colAtual]) grpAtual = COLECOES[colAtual].grupo; // sem filtros, volta ao grupo da coleção aberta
   if (tem && !aberto) abrirConteudo();
   else if (!tem && tinha && nadaEscolhido && !abertoAntes && aberto && !q) fecharConteudo(); // tirou o último filtro sem escolher nada: volta à tela inicial, sem escolher nada sozinho
