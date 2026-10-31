@@ -100,29 +100,27 @@ def gerar_site(raiz, dados, site):
 
 
 def validar_pauper(raiz, dados, site):
-    """Página de Pauper (pasta pauper/ de dados): listas (60 ou mais + até 15, até 4 cópias, ordem alfabética em cada
-    seção, metagame.json cobrindo todas) e, com --site, a página gerada de novo idêntica à publicada em SITE/pauper/."""
+    """Página de Pauper (pasta pauper/ de dados, reorganizada em famílias e variações em 31/10/2026): todas as listas de
+    listas.json.gz (60 ou mais + até 15, até 4 cópias, ordem alfabética em cada seção, cartas em cartas.csv), variacoes.json
+    (cada lista numa só variação ou nas "Outras" da família, identificadores sem repetição) e, com --site, a página e os arquivos
+    das famílias gerados de novo idênticos aos publicados em SITE/pauper/."""
     erros = collections.defaultdict(list)
     P = os.path.join(dados, "pauper")
     if not os.path.isdir(P):
         return erros
-    import json
-    meta = json.load(open(os.path.join(P, "metagame.json"), encoding="utf-8"))
+    import gzip, json
     cartas = {r["carta"]: r for r in csv.DictReader(open(os.path.join(P, "cartas.csv"), encoding="utf-8"))}
-    slugs = [a["slug"] for a in meta["arquetipos"]]
-    arquivos = sorted(os.path.basename(f)[:-4] for f in glob.glob(os.path.join(P, "listas", "*.txt")))
-    for x in sorted(set(slugs) ^ set(arquivos)):
-        erros["pauper"].append(f"{x}: lista e metagame.json não batem")
-    for slug in arquivos:
-        rel = f"pauper/{slug}.txt"
-        t = open(os.path.join(P, "listas", slug + ".txt"), encoding="utf-8").read()
-        if not t.endswith("\n") or t.endswith("\n\n"):
-            erros[rel].append("o arquivo deve terminar com exatamente uma quebra de linha")
-        blocos = t.rstrip("\n").split("\n\n")
+    pacote = json.load(gzip.open(os.path.join(P, "listas.json.gz"), "rt", encoding="utf-8"))
+    var = json.load(open(os.path.join(P, "variacoes.json"), encoding="utf-8"))
+    LP = re.compile(r"^([1-9]\d*) (\S(?:.*\S)?)$")  # "qtd Nome" (no Pauper as listas não têm edição)
+    ids = collections.Counter()
+    for x in pacote["listas"]:
+        rel = f"pauper/{x['id']} ({x['arquetipo']})"
+        ids[x["id"]] += 1
+        blocos = x["lista"].split("\n\n")
         if len(blocos) > 2:
             erros[rel].append(f"{len(blocos)} blocos (esperado deck e sideboard)"); continue
         qtd, tot = [], collections.Counter()
-        LP = re.compile(r"^([1-9]\d*) (\S(?:.*\S)?)$")  # "qtd Nome" (no Pauper as listas não têm edição)
         for b in blocos:
             n, chaves = 0, []
             for l in b.split("\n"):
@@ -142,17 +140,39 @@ def validar_pauper(raiz, dados, site):
         for nome, q in tot.items():
             if q > 4 and not (cartas.get(nome, {}).get("livre") or nome in BASICOS):
                 erros[rel].append(f"{q} cópias de {nome}")
+    for k, n in ids.items():
+        if n > 1:
+            erros["pauper/listas.json.gz"].append(f"lista {k} repetida")
+    usados = collections.Counter(i for f in var["familias"] for v in f["variacoes"] for i in v["listas"])
+    usados.update(i for f in var["familias"] for i in f["outras_ids"])
+    for k in sorted(set(ids) ^ set(usados)):
+        erros["pauper/variacoes.json"].append(f"lista {k} " + ("sem variação" if k in ids else "não existe em listas.json.gz"))
+    for k, n in usados.items():
+        if n > 1:
+            erros["pauper/variacoes.json"].append(f"lista {k} em {n} variações")
+    for nome, lista in (("variações", [v["slug"] for f in var["familias"] for v in f["variacoes"]]), ("famílias", [f["slug"] for f in var["familias"]])):
+        for k, n in collections.Counter(lista).items():
+            if n > 1:
+                erros["pauper/variacoes.json"].append(f"{nome}: identificador {k} repetido")
+    if var["total"] != len(pacote["listas"]):
+        erros["pauper/variacoes.json"].append(f"total {var['total']} diferente das {len(pacote['listas'])} listas (rodar tools/pauper_variacoes.py)")
     if site:
         with tempfile.TemporaryDirectory() as tmp:
             for f in ("build.py", "build_pauper.py", "template_pauper.html"):
                 shutil.copy(os.path.join(raiz, f), tmp)
-            shutil.copy(os.path.join(site, "sw.js"), tmp)  # idem
+            shutil.copy(os.path.join(site, "sw.js"), tmp)  # a versão que aparece no pé da página vem do sw.js
             shutil.copytree(P, os.path.join(tmp, "pauper"))
             r = subprocess.run([sys.executable, "-I", os.path.join(tmp, "build_pauper.py")], capture_output=True, text=True)
             if r.returncode != 0:
                 erros["site"].append(f"build_pauper.py falhou: {(r.stderr or r.stdout).strip()[-500:]}")
             else:
-                for gerado, publicado in (("pauper_offline.html", "pauper/index.html"), ("pauper_nomes_pt.json", "pauper/nomes_pt.json")):
+                pares = [("pauper_offline.html", "pauper/index.html"), ("pauper_nomes_pt.json", "pauper/nomes_pt.json")]
+                gerados = sorted(os.listdir(os.path.join(tmp, "pauper_fam")))
+                publicados = sorted(os.listdir(os.path.join(site, "pauper", "fam"))) if os.path.isdir(os.path.join(site, "pauper", "fam")) else []
+                for x in sorted(set(gerados) ^ set(publicados)):
+                    erros["site"].append(f"pauper/fam/{x} " + ("não publicado" if x in gerados else "publicado mas não gerado (sobra de outra versão?)"))
+                pares += [(os.path.join("pauper_fam", x), os.path.join("pauper", "fam", x)) for x in gerados if x in publicados]
+                for gerado, publicado in pares:
                     a, b = os.path.join(tmp, gerado), os.path.join(site, publicado)
                     if not os.path.exists(b):
                         erros["site"].append(f"{publicado} não existe em {site}")
@@ -219,7 +239,12 @@ def main():
 
     for k, v in validar_pauper(a.raiz, dados, a.site).items():
         erros[k] += v
-    npauper = len(glob.glob(os.path.join(dados, "pauper", "listas", "*.txt")))
+    lp = os.path.join(dados, "pauper", "listas.json.gz")
+    if os.path.exists(lp):
+        import gzip, json
+        npauper = len(json.load(gzip.open(lp, "rt", encoding="utf-8"))["listas"])
+    else:
+        npauper = 0
     ruins = {k: v for k, v in erros.items() if v}
     nav = sum(len(v) for v in avisos.values())
     for k in sorted(avisos):
@@ -228,7 +253,7 @@ def main():
     for k in sorted(ruins):
         for e in ruins[k]:
             print(f"ERRO {k}: {e}")
-    print(f"{len(esperados)} decks em {len(C)} coleções" + (f" e {npauper} decks de Pauper" if npauper else "") + " conferidos; "
+    print(f"{len(esperados)} decks em {len(C)} coleções" + (f" e {npauper} listas de Pauper" if npauper else "") + " conferidos; "
           + ("nenhum erro" if not ruins else f"{sum(len(v) for v in ruins.values())} erro(s)")
           + (f"; {nav} aviso(s)" if nav else ""))
     sys.exit(1 if ruins else 0)

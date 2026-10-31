@@ -1,24 +1,28 @@
-"""Normaliza as listas de Pauper raspadas (raw_pauper/) para o formato do site e confere tudo pelo Scryfall.
+"""Normaliza as listas de Pauper baixadas (todas as dos últimos 30 dias de cada arquétipo, ver tools/pauper_listas.py) para o
+formato do site e confere tudo pelo Scryfall. Reescrito em 31/10/2026 para a reorganização por famílias e variações.
 
-Entrada: raw_pauper/<slug>.txt ("qtd Nome"; linha em branco; sideboard) e raw_pauper/metagame.json.
+Entrada: raw_pauper/indice/<slug>.json e raw_pauper/todas/<id>.txt (tools/pauper_listas.py) e pauper/metagame.json
+         (a lista de arquétipos do MTGGoldfish, de tools/pauper_raspar.py; se existir raw_pauper/metagame.json, ele é copiado antes).
 Saída (pasta pauper/ da pasta de trabalho):
-  pauper/listas/<slug>.txt  "qtd Nome"; deck principal em ordem alfabética; linha em branco; sideboard em ordem alfabética
-  pauper/metagame.json      o metagame raspado, com as cores de cada deck ("ci", letras WUBRG ou "C")
-  pauper/cartas.csv         uma linha por carta das listas: carta, cores, tipo, mv (valor de mana), nome_pt,
-                            livre (1 = pode ter mais de 4 cópias: terreno básico ou "any number of cards named")
-  pauper/banidas.csv        banidas no Pauper segundo o Scryfall: carta, tipo, nome_pt, grupo
-                            (grupo: "unf" = carta do Unfinity com adesivo ou atração; "conspiracy"; vazio = as demais)
+  pauper/listas.json.gz  todas as listas válidas: {raspado_em, dias, listas: [{id, arquetipo, data, nome (dado pelo jogador),
+                         jogador, evento, lugar, origem (mtgo/papel), ci (cores do deck), lista}]}, em ordem de id; a lista é
+                         "qtd Nome", principal em ordem alfabética, linha em branco, sideboard em ordem alfabética
+  pauper/cartas.csv      uma linha por carta das listas: carta, cores, tipo, mv (valor de mana), nome_pt,
+                         livre (1 = pode ter mais de 4 cópias: terreno básico ou "any number of cards named")
+  pauper/banidas.csv     banidas no Pauper segundo o Scryfall: carta, tipo, nome_pt, grupo ("unf", "conspiracy" ou vazio)
 
-Sem edição nem número (decisão do usuário em 31/10/2026: no Pauper a edição não importa; o endstep.cc reconhece a carta
-pelo nome). Para com erro se alguma carta não existir no Scryfall, não for legal no Pauper, ou se o deck tiver menos de
-60 cartas, mais de 15 no sideboard ou mais de 4 cópias de uma carta (exceto as "livres").
+Sem edição nem número (no Pauper a edição não importa; o endstep.cc reconhece a carta pelo nome). Lista com carta que não existe
+no Scryfall ou não é legal no Pauper, com menos de 60 cartas, mais de 15 no sideboard ou mais de 4 cópias de uma carta (exceto as
+"livres") fica de fora, com aviso. Cartas: Scryfall "oracle cards" (uma por carta; cache/oracle.jsonl.gz); nomes em português:
+impressões em português do "all cards" (cache/pt.jsonl, ver tools/atributos.py).
 
-Uso: python3 tools/pauper_normalizar.py [--cache /tmp/atributos-cache]
+Uso: python3 tools/pauper_normalizar.py [--cache /home/claude/cache_scryfall]
 """
-import argparse, collections, csv, gzip, json, os, re, sys, time, unicodedata
+import argparse, collections, csv, gzip, html, json, os, re, sys, time, unicodedata
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from atributos import baixar_default, pt_do_all_cards, tipo_de, colapsar, faces_de  # noqa: E402
+from atributos import uri_bulk, UA, pt_do_all_cards, tipo_de, colapsar, faces_de  # noqa: E402
+import shutil, subprocess
 
 RAIZ = os.environ.get("PRECONS_RAIZ") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # "qtd Nome", aceitando também o formato com edição do MTGGoldfish ("qtd Nome <variante> [SET] (F)"), que é ignorada
@@ -73,75 +77,95 @@ def cores_do_deck(cs):
     return "".join(x for x in WUBRG if x in ci) or "C"
 
 
+def baixar_oracle(cache):
+    dest = os.path.join(cache, "oracle.jsonl.gz")
+    if not os.path.exists(dest):
+        subprocess.check_call(["curl", "-sS", "-m", "580", "-H", "User-Agent: " + UA, "-o", dest, uri_bulk("oracle_cards")])
+    return dest
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--cache", default="/tmp/atributos-cache")
+    ap.add_argument("--cache", default=os.path.join(RAIZ, "cache_scryfall"))
     a = ap.parse_args()
     os.makedirs(a.cache, exist_ok=True)
     raw = os.path.join(RAIZ, "raw_pauper")
     saida = os.path.join(RAIZ, "pauper")
-    os.makedirs(os.path.join(saida, "listas"), exist_ok=True)
-    meta = json.load(open(os.path.join(raw, "metagame.json"), encoding="utf-8"))
+    os.makedirs(saida, exist_ok=True)
+    if os.path.exists(os.path.join(raw, "metagame.json")):
+        shutil.copy(os.path.join(raw, "metagame.json"), os.path.join(saida, "metagame.json"))
+    meta = json.load(open(os.path.join(saida, "metagame.json"), encoding="utf-8"))
 
-    # uma carta por nome (oracle); entre as impressões, a mais recente que não é de coleção "funny" (Un-sets)
     por_nome, por_oracle = {}, {}
-    for l in gzip.open(baixar_default(a.cache), "rt", encoding="utf-8"):
+    for l in gzip.open(baixar_oracle(a.cache), "rt", encoding="utf-8"):
+        l = l.strip().rstrip(",")
+        if not l.startswith("{"):
+            continue
         c = json.loads(l)
-        if c.get("lang", "en") != "en" or c.get("layout") in ("token", "double_faced_token", "art_series", "emblem"):
+        if c.get("layout") in ("token", "double_faced_token", "art_series", "emblem"):
             continue
         oid = c.get("oracle_id") or faces_de(c)[0].get("oracle_id")
-        ant = por_oracle.get(oid)
-        if not ant or (ant.get("set_type") == "funny" and c.get("set_type") != "funny") or \
-                ((ant.get("set_type") == "funny") == (c.get("set_type") == "funny") and c.get("released_at", "") > ant.get("released_at", "")):
-            por_oracle[oid] = c
-    for c in por_oracle.values():
-        for n in {c["name"]} | {f["name"] for f in c.get("card_faces", [])}:
-            por_nome.setdefault(chave_nome(n), c)
+        por_oracle[oid] = c
+    # Nome completo primeiro, depois o nome de cada face: "Seething Song" é a carta comum, não a face de "Blazing Firesinger // Seething Song".
+    # Nome repetido: a carta "séria" ganha das coleções "funny".
+    ordem = sorted(por_oracle.values(), key=lambda c: c.get("set_type") == "funny")
+    for c in ordem:
+        por_nome.setdefault(chave_nome(c["name"]), c)
+    for c in ordem:
+        for f in c.get("card_faces", []):
+            por_nome.setdefault(chave_nome(f["name"]), c)
 
-    erros, cartas = [], {}
+    avisos, cartas, saidas = [], {}, []
     for arq in meta["arquetipos"]:
-        slug = arq["slug"]
-        texto = open(os.path.join(raw, slug + ".txt"), encoding="utf-8").read().strip()
-        blocos = re.split(r"\n\s*\n", texto)
-        if len(blocos) > 2:
-            erros.append(f"{slug}: mais de duas seções"); continue
-        secoes = []
-        for b in blocos:
-            linhas = collections.Counter()
-            for l in b.split("\n"):
-                m = LINHA.match(l.strip())
-                if not m:
-                    erros.append(f"{slug}: linha não reconhecida: {l!r}"); continue
-                q, nome = int(m.group(1)), m.group(2)
-                c = por_nome.get(chave_nome(nome))
-                if not c:
-                    erros.append(f"{slug}: {nome} não existe no Scryfall"); continue
-                nm = colapsar(c["name"])
-                if c["legalities"].get("pauper") != "legal":
-                    erros.append(f"{slug}: {nm} não é legal no Pauper ({c['legalities'].get('pauper')})")
-                linhas[nm] += q
+        for x in json.load(open(os.path.join(raw, "indice", arq["slug"] + ".json"), encoding="utf-8")):
+            f = os.path.join(raw, "todas", x["id"] + ".txt")
+            if not os.path.exists(f):
+                avisos.append(f"{x['id']} ({arq['nome']}): lista não baixada"); continue
+            texto = open(f, encoding="utf-8").read().replace("\r", "").strip()
+            blocos = re.split(r"\n\s*\n", texto)
+            erro, secoes, novas = None, [], {}
+            for b in blocos[:2]:
+                linhas = collections.Counter()
+                for l in b.split("\n"):
+                    m = LINHA.match(l.strip())
+                    if not m:
+                        erro = f"linha não reconhecida: {l!r}"; break
+                    q, nome = int(m.group(1)), m.group(2)
+                    c = por_nome.get(chave_nome(nome)) or por_nome.get(chave_nome(nome.split(" // ")[0])) or por_nome.get(chave_nome(nome.split("/")[0].strip()))
+                    if not c:
+                        erro = f"{nome} não existe no Scryfall"; break
+                    nm = colapsar(c["name"])
+                    if c["legalities"].get("pauper") != "legal":
+                        erro = f"{nm} não é legal no Pauper ({c['legalities'].get('pauper')})"; break
+                    linhas[nm] += q
+                    novas[nm] = c
+                secoes.append(linhas)
+                if erro:
+                    break
+            if not erro and len(blocos) > 2:
+                erro = "mais de duas seções"
+            if not erro:
+                principal, side = secoes[0], (secoes[1] if len(secoes) > 1 else collections.Counter())
+                n_main, n_side = sum(principal.values()), sum(side.values())
+                if n_main < 60: erro = f"deck principal com {n_main} cartas"
+                elif n_side > 15: erro = f"sideboard com {n_side} cartas"
+                else:
+                    for nm, q in (principal + side).items():
+                        if q > 4 and not livre(novas[nm]):
+                            erro = f"{q} cópias de {nm}"; break
+            if erro:
+                avisos.append(f"{x['id']} ({arq['nome']}): {erro}"); continue
+            for nm, c in novas.items():
                 if nm not in cartas:
-                    cartas[nm] = {"c": c, "cores": cores_da_carta(c), "tipo": tipo_de(c),
-                                  "oid": c.get("oracle_id") or faces_de(c)[0].get("oracle_id")}
-            secoes.append(linhas)
-        principal, side = secoes[0], (secoes[1] if len(secoes) > 1 else collections.Counter())
-        n_main, n_side = sum(principal.values()), sum(side.values())
-        if n_main < 60:
-            erros.append(f"{slug}: deck principal com {n_main} cartas")
-        if n_side > 15:
-            erros.append(f"{slug}: sideboard com {n_side} cartas")
-        for nm, q in (principal + side).items():
-            c = cartas[nm]["c"]
-            if q > 4 and not livre(c):
-                erros.append(f"{slug}: {q} cópias de {nm}")
-        arq["ci"] = cores_do_deck([cartas[nm]["c"] for nm in principal])
-        arq["n_main"], arq["n_side"] = n_main, n_side
-        fmt = lambda sec: "\n".join(f"{q} {nm}" for nm, q in sorted(sec.items(), key=lambda kv: kv[0].casefold()))
-        open(os.path.join(saida, "listas", slug + ".txt"), "w", encoding="utf-8").write(
-            fmt(principal) + ("\n\n" + fmt(side) if side else "") + "\n")
-    if erros:
-        print("\n".join("ERRO " + e for e in erros))
-        sys.exit(1)
+                    cartas[nm] = {"c": c, "cores": cores_da_carta(c), "tipo": tipo_de(c), "oid": c.get("oracle_id") or faces_de(c)[0].get("oracle_id")}
+            fmt = lambda sec: "\n".join(f"{q} {nm}" for nm, q in sorted(sec.items(), key=lambda kv: kv[0].casefold()))
+            un = html.unescape  # a tabela do MTGGoldfish vem com entidades HTML (ex. "&#39;")
+            saidas.append({"id": x["id"], "arquetipo": arq["nome"], "data": x["data"], "nome": un(x["nome"]), "jogador": un(x["jogador"]),
+                           "evento": un(x["evento"]), "lugar": un(x["lugar"]), "origem": x["origem"],
+                           "ci": cores_do_deck([novas[nm] for nm in principal]),
+                           "lista": fmt(principal) + ("\n\n" + fmt(side) if side else "")})
+    for v in avisos:
+        print("AVISO", v)
 
     # banidas no Pauper (uma por carta)
     banidas = {}
@@ -176,10 +200,15 @@ def main():
         w = csv.writer(f, lineterminator="\n"); w.writerow(["carta", "tipo", "nome_pt", "grupo"])
         for n in sorted(banidas, key=str.casefold):
             w.writerow([n, banidas[n]["tipo"], pt.get(n, ""), banidas[n]["grupo"]])
-    meta["scryfall_em"] = time.strftime("%Y-%m-%d")
+    saidas.sort(key=lambda x: int(x["id"]))
+    pacote = {"raspado_em": meta["raspado_em"], "dias": 30, "scryfall_em": time.strftime("%Y-%m-%d"), "listas": saidas}
+    with open(os.path.join(saida, "listas.json.gz"), "wb") as f:  # mtime=0: o mesmo conteúdo gera sempre o mesmo arquivo
+        with gzip.GzipFile(filename="", mode="wb", fileobj=f, mtime=0) as g:
+            g.write(json.dumps(pacote, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
+    meta["scryfall_em"] = pacote["scryfall_em"]
     json.dump(meta, open(os.path.join(saida, "metagame.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     gb = collections.Counter(d["grupo"] for d in banidas.values())
-    print(f"{len(meta['arquetipos'])} listas normalizadas; {len(cartas)} cartas ({len([n for n in cartas if pt.get(n)])} com nome em português); "
+    print(f"{len(saidas)} listas normalizadas ({len(avisos)} de fora); {len(cartas)} cartas ({len([n for n in cartas if pt.get(n)])} com nome em português); "
           f"{len(banidas)} banidas ({gb['unf']} do Unfinity, {gb['conspiracy']} Conspiracy)")
 
 

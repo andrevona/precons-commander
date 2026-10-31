@@ -249,6 +249,20 @@
   .jog.vazio { border-style:dashed; background:var(--card) !important; }
   .jog.vazio .dnome { color:var(--acc); }
   .duelo-falta { margin-top:12px; color:var(--mut); font-size:14px; text-align:center; }
+  /* Variações e listas (reorganização por arquétipos, 31/10/2026) */
+  #colecoes .tab .simbolos { margin-left:6px; vertical-align:-3px; }
+  #colecoes .tab .simbolos img { width:15px; height:15px; }
+  #decks .carregando { align-self:center; color:var(--mut); font-size:13px; padding:4px 2px; }
+  #decks .mais-listas { border-style:dashed; color:var(--acc); }
+  #notaDeck { font-size:12.5px; }
+  .escolha-lista .lin { display:flex; align-items:center; gap:4px; }
+  .escolha-lista .lin > button:first-child { flex:1 1 auto; min-width:0; }
+  .escolha-lista button.exp { flex:none; width:auto; font-size:12px; color:var(--acc); border:1px solid var(--line); border-radius:999px; padding:3px 9px; }
+  .escolha-lista button.exp::after { content:" ▾"; font-size:10px; }
+  .escolha-lista button.exp.on::after { content:" ▴"; }
+  .escolha-lista .sub-listas { list-style:none; margin:0 0 6px 2.2em; padding:0 0 0 8px; border-left:2px solid var(--line); }
+  .escolha-lista .sub-listas button { font-size:13px; padding:6px 8px; }
+  .escolha-lista .sub-listas button.mais { color:var(--acc); }
   #mesa { display:none; }
   body.modo-mesa #mesa { display:block; }
   body.modo-mesa #grupos, body.modo-mesa #caixaBusca, body.modo-mesa #cxCor, body.modo-mesa #cxAno, body.modo-mesa #cxArq, body.modo-mesa .sorte-grupo, body.modo-mesa #contagem,
@@ -377,12 +391,11 @@
   <p class="sub" id="sub" data-t="sub"></p>
 
   <div class="filtros" id="filtros" hidden>
-    <div class="cor-caixa" id="cxCor"><button type="button" class="cor-btn" id="fCor" aria-haspopup="listbox" aria-expanded="false" aria-controls="corMenu"></button><ul class="cor-menu" id="corMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparCor" data-ta="tirarCor" hidden>×</button></div>
-    <span class="sorte-grupo"><button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="8" height="12" rx="1.6"/><rect x="14" y="8" width="8" height="12" rx="1.6"/><path d="M11.5 19.5h-5l1.6-1.6"/><path d="M12.5 4.5h5l-1.6 1.6"/></svg><span data-t="surpresa">Comparar decks</span></button></span>
+        <span class="sorte-grupo"><button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="8" height="12" rx="1.6"/><rect x="14" y="8" width="8" height="12" rx="1.6"/><path d="M11.5 19.5h-5l1.6-1.6"/><path d="M12.5 4.5h5l-1.6 1.6"/></svg><span data-t="surpresa">Comparar decks</span></button></span>
     <button type="button" class="limpar-tudo" id="btnLimparTudo" data-ta="limparTudoDica" hidden><span aria-hidden="true">↺</span> <span data-t="limparTudo">Limpar tudo</span></button>
   </div>
   <div class="busca" id="caixaBusca">
-    <input class="filtro" id="filtro" type="search" placeholder="Carta, deck, comandante ou coleção…" data-tp="busca" autocomplete="off" autocapitalize="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="sugestoes" aria-expanded="false">
+    <input class="filtro" id="filtro" type="search" placeholder="Carta, arquétipo ou variação…" data-tp="busca" autocomplete="off" autocapitalize="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="sugestoes" aria-expanded="false">
     <button type="button" class="limpar" id="limpar" aria-label="Apagar busca" title="Apagar busca" data-ta="apagar" hidden>×</button>
     <ul class="sugestoes" id="sugestoes" role="listbox" hidden></ul>
   </div>
@@ -390,7 +403,7 @@
   <div class="tabs" id="grupos"></div>
   <div id="conteudo" hidden>
   <div id="mesa"></div>
-  <div class="sec sec-col" id="secCol"><span data-t="grupoCores">Cores</span></div>
+  <div class="sec sec-col" id="secCol"><span data-t="grupoCores">Variações</span></div>
   <div class="tabs" id="colecoes"></div>
   <hr class="div">
   <div class="sec" id="secDecks" data-t="decks">Decks</div>
@@ -439,53 +452,63 @@
 <div class="aviso" id="aviso" role="status" hidden></div>
 
 <script>
-// Dados embutidos (gerados por build_pauper.py): um "grupo" por número de cores (mono, duas, tres), cada um com os seus decks
-// em ordem de participação no metagame. Cada deck: nome, lista (principal, linha em branco, "Sideboard" e o sideboard),
-// ci (cores), pct e nmeta (participação e nº de decks no metagame), jogador, res (resultado), evento e data da lista.
+// Dados embutidos (gerados por build_pauper.py; reorganização por famílias e variações em 31/10/2026). Uma "coleção" por variação
+// de arquétipo (e uma "Outras" por família, com as listas que não formam variação), em ordem de família e de nº de listas;
+// grupo = família (arquétipo). decks = [lista de consenso da variação]; as listas reais de cada família ficam em fam/<família>.json
+// e entram em col.decks quando a família é aberta (carregarFamilia). Deck: nome, arquivo (id do link), lista (principal, linha em
+// branco, "Sideboard" e o sideboard), ci (cores), tp (tipos), st (números do comparativo); consenso: n, mtgo, papel, bons,
+// primeiros, side ([carta, % das listas]); lista real: real, jogador, evento, lugar, data, origem (mtgo/papel), apelido.
 var COLECOES = __DATA__;
-var META = __META__; // { data, min, cob, banidas_em } (ver build_pauper.py)
+var FAMILIAS = __FAMILIAS__; // [{nome, slug, n, mtgo, papel, pct}], em ordem de nº de listas
+var META = __META__; // { data, dias, total, mtgo, papel, nfam, nvar, banidas_em } (ver build_pauper.py)
 var BANIDAS = __BANIDAS__; // [[nome, nome em português ou "", grupo ("unf" = Unfinity com adesivo/atração, "conspiracy" ou "")], ...]
-var CONFRONTOS = __CONFRONTOS__; // histórico de confrontos entre arquétipos (ver build_pauper.py), ou null
-(function () {
-  var todos = [];
-  COLECOES.forEach(function (c) { todos = todos.concat(c.decks); });
-  todos.sort(function (a, b) { return b.nmeta - a.nmeta || (a.nome < b.nome ? -1 : 1); });
-  todos.forEach(function (d, i) { d.pos = i + 1; }); // posição no ranking do metagame
-  COLECOES.unshift({ id: "top", nome: "top", ano: "", grupo: "top", icone: "", decks: todos });
-})();
-function decksUnicos() { return COLECOES[0].decks; } // "Mais jogados" tem todos os decks, uma vez cada
+var CONFRONTOS = __CONFRONTOS__; // histórico de confrontos do DeckSnipe somado por família ("famA|famB": [vitórias de A, de B, empates]), ou null
+var COL_POR_ID = {}, FAM = {};
+FAMILIAS.forEach(function (f) { FAM[f.slug] = f; FAM[f.nome] = f; });
+function prepararDeck(d, col) { // lista de "Outras": % da família inteira e sem posição
+  d._col = col; d._di = col.decks.indexOf(d); d.pct = col.outras ? FAM[col.fam].pct : col.pct; d.pos = col.outras ? 0 : col.pos; d.fam = col.fam; d.comandante = "";
+}
+COLECOES.forEach(function (c) { COL_POR_ID[c.id] = c; c.decks.forEach(function (d) { prepararDeck(d, c); }); });
+var CONSENSOS = COLECOES.filter(function (c) { return !c.outras; }).map(function (c) { return c.decks[0]; }).sort(function (a, b) { return a.pos - b.pos; });
+function decksUnicos() { return CONSENSOS; } // um por variação (o consenso), da mais jogada para a menos
 var TIPOS = __TIPOS__; // tipos das cartas (en/pt); deck.tp tem uma letra por carta da lista, na ordem, apontando para cá (ver build.py)
-var ATUALIZADO = META.data; // data (AAAA-MM-DD) em que o metagame foi raspado do MTGGoldfish
+var ATUALIZADO = META.data; // data (AAAA-MM-DD) em que as listas foram baixadas do MTGGoldfish
 
 // Idioma da interface: o do sistema/navegador (pt ou en); outros idiomas usam inglês.
 // Nomes de decks, cartas, coleções e grupos ficam sempre em inglês.
 var TXT = {
   pt: {
     titulo: 'Decks de Pauper',
-    sub: 'Os arquétipos mais jogados no Pauper (MTGO, últimos 30 dias), com uma lista real de cada um. Veja o ranking, navegue por cores, use o filtro ou a busca (em português ou inglês), ou compare dois decks.',
-    busca: 'Carta ou deck…', apagar: 'Apagar busca', grupoCores: 'Lista',
-    grupos: { top: 'Mais jogados', mono: 'Uma cor', duas: 'Duas cores', tres: 'Três ou mais' },
+    sub: 'Os arquétipos do Pauper nos últimos 30 dias, do mais jogado ao menos, cada um com as suas variações. Em cada variação, a lista de consenso e as listas reais de torneios (MTGO e papel), das melhores colocações para as piores. Use a busca (em português ou inglês) ou compare dois decks.',
+    busca: 'Carta, arquétipo ou variação…', apagar: 'Apagar busca', grupoCores: 'Variações',
+    outrasVar: 'Outras', consenso: 'Consenso', nListas: '{n} listas', nLista: '1 lista', mostrarMais: 'Mostrar mais ({n})',
+    carregando: 'Carregando as listas…', falhaCarregar: 'Não consegui carregar as listas agora. Toque no arquétipo para tentar de novo.',
+    infoCons: 'Consenso de {n} listas ({m} MTGO, {p} papel) · {pc} das listas · {b} com bom resultado',
+    consDica: 'Lista de consenso: cada carta na quantidade média das listas desta variação (as maiores médias até completar 60 + 15). Ninguém jogou exatamente assim, mas mostra o que quase todos usam.',
+    infoReal: 'Lista de {j}{r} · {e} · {d} · {o}', mtgo: 'MTGO', papel: 'papel', apelido: 'Nome dado pelo jogador: {n}',
+    sideTipico: 'Sideboard típico (% das listas da variação que levam a carta): {l}.', listaDe: 'Lista de {j}{r}', escolhaListas: 'Listas',
+    confrNivel: 'Números do arquétipo inteiro ({a} x {b}, todas as variações), segundo o DeckSnipe.', outrasDe: '{f} (outras)',
     ban_unf: '{n} cartas do Unfinity com adesivos ou atrações', ban_conspiracy: '{n} cartas do tipo Conspiracy:',
-    surpresa: 'Comparar decks', surpresaDica: 'Escolha dois decks e compare o confronto (limpa a busca e o filtro)',
+    surpresa: 'Comparar decks', surpresaDica: 'Escolha dois decks (variação ou lista) e compare o confronto (limpa a busca)',
     duelo: 'Comparar decks', jogador: 'Deck {n}', verLista: 'Ver lista', esconderLista: 'Ocultar lista',
     trocarDeck: 'Trocar o {n}', semOutro: 'Não há outro deck disponível para sortear.',
-    escolher: 'Escolher deck…', tocarEscolher: 'Toque para escolher', escolhaTit: 'Escolher o {n}', escolhaBusca: 'Buscar deck…',
+    escolher: 'Escolher deck…', tocarEscolher: 'Toque para escolher', escolhaTit: 'Escolher o {n}', escolhaBusca: 'Buscar arquétipo ou variação…',
     sortearUm: 'Sortear', escolhaNenhum: 'Nenhum deck com esse nome.', tambemNoOutro: 'É também o {n} (duelo espelhado)',
-    espelho: 'Duelo espelhado: o histórico de confrontos não traz partidas de um arquétipo contra ele mesmo.',
+    espelho: 'Mesmo arquétipo dos dois lados: o histórico de confrontos não traz partidas de um arquétipo contra ele mesmo.',
     faltaDeck: 'Escolha os dois decks para ver o histórico do confronto, o comparativo e a chance de encontro.',
     mesaToque: 'Escolha o deck 1 e o deck 2. Depois, toque num deck para ver a lista e criar no endstep.cc.',
     compSorteio: 'Compartilhar o confronto', linkSorteio: 'Link do confronto copiado ✓', copieSorteio: 'Copie o link do confronto:',
-    posicao: '{p} do metagame · {k}º mais jogado',
+    posicao: '{p} das listas · {k}ª variação mais jogada',
     hConfronto: 'Histórico do confronto', hComparativo: 'Comparativo', hEncontro: 'Chance de encontro',
     confr: '{a} venceu {v} de {n} partidas contra {b} ({e} empates).', confr0: '{a} venceu {v} de {n} partidas contra {b}.',
     confrFonte: 'Fonte: {f}, {p}. Com menos de 20 partidas o número é pouco confiável.',
     semConfr: 'Não há dados suficientes deste confronto.', semConfrFonte: 'O histórico de confrontos ainda não foi carregado nesta página.',
-    encontro: '{b} é {p}% do metagame: num torneio do MTGO, quem joga {a} enfrenta {b} em cerca de 1 a cada {k} partidas.',
-    rodExtra: '<b>Mais jogados</b> lista todos os decks em ordem de participação no metagame. <b>Comparar decks</b> deixa você escolher o deck 1 e o deck 2 (ou sortear um deles; pode ser o mesmo deck dos dois lados) e mostra o histórico do confronto entre os arquétipos (DeckSnipe, papel e MTGO, só entre os mais jogados), um comparativo dos dois decks e a chance de se encontrarem; o lápis no canto de cada cartão troca só aquele deck, e o link do confronto pode ser compartilhado.',
+    encontro: '{b} é {p}% das listas: num torneio, quem joga {a} enfrenta {b} em cerca de 1 a cada {k} partidas.',
+    rodExtra: 'Os <b>arquétipos</b> estão em ordem de participação (% das listas dos últimos 30 dias, MTGO e papel). Dentro de cada um ficam as <b>variações</b> (agrupadas pelas cores e pelas cartas) e, em cada variação, o <b>Consenso</b> (cada carta na quantidade média, com o sideboard típico e a % de listas que levam cada carta) e as listas reais, das melhores colocações para as piores. <b>Comparar decks</b> deixa você escolher o deck 1 e o deck 2 (uma variação ou uma lista; pode ser o mesmo dos dois lados) e mostra o histórico do confronto entre os arquétipos (DeckSnipe, papel e MTGO, só entre os mais jogados), um comparativo dos dois decks e a chance de se encontrarem; o lápis no canto de cada cartão troca só aquele deck, e o link do confronto pode ser compartilhado.',
     cMeta: 'Metagame', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
     emComum: 'Cartas em comum no deck principal: {l}.', nadaComum: 'Nenhuma carta em comum no deck principal (fora os terrenos básicos).',
-    decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck encontrado', achouN: '{n} decks encontrados',
-    nenhum: 'Nenhum deck encontrado', nenhumTxt: 'Nenhum deck ou carta com esse nome.', nenhumFiltro: 'Nenhum deck com esses filtros.',
+    decks: 'Listas', deck1: 'lista', deckN: 'listas', achou1: '1 variação encontrada', achouN: '{n} variações encontradas',
+    nenhum: 'Nenhuma variação encontrada', nenhumTxt: 'Nenhuma variação ou carta com esse nome (a busca olha as listas de consenso).', nenhumFiltro: 'Nenhum deck com esses filtros.',
     contagem: '{m} cartas + {s} no sideboard', avisoContagem: ' (atenção: o esperado era 60 + até 15)', encontrado: 'encontrado',
     infoDeck: '{p}% do metagame ({n} decks) · lista de {j}{r}, {d}', infoRes: ' ({r})',
     outras: 'Mostrar os outros grupos', compartilhar: 'Compartilhar o link do deck', criar: 'Criar no endstep.cc',
@@ -497,47 +520,53 @@ var TXT = {
     passo1: 'Toque em <b>Paste a list</b>.', passo2: 'Cole a lista (<span id="guiaColar"></span>).',
     passo3: 'Toque em <b>Apply</b>: o nome, as 60 cartas e o sideboard entram sozinhos.', passo4: 'Se o endstep.cc pedir, em <b>Set format</b> escolha <b>Pauper</b>.',
     colarToque: 'toque longo › Colar', naoMostrar: 'Não mostrar de novo', fechar: 'Fechar', abrir: 'Abrir endstep.cc',
-    rodape: '{nd} arquétipos com pelo menos {min} decks, {cob}% do metagame do MTGO nos últimos 30 dias, segundo o {goldfish} em {data} · {sobre}',
+    rodape: '{nl} listas de torneios dos últimos {dias} dias ({nm} do MTGO e {np} de papel), em {nf} arquétipos e {nv} variações, segundo o {goldfish} em {data} · {sobre}',
     rodIntro: 'Um facilitador para quem joga no {endstep} (projeto não oficial). Siga estes passos em ordem:', dicaUso: 'Dica de uso',
     rodPassos: ['Escolha o deck e toque em <b>Criar no endstep.cc</b>: a lista é copiada e o {endstep} abre com um deck novo (é preciso estar logado lá).',
       'No deck novo, toque em <b>Paste a list</b>.',
       'Cole a lista inteira ({colar}) e toque em <b>Apply</b>: o nome do deck*, as 60 cartas e o sideboard entram sozinhos.',
       'Se o endstep.cc pedir, em <b>Set format</b> escolha <b>Pauper</b>.'],
-    rodNota: '* O nome do deck vem no formato <i>Arquétipo - Pauper (ano-mês)</i>, com o mês do metagame. Exemplo: <i>Dimir Faeries - Pauper (2026-10)</i>. Cada lista é a de um jogador num torneio; outras versões do mesmo arquétipo podem variar algumas cartas.',
+    rodNota: '* O nome do deck vem no formato <i>Variação - Pauper (ano-mês)</i>, com o mês das listas. Exemplo: <i>Temur Tron - Pauper (2026-10)</i>; numa lista real, com o jogador: <i>Temur Tron - Fulano - Pauper (2026-10)</i>. O consenso é a média das listas da variação: ninguém jogou exatamente assim, mas mostra o que quase todos usam.',
     banidas: 'Cartas banidas ({n})', banNota: 'Banidas no Pauper segundo o {scryfall} em {data}. Entre parênteses, o nome em português, quando existe.',
     sobre: 'sobre o projeto',
     problemas: 'Encontrou um problema ou tem uma sugestão? Avise por {email} ou abra uma {github}.', lkEmail: 'e-mail', lkGithub: 'issue no GitHub',
-    tCol: 'grupo', tDeck: 'deck', tCmd: 'deck', tCarta: 'carta',
+    tCol: 'variação', tDeck: 'variação', tCmd: 'deck', tCarta: 'carta',
     filtroCor: 'Filtrar os decks pelas cores que usam', todasCores: 'Por cor', tirarCor: 'Tirar o filtro de cores',
     cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'WUBRG',
-    limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e o filtro e recolhe tudo'
+    limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e recolhe tudo'
   },
   en: {
     titulo: 'Pauper decks',
-    sub: 'The most played Pauper archetypes (MTGO, last 30 days), with a real list of each. See the ranking, browse by colors, use the filter or the search (in Portuguese or English), or compare two decks.',
-    busca: 'Card or deck…', apagar: 'Clear search', grupoCores: 'List',
-    grupos: { top: 'Most played', mono: 'One color', duas: 'Two colors', tres: 'Three or more' },
+    sub: 'The Pauper archetypes of the last 30 days, from most to least played, each with its variations. In each variation, the consensus list and the real tournament lists (MTGO and paper), from the best finishes down. Use the search (in Portuguese or English) or compare two decks.',
+    busca: 'Card, archetype or variation…', apagar: 'Clear search', grupoCores: 'Variations',
+    outrasVar: 'Others', consenso: 'Consensus', nListas: '{n} lists', nLista: '1 list', mostrarMais: 'Show more ({n})',
+    carregando: 'Loading the lists…', falhaCarregar: 'Could not load the lists now. Tap the archetype to try again.',
+    infoCons: 'Consensus of {n} lists ({m} MTGO, {p} paper) · {pc} of the lists · {b} with a good finish',
+    consDica: 'Consensus list: each card in the average quantity of this variation\'s lists (the highest averages up to 60 + 15). Nobody played exactly this, but it shows what almost everyone uses.',
+    infoReal: 'List by {j}{r} · {e} · {d} · {o}', mtgo: 'MTGO', papel: 'paper', apelido: 'Name given by the player: {n}',
+    sideTipico: 'Typical sideboard (% of the variation\'s lists that run the card): {l}.', listaDe: 'List by {j}{r}', escolhaListas: 'Lists',
+    confrNivel: 'Numbers for the whole archetype ({a} vs {b}, all variations), according to DeckSnipe.', outrasDe: '{f} (others)',
     ban_unf: '{n} Unfinity cards with stickers or attractions', ban_conspiracy: '{n} Conspiracy cards:',
-    surpresa: 'Compare decks', surpresaDica: 'Pick two decks and compare the matchup (clears the search and the filter)',
+    surpresa: 'Compare decks', surpresaDica: 'Pick two decks (variation or list) and compare the matchup (clears the search)',
     duelo: 'Compare decks', jogador: 'Deck {n}', verLista: 'View list', esconderLista: 'Hide list',
     trocarDeck: 'Change {n}', semOutro: 'There is no other deck available to draw.',
-    escolher: 'Pick a deck…', tocarEscolher: 'Tap to pick', escolhaTit: 'Pick {n}', escolhaBusca: 'Search decks…',
+    escolher: 'Pick a deck…', tocarEscolher: 'Tap to pick', escolhaTit: 'Pick {n}', escolhaBusca: 'Search archetype or variation…',
     sortearUm: 'Random', escolhaNenhum: 'No deck with that name.', tambemNoOutro: 'Also {n} (mirror match)',
-    espelho: 'Mirror match: the matchup history has no games of an archetype against itself.',
+    espelho: 'Same archetype on both sides: the matchup history has no games of an archetype against itself.',
     faltaDeck: 'Pick both decks to see the matchup history, the comparison and the odds of meeting.',
     mesaToque: 'Pick deck 1 and deck 2. Then tap a deck to see the list and create it on endstep.cc.',
     compSorteio: 'Share the matchup', linkSorteio: 'Matchup link copied ✓', copieSorteio: 'Copy the matchup link:',
-    posicao: '{p} of the metagame · #{k} most played',
+    posicao: '{p} of the lists · #{k} most played variation',
     hConfronto: 'Matchup history', hComparativo: 'Comparison', hEncontro: 'Odds of meeting',
     confr: '{a} won {v} of {n} matches against {b} ({e} draws).', confr0: '{a} won {v} of {n} matches against {b}.',
     confrFonte: 'Source: {f}, {p}. With fewer than 20 matches the number is not very reliable.',
     semConfr: 'There is not enough data on this matchup.', semConfrFonte: 'The matchup history has not been loaded on this page yet.',
-    encontro: '{b} is {p}% of the metagame: in an MTGO tournament, a {a} player faces {b} in about 1 of every {k} matches.',
-    rodExtra: '<b>Most played</b> lists every deck by metagame share. <b>Compare decks</b> lets you pick deck 1 and deck 2 (or draw one of them; the same deck can be on both sides) and shows the matchup history between the archetypes (DeckSnipe, paper and MTGO, only among the most played), a comparison of both decks and the odds of meeting; the pencil in the corner of each card changes only that deck, and the matchup link can be shared.',
+    encontro: '{b} is {p}% of the lists: in a tournament, a {a} player faces {b} in about 1 of every {k} matches.',
+    rodExtra: 'The <b>archetypes</b> are sorted by share (% of the lists of the last 30 days, MTGO and paper). Inside each one are its <b>variations</b> (grouped by colors and cards) and, in each variation, the <b>Consensus</b> (each card in the average quantity, with the typical sideboard and the % of lists that run each card) and the real lists, from the best finishes down. <b>Compare decks</b> lets you pick deck 1 and deck 2 (a variation or a list; it can be the same on both sides) and shows the matchup history between the archetypes (DeckSnipe, paper and MTGO, only among the most played), a comparison of both decks and the odds of meeting; the pencil in the corner of each card changes only that deck, and the matchup link can be shared.',
     cMeta: 'Metagame', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
     emComum: 'Cards in common in the main deck: {l}.', nadaComum: 'No cards in common in the main deck (besides basic lands).',
-    decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck found', achouN: '{n} decks found',
-    nenhum: 'No deck found', nenhumTxt: 'No deck or card with that name.', nenhumFiltro: 'No deck matches these filters.',
+    decks: 'Lists', deck1: 'list', deckN: 'lists', achou1: '1 variation found', achouN: '{n} variations found',
+    nenhum: 'No variation found', nenhumTxt: 'No variation or card with that name (the search looks at the consensus lists).', nenhumFiltro: 'No deck matches these filters.',
     contagem: '{m} cards + {s} in the sideboard', avisoContagem: ' (warning: 60 + up to 15 expected)', encontrado: 'found',
     infoDeck: '{p}% of the metagame ({n} decks) · list by {j}{r}, {d}', infoRes: ' ({r})',
     outras: 'Show the other groups', compartilhar: 'Share the deck link', criar: 'Create on endstep.cc',
@@ -549,20 +578,20 @@ var TXT = {
     passo1: 'Tap <b>Paste a list</b>.', passo2: 'Paste the list (<span id="guiaColar"></span>).',
     passo3: 'Tap <b>Apply</b>: the name, the 60 cards and the sideboard come in on their own.', passo4: 'If endstep.cc asks, choose <b>Pauper</b> in <b>Set format</b>.',
     colarToque: 'long-press › Paste', naoMostrar: "Don't show again", fechar: 'Close', abrir: 'Open endstep.cc',
-    rodape: '{nd} archetypes with at least {min} decks, {cob}% of the MTGO metagame in the last 30 days, according to {goldfish} on {data} · {sobre}',
+    rodape: '{nl} tournament lists from the last {dias} days ({nm} MTGO and {np} paper), in {nf} archetypes and {nv} variations, according to {goldfish} on {data} · {sobre}',
     rodIntro: 'A helper for {endstep} players (unofficial project). Follow these steps in order:', dicaUso: 'Usage tip',
     rodPassos: ['Pick a deck and tap <b>Create on endstep.cc</b>: the list is copied and {endstep} opens with a new deck (you need to be logged in there).',
       'On the new deck, tap <b>Paste a list</b>.',
       'Paste the whole list ({colar}) and tap <b>Apply</b>: the deck name*, the 60 cards and the sideboard come in on their own.',
       'If endstep.cc asks, choose <b>Pauper</b> in <b>Set format</b>.'],
-    rodNota: '* The deck name comes in the format <i>Archetype - Pauper (year-month)</i>, with the month of the metagame. Example: <i>Dimir Faeries - Pauper (2026-10)</i>. Each list is one player\'s list from a tournament; other versions of the same archetype may differ in a few cards.',
+    rodNota: '* The deck name comes in the format <i>Variation - Pauper (year-month)</i>, with the month of the lists. Example: <i>Temur Tron - Pauper (2026-10)</i>; for a real list, with the player: <i>Temur Tron - Someone - Pauper (2026-10)</i>. The consensus is the average of the variation\'s lists: nobody played exactly this, but it shows what almost everyone uses.',
     banidas: 'Banned cards ({n})', banNota: 'Banned in Pauper according to {scryfall} on {data}. In parentheses, the Portuguese name, when there is one.',
     sobre: 'about the project',
     problemas: 'Found a problem or have a suggestion? Let me know by {email} or open an {github}.', lkEmail: 'email', lkGithub: 'issue on GitHub',
-    tCol: 'group', tDeck: 'deck', tCmd: 'deck', tCarta: 'card',
+    tCol: 'variation', tDeck: 'variation', tCmd: 'deck', tCarta: 'card',
     filtroCor: 'Filter decks by the colors they use', todasCores: 'By color', tirarCor: 'Clear the color filter',
     cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'WUBRG',
-    limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and the filter and collapses everything'
+    limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and collapses everything'
   }
 };
 var IDIOMA = (function () {
@@ -582,7 +611,6 @@ function aplicarIdioma() {
   [].forEach.call(document.querySelectorAll("[data-t]"), function (e) { e.innerHTML = t(e.getAttribute("data-t")); });
   [].forEach.call(document.querySelectorAll("[data-tp]"), function (e) { e.placeholder = t(e.getAttribute("data-tp")); });
   [].forEach.call(document.querySelectorAll("[data-ta]"), function (e) { var v = t(e.getAttribute("data-ta")); e.setAttribute("aria-label", v); e.title = v; });
-  var nd = decksUnicos().length;
   var p = ATUALIZADO.split("-"), data = ATUALIZADO;
   var nl = navigator.language || "", loc = nl.slice(0, 2).toLowerCase() === IDIOMA ? nl : { pt: "pt-BR", en: "en-US" }[IDIOMA];
   try { data = new Intl.DateTimeFormat(loc, { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(+p[0], p[1] - 1, +p[2])); } catch (e) {}
@@ -600,19 +628,19 @@ function aplicarIdioma() {
   });
   var pb = META.banidas_em.split("-"), dataBan = META.banidas_em;
   try { dataBan = new Intl.DateTimeFormat(loc, { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(+pb[0], pb[1] - 1, +pb[2])); } catch (e) {}
-  $("rodape").innerHTML = '<div>' + t("rodape", { nd: nd, min: META.min, cob: String(META.cob).replace(".", IDIOMA === "pt" ? "," : "."), data: data, goldfish: ln.goldfish,
+  $("rodape").innerHTML = '<div>' + t("rodape", { nl: META.total, nm: META.mtgo, np: META.papel, nf: META.nfam, nv: META.nvar, dias: META.dias, data: data, goldfish: ln.goldfish,
     sobre: '<a href="https://github.com/andrevona/precons-commander"' + NA + '>' + t("sobre") + '</a>' }) + '</div>' +
     '<div class="como ban"><details><summary>' + t("banidas", { n: BANIDAS.length }) + '</summary><p class="nota" style="margin:0 0 10px">' + t("banNota", { scryfall: ln.scryfall, data: dataBan }) + '</p><ul>' + ban + '</ul></details></div>' +
     '<div class="como"><details><summary>' + t("dicaUso") + '</summary><p class="intro">' + t("rodIntro", ln) + '</p><ol>' +
     TXT[IDIOMA].rodPassos.map(function (x) { return '<li>' + x.split("{endstep}").join(ln.endstep).split("{colar}").join(atalhoColar()) + '</li>'; }).join("") + '</ol><p class="nota">' + t("rodNota") + '</p><p class="nota">' + t("rodExtra") + '</p><p class="nota">' + problemas + '</p></details></div>';
 }
-COLECOES.forEach(function (c) { c.nome = c.grupo = t("grupos")[c.id]; }); // nome do grupo no idioma da interface
+COLECOES.forEach(function (c) { if (c.outras) c.nome = t("outrasVar"); }); // a variação "Outras" de cada família, no idioma da interface
 function pct(x) { return String(x).replace(".", IDIOMA === "pt" ? "," : ".") + "%"; }
-var GRUPOS = COLECOES.map(function (c) { return c.grupo; });
+var GRUPOS = FAMILIAS.map(function (f) { return f.nome; }); // grupos = famílias (arquétipos), da mais jogada para a menos
 var grpAtual = GRUPOS[0];
 var GRP_ICONE = {};
 var RECOLHEM = []; // nenhum grupo recolhe
-var SEM_COLECAO = GRUPOS; // cada grupo tem uma "coleção" só: lista os decks direto
+var SEM_COLECAO = []; // toda família mostra as suas variações
 
 var colAtual = 0, deckAtual = 0;
 // semSel: com filtro de cor/ano/arquétipo (sem texto na busca) só se mostram as coleções que sobraram, sem nenhuma coleção nem deck
@@ -628,7 +656,31 @@ function contar(texto) {
   return total;
 }
 
-COLECOES.forEach(function (col, ci) { col._i = ci; col.decks.forEach(function (d, di) { d._col = col; d._di = di; }); });
+COLECOES.forEach(function (col, ci) { col._i = ci; col.mostrar = 10; }); // mostrar: quantas listas reais aparecem (10, e "Mostrar mais")
+
+// Listas reais: um arquivo por família (fam/<família>.json: {variação: [listas]}), baixado na primeira vez que a família é aberta.
+var FAM_ESTADO = {}, FAM_CB = {}; // família -> 1 carregando, 2 carregada, -1 falhou (tenta de novo ao tocar na família)
+function carregarFamilia(fam, cb) {
+  if (FAM_ESTADO[fam] === 2) { if (cb) cb(); return; }
+  (FAM_CB[fam] = FAM_CB[fam] || []).push(cb || function () {});
+  if (FAM_ESTADO[fam] === 1 || !window.fetch) return;
+  FAM_ESTADO[fam] = 1;
+  fetch("fam/" + fam + ".json").then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (o) {
+    Object.keys(o).forEach(function (id) {
+      var col = COL_POR_ID[id]; if (!col) return;
+      o[id].forEach(function (d) {
+        if (col.outras) d.nome = d.apelido || col.grupo; // em "Outras", o nome que o jogador deu à lista
+        col.decks.push(d); prepararDeck(d, col);
+      });
+    });
+    FAM_ESTADO[fam] = 2; var cbs = FAM_CB[fam]; FAM_CB[fam] = [];
+    cbs.forEach(function (f) { f(); });
+  }).catch(function () { FAM_ESTADO[fam] = -1; FAM_CB[fam] = []; if (!mesa) desenhar(); });
+}
+function famDoGrupo(g) { return FAM[g] ? FAM[g].slug : ""; }
+// Colocação no torneio: "1st" vira "1º" em português; campanhas ("5-0") ficam como estão.
+function rotLugar(l) { var m = /^(\d+)(st|nd|rd|th)/.exec(l || ""); return m ? (IDIOMA === "pt" ? m[1] + "º" : m[1] + m[2]) : (l || ""); }
+function fmtData(dt) { var pd = dt.split("-"); try { return new Intl.DateTimeFormat(IDIOMA === "pt" ? "pt-BR" : "en-US", { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(+pd[0], pd[1] - 1, +pd[2])); } catch (e) { return dt; } }
 
 var q = "";
 function nomesDe(deck) {
@@ -674,6 +726,7 @@ function analisar(deck) {
   if (deck._hk === chave) return deck._h;
   var r = { ok: true, idx: [], rot: [] };
   if ((corFiltro && deck.ci !== corFiltro) || (anoSel && anoDe(deck) !== anoSel) || (arqSel && (deck.arq || []).indexOf(arqSel) < 0)) r.ok = false;
+  else if (q && deck.real) r.ok = false; // a busca olha só as listas de consenso (decisão do usuário em 31/10/2026)
   else if (q) {
     var col = deck._col;
     if (!deck._nz) deck._nz = [nz(deck.nome)];
@@ -682,7 +735,8 @@ function analisar(deck) {
       if (nzEn(n).indexOf(q) >= 0) { r.idx.push(i); r.rot.push(n); }
       else if (nzPt(n).indexOf(q) >= 0) { r.idx.push(i); r.rot.push(n + " (" + PT[n] + ")"); } // achou pelo nome em português: mostra os dois
     });
-    r.ok = r.idx.length > 0 || deck._nz.some(function (x) { return x.indexOf(q) >= 0; }) || col._nz.indexOf(q) >= 0 || !!(col.ano && col.ano.indexOf(q) >= 0);
+    if (!col._nzg) col._nzg = nz(col.grupo);
+    r.ok = r.idx.length > 0 || deck._nz.some(function (x) { return x.indexOf(q) >= 0; }) || col._nz.indexOf(q) >= 0 || col._nzg.indexOf(q) >= 0;
   }
   deck._hk = chave; deck._h = r;
   return r;
@@ -725,6 +779,15 @@ function aplicarId(id) {
   return ok;
 }
 function idDoEndereco() { try { return decodeURIComponent(location.hash.replace(/^#/, "")); } catch (e) { return ""; } }
+// Link de uma lista real (#<variação>-<id>): se a família ainda não foi carregada, abre a variação e carrega; depois abre a lista.
+function abrirId(id) {
+  if (aplicarId(id)) return true;
+  var m = /^(.+)-(\d+)$/.exec(id || ""), col = m && COL_POR_ID[m[1]];
+  if (!col) return false;
+  semSel = false; grpAtual = col.grupo; colAtual = col._i; deckAtual = 0; aberto = true;
+  carregarFamilia(col.fam, function () { if (aplicarId(id) && !mesa) desenhar(); });
+  return true;
+}
 
 function desenhar() {
   var sb = $("sub"), sm = mesa ? "mesaToque" : "sub"; // na tela do sorteio, o subtítulo vira a dica "Toque num jogador…"
@@ -739,7 +802,7 @@ function desenhar() {
   $("contagem").textContent = buscando() ? (nd === 1 ? t("achou1") : t("achouN", { n: nd })) : "";
   var cont = {};
   COLECOES.forEach(function (col) { var k = col.decks.filter(casa).length; if (k) cont[col.grupo] = (cont[col.grupo] || 0) + k; });
-  var gvis = GRUPOS.filter(function (g) { return cont[g]; });
+  var gvis = GRUPOS.filter(function (g) { return cont[g] || !buscando(); }); // sem busca, todas as famílias (mesmo as só com "Outras", ainda não carregadas)
   // Com o filtro "Decks por cores" ou "Decks por ano" a separação por grupos some: os grupos ficam ocultos e todas as
   // coleções aparecem juntas, em ordem de lançamento (Secret Lair vira um botão de coleção, por último).
   var todas = !!(corFiltro || anoSel || arqSel);
@@ -751,12 +814,13 @@ function desenhar() {
     b.className = "tab" + (ativo ? " on" : "");
     if (GRP_ICONE[g]) { var gi = document.createElement("img"); gi.className = "ic"; gi.alt = ""; gi.src = "../icons/" + GRP_ICONE[g] + ".svg"; gi.onerror = function () { this.style.display = "none"; }; b.appendChild(gi); }
     b.appendChild(document.createTextNode(g));
-    var gn = document.createElement("span"); gn.className = "n"; gn.textContent = cont[g]; b.appendChild(gn);
+    var gn = document.createElement("span"); gn.className = "n"; gn.textContent = pct(FAM[g].pct); b.appendChild(gn); // % das listas
     if (ativo) { var gt = document.createElement("span"); gt.className = "mais"; gt.textContent = "▾"; gt.setAttribute("aria-hidden", "true"); b.appendChild(gt); }
     b.setAttribute("aria-expanded", ativo ? "true" : "false");
     b.onclick = function () {
       if (animando) return;
       if (ativo) { fecharConteudo(); return; }
+      if (FAM_ESTADO[famDoGrupo(g)] === -1) FAM_ESTADO[famDoGrupo(g)] = 0; // falhou antes: tenta de novo
       if (g !== grpAtual) { grpAtual = g; colAtual = -1; deckAtual = 0; recolhido = false; }
       if (aberto) desenhar(); else abrirConteudo();
     };
@@ -775,10 +839,14 @@ function desenhar() {
   var c = $("colecoes"); c.innerHTML = "";
   var d = $("decks"); d.innerHTML = "";
   var s = $("status");
+  var famAt = famDoGrupo(grpAtual);
+  if (aberto && famAt && !FAM_ESTADO[famAt]) carregarFamilia(famAt, function () { if (!mesa) desenhar(); });
   if (!vis.length) {
-    $("titulo").textContent = t("nenhum");
+    var carr = !buscando() && FAM_ESTADO[famAt] !== 2;
+    $("secDecks").hidden = $("decks").hidden = carr; $("painel").hidden = false;
+    $("titulo").textContent = carr ? "" : t("nenhum");
     $("saida").value = "";
-    s.textContent = t(q ? "nenhumTxt" : "nenhumFiltro"); s.className = "status warn"; $("espelho").innerHTML = ""; $("notaDeck").hidden = true;
+    s.textContent = carr ? t(FAM_ESTADO[famAt] === -1 ? "falhaCarregar" : "carregando") : t(q ? "nenhumTxt" : "nenhumFiltro"); s.className = "status warn"; $("espelho").innerHTML = ""; $("notaDeck").hidden = true;
     return;
   }
   if (!sem && vis.indexOf(colAtual) < 0) { colAtual = vis[0]; deckAtual = 0; recolhido = false; }
@@ -796,10 +864,8 @@ function desenhar() {
     var ico = GRP_ICONE[col.grupo] || col.icone;
     if (ico) { var im = document.createElement("img"); im.className = "ic"; im.alt = ""; im.src = "../icons/" + ico + ".svg"; im.onerror = function () { this.style.display = "none"; }; b.appendChild(im); }
     b.appendChild(document.createTextNode(col.nome));
-    var partes = [], nk = col.decks.filter(casa).length;
-    if (col.ano && col.nome.indexOf(col.ano) < 0) partes.push(col.ano);
-    partes.push(nk + " " + (nk === 1 ? t("deck1") : t("deckN")));
-    var y = document.createElement("span"); y.className = "n"; y.textContent = partes.join(" · "); b.appendChild(y);
+    if (col.ci) b.appendChild(simbolos(col.ci));
+    var y = document.createElement("span"); y.className = "n"; y.textContent = col.n === 1 ? t("nLista") : t("nListas", { n: col.n }); b.appendChild(y); // nº de listas da variação
     if (colRec && vis.length > 1) {
       var m = document.createElement("span"); m.className = "mais"; m.textContent = "▾ +" + (vis.length - 1); b.appendChild(m);
       b.title = t("outras");
@@ -813,16 +879,29 @@ function desenhar() {
     };
     c.appendChild(b);
   });
+  // Botões das listas: o Consenso e as listas reais (melhores colocações primeiro), 10 de cada vez com "Mostrar mais".
+  var col0 = sem ? null : COLECOES[colAtual], reais = 0;
+  if (col0 && deckAtual >= col0.mostrar + (col0.outras ? 0 : 1)) col0.mostrar = deckAtual + 1; // o deck aberto por link fica à vista
   decks.forEach(function (deck, i) {
     if (!casa(deck)) return;
+    if (deck.real && ++reais > col0.mostrar) return;
     var b = document.createElement("button");
     b.className = "tab small" + (i === deckAtual ? " on" : "");
-    b.textContent = deck.nome;
-    var pc = document.createElement("span"); pc.className = "n"; pc.textContent = pct(deck.pct); b.appendChild(pc); // participação no metagame
+    if (deck.real) {
+      b.textContent = (deck.lugar ? rotLugar(deck.lugar) + " · " : "") + deck.jogador;
+      b.title = deck.evento + " · " + fmtData(deck.data) + " · " + t(deck.origem);
+    } else { b.textContent = t("consenso"); var nk = document.createElement("span"); nk.className = "n"; nk.textContent = t("nListas", { n: deck.n }); b.appendChild(nk); }
     if (deck.ci) { b.appendChild(simbolos(deck.ci)); contornoCor(b, deck.ci); }
     b.onclick = function () { semSel = false; deckAtual = i; desenhar(); };
     d.appendChild(b);
   });
+  if (col0 && reais > col0.mostrar) {
+    var bm = document.createElement("button"); bm.className = "tab small mais-listas"; bm.textContent = t("mostrarMais", { n: reais - col0.mostrar });
+    bm.onclick = function () { col0.mostrar += 20; desenhar(); };
+    d.appendChild(bm);
+  } else if (col0 && !q && FAM_ESTADO[col0.fam] !== 2) {
+    var bc = document.createElement("span"); bc.className = "carregando"; bc.textContent = t(FAM_ESTADO[col0.fam] === -1 ? "falhaCarregar" : "carregando"); d.appendChild(bc);
+  }
   if (sem) { try { if (location.hash) history.replaceState(null, "", location.pathname + location.search); } catch (e) {} return; }
   var deck = decks[deckAtual];
   if (aberto) guardarSelecao(deck);
@@ -833,17 +912,24 @@ function pintarPainel(deck, prefixo) {
   var s = $("status"), bl = deck.lista.split("\n\n"), m = contar(bl[0]), sd = bl[1] ? contar(bl[1]) : 0, ok = m >= 60 && sd <= 15;
   var ti = $("titulo"), cm = document.createElement("span"); // nome na 1ª linha; participação no metagame e origem da lista embaixo, menor
   ti.textContent = prefixo + deck.nome;
-  var pd = deck.data.split("-"), dt = deck.data;
-  try { dt = new Intl.DateTimeFormat(IDIOMA === "pt" ? "pt-BR" : "en-US", { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(+pd[0], pd[1] - 1, +pd[2])); } catch (e) {}
-  cm.className = "tit-cmd"; cm.textContent = t("infoDeck", { p: String(deck.pct).replace(".", IDIOMA === "pt" ? "," : "."), n: deck.nmeta, j: deck.jogador, r: deck.res ? t("infoRes", { r: deck.res }) : "", d: dt });
-  cm.title = deck.evento; ti.appendChild(cm);
+  cm.className = "tit-cmd";
+  if (deck.real) {
+    cm.textContent = t("infoReal", { j: deck.jogador, r: deck.lugar ? " (" + rotLugar(deck.lugar) + ")" : "", e: deck.evento, d: fmtData(deck.data), o: t(deck.origem) });
+    cm.title = deck.apelido ? t("apelido", { n: deck.apelido }) : "";
+  } else {
+    cm.textContent = t("infoCons", { n: deck.n, m: deck.mtgo, p: deck.papel, pc: pct(deck.pct), b: deck.bons });
+    cm.title = t("consDica");
+  }
+  ti.appendChild(cm);
   $("saida").value = deck.lista;
   destacar(deck);
   s.textContent = t("contagem", { m: m, s: sd }) + (ok ? " ✓" : t("avisoContagem"));
   var ac = analisar(deck).rot;
   if (ac.length) s.textContent += " · " + t("encontrado") + ": " + ac.join(", ");
   s.className = "status " + (ok ? "ok" : "warn");
-  $("notaDeck").hidden = true;
+  var nt = $("notaDeck"); // consenso: o sideboard típico, com a % de listas da variação que levam cada carta
+  nt.hidden = !(deck.side && deck.side.length);
+  if (!nt.hidden) nt.textContent = t("sideTipico", { l: deck.side.map(function (x) { return x[0] + " " + x[1] + "%"; }).join(", ") });
 }
 
 // Animação das coleções: as outras entram por baixo do botão clicado (recolher) e saem de baixo dele (expandir).
@@ -986,10 +1072,10 @@ function indiceSug() {
     if (visto[chave]) return; visto[chave] = 1;
     SUG.push({ t: txt, l: nz(txt), k: k, en: en });
   }
-  COLECOES.forEach(function (c) { add(c.nome, 0); });
-  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { add(d.nome, 1); (d.pt || []).forEach(function (p) { add(p, 1, d.nome); }); }); });
-  COLECOES.forEach(function (c) { c.decks.forEach(function (d) { nomesDe(d).forEach(function (n) { add(n, 3); }); }); });
-  if (PT) COLECOES.forEach(function (c) { c.decks.forEach(function (d) { nomesDe(d).forEach(function (n) { if (PT[n]) add(PT[n], 4, n); }); }); });
+  FAMILIAS.forEach(function (f) { add(f.nome, 0); });
+  CONSENSOS.forEach(function (d) { add(d.nome, 1); });
+  CONSENSOS.forEach(function (d) { nomesDe(d).forEach(function (n) { add(n, 3); }); });
+  if (PT) CONSENSOS.forEach(function (d) { nomesDe(d).forEach(function (n) { if (PT[n]) add(PT[n], 4, n); }); });
   return SUG;
 }
 function sugerir(txt) {
@@ -1236,25 +1322,7 @@ function pintarFiltro(f) {
   }
   f.x.hidden = !v;
 }
-function montarFiltros() {
-  if (!COM_CORES) return;
-  $("filtros").hidden = false;
-  var ordem = "WUBRGC", cis = [], anos = [];
-  COLECOES.forEach(function (c) { c.decks.forEach(function (d) {
-    if (cis.indexOf(d.ci) < 0) cis.push(d.ci);
-    var a = anoDe(d); if (a && anos.indexOf(a) < 0) anos.push(a);
-  }); });
-  cis.sort(function (a, b) {
-    var na = a === "C" ? 1.5 : a.length, nb = b === "C" ? 1.5 : b.length; // incolor logo depois das cores únicas
-    if (na !== nb) return na - nb;
-    for (var i = 0; i < a.length; i++) { var d = ordem.indexOf(a[i]) - ordem.indexOf(b[i]); if (d) return d; }
-    return 0;
-  });
-  anos.sort().reverse(); // mais recentes primeiro
-  criarFiltro("cor", { caixa: "cxCor", btn: "fCor", menu: "corMenu", limpar: "limparCor", valores: cis, vazio: "todasCores", dica: "filtroCor",
-    valorDe: function (d) { return d.ci; }, rotulo: rotuloCor, extra: simbolos, aria: function (c) { return rotuloCor(c) + " (" + c + ")"; },
-    get: function () { return corFiltro; }, set: function (v) { corFiltro = v; } });
-}
+function montarFiltros() { $("filtros").hidden = false; } // sem filtro de cor desde a reorganização por arquétipos (31/10/2026)
 function limparFiltros() { semSel = false; corFiltro = ""; anoSel = ""; arqSel = ""; Object.keys(FILTROS).forEach(function (k) { pintarFiltro(FILTROS[k]); }); }
 // Cores do deck escolhido (identidade do comandante, na ordem WUBRG; incolor = cinza): --brilho = cores puras, usadas na
 // borda e no brilho embaixo; --tinta = as mesmas cores misturadas com o fundo. Uma cor: tom único; duas ou mais: degradê suave entre todas (desde a v101, antes duas cores eram metade/metade);
@@ -1390,7 +1458,7 @@ var ENDSTEP = "https://endstep.cc/decks/new"; // editor de deck novo do endstep.
 function textoEndstep(deck) {
   // Nome do deck no endstep.cc: "Arquétipo - Pauper (ano-mês do metagame)", ex. "Dimir Faeries - Pauper (2026-10)".
   var bl = deck.lista.split("\n\n"), side = (bl[1] || "").split("\n").filter(function (l) { return /^\d+\s/.test(l); }).join("\n");
-  return "About\nName " + deck.nome + " - Pauper (" + META.data.slice(0, 7) + ")\n\nDeck\n" + bl[0].trim() + "\n" + (side ? "\nSideboard\n" + side + "\n" : "");
+  return "About\nName " + deck.nome + (deck.real ? " - " + deck.jogador : "") + " - Pauper (" + META.data.slice(0, 7) + ")\n\nDeck\n" + bl[0].trim() + "\n" + (side ? "\nSideboard\n" + side + "\n" : "");
 }
 var CHAVE_DIRETO = "precons-endstep-direto"; // mesma preferência da página de Commander; // "Não mostrar de novo" (só neste aparelho)
 function direto() { try { return localStorage.getItem(CHAVE_DIRETO) === "1"; } catch (e) { return false; } }
@@ -1434,7 +1502,7 @@ document.addEventListener("keydown", function (e) {
 var mesa = null; // { d: [deck1|null, deck2|null], trocas: [[], []], sel, novo, rev: [bool, bool] }
 var ICONE_TROCA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>'; // lápis: escolher outro deck deste lado
 var DADO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg>';
-function deckPorId(id) { var r = null; decksUnicos().forEach(function (d) { if (!r && idDe(d) === id) r = d; }); return r; }
+function deckPorId(id) { var r = null; COLECOES.forEach(function (c) { c.decks.forEach(function (d) { if (!r && idDe(d) === id) r = d; }); }); return r; } // consenso ou lista real já carregada
 function novaMesa(a, b) { return { d: [a || null, b || null], trocas: [[], []], sel: -1, novo: true, rev: [false, false] }; }
 function completa() { return !!(mesa && mesa.d[0] && mesa.d[1]); }
 // Lista do deck i com as trocas aplicadas. Cada troca: { sai: "Nome", entra: "Nome", n: cópias } (sai do principal para o
@@ -1463,7 +1531,7 @@ function compararDecks() {
 function porDeck(i, d) {
   if (!mesa) return;
   if (!d) {
-    var livres = decksUnicos().filter(function (x) { return x !== mesa.d[i]; });
+    var livres = decksUnicos().filter(function (x) { return x !== mesa.d[i]; }); // sorteia entre as variações (o consenso de cada uma)
     if (!livres.length) { aviso(t("semOutro")); return; }
     d = livres[Math.floor(Math.random() * livres.length)];
   }
@@ -1476,15 +1544,26 @@ function hashMesa() { return "duelo/" + (mesa.d[0] ? idDe(mesa.d[0]) : "-") + "/
 function mesaDoEndereco() {
   var m = /^#duelo\/([^\/]+)\/([^\/]+)$/.exec(location.hash);
   if (!m) return null;
-  var a = m[1] === "-" ? null : deckPorId(m[1]), b = m[2] === "-" ? null : deckPorId(m[2]);
-  if ((m[1] !== "-" && !a) || (m[2] !== "-" && !b)) return null;
-  return novaMesa(a, b);
+  var ids = [m[1], m[2]], d = [null, null], pend = [];
+  for (var i = 0; i < 2; i++) {
+    if (ids[i] === "-") continue;
+    d[i] = deckPorId(ids[i]);
+    if (d[i]) continue;
+    var mm = /^(.+)-(\d+)$/.exec(ids[i]), col = mm && COL_POR_ID[mm[1]]; // lista real de família ainda não carregada
+    if (!col) return null;
+    pend.push([i, ids[i], col.fam]);
+  }
+  var nm = novaMesa(d[0], d[1]);
+  pend.forEach(function (p) { carregarFamilia(p[2], function () {
+    var x = deckPorId(p[1]); if (mesa === nm && x) { nm.d[p[0]] = x; nm.rev[p[0]] = true; desenhar(); }
+  }); });
+  return nm;
 }
 
 // Quadro de escolha do deck de um lado
 var escolhaLado = 0, escolhaFoco = null;
 function abrirEscolha(i) {
-  escolhaLado = i; escolhaFoco = document.activeElement;
+  escolhaLado = i; escolhaFoco = document.activeElement; escolhaExp = null;
   $("escolhaTit").textContent = t("escolhaTit", { n: nomeJog(i) });
   $("escolhaSorte").innerHTML = DADO; $("escolhaSorte").appendChild(document.createTextNode(t("sortearUm")));
   var bu = $("escolhaBusca"); bu.value = ""; bu.placeholder = t("escolhaBusca");
@@ -1499,21 +1578,56 @@ function fecharEscolha() {
   $("escolha").hidden = true;
   if (escolhaFoco && escolhaFoco.focus && document.body.contains(escolhaFoco)) escolhaFoco.focus();
 }
+// Uma linha por variação (tocar escolhe o consenso; "Listas" abre as listas reais dela, melhores primeiro, 10 de cada vez) e,
+// no fim, as "Outras" de cada família (só listas reais). A busca olha o nome da variação e do arquétipo.
+var escolhaExp = null, escolhaMostrar = 10;
 function pintarEscolha() {
-  var ul = $("escolhaLista"), qq = nz($("escolhaBusca").value.trim()), i = escolhaLado, outro = mesa.d[1 - i];
+  var ul = $("escolhaLista"), qq = nz($("escolhaBusca").value.trim()), i = escolhaLado, outro = mesa.d[1 - i], rolagem = ul.scrollTop;
   ul.innerHTML = "";
-  var lista = decksUnicos().filter(function (d) { return !qq || nzEn(d.nome).indexOf(qq) >= 0; });
-  if (!lista.length) { ul.appendChild(el("li", "vazio", t("escolhaNenhum"))); return; }
-  lista.forEach(function (d) {
-    var li = el("li"), b = el("button"); b.type = "button"; b.setAttribute("role", "option");
-    b.setAttribute("aria-selected", mesa.d[i] === d ? "true" : "false");
-    b.appendChild(el("span", "pos", IDIOMA === "pt" ? d.pos + "º" : "#" + d.pos));
-    var nm = el("span", "nm", d.nome); if (d.ci) nm.appendChild(simbolos(d.ci)); b.appendChild(nm);
-    b.appendChild(el("span", "pc", pct(d.pct) + (d === outro ? " · " + nomeJog(1 - i) : "")));
-    if (d === outro) b.title = t("tambemNoOutro", { n: nomeJog(1 - i) });
-    b.onclick = function () { escolherNoQuadro(d); };
-    li.appendChild(b); ul.appendChild(li);
+  var cols = CONSENSOS.map(function (d) { return d._col; }).concat(COLECOES.filter(function (c) { return c.outras; }));
+  cols = cols.filter(function (c) { return !qq || nzEn(c.outras ? t("outrasDe", { f: c.grupo }) : c.nome).indexOf(qq) >= 0 || nzEn(c.grupo).indexOf(qq) >= 0; });
+  if (!cols.length) { ul.appendChild(el("li", "vazio", t("escolhaNenhum"))); return; }
+  cols.forEach(function (c) {
+    var li = el("li", "linha-var"), d = c.outras ? null : c.decks[0], ex = escolhaExp === c.id;
+    var b = el("button"); b.type = "button"; b.setAttribute("role", "option");
+    b.setAttribute("aria-selected", d && mesa.d[i] === d ? "true" : "false");
+    b.appendChild(el("span", "pos", c.outras ? "" : (IDIOMA === "pt" ? c.pos + "º" : "#" + c.pos)));
+    var nm = el("span", "nm", c.outras ? t("outrasDe", { f: c.grupo }) : c.nome); if (c.ci) nm.appendChild(simbolos(c.ci)); b.appendChild(nm);
+    b.appendChild(el("span", "pc", c.outras ? t("nListas", { n: c.n }) : pct(c.pct) + (d === outro ? " · " + nomeJog(1 - i) : "")));
+    if (d && d === outro) b.title = t("tambemNoOutro", { n: nomeJog(1 - i) });
+    b.onclick = function () { if (d) escolherNoQuadro(d); else { escolhaExp = ex ? null : c.id; escolhaMostrar = 10; pintarEscolha(); } };
+    var bx = el("button", "exp" + (ex ? " on" : ""), t("escolhaListas")); bx.type = "button"; bx.setAttribute("aria-expanded", ex ? "true" : "false");
+    bx.onclick = function () { escolhaExp = ex ? null : c.id; escolhaMostrar = 10; pintarEscolha(); };
+    var lin = el("div", "lin"); lin.appendChild(b); lin.appendChild(bx); li.appendChild(lin);
+    if (ex) {
+      var sub = el("ul", "sub-listas");
+      if (FAM_ESTADO[c.fam] !== 2) {
+        sub.appendChild(el("li", "vazio", t(FAM_ESTADO[c.fam] === -1 ? "falhaCarregar" : "carregando")));
+        if (FAM_ESTADO[c.fam] === -1) FAM_ESTADO[c.fam] = 0;
+        carregarFamilia(c.fam, function () { if (!$("escolha").hidden && escolhaExp === c.id) pintarEscolha(); });
+      } else {
+        var reais = c.decks.filter(function (x) { return x.real; });
+        reais.slice(0, escolhaMostrar).forEach(function (x) {
+          var sl = el("li"), sb = el("button"); sb.type = "button"; sb.setAttribute("role", "option");
+          sb.setAttribute("aria-selected", mesa.d[i] === x ? "true" : "false");
+          sb.appendChild(el("span", "nm", (x.lugar ? rotLugar(x.lugar) + " · " : "") + x.jogador + (x === outro ? " · " + nomeJog(1 - i) : "")));
+          if (x.ci) sb.appendChild(simbolos(x.ci));
+          sb.appendChild(el("span", "pc", fmtData(x.data).slice(0, 5) + " · " + t(x.origem)));
+          sb.title = x.evento + (x.apelido ? " · " + t("apelido", { n: x.apelido }) : "");
+          sb.onclick = function () { escolherNoQuadro(x); };
+          sl.appendChild(sb); sub.appendChild(sl);
+        });
+        if (reais.length > escolhaMostrar) {
+          var ml = el("li"), mb = el("button", "mais", t("mostrarMais", { n: reais.length - escolhaMostrar })); mb.type = "button";
+          mb.onclick = function () { escolhaMostrar += 20; pintarEscolha(); };
+          ml.appendChild(mb); sub.appendChild(ml);
+        }
+      }
+      li.appendChild(sub);
+    }
+    ul.appendChild(li);
   });
+  ul.scrollTop = rolagem;
 }
 function escolherNoQuadro(d) {
   var i = escolhaLado;
@@ -1521,7 +1635,7 @@ function escolherNoQuadro(d) {
   porDeck(i, d);
   var w = document.querySelectorAll("#mesa .jogw .jog")[i]; if (w) w.focus({ preventScroll: true });
 }
-$("escolhaBusca").addEventListener("input", pintarEscolha);
+$("escolhaBusca").addEventListener("input", function () { $("escolhaLista").scrollTop = 0; pintarEscolha(); });
 $("escolhaBusca").addEventListener("keydown", function (e) {
   if (e.key === "Enter") { e.preventDefault(); var b = $("escolhaLista").querySelector("button:not(:disabled)"); if (b) b.click(); }
   else if (e.key === "ArrowDown") { e.preventDefault(); var b2 = $("escolhaLista").querySelector("button:not(:disabled)"); if (b2) b2.focus(); }
@@ -1551,9 +1665,9 @@ function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.cla
 // Confronto A x B na fonte de histórico: [vitórias de A, derrotas de A, empates] ou null
 function confronto(a, b) {
   if (!CONFRONTOS) return null;
-  var x = CONFRONTOS.m[idDe(a) + "|" + idDe(b)];
+  var x = CONFRONTOS.m[a.fam + "|" + b.fam]; // por família (arquétipo): o DeckSnipe não separa as variações
   if (x) return x;
-  x = CONFRONTOS.m[idDe(b) + "|" + idDe(a)];
+  x = CONFRONTOS.m[b.fam + "|" + a.fam];
   return x ? [x[1], x[0], x[2]] : null;
 }
 function desenharMesa() {
@@ -1586,7 +1700,8 @@ function desenharMesa() {
     if (d.ci) contornoCor(b, d.ci, tomDoLado(i));
     var dn = el("span", "dnome", d.nome); if (d.ci) dn.appendChild(simbolos(d.ci));
     b.appendChild(dn);
-    b.appendChild(el("span", "dinfo", t("posicao", { p: pct(d.pct), k: d.pos })));
+    b.appendChild(el("span", "dinfo", d.real ? t("listaDe", { j: d.jogador, r: d.lugar ? " (" + rotLugar(d.lugar) + ")" : "" }) : t("consenso") + " · " + t("nListas", { n: d.n })));
+    if (d.pos) b.appendChild(el("span", "dinfo", t("posicao", { p: pct(d.pct), k: d.pos })));
     b.appendChild(el("span", "verlista", t(mesa.sel === i ? "esconderLista" : "verLista")));
     b.onclick = function () {
       if (mesa.sel === i) { mesa.sel = -1; desenhar(); return; }
@@ -1616,7 +1731,8 @@ function infoDuelo(a, b) {
   // 1. histórico do confronto
   s1.appendChild(el("h3", "", t("hConfronto")));
   var c = confronto(a, b);
-  if (a === b) s1.appendChild(el("p", "", t("espelho")));
+  var fa = FAM[a.fam].nome, fb = FAM[b.fam].nome;
+  if (a.fam === b.fam) s1.appendChild(el("p", "", t("espelho")));
   else if (c && c[0] + c[1] > 0) {
     var n = c[0] + c[1] + c[2], pa = Math.round(100 * c[0] / (c[0] + c[1]));
     var br = el("div", "barra"), xa = el("span", "", pa + "%"), xb = el("span", "", (100 - pa) + "%");
@@ -1624,9 +1740,10 @@ function infoDuelo(a, b) {
     xa.style.background = "var(--tinta)"; xb.style.background = "var(--tinta)";
     xa.style.flex = pa + " 1 0"; xb.style.flex = (100 - pa) + " 1 0";
     br.appendChild(xa); br.appendChild(xb);
-    var lg = el("div", "barra-leg"); lg.appendChild(el("span", "", a.nome)); lg.appendChild(el("span", "", b.nome));
+    var lg = el("div", "barra-leg"); lg.appendChild(el("span", "", fa)); lg.appendChild(el("span", "", fb));
     s1.appendChild(lg); s1.appendChild(br);
-    s1.appendChild(el("p", "", t(c[2] ? "confr" : "confr0", { a: a.nome, b: b.nome, v: c[0], n: n, e: c[2] })));
+    s1.appendChild(el("p", "", t(c[2] ? "confr" : "confr0", { a: fa, b: fb, v: c[0], n: n, e: c[2] })));
+    if (fa !== a.nome || fb !== b.nome) s1.appendChild(el("p", "mut", t("confrNivel", { a: fa, b: fb })));
     var f = el("p", "mut"); f.innerHTML = t("confrFonte", { f: '<a href="' + CONFRONTOS.url + '" target="_blank" rel="noopener noreferrer">' + esc(CONFRONTOS.fonte) + '</a>', p: esc(CONFRONTOS.periodo[IDIOMA] || CONFRONTOS.periodo.en) });
     s1.appendChild(f);
   } else s1.appendChild(el("p", "mut", t(CONFRONTOS ? "semConfr" : "semConfrFonte")));
@@ -1642,7 +1759,7 @@ function infoDuelo(a, b) {
   }
   var fmt = function (x) { return String(x).replace(".", IDIOMA === "pt" ? "," : "."); };
   var ord = function (k) { return IDIOMA === "pt" ? k + "º" : "#" + k; };
-  linha(t("cMeta"), pct(a.pct) + " · " + ord(a.pos), pct(b.pct) + " · " + ord(b.pos), a.pct > b.pct, b.pct > a.pct);
+  linha(t("cMeta"), pct(a.pct) + (a.pos ? " · " + ord(a.pos) : ""), pct(b.pct) + (b.pos ? " · " + ord(b.pos) : ""), a.pct > b.pct, b.pct > a.pct);
   linha(t("cMv"), fmt(a.st.mv), fmt(b.st.mv));
   linha(t("cCri"), a.st.cri, b.st.cri); linha(t("cMag"), a.st.mag, b.st.mag); linha(t("cOut"), a.st.out, b.st.out); linha(t("cTer"), a.st.ter, b.st.ter);
   var rc = el("tr"); [a, b].forEach(function (d, k) {
@@ -1678,7 +1795,7 @@ function compartilharMesa() {
 }
 
 montarFiltros();
-aplicarId(idDoEndereco());
+abrirId(idDoEndereco());
 mesa = mesaDoEndereco(); // link de confronto
 desenhar();
 window.addEventListener("hashchange", function () {
@@ -1686,8 +1803,8 @@ window.addEventListener("hashchange", function () {
   if (mm) { if (mesa && hashMesa() === location.hash.slice(1)) return; zerarBuscaEFiltros(); mesa = mm; desenhar(); window.scrollTo(0, 0); return; }
   if (mesa && !location.hash) { sairMesa(); return; } // voltar (navegador) a partir do duelo
   var id = idDoEndereco(), d = COLECOES[colAtual] && COLECOES[colAtual].decks[deckAtual];
-  if (mesa && id && aplicarId(id)) { mesa = null; zerarBuscaEFiltros(); desenhar(); return; } // link de deck vindo do sorteio
-  if (id && (!d || idDe(d) !== id) && aplicarId(id)) { q = ""; $("filtro").value = ""; $("limpar").hidden = true; limparFiltros(); desenhar(); }
+  if (mesa && id && abrirId(id)) { mesa = null; zerarBuscaEFiltros(); desenhar(); return; } // link de deck vindo do confronto
+  if (id && (!d || idDe(d) !== id) && abrirId(id)) { q = ""; $("filtro").value = ""; $("limpar").hidden = true; limparFiltros(); desenhar(); }
 });
 // Voltar/avançar do navegador entre a tela inicial e o duelo (o duelo entra com pushState, que não dispara hashchange)
 window.addEventListener("popstate", function () {

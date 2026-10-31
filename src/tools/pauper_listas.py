@@ -13,7 +13,7 @@ Pauper League AAAA-MM-DD, Preliminary, Showcase, Qualifier, Premier...). Os dema
 
 Uso: python3 tools/pauper_listas.py [--dias 30] [--so-indice] [--arq slug,slug]
 """
-import datetime, json, os, re, sys, time, importlib.util
+import datetime, html, json, os, re, sys, time, importlib.util
 
 RAIZ = os.environ.get("PRECONS_RAIZ") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _spec = importlib.util.spec_from_file_location("pauper_raspar", os.path.join(RAIZ, "tools", "pauper_raspar.py"))
@@ -39,8 +39,8 @@ def linhas(html):
         jog = re.search(r'href="/player/[^"]*">([^<]*)</a>', resto)
         tds = re.findall(r"<td[^>]*>(.*?)</td>", resto, re.S)
         lugar = re.sub(r"<[^>]+>|\s+", " ", tds[3]).strip() if len(tds) > 3 else ""
-        evn = (ev.group(2) if ev else "").strip()
-        out.append({"data": data, "id": d.group(1), "nome": d.group(2).strip(), "jogador": jog.group(1).strip() if jog else "",
+        evn = html.unescape(ev.group(2) if ev else "").strip()
+        out.append({"data": data, "id": d.group(1), "nome": html.unescape(d.group(2)).strip(), "jogador": html.unescape(jog.group(1)).strip() if jog else "",
                     "evento": evn, "evento_id": ev.group(1) if ev else "", "lugar": lugar,
                     "cores_goldfish": "".join(re.findall(r"ms-([wubrgc]) ms-cost", resto)).upper(),
                     "origem": "mtgo" if MTGO.search(evn) else "papel"})

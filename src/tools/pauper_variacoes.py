@@ -1,7 +1,6 @@
 """Etapa 1 da reorganização do Pauper por arquétipos (pedido do usuário em 31/10/2026; só dados, sem mexer no site).
 
-Lê as listas baixadas por tools/pauper_listas.py (raw_pauper/indice/*.json e raw_pauper/todas/<id>.txt) e o Scryfall
-(oracle cards, cache em cache_scryfall/oracle.jsonl.gz) e calcula:
+Lê as listas normalizadas (pauper/listas.json.gz, de tools/pauper_normalizar.py, já com as cores de cada lista) e calcula:
   - FAMÍLIAS: os 48 arquétipos do MTGGoldfish juntados pela tabela FAMILIAS (proposta para o usuário revisar);
     para apoiar a revisão, a semelhança entre os arquétipos (cartas do deck principal, sem terrenos básicos);
   - VARIAÇÕES dentro de cada família (decisão do usuário: cores + cartas): agrupamento hierárquico (média) pela
@@ -9,7 +8,8 @@ Lê as listas baixadas por tools/pauper_listas.py (raw_pauper/indice/*.json e ra
     nome sugerido = cores (nome da guilda/trio) + o nome mais comum dado pelos jogadores;
   - para cada variação: lista de consenso (60), sideboard típico (15, com a % de listas que levam cada carta),
     nº de listas (MTGO e papel), % das listas e resultados bons (top 8 ou mais vitórias que derrotas).
-Grava raw_pauper/variacoes.json e mostra um resumo.
+Grava pauper/variacoes.json (vai para src/dados/pauper; o build_pauper.py lê) e mostra um resumo. As listas de cada
+variação (e as "Outras" da família) ficam em ordem de resultado: 1º lugar, top 8, campanhas positivas, as demais; empate: mais recente.
 
 Uso: python3 tools/pauper_variacoes.py [--corte 0.55] [--min 3]
 """
@@ -19,8 +19,6 @@ from scipy.cluster.hierarchy import linkage, fcluster
 from scipy.spatial.distance import squareform
 
 RAIZ = os.environ.get("PRECONS_RAIZ") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-_spec = importlib.util.spec_from_file_location("pn", os.path.join(RAIZ, "tools", "pauper_normalizar.py"))
-pn = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(pn)
 CORTE = float(sys.argv[sys.argv.index("--corte") + 1]) if "--corte" in sys.argv else 0.55
 MINIMO = int(sys.argv[sys.argv.index("--min") + 1]) if "--min" in sys.argv else 5
 BASICOS = {"Plains", "Island", "Swamp", "Mountain", "Forest", "Wastes", "Snow-Covered Plains", "Snow-Covered Island",
@@ -71,21 +69,6 @@ def chave(n):
     return "".join(ch for ch in unicodedata.normalize("NFD", n.lower()) if not unicodedata.combining(ch)).strip()
 
 
-def carregar_cartas():
-    por = {}
-    for l in gzip.open(os.path.join(RAIZ, "cache_scryfall", "oracle.jsonl.gz"), "rt", encoding="utf-8"):
-        l = l.strip().rstrip(",")
-        if not l.startswith("{"):
-            continue
-        c = json.loads(l)
-        if c.get("layout") in ("token", "double_faced_token", "art_series", "emblem"):
-            continue
-        nomes = [c["name"]] + [f["name"] for f in c.get("card_faces", [])]
-        for n in nomes:
-            por.setdefault(chave(n), c)
-    return por
-
-
 def ler_lista(txt):
     blocos = txt.strip().split("\n\n")
     def ler(b):
@@ -121,28 +104,39 @@ def alocar(medias, total, teto):
     return {k: v for k, v in q.items() if v > 0}
 
 
+def ordem_resultado(x):
+    """Melhores primeiro: 1º lugar; 2º–8º (pela colocação); campanhas com mais vitórias que derrotas (5-0, 4-1...);
+    as demais. Empate: mais recente primeiro (a ordenação por data é feita antes, e o sort é estável)."""
+    l = x["lugar"].lower()
+    m = re.match(r"^(\d+)(st|nd|rd|th)", l)
+    if m:
+        p = int(m.group(1))
+        return (0, 0, 0) if p == 1 else ((1, p, 0) if p <= 8 else (4, p, 0))
+    m = re.match(r"^(\d+)-(\d+)(?:-(\d+))?$", l)
+    if m:
+        v, d = int(m.group(1)), int(m.group(2))
+        return (2, d, -v) if v > d else (3, d - v, -v)
+    return (5, 0, 0)
+
+
+def ordenar(ls):
+    ls = sorted(ls, key=lambda x: (x["data"], int(x["id"])), reverse=True)
+    return sorted(ls, key=ordem_resultado)
+
+
+def slug(n):
+    return re.sub(r"[^a-z0-9]+", "_", chave(n).replace("'", "")).strip("_")
+
+
 def main():
-    cartas = carregar_cartas()
-    meta = json.load(open(os.path.join(RAIZ, "pauper", "metagame.json"), encoding="utf-8"))
-    desconhecidas = collections.Counter()
+    pacote = json.load(gzip.open(os.path.join(RAIZ, "pauper", "listas.json.gz"), "rt", encoding="utf-8"))
     listas = []
-    for a in meta["arquetipos"]:
-        for x in json.load(open(os.path.join(RAIZ, "raw_pauper", "indice", a["slug"] + ".json"), encoding="utf-8")):
-            f = os.path.join(RAIZ, "raw_pauper", "todas", x["id"] + ".txt")
-            if not os.path.exists(f):
-                continue
-            mp, sd = ler_lista(open(f, encoding="utf-8").read())
-            if sum(mp.values()) < 60:
-                continue
-            cs = []
-            for n in mp:
-                c = cartas.get(chave(n)) or cartas.get(chave(n.split(" // ")[0])) or cartas.get(chave(n.split("/")[0]))
-                if c: cs.append(c)
-                else: desconhecidas[n] += 1
-            x.update(arquetipo=a["nome"], familia=FAMILIAS.get(a["nome"], a["nome"]), main=mp, side=sd, cores=pn.cores_do_deck(cs))
-            listas.append(x)
+    for x in pacote["listas"]:
+        mp, sd = ler_lista(x["lista"])
+        x.update(familia=FAMILIAS.get(x["arquetipo"], x["arquetipo"]), main=mp, side=sd, cores=x["ci"])
+        listas.append(x)
     total = len(listas)
-    print(f"{total} listas lidas; cartas não achadas no Scryfall: {len(desconhecidas)} {desconhecidas.most_common(8)}")
+    print(f"{total} listas lidas")
 
     # Semelhança entre arquétipos (perfil = % de listas que levam cada carta do principal, sem básicos): cosseno
     perfis = collections.defaultdict(collections.Counter); nl = collections.Counter()
@@ -205,7 +199,8 @@ def main():
                        "nomes_jogadores": nomes_j, "assinatura": assin,
                        "consenso": sorted(([q, c] for c, q in cons.items()), key=lambda t: t[1]),
                        "side": sorted(([q, c, round(100 * pres_s[c] / n)] for c, q in side.items()), key=lambda t: t[1]),
-                       "listas": [x["id"] for x in g]})
+                       "papel": n - sum(1 for x in g if x["origem"] == "mtgo"),
+                       "listas": [x["id"] for x in ordenar(g)]})
         # Família que junta vários arquétipos do MTGGoldfish: a variação que é quase toda de um deles (>= 60%) fica com o nome dele
         # (ex. "Boros Moxite" dentro de Synthesizer), se nenhuma outra variação já usou esse nome.
         usados = set()
@@ -219,11 +214,21 @@ def main():
             vistos[v["nome"]] += 1
             if vistos[v["nome"]] > 1 and v["assinatura"]:
                 v["nome"] += " (" + v["assinatura"][0] + ")"
-        saida.append({"familia": fam, "n": len(ls), "pct": round(100 * len(ls) / total, 1),
+        for v in vs:
+            v["slug"] = slug(v["nome"])
+        mt = sum(1 for x in ls if x["origem"] == "mtgo")
+        saida.append({"familia": fam, "slug": slug(fam), "n": len(ls), "mtgo": mt, "papel": len(ls) - mt, "pct": round(100 * len(ls) / total, 1),
+                      "outras_ids": [x["id"] for x in ordenar(outras)],
                       "arquetipos": collections.Counter(x["arquetipo"] for x in ls).most_common(),
                       "variacoes": vs, "outras": len(outras), "outras_cores": collections.Counter(x["cores"] for x in outras).most_common(5)})
-    json.dump({"total": total, "corte": CORTE, "minimo": MINIMO, "semelhantes": semelhantes, "familias": saida},
-              open(os.path.join(RAIZ, "raw_pauper", "variacoes.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    dup = [k for lista in ([v["slug"] for f in saida for v in f["variacoes"]], [f["slug"] for f in saida])
+           for k, n in collections.Counter(lista).items() if n > 1]  # variações e famílias: cada grupo sem repetição
+    if dup:
+        sys.exit(f"ERRO: identificadores repetidos: {dup}")
+    mt = sum(1 for x in listas if x["origem"] == "mtgo")
+    json.dump({"raspado_em": pacote["raspado_em"], "dias": pacote["dias"], "total": total, "mtgo": mt, "papel": total - mt,
+               "corte": CORTE, "minimo": MINIMO, "familias": saida, "semelhantes": semelhantes},
+              open(os.path.join(RAIZ, "pauper", "variacoes.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     for f in saida:
         print(f"\n== {f['familia']}: {f['n']} listas ({f['pct']}%) de {[a for a, _ in f['arquetipos']]}; {len(f['variacoes'])} variações + {f['outras']} em Outras")
         for v in f["variacoes"]:
