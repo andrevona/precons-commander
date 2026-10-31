@@ -412,7 +412,7 @@
   </div>
   </div>
   <footer id="rodape"></footer>
-  <div class="versao" id="versao">v118</div>
+  <div class="versao" id="versao">v119</div>
 </main>
 <div class="modal" id="guia" hidden>
   <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="guiaTitulo">
@@ -1259,13 +1259,20 @@ function limparFiltros() { semSel = false; corFiltro = ""; anoSel = ""; arqSel =
 // Cores do deck escolhido (identidade do comandante, na ordem WUBRG; incolor = cinza): --brilho = cores puras, usadas na
 // borda e no brilho embaixo; --tinta = as mesmas cores misturadas com o fundo. Uma cor: tom único; duas ou mais: degradê suave entre todas (desde a v101, antes duas cores eram metade/metade);
 // três ou mais: degradê suave entre todas. Os decks não escolhidos têm todos a mesma borda neutra (--deckBorda).
-function contornoCor(b, ci) {
-  var cs = ci === "C" ? ["C"] : ci.split(""), pct = cs.length >= 3 ? 24 : 18;
+// tom ("claro" | "escuro", opcional): usado no Comparar decks quando os dois decks têm as mesmas cores, para os lados se
+// distinguirem (Deck 1 mais claro, Deck 2 mais escuro; pedido do usuário em 31/10/2026). Sem tom, as cores são as de sempre.
+function contornoCor(b, ci, tom) {
+  var cs = ci === "C" ? ["C"] : ci.split(""), pct = cs.length >= 3 ? 24 : 18, leve = "var(--levePct)", selec = 46;
   function grad(lista) { return "linear-gradient(90deg, " + (lista.length === 1 ? lista[0] + ", " + lista[0] : lista.join(", ")) + ")"; }
-  b.style.setProperty("--brilho", grad(cs.map(function (x) { return "var(--m" + x + ")"; })));
-  b.style.setProperty("--tinta", grad(cs.map(function (x) { return "color-mix(in srgb, var(--m" + x + ") " + pct + "%, var(--card))"; })));
-  b.style.setProperty("--leve", "linear-gradient(100deg, " + (cs.length === 1 ? [cs[0], cs[0]] : cs).map(function (x) { return "color-mix(in srgb, var(--m" + x + ") var(--levePct), var(--card))"; }).join(", ") + ")"); // fundo bem claro dos cartões do sorteio (degradê suave, sem corte)
-  b.style.setProperty("--selec", grad(cs.map(function (x) { return "color-mix(in srgb, var(--m" + x + ") 46%, var(--card))"; }))); // preenchimento do filtro de cor escolhido (mais forte que o tingido do deck)
+  function base(x) { // cor pura do símbolo; no tom claro clareada com branco, no escuro escurecida com preto
+    var v = "var(--m" + x + ")";
+    return tom === "claro" ? "color-mix(in srgb, " + v + " 55%, #fff)" : tom === "escuro" ? "color-mix(in srgb, " + v + " 45%, #000)" : v;
+  }
+  if (tom) { pct = 34; leve = "20%"; selec = 56; } // com tom a tinta é mais forte, para a diferença aparecer também no fundo
+  b.style.setProperty("--brilho", grad(cs.map(function (x) { return base(x); })));
+  b.style.setProperty("--tinta", grad(cs.map(function (x) { return "color-mix(in srgb, " + base(x) + " " + pct + "%, var(--card))"; })));
+  b.style.setProperty("--leve", "linear-gradient(100deg, " + (cs.length === 1 ? [cs[0], cs[0]] : cs).map(function (x) { return "color-mix(in srgb, " + base(x) + " " + leve + ", var(--card))"; }).join(", ") + ")"); // fundo bem claro dos cartões do sorteio (degradê suave, sem corte)
+  b.style.setProperty("--selec", grad(cs.map(function (x) { return "color-mix(in srgb, " + base(x) + " " + selec + "%, var(--card))"; }))); // preenchimento do filtro de cor escolhido (mais forte que o tingido do deck)
 }
 // Sortear deck: abre um deck sorteado entre os que aparecem com a busca e as cores escolhidas (sem repetir o anterior).
 var ultimaSorte = null;
@@ -1537,6 +1544,8 @@ function sairMesa() {
   desenhar();
   window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
 }
+// Dois decks com as mesmas cores (inclusive o espelho): o Deck 1 fica mais claro e o Deck 2 mais escuro; senão, cores normais.
+function tomDoLado(i) { return mesa && mesa.d[0] && mesa.d[1] && mesa.d[0].ci && mesa.d[0].ci === mesa.d[1].ci ? (i === 0 ? "claro" : "escuro") : undefined; }
 function nomeJog(i) { return t("jogador", { n: i + 1 }); }
 function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; }
 // Confronto A x B na fonte de histórico: [vitórias de A, derrotas de A, empates] ou null
@@ -1574,7 +1583,7 @@ function desenharMesa() {
       w.appendChild(b); g.appendChild(w); return;
     }
     b.setAttribute("aria-pressed", mesa.sel === i ? "true" : "false");
-    if (d.ci) contornoCor(b, d.ci);
+    if (d.ci) contornoCor(b, d.ci, tomDoLado(i));
     var dn = el("span", "dnome", d.nome); if (d.ci) dn.appendChild(simbolos(d.ci));
     b.appendChild(dn);
     b.appendChild(el("span", "dinfo", t("posicao", { p: pct(d.pct), k: d.pos })));
@@ -1611,7 +1620,7 @@ function infoDuelo(a, b) {
   else if (c && c[0] + c[1] > 0) {
     var n = c[0] + c[1] + c[2], pa = Math.round(100 * c[0] / (c[0] + c[1]));
     var br = el("div", "barra"), xa = el("span", "", pa + "%"), xb = el("span", "", (100 - pa) + "%");
-    contornoCor(xa, a.ci); contornoCor(xb, b.ci);
+    contornoCor(xa, a.ci, tomDoLado(0)); contornoCor(xb, b.ci, tomDoLado(1));
     xa.style.background = "var(--tinta)"; xb.style.background = "var(--tinta)";
     xa.style.flex = pa + " 1 0"; xb.style.flex = (100 - pa) + " 1 0";
     br.appendChild(xa); br.appendChild(xb);
