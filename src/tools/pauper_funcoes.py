@@ -9,6 +9,7 @@ Etiquetas de "o que a carta é" (montam o perfil do adversário):
   art (artefato, inclusive terreno), enc (encantamento), aura, inst, feit (feitiço), cem (usa o próprio cemitério),
   dano (dano direto no adversário), neb (neblina), terx (terreno especial: Tron, Gates), comb (peça de combo ou motor),
   ter (terreno: nunca sai), mv5 (custa 5 ou mais), azul, verm (cor), plano (carta do plano do deck: não sai por falta de alvo).
+  alvo (a resposta a criaturas ESCOLHE alvo: não funciona contra hexproof; usada com x-cri e x-t1/x-t2. Dano em área sem alvo, como End the Festivities, não leva).
 Etiquetas de resposta, "x-<alvo>" (o que a carta enfrenta):
   x-azul, x-verm, x-art, x-enc, x-aura, x-cem, x-t1 / x-t2 (varredura que mata resistência 1 / 2), x-cri (remoção pontual),
   x-hex (sacrifício: passa por hexproof), x-dano (ganho de vida / prevenção contra dano), x-inst, x-feit, x-ncri
@@ -47,23 +48,23 @@ MANUAL = {
     "Tithing Blade // Consuming Sepulcher": ("x-hex x-cri", "x-cem x-dano"), "Accursed Marauder": ("x-hex x-cri", ""),
     "Diabolic Edict": ("x-hex x-cri", ""), "Grim Bauble": ("x-cri", "x-cem"), "Nihil Spellbomb": ("plano", ""), "Lifelink": ("x-dano plano", ""),
     "Structural Distortion": ("x-terx", ""), "Mortician Beetle": ("", "x-cri"), "Desert": ("x-t1", "x-cri"),
-    "Gut Shot": ("x-cri x-t1", ""), "Electrickery": ("x-t1", ""), "End the Festivities": ("x-t1", ""),
+    "Gut Shot": ("x-cri x-t1 alvo", ""), "Electrickery": ("x-t1", ""), "End the Festivities": ("x-t1", ""),
     "Suffocating Fumes": ("x-t1", ""), "Dry Spell": ("x-t1", ""), "Shrivel": ("x-t1", ""), "Holy Light": ("x-t1", ""),
     "Breath Weapon": ("x-t2", ""), "Fiery Cannonade": ("x-t2", ""), "Drown in Sorrow": ("x-t2", ""),
     "Swirling Sandstorm": ("x-t2", "x-cem x-voo"), "Fang Dragon // Forktail Sweep": ("x-t1 plano", ""),
     "Writhing Necromass": ("plano", "x-cem x-t1 x-t2"), "Crypt Rats": ("x-t2 plano", ""), "Pestilence": ("x-t1 plano", ""),
-    "Cast into the Fire": ("x-t1 x-art", "x-t2"), "Suplex": ("x-cri x-art", ""), "Searing Blaze": ("x-cri", ""),
+    "Cast into the Fire": ("x-t1 x-art alvo", "x-t2"), "Suplex": ("x-cri x-art", ""), "Searing Blaze": ("x-cri", ""),
     "Thraben Charm": ("x-cri x-enc x-aura x-cem", ""), "Destroy Evil": ("x-cri x-enc x-aura", ""),
     "Spinning Darkness": ("x-cri x-dano", "x-cem"), "Dark Withering": ("x-cri", "x-cem x-comb"),
     "Lignify": ("x-cri", ""), "Cryoshatter": ("x-cri", ""), "Ram Through": ("x-cri", ""), "Monstrous Emergence": ("x-cri", ""),
     "Journey to Nowhere": ("x-cri", ""), "Last Breath": ("x-cri", ""), "Ultimate Alliance": ("x-cri", ""),
     "Firebending Lesson": ("x-cri", ""), "Snuff Out": ("x-cri", ""), "Cast Down": ("x-cri", ""), "Cut Down": ("x-cri", ""),
     "Tragic Slip": ("x-cri", ""), "Skred": ("x-cri", ""), "Dispatch": ("x-cri", ""), "Galvanic Blast": ("plano", ""),
-    "Lightning Bolt": ("plano", ""), "Chain Lightning": ("plano", ""), "Fireblast": ("plano", ""), "Lava Dart": ("plano x-t1", ""),
+    "Lightning Bolt": ("plano", ""), "Chain Lightning": ("plano", ""), "Fireblast": ("plano", ""), "Lava Dart": ("plano x-t1 alvo", ""),
     "Pinnacle Kill-Ship": ("plano", ""), "Barrels of Blasting Jelly": ("plano", ""), "Baleful Strix": ("plano", ""),
     "Sleep of the Dead": ("plano", ""), "Deem Inferior": ("plano", ""), "Recoil": ("plano", ""),
     "Ice-Fang Coatl": ("plano", ""), "Defile": ("x-cri", ""), "Grapple with Death": ("x-cri x-art x-enc", ""),
-    "Fungal Infection": ("x-t1", ""),
+    "Fungal Infection": ("x-t1 alvo", ""),
     # artefatos / encantamentos
     "Krark-Clan Grunt": ("plano", ""), "Gorilla Shaman": ("x-art", ""), "Annul": ("x-art x-enc x-aura", "x-comb"),
     "Steel Sabotage": ("x-art", ""), "Serene Heart": ("x-aura", "x-enc"), "Fangren Marauder": ("x-art x-dano", "x-cem"),
