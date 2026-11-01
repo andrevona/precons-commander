@@ -168,7 +168,7 @@
   .dif-cols.ver-orig .dif-col.orig, .dif-cols.ver-otim .dif-col.otim { border:2px solid var(--acc); cursor:default; }
   .dif-cols.ver-orig .dif-col.otim, .dif-cols.ver-otim .dif-col.orig { opacity:.55; }
   .dif-cols.ver-orig .dif-col.otim:hover, .dif-cols.ver-otim .dif-col.orig:hover { opacity:.8; }
-  .dif-copiar { margin-top:10px; }
+  .dif-copiar, #btnCopiar { margin-top:10px; }
   @media (max-width:640px) {
     .dif-cols { grid-template-columns:1fr; }
     .dif-cols.ver-otim .dif-col.orig, .dif-cols.ver-orig .dif-col.otim { display:none; }
@@ -474,18 +474,18 @@
     </div>
     <div class="row acoes">
       <button class="go" id="btnEndstep" data-t="criar">Criar no endstep.cc</button>
-      <button class="ghost" id="btnCopiar" data-t="copiar">Copiar lista</button>
       <button class="ghost" id="btnContra"></button>
     </div>
     <div class="contra-box" id="contraBox" hidden></div>
     <div class="status" id="status"></div>
     <div class="status" id="notaDeck" hidden></div>
     <div class="lista"><div class="espelho" id="espelho" aria-hidden="true"></div><textarea id="saida" readonly spellcheck="false" wrap="off"></textarea></div>
+    <button class="ghost" id="btnCopiar" data-t="copiar">Copiar lista</button>
     <div class="dif" id="difLista" hidden></div>
   </div>
   </div>
   <footer id="rodape"></footer>
-  <div class="versao" id="versao">v130</div>
+  <div class="versao" id="versao">v131</div>
 </main>
 <div class="modal" id="guia" hidden>
   <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="guiaTitulo">
@@ -1535,6 +1535,7 @@ function zerarBuscaEFiltros() {
 // Limpar tudo: volta à tela inicial (sem busca nem filtros, conteúdo recolhido sob os grupos, topo da página).
 $("btnLimparTudo").onclick = function () {
   if (animando) return;
+  contra = null; // o "Otimizar contra" também é limpo
   if (mesa) { sairMesa(); return; }
   zerarBuscaEFiltros(); recolhido = false; gruposRec = false; grpAtual = GRUPOS[0]; colAtual = 0; deckAtual = 0; ultimaSorte = null;
   if (aberto) fecharConteudo(); else desenhar();
