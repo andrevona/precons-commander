@@ -209,6 +209,8 @@ AUDITORIA = {
     # terreno que só dá 1 de dano uma vez não faz do deck um deck de dano
     "Abraded Bluffs": ("", "dano", "deals 1 damage to target opponent"), "Jagged Barrens": ("", "dano", "deals 1 damage to target opponent"),
     "Lonely Arroyo": ("", "dano", "deals 1 damage to target opponent"),
+    # revisão do estrategia_pauper.md (01/11/2026): proteção só contra criaturas, não contra mágicas de remoção
+    "Spare from Evil": ("", "x-rem", "protection from non-human creatures"),
     # usa o cemitério
     "Exhume": ("cem comb", "", "puts a creature card from their graveyard onto the battlefield"),
 }
