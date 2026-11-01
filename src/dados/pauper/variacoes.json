@@ -1,9 +1,9 @@
 {
  "raspado_em": "2026-10-31",
  "dias": 30,
- "total": 3341,
- "mtgo": 2006,
- "papel": 1335,
+ "total": 3346,
+ "mtgo": 2007,
+ "papel": 1339,
  "corte": 0.55,
  "minimo": 5,
  "familias": [
@@ -13,7 +13,7 @@
    "n": 510,
    "mtgo": 340,
    "papel": 170,
-   "pct": 15.3,
+   "pct": 15.2,
    "outras_ids": [],
    "outras_destaques": [],
    "arquetipos": [
@@ -2070,7 +2070,7 @@
      "cores": "U",
      "n": 249,
      "mtgo": 170,
-     "pct": 7.5,
+     "pct": 7.4,
      "bons": 93,
      "primeiros": 9,
      "cores_listas": [
@@ -2970,7 +2970,7 @@
      "cores": "UB",
      "n": 249,
      "mtgo": 208,
-     "pct": 7.5,
+     "pct": 7.4,
      "bons": 125,
      "primeiros": 15,
      "cores_listas": [
@@ -3463,7 +3463,7 @@
      "cores": "URG",
      "n": 102,
      "mtgo": 47,
-     "pct": 3.1,
+     "pct": 3.0,
      "bons": 42,
      "primeiros": 0,
      "cores_listas": [
@@ -13936,6 +13936,59 @@
      5
     ]
    ]
+  },
+  {
+   "familia": "Slivers",
+   "slug": "slivers",
+   "n": 5,
+   "mtgo": 1,
+   "papel": 4,
+   "pct": 0.1,
+   "outras_ids": [
+    "8009604",
+    "8009600",
+    "8024445",
+    "8009571",
+    "8018741"
+   ],
+   "outras_destaques": [
+    [
+     "8009604",
+     0,
+     0
+    ],
+    [
+     "8009600",
+     0,
+     0
+    ]
+   ],
+   "arquetipos": [
+    [
+     "Slivers",
+     5
+    ]
+   ],
+   "variacoes": [],
+   "outras": 5,
+   "outras_cores": [
+    [
+     "WRG",
+     2
+    ],
+    [
+     "WURG",
+     1
+    ],
+    [
+     "WUBRG",
+     1
+    ],
+    [
+     "WUG",
+     1
+    ]
+   ]
   }
  ],
  "semelhantes": {
@@ -14523,8 +14576,8 @@
     0.34
    ],
    [
-    "Cycle Storm",
-    0.06
+    "Slivers",
+    0.11
    ]
   ],
   "Infect": [
@@ -14609,6 +14662,20 @@
    [
     "Dimir Control",
     0.28
+   ]
+  ],
+  "Slivers": [
+   [
+    "Elves",
+    0.17
+   ],
+   [
+    "Spy Combo",
+    0.15
+   ],
+   [
+    "Walls Combo",
+    0.11
    ]
   ]
  }

@@ -774,6 +774,14 @@
    "ci": "WR",
    "n_main": 60,
    "n_side": 15
+  },
+  {
+   "id": "628",
+   "nome": "Slivers",
+   "url": "slivers-6450c9cf-71aa-44e3-b57b-3e554f86ba6a",
+   "pct": 0.2,
+   "decks": 5,
+   "slug": "slivers"
   }
  ],
  "scryfall_em": "2026-10-31"

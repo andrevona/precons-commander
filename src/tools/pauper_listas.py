@@ -29,9 +29,9 @@ D_LIS = os.path.join(RAIZ, "raw_pauper", "todas")
 MTGO = re.compile(r"^(Pauper (Challenge \d+ \d{4}-\d\d-\d\d|League \d{4}-\d\d-\d\d|Preliminary|Showcase|Qualifier|Super Qualifier|Premier|Last Chance|Eternal Weekend Qualifier)|MTGO|MOCS|Magic Online)", re.I)
 
 
-def linhas(html):
+def linhas(pagina):
     out = []
-    for data, resto in re.findall(r"<tr>\s*<td>(\d{4}-\d\d-\d\d)</td>(.*?)</tr>", html, re.S):
+    for data, resto in re.findall(r"<tr>\s*<td>(\d{4}-\d\d-\d\d)</td>(.*?)</tr>", pagina, re.S):
         d = re.search(r'href="/deck/(\d+)">([^<]*)</a>', resto)
         if not d:
             continue

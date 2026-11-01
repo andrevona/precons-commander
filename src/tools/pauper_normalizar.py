@@ -87,6 +87,7 @@ def baixar_oracle(cache):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--cache", default=os.path.join(RAIZ, "cache_scryfall"))
+    ap.add_argument("--so-arq", default=None, help="slug,slug: só normaliza esses arquétipos e MESCLA na base já publicada (listas.json.gz e cartas.csv); não mexe em banidas.csv nem no metagame.json")
     a = ap.parse_args()
     os.makedirs(a.cache, exist_ok=True)
     raw = os.path.join(RAIZ, "raw_pauper")
@@ -114,7 +115,10 @@ def main():
             por_nome.setdefault(chave_nome(f["name"]), c)
 
     avisos, cartas, saidas = [], {}, []
+    so_arq = a.so_arq.split(",") if a.so_arq else None
     for arq in meta["arquetipos"]:
+        if so_arq and arq["slug"] not in so_arq:
+            continue
         for x in json.load(open(os.path.join(raw, "indice", arq["slug"] + ".json"), encoding="utf-8")):
             f = os.path.join(raw, "todas", x["id"] + ".txt")
             if not os.path.exists(f):
@@ -188,23 +192,37 @@ def main():
             cand[n].append((completo, nome != n, d["released_at"], nome))
     pt = {n: max(v)[3] for n, v in cand.items()}
 
+    linhas_cartas = {n: [n, cartas[n]["cores"] or "C", cartas[n]["tipo"], ("%g" % cartas[n]["c"].get("cmc", 0)) if not eh_terreno(cartas[n]["c"]) else "",
+                         pt.get(n, ""), "1" if livre(cartas[n]["c"]) else ""] for n in cartas}
+    antigo = None
+    if so_arq:  # mesclar: cartas e listas já publicadas ficam como estão
+        antigo = json.load(gzip.open(os.path.join(saida, "listas.json.gz"), "rt", encoding="utf-8"))
+        with open(os.path.join(saida, "cartas.csv"), newline="", encoding="utf-8") as f:
+            rd = csv.reader(f); cab = next(rd); ja = {r[0]: r for r in rd}
+        novas_cartas = [n for n in linhas_cartas if n not in ja]
+        print(f"mesclar: {len(novas_cartas)} cartas novas no cartas.csv:", "; ".join(sorted(novas_cartas)))
+        ja.update({n: linhas_cartas[n] for n in novas_cartas})
+        linhas_cartas = ja
     with open(os.path.join(saida, "cartas.csv"), "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f, lineterminator="\n"); w.writerow(["carta", "cores", "tipo", "mv", "nome_pt", "livre"])
-        for n in sorted(cartas):
-            c = cartas[n]["c"]
-            w.writerow([n, cartas[n]["cores"] or "C", cartas[n]["tipo"], ("%g" % c.get("cmc", 0)) if not eh_terreno(c) else "",
-                        pt.get(n, ""), "1" if livre(c) else ""])
-    with open(os.path.join(saida, "banidas.csv"), "w", newline="", encoding="utf-8") as f:
-        w = csv.writer(f, lineterminator="\n"); w.writerow(["carta", "tipo", "nome_pt", "grupo"])
-        for n in sorted(banidas, key=str.casefold):
-            w.writerow([n, banidas[n]["tipo"], pt.get(n, ""), banidas[n]["grupo"]])
+        for n in sorted(linhas_cartas):
+            w.writerow(linhas_cartas[n])
+    if not so_arq:
+        with open(os.path.join(saida, "banidas.csv"), "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f, lineterminator="\n"); w.writerow(["carta", "tipo", "nome_pt", "grupo"])
+            for n in sorted(banidas, key=str.casefold):
+                w.writerow([n, banidas[n]["tipo"], pt.get(n, ""), banidas[n]["grupo"]])
+    if antigo:
+        nomes_arq = {arq["nome"] for arq in meta["arquetipos"] if arq["slug"] in so_arq}
+        saidas = [x for x in antigo["listas"] if x["arquetipo"] not in nomes_arq] + saidas
     saidas.sort(key=lambda x: int(x["id"]))
-    pacote = {"raspado_em": meta["raspado_em"], "dias": 30, "scryfall_em": time.strftime("%Y-%m-%d"), "listas": saidas}
+    pacote = {"raspado_em": antigo["raspado_em"] if antigo else meta["raspado_em"], "dias": 30, "scryfall_em": antigo["scryfall_em"] if antigo else time.strftime("%Y-%m-%d"), "listas": saidas}
     with open(os.path.join(saida, "listas.json.gz"), "wb") as f:  # mtime=0: o mesmo conteúdo gera sempre o mesmo arquivo
         with gzip.GzipFile(filename="", mode="wb", fileobj=f, mtime=0) as g:
             g.write(json.dumps(pacote, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
-    meta["scryfall_em"] = pacote["scryfall_em"]
-    json.dump(meta, open(os.path.join(saida, "metagame.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    if not so_arq:
+        meta["scryfall_em"] = pacote["scryfall_em"]
+        json.dump(meta, open(os.path.join(saida, "metagame.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     gb = collections.Counter(d["grupo"] for d in banidas.values())
     print(f"{len(saidas)} listas normalizadas ({len(avisos)} de fora); {len(cartas)} cartas ({len([n for n in cartas if pt.get(n)])} com nome em português); "
           f"{len(banidas)} banidas ({gb['unf']} do Unfinity, {gb['conspiracy']} Conspiracy)")

@@ -216,6 +216,13 @@ AUDITORIA = {
     "Vitu-Ghazi Inspector": ("", "x-dano", "you gain 2 life"),
     # usa o cemitério
     "Exhume": ("cem comb", "", "puts a creature card from their graveyard onto the battlefield"),
+    # Slivers (01/11/2026): o bônus vale para o próprio Sliver ("All Sliver creatures" inclui ele), então a resistência em jogo é maior que a impressa
+    "Muscle Sliver": ("", "t1", "All Sliver creatures get +1/+1"),          # 1/1 impresso, 2/2 em jogo
+    "Sinew Sliver": ("", "t1", "All Sliver creatures get +1/+1"),           # idem
+    "Predatory Sliver": ("", "t1", "Sliver creatures you control get +1/+1"),  # idem
+    "Plated Sliver": ("", "t1", "All Sliver creatures get +0/+1"),          # 1/1 impresso, 1/2 em jogo
+    "Winged Sliver": ("voo", "", "All Sliver creatures have flying"),       # ele mesmo voa (o Scryfall não lista Flying como palavra-chave)
+    "Benevolent Bodyguard": ("x-rem", "", "gains protection from the color of your choice"),  # sacrifica para proteger a criatura de remoção da cor escolhida
 }
 # Contradições que a trava (conferir) acusa mas estão certas, com o motivo
 EXCECOES = {
