@@ -132,6 +132,16 @@
   button.icone { padding:7px 10px; display:inline-flex; align-items:center; }
   button.icone svg { width:18px; height:18px; display:block; }
   .acoes { margin-bottom:8px; }
+  #btnContra::after { content:" ▾"; font-size:11px; }
+  .contra-box { border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin:4px 0 10px; background:var(--bg); }
+  .contra-cab { display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:14px; }
+  .contra-cab b .simbolos { margin-left:6px; vertical-align:-3px; }
+  .contra-cab b .simbolos img { width:14px; height:14px; }
+  .contra-x { padding:2px 9px; font-size:14px; line-height:1.3; }
+  .contra-box .mut { color:var(--mut); font-size:13px; margin:6px 0 0; }
+  .contra-conf { margin-top:10px; font-size:13px; padding:5px 10px; }
+  .escolha-lista .fam-cab { display:flex; justify-content:space-between; gap:8px; padding:10px 8px 2px; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--mut); }
+  .escolha-lista .fam-cab + li, .escolha-lista li.na-fam { padding-left:10px; }
   /* Deck otimizado: original e otimizada lado a lado (no celular, uma de cada vez, com seletor); verde = entra no deck principal, vermelho = sai */
   .dif { --entra:#1f8a4c; --sai:#c2412d; }
   @media (prefers-color-scheme: dark) { .dif { --entra:#5fd28f; --sai:#ff8a73; } }
@@ -462,7 +472,9 @@
       <button class="go" id="btnEndstep" data-t="criar">Criar no endstep.cc</button>
       <button class="ghost" id="btnCopiar" data-t="copiar">Copiar lista</button>
       <button class="ghost" id="btnCopiarOrig" hidden></button>
+      <button class="ghost" id="btnContra"></button>
     </div>
+    <div class="contra-box" id="contraBox" hidden></div>
     <div class="status" id="status"></div>
     <div class="status" id="notaDeck" hidden></div>
     <div class="lista"><div class="espelho" id="espelho" aria-hidden="true"></div><textarea id="saida" readonly spellcheck="false" wrap="off"></textarea></div>
@@ -470,7 +482,7 @@
   </div>
   </div>
   <footer id="rodape"></footer>
-  <div class="versao" id="versao">v128</div>
+  <div class="versao" id="versao">v129</div>
 </main>
 <div class="modal" id="guia" hidden>
   <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="guiaTitulo">
@@ -538,8 +550,8 @@ var TXT = {
     surpresa: 'Comparar decks', surpresaDica: 'Escolha dois decks (variação ou lista) e compare o confronto (limpa a busca)',
     duelo: 'Comparar decks', jogador: 'Deck {n}', verLista: 'Ver lista', esconderLista: 'Ocultar lista',
     trocarDeck: 'Trocar o {n}', semOutro: 'Não há outro deck disponível para sortear.',
-    escolher: 'Escolher deck…', tocarEscolher: 'Toque para escolher', escolhaTit: 'Escolher o {n}', escolhaBusca: 'Buscar arquétipo ou variação…',
-    sortearUm: 'Sortear', escolhaNenhum: 'Nenhum deck com esse nome.', tambemNoOutro: 'É também o {n} (duelo espelhado)',
+    escolher: 'Escolher deck…', tocarEscolher: 'Toque para escolher', escolhaTit: 'Escolher o {n}', escolhaBusca: 'Buscar arquétipo, variação ou carta…',
+    sortearUm: 'Sortear', escolhaNenhum: 'Nenhum deck com esse nome ou carta.', tambemNoOutro: 'É também o {n} (duelo espelhado)',
     espelho: 'Mesmo arquétipo dos dois lados: o histórico de confrontos não traz partidas de um arquétipo contra ele mesmo.',
     faltaDeck: 'Escolha os dois decks para ver o histórico do confronto, o comparativo e a chance de encontro.',
     mesaToque: 'Escolha o deck 1 e o deck 2. Depois, toque num deck para ver a lista e criar no endstep.cc.',
@@ -550,10 +562,10 @@ var TXT = {
     confrFonte: 'Fonte: {f}, {p}. Com menos de 20 partidas o número é pouco confiável.',
     semConfr: 'Não há dados suficientes deste confronto.', semConfrFonte: 'O histórico de confrontos ainda não foi carregado nesta página.',
     encontro: '{b} é {p}% das listas: num torneio, quem joga {a} enfrenta {b} em cerca de 1 a cada {k} partidas.',
-    rodExtra: 'Os <b>arquétipos</b> estão em ordem de participação (% das listas dos últimos 30 dias, MTGO e papel); ao tocar num deles os outros recolhem sob ele, e um novo toque mostra todos de novo. Dentro de cada um ficam as <b>variações</b> (agrupadas pelas cores e pelas cartas) e, em cada variação, o <b>Consenso</b> (cada carta na quantidade média, com o sideboard típico e a % de listas que levam cada carta) e as 2 listas reais de melhor resultado, de jogadores diferentes, que trocam pelo menos 5 cartas do deck principal em relação ao consenso (e entre si); o botão mostra o placar (vitórias-derrotas) e o painel, as cartas do deck principal que entram e saem; em <b>Outras</b>, as 2 melhores listas que não formam variação. Ao abrir um arquétipo e uma variação, um texto curto explica a estratégia de cada um. <b>Comparar decks</b> deixa você escolher o deck 1 e o deck 2 (uma variação ou uma lista; pode ser o mesmo dos dois lados) e mostra o histórico do confronto entre os arquétipos (DeckSnipe, papel e MTGO, só entre os mais jogados), um comparativo dos dois decks e a chance de se encontrarem; o lápis no canto de cada cartão troca só aquele deck, e o link do confronto pode ser compartilhado. <b>Otimizar</b> troca cartas do deck principal por cartas do sideboard conforme o que o adversário joga (cada carta tem suas funções, tiradas do texto Oracle: contra azul, contra artefatos, contra o cemitério, varredura, ganho de vida etc.) e mostra o motivo de cada troca; "Ver lista" mostra a lista original e a otimizada (lado a lado no computador; no celular, uma de cada vez) com as cartas trocadas destacadas, e há um botão para copiar cada uma; "Criar no endstep.cc" usa a otimizada.',
+    rodExtra: 'Os <b>arquétipos</b> estão em ordem de participação (% das listas dos últimos 30 dias, MTGO e papel); ao tocar num deles os outros recolhem sob ele, e um novo toque mostra todos de novo. Dentro de cada um ficam as <b>variações</b> (agrupadas pelas cores e pelas cartas) e, em cada variação, o <b>Consenso</b> (cada carta na quantidade média, com o sideboard típico e a % de listas que levam cada carta) e as 2 listas reais de melhor resultado, de jogadores diferentes, que trocam pelo menos 5 cartas do deck principal em relação ao consenso (e entre si); o botão mostra o placar (vitórias-derrotas) e o painel, as cartas do deck principal que entram e saem; em <b>Outras</b>, as 2 melhores listas que não formam variação. Ao abrir um arquétipo e uma variação, um texto curto explica a estratégia de cada um. <b>Comparar decks</b> deixa você escolher o deck 1 e o deck 2 (uma variação ou uma lista; pode ser o mesmo dos dois lados) e mostra o histórico do confronto entre os arquétipos (DeckSnipe, papel e MTGO, só entre os mais jogados), um comparativo dos dois decks e a chance de se encontrarem; o lápis no canto de cada cartão troca só aquele deck (o quadro de escolha fica agrupado por arquétipo e busca também por carta), e o link do confronto pode ser compartilhado. <b>Otimizar</b> troca cartas do deck principal por cartas do sideboard conforme o que o adversário joga (cada carta tem suas funções, tiradas do texto Oracle: contra azul, contra artefatos, contra o cemitério, varredura, ganho de vida etc.) e mostra o motivo de cada troca; "Ver lista" mostra a lista original e a otimizada (lado a lado no computador; no celular, uma de cada vez) com as cartas trocadas destacadas, e há um botão para copiar cada uma; "Criar no endstep.cc" usa a otimizada. O mesmo vale direto no painel de qualquer deck: <b>Otimizar contra…</b> escolhe o adversário sem sair da tela, e \"Ver o confronto completo\" leva ao Comparar decks.',
     cMeta: 'Metagame', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
     hOtim: 'Otimizar o sideboard', otimIntro: 'Troca cartas do deck principal por cartas do sideboard conforme o que o adversário joga: cada carta tem suas funções (contra azul, contra artefatos, contra o cemitério, varredura, ganho de vida etc.) e entram as que mais têm alvo no deck adversário, no lugar das que menos rendem neste confronto.',
-    otimizar: 'Otimizar o {n}', copiarOtim: 'Copiar otimizada', copiarOrig: 'Copiar original', difOrig: 'Original', difOtim: 'Otimizada', difMain: 'Deck principal ({n})', difSide: 'Sideboard ({n})', difEntra: 'entra no deck principal', difSai: 'sai do deck principal', difContra: 'contra {o}', difAria: 'Ver a lista', otimTit: '{n} contra o {o}:', otimEntram: 'Entram', otimSaem: 'Saem',
+    otimizar: 'Otimizar o {n}', otimContra: 'Otimizar contra…', contraTrocar: 'Trocar adversário', contraLinha: 'Otimizado contra', contraTirar: 'Voltar à lista original', contraConfronto: 'Ver o confronto completo', contraTit: 'Otimizar {d} contra:', esteDeck: 'este deck', copiarOtim: 'Copiar otimizada', copiarOrig: 'Copiar original', difOrig: 'Original', difOtim: 'Otimizada', difMain: 'Deck principal ({n})', difSide: 'Sideboard ({n})', difEntra: 'entra no deck principal', difSai: 'sai do deck principal', difContra: 'contra {o}', difAria: 'Ver a lista', otimTit: '{n} contra o {o}:', otimEntram: 'Entram', otimSaem: 'Saem',
     otimNada: 'Nenhuma troca recomendada: o sideboard do {n} não tem cartas com mais alvo que as do deck principal.', otimSemSide: 'O {n} não tem sideboard.',
     otimNota: 'Sugestão automática pelas funções das cartas (texto Oracle), sem contar a mão nem o jogo 1. "Ver lista" mostra a lista original e a otimizada com as trocas destacadas, com um botão para copiar cada uma; "Criar no endstep.cc" usa a otimizada. Trocar um dos decks volta ao original.',
     otimCartao: 'Otimizado · {k} trocas', otimFraca: 'rende menos neste confronto', otimPouco: 'pouco alvo: {r}', otimSemAlvo: 'sem alvo no adversário',
@@ -603,8 +615,8 @@ var TXT = {
     surpresa: 'Compare decks', surpresaDica: 'Pick two decks (variation or list) and compare the matchup (clears the search)',
     duelo: 'Compare decks', jogador: 'Deck {n}', verLista: 'View list', esconderLista: 'Hide list',
     trocarDeck: 'Change {n}', semOutro: 'There is no other deck available to draw.',
-    escolher: 'Pick a deck…', tocarEscolher: 'Tap to pick', escolhaTit: 'Pick {n}', escolhaBusca: 'Search archetype or variation…',
-    sortearUm: 'Random', escolhaNenhum: 'No deck with that name.', tambemNoOutro: 'Also {n} (mirror match)',
+    escolher: 'Pick a deck…', tocarEscolher: 'Tap to pick', escolhaTit: 'Pick {n}', escolhaBusca: 'Search archetype, variation or card…',
+    sortearUm: 'Random', escolhaNenhum: 'No deck with that name or card.', tambemNoOutro: 'Also {n} (mirror match)',
     espelho: 'Same archetype on both sides: the matchup history has no games of an archetype against itself.',
     faltaDeck: 'Pick both decks to see the matchup history, the comparison and the odds of meeting.',
     mesaToque: 'Pick deck 1 and deck 2. Then tap a deck to see the list and create it on endstep.cc.',
@@ -615,10 +627,10 @@ var TXT = {
     confrFonte: 'Source: {f}, {p}. With fewer than 20 matches the number is not very reliable.',
     semConfr: 'There is not enough data on this matchup.', semConfrFonte: 'The matchup history has not been loaded on this page yet.',
     encontro: '{b} is {p}% of the lists: in a tournament, a {a} player faces {b} in about 1 of every {k} matches.',
-    rodExtra: 'The <b>archetypes</b> are sorted by share (% of the lists of the last 30 days, MTGO and paper); tapping one tucks the others under it, and another tap shows them all again. Inside each one are its <b>variations</b> (grouped by colors and cards) and, in each variation, the <b>Consensus</b> (each card in the average quantity, with the typical sideboard and the % of lists that run each card) and the 2 best-finishing real lists, from different players, that change at least 5 main-deck cards from the consensus (and from each other); the button shows the win-loss record and the panel, the main-deck cards that come in and go out; in <b>Others</b>, the 2 best lists that do not form a variation. Opening an archetype and a variation shows a short text on the strategy of each. <b>Compare decks</b> lets you pick deck 1 and deck 2 (a variation or a list; it can be the same on both sides) and shows the matchup history between the archetypes (DeckSnipe, paper and MTGO, only among the most played), a comparison of both decks and the odds of meeting; the pencil in the corner of each card changes only that deck, and the matchup link can be shared. <b>Optimize</b> swaps main-deck cards for sideboard cards based on what the opponent plays (each card has its roles, taken from the Oracle text: against blue, against artifacts, against the graveyard, sweeper, life gain etc.) and shows the reason for each swap; "View list" shows the original and the optimized list (side by side on a computer; one at a time on a phone) with the swapped cards highlighted, and there is a button to copy each one; "Create on endstep.cc" uses the optimized one.',
+    rodExtra: 'The <b>archetypes</b> are sorted by share (% of the lists of the last 30 days, MTGO and paper); tapping one tucks the others under it, and another tap shows them all again. Inside each one are its <b>variations</b> (grouped by colors and cards) and, in each variation, the <b>Consensus</b> (each card in the average quantity, with the typical sideboard and the % of lists that run each card) and the 2 best-finishing real lists, from different players, that change at least 5 main-deck cards from the consensus (and from each other); the button shows the win-loss record and the panel, the main-deck cards that come in and go out; in <b>Others</b>, the 2 best lists that do not form a variation. Opening an archetype and a variation shows a short text on the strategy of each. <b>Compare decks</b> lets you pick deck 1 and deck 2 (a variation or a list; it can be the same on both sides) and shows the matchup history between the archetypes (DeckSnipe, paper and MTGO, only among the most played), a comparison of both decks and the odds of meeting; the pencil in the corner of each card changes only that deck (the picker is grouped by archetype and also searches by card), and the matchup link can be shared. <b>Optimize</b> swaps main-deck cards for sideboard cards based on what the opponent plays (each card has its roles, taken from the Oracle text: against blue, against artifacts, against the graveyard, sweeper, life gain etc.) and shows the reason for each swap; "View list" shows the original and the optimized list (side by side on a computer; one at a time on a phone) with the swapped cards highlighted, and there is a button to copy each one; "Create on endstep.cc" uses the optimized one. The same works right in the panel of any deck: <b>Optimize against…</b> picks the opponent without leaving the screen, and \"See the full matchup\" opens Compare decks.',
     cMeta: 'Metagame', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
     hOtim: 'Optimize the sideboard', otimIntro: 'Swaps main-deck cards for sideboard cards based on what the opponent plays: each card has its roles (against blue, against artifacts, against the graveyard, sweeper, life gain etc.), and the ones with the most targets in the opposing deck come in, replacing the ones that do the least in this matchup.',
-    otimizar: 'Optimize {n}', copiarOtim: 'Copy optimized', copiarOrig: 'Copy original', difOrig: 'Original', difOtim: 'Optimized', difMain: 'Main deck ({n})', difSide: 'Sideboard ({n})', difEntra: 'goes into the main deck', difSai: 'leaves the main deck', difContra: 'against {o}', difAria: 'Show the list', otimTit: '{n} against {o}:', otimEntram: 'In', otimSaem: 'Out',
+    otimizar: 'Optimize {n}', otimContra: 'Optimize against…', contraTrocar: 'Change opponent', contraLinha: 'Optimized against', contraTirar: 'Back to the original list', contraConfronto: 'See the full matchup', contraTit: 'Optimize {d} against:', esteDeck: 'this deck', copiarOtim: 'Copy optimized', copiarOrig: 'Copy original', difOrig: 'Original', difOtim: 'Optimized', difMain: 'Main deck ({n})', difSide: 'Sideboard ({n})', difEntra: 'goes into the main deck', difSai: 'leaves the main deck', difContra: 'against {o}', difAria: 'Show the list', otimTit: '{n} against {o}:', otimEntram: 'In', otimSaem: 'Out',
     otimNada: 'No swaps recommended: the {n} sideboard has no cards with more targets than the main-deck cards.', otimSemSide: '{n} has no sideboard.',
     otimNota: 'Automatic suggestion based on card roles (Oracle text), without looking at your hand or game 1. "View list" shows the original and the optimized list with the swaps highlighted, with a button to copy each one; "Create on endstep.cc" uses the optimized one. Changing either deck goes back to the original.',
     otimCartao: 'Optimized · {k} swaps', otimFraca: 'does the least in this matchup', otimPouco: 'few targets: {r}', otimSemAlvo: 'no targets in the opposing deck',
@@ -980,7 +992,9 @@ function desenhar() {
   if (sem) { try { if (location.hash) history.replaceState(null, "", location.pathname + location.search); } catch (e) {} return; }
   var deck = decks[deckAtual];
   if (aberto) guardarSelecao(deck);
-  pintarPainel(deck, "");
+  if (contra && contra.de !== deck) contra = null; // trocou de deck: o "otimizar contra" era do outro
+  pintarPainel(deckContra() || deck, "");
+  pintarContra();
 }
 // Painel do deck (título, lista, contagem, nota); usado na tela normal e no sorteio em grupo (com o nome do jogador antes).
 function pintarPainel(deck, prefixo) {
@@ -1523,6 +1537,7 @@ function copiarBotao(b, deck, rot) {
   copiar(texto, feito, function () { prompt(t("falhaCopiar"), texto); });
 }
 $("btnCopiar").onclick = function () { var d = deckDoPainel(); copiarBotao(this, d, d._orig ? "copiarOtim" : "copiar"); };
+$("btnContra").onclick = abrirContra;
 $("btnCopiarOrig").onclick = function () { var d = deckDoPainel(); if (d._orig) copiarBotao(this, d._orig, "copiarOrig"); };
 
 // Compartilhar: ícone do sistema (iOS, Android ou genérico). No celular abre a folha de compartilhamento
@@ -1547,7 +1562,39 @@ aplicarIdioma();
 })();
 function deckAtualObj() { return COLECOES[colAtual].decks[deckAtual]; }
 // Deck do painel: no confronto, o do lado aberto (com as trocas de sideboard, quando houver); fora dele, o deck atual.
-function deckDoPainel() { return mesa && mesa.sel >= 0 && mesa.d[mesa.sel] ? deckDaMesa(mesa.sel) : deckAtualObj(); }
+function deckDoPainel() { return mesa && mesa.sel >= 0 && mesa.d[mesa.sel] ? deckDaMesa(mesa.sel) : (deckContra() || deckAtualObj()); }
+// "Otimizar contra…" no painel do deck (fora do Comparar decks): contra = { de: deck olhado, adv: adversário, o: resultado }
+var contra = null;
+function deckContra() {
+  if (mesa || !contra || contra.de !== deckAtualObj() || !contra.o.trocas.length) return null;
+  var c = Object.create(contra.de); c.lista = aplicarTrocas(contra.de.lista, contra.o.trocas); c._orig = contra.de; c._contra = contra.adv.nome; c._n = null; c._nz = null;
+  return c;
+}
+function abrirContra() { escolhaModo = "contra"; abrirEscolha(0); }
+function pintarContra() {
+  var box = $("contraBox"), at = !mesa && contra && contra.de === deckAtualObj();
+  $("btnContra").hidden = !!mesa; $("btnContra").textContent = t(at ? "contraTrocar" : "otimContra");
+  box.hidden = !at; if (!at) return;
+  box.innerHTML = "";
+  var cab = el("div", "contra-cab"), tx = el("span"), ad = contra.adv;
+  tx.appendChild(document.createTextNode(t("contraLinha") + " ")); var nm = el("b", "", ad.nome + (ad.real ? " · " + ad.jogador : "")); if (ad.ci) nm.appendChild(simbolos(ad.ci)); tx.appendChild(nm);
+  var x = el("button", "ghost contra-x", "✕"); x.type = "button"; x.title = t("contraTirar"); x.setAttribute("aria-label", t("contraTirar"));
+  x.onclick = function () { contra = null; desenhar(); };
+  cab.appendChild(tx); cab.appendChild(x); box.appendChild(cab);
+  var o = contra.o;
+  if (o.semSide) box.appendChild(el("p", "mut", t("otimSemSide", { n: contra.de.nome })));
+  else if (!o.entram.length) box.appendChild(el("p", "mut", t("otimNada", { n: contra.de.nome })));
+  else listaOtim(o, box);
+  var bc = el("button", "ghost contra-conf", t("contraConfronto")); bc.type = "button"; bc.onclick = abrirConfronto;
+  box.appendChild(bc);
+}
+function abrirConfronto() {
+  var a = contra.de, b = contra.adv; contra = null;
+  zerarBuscaEFiltros();
+  mesa = novaMesa(a, b); mesa.sel = 0;
+  try { history.pushState(null, "", "#" + hashMesa()); } catch (e) {}
+  otimizar(0); window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
+}
 function linkDoDeck() { return location.href.split("#")[0] + "#" + idDe(deckAtualObj()); }
 // Copia na hora (dentro do clique), funciona também no iOS.
 function copiarSync(texto) {
@@ -1632,8 +1679,9 @@ function novaMesa(a, b) { return { d: [a || null, b || null], trocas: [[], []], 
 function completa() { return !!(mesa && mesa.d[0] && mesa.d[1]); }
 // Lista do deck i com as trocas aplicadas. Cada troca: { sai: "Nome", entra: "Nome", n: cópias } (sai do principal para o
 // sideboard e entra do sideboard no principal). Sem trocas, devolve a lista original.
-function listaEfetiva(i) {
-  var d = mesa.d[i], tr = mesa.trocas[i];
+function listaEfetiva(i) { return aplicarTrocas(mesa.d[i].lista, mesa.trocas[i]); }
+function aplicarTrocas(lista, tr) {
+  var d = { lista: lista };
   if (!tr || !tr.length) return d.lista;
   var bl = d.lista.split("\n\n"), lerB = function (txt) { var m = {}, o = []; (txt || "").split("\n").forEach(function (l) { var x = /^(\d+)\s+(.+)$/.exec(l); if (x) { if (!m[x[2]]) o.push(x[2]); m[x[2]] = (m[x[2]] || 0) + +x[1]; } }); return { m: m, o: o }; };
   var mp = lerB(bl[0]), sd = lerB(bl[1]);
@@ -1686,10 +1734,11 @@ function mesaDoEndereco() {
 }
 
 // Quadro de escolha do deck de um lado
-var escolhaLado = 0, escolhaFoco = null;
+var escolhaLado = 0, escolhaFoco = null, escolhaModo = "mesa"; // "mesa": lado do Comparar decks; "contra": adversário do "Otimizar contra…"
 function abrirEscolha(i) {
+  if (!mesa) escolhaModo = "contra";
   escolhaLado = i; escolhaFoco = document.activeElement; escolhaExp = null;
-  $("escolhaTit").textContent = t("escolhaTit", { n: nomeJog(i) });
+  $("escolhaTit").textContent = escolhaModo === "contra" ? t("contraTit", { d: deckAtualObj().nome }) : t("escolhaTit", { n: nomeJog(i) });
   $("escolhaSorte").innerHTML = DADO; $("escolhaSorte").appendChild(document.createTextNode(t("sortearUm")));
   var bu = $("escolhaBusca"); bu.value = ""; bu.placeholder = t("escolhaBusca");
   pintarEscolha();
@@ -1700,67 +1749,90 @@ function abrirEscolha(i) {
   else bu.focus();
 }
 function fecharEscolha() {
-  $("escolha").hidden = true;
+  $("escolha").hidden = true; escolhaModo = "mesa";
   if (escolhaFoco && escolhaFoco.focus && document.body.contains(escolhaFoco)) escolhaFoco.focus();
 }
-// Uma linha por variação (tocar escolhe o consenso; "Listas" abre as listas reais dela, melhores primeiro, 10 de cada vez) e,
-// no fim, as "Outras" de cada família (só listas reais). A busca olha o nome da variação e do arquétipo.
+// Agrupado por arquétipo (na ordem da página): cabeçalho com o nome e a % quando o arquétipo tem mais de uma linha; cada
+// variação numa linha (tocar escolhe o consenso; "Listas" abre as listas reais dela, 10 de cada vez) e, no fim do arquétipo,
+// as "Outras" (só listas reais). A busca olha o arquétipo, a variação e as cartas do consenso.
 var escolhaExp = null, escolhaMostrar = 10;
 function pintarEscolha() {
-  var ul = $("escolhaLista"), qq = nz($("escolhaBusca").value.trim()), i = escolhaLado, outro = mesa.d[1 - i], rolagem = ul.scrollTop;
+  var ul = $("escolhaLista"), qq = nz($("escolhaBusca").value.trim()), i = escolhaLado, rolagem = ul.scrollTop;
+  var emContra = escolhaModo === "contra" && !mesa;
+  var sel = emContra ? (contra && contra.de === deckAtualObj() ? contra.adv : null) : mesa.d[i];
+  var outro = emContra ? deckAtualObj() : mesa.d[1 - i], rotOutro = emContra ? t("esteDeck") : nomeJog(1 - i);
   ul.innerHTML = "";
-  var cols = CONSENSOS.map(function (d) { return d._col; }).concat(COLECOES.filter(function (c) { return c.outras; }));
-  cols = cols.filter(function (c) { return !qq || nzEn(c.outras ? t("outrasDe", { f: c.grupo }) : c.nome).indexOf(qq) >= 0 || nzEn(c.grupo).indexOf(qq) >= 0; });
-  if (!cols.length) { ul.appendChild(el("li", "vazio", t("escolhaNenhum"))); return; }
-  cols.forEach(function (c) {
-    var li = el("li", "linha-var"), d = c.outras ? null : c.decks[0], ex = escolhaExp === c.id;
-    var b = el("button"); b.type = "button"; b.setAttribute("role", "option");
-    b.setAttribute("aria-selected", d && mesa.d[i] === d ? "true" : "false");
-    b.appendChild(el("span", "pos", c.outras ? "" : (IDIOMA === "pt" ? c.pos + "º" : "#" + c.pos)));
-    var nm = el("span", "nm", c.outras ? t("outrasDe", { f: c.grupo }) : c.nome); if (c.ci) nm.appendChild(simbolos(c.ci)); b.appendChild(nm);
-    b.appendChild(el("span", "pc", c.outras ? t("nListas", { n: c.n }) : pct(c.pct) + (d === outro ? " · " + nomeJog(1 - i) : "")));
-    if (d && d === outro) b.title = t("tambemNoOutro", { n: nomeJog(1 - i) });
-    b.onclick = function () { if (d) escolherNoQuadro(d); else { escolhaExp = ex ? null : c.id; escolhaMostrar = 10; pintarEscolha(); } };
-    var bx = el("button", "exp" + (ex ? " on" : ""), t("escolhaListas")); bx.type = "button"; bx.setAttribute("aria-expanded", ex ? "true" : "false");
-    bx.onclick = function () { escolhaExp = ex ? null : c.id; escolhaMostrar = 10; pintarEscolha(); };
-    var lin = el("div", "lin"); lin.appendChild(b); lin.appendChild(bx); li.appendChild(lin);
-    if (ex) {
-      var sub = el("ul", "sub-listas");
-      if (FAM_ESTADO[c.fam] !== 2) {
-        sub.appendChild(el("li", "vazio", t(FAM_ESTADO[c.fam] === -1 ? "falhaCarregar" : "carregando")));
-        if (FAM_ESTADO[c.fam] === -1) FAM_ESTADO[c.fam] = 0;
-        carregarFamilia(c.fam, function () { if (!$("escolha").hidden && escolhaExp === c.id) pintarEscolha(); });
-      } else {
-        var reais = c.decks.filter(function (x) { return x.real; });
-        reais.slice(0, escolhaMostrar).forEach(function (x) {
-          var sl = el("li"), sb = el("button"); sb.type = "button"; sb.setAttribute("role", "option");
-          sb.setAttribute("aria-selected", mesa.d[i] === x ? "true" : "false");
-          sb.appendChild(el("span", "nm", desempenho(x) + x.jogador + (x === outro ? " · " + nomeJog(1 - i) : "")));
-          if (x.ci) sb.appendChild(simbolos(x.ci));
-          sb.appendChild(el("span", "pc", fmtData(x.data).slice(0, 5) + " · " + t(x.origem)));
-          sb.title = x.evento + (x.apelido ? " · " + t("apelido", { n: x.apelido }) : "");
-          sb.onclick = function () { escolherNoQuadro(x); };
-          sl.appendChild(sb); sub.appendChild(sl);
-        });
-        if (reais.length > escolhaMostrar) {
-          var ml = el("li"), mb = el("button", "mais", t("mostrarMais", { n: reais.length - escolhaMostrar })); mb.type = "button";
-          mb.onclick = function () { escolhaMostrar += 20; pintarEscolha(); };
-          ml.appendChild(mb); sub.appendChild(ml);
-        }
-      }
-      li.appendChild(sub);
-    }
-    ul.appendChild(li);
+  var temCarta = function (d) { return qq.length >= 3 && nomesDe(d).some(function (n) { return nzEn(n).indexOf(qq) >= 0 || (nzPt(n) && nzPt(n).indexOf(qq) >= 0); }); };
+  var algum = false;
+  FAMILIAS.forEach(function (f) {
+    var cols = CONSENSOS.filter(function (d) { return d._col.fam === f.slug; }).map(function (d) { return d._col; })
+      .concat(COLECOES.filter(function (c) { return c.outras && c.fam === f.slug; }));
+    if (qq && nzEn(f.nome).indexOf(qq) < 0) cols = cols.filter(function (c) { return !c.outras && (nzEn(c.nome).indexOf(qq) >= 0 || temCarta(c.decks[0])); });
+    if (!cols.length) return;
+    algum = true;
+    var cab = cols.length > 1;
+    if (cab) { var h = el("li", "fam-cab"); h.appendChild(el("span", "", f.nome)); h.appendChild(el("span", "", pct(f.pct))); ul.appendChild(h); }
+    cols.forEach(function (c) { ul.appendChild(linhaEscolha(c, cab, sel, outro, rotOutro)); });
   });
+  if (!algum) ul.appendChild(el("li", "vazio", t("escolhaNenhum")));
   ul.scrollTop = rolagem;
+}
+function linhaEscolha(c, naFam, sel, outro, rotOutro) {
+  var li = el("li", "linha-var" + (naFam ? " na-fam" : "")), d = c.outras ? null : c.decks[0], ex = escolhaExp === c.id;
+  var b = el("button"); b.type = "button"; b.setAttribute("role", "option");
+  b.setAttribute("aria-selected", d && sel === d ? "true" : "false");
+  b.appendChild(el("span", "pos", c.outras ? "" : (IDIOMA === "pt" ? c.pos + "º" : "#" + c.pos)));
+  var nm = el("span", "nm", c.outras ? t("outrasDe", { f: c.grupo }) : c.nome); if (c.ci) nm.appendChild(simbolos(c.ci)); b.appendChild(nm);
+  b.appendChild(el("span", "pc", c.outras ? t("nListas", { n: c.n }) : pct(c.pct) + (d === outro ? " · " + rotOutro : "")));
+  if (d && d === outro && mesa) b.title = t("tambemNoOutro", { n: rotOutro });
+  b.onclick = function () { if (d) escolherNoQuadro(d); else { escolhaExp = ex ? null : c.id; escolhaMostrar = 10; pintarEscolha(); } };
+  var bx = el("button", "exp" + (ex ? " on" : ""), t("escolhaListas")); bx.type = "button"; bx.setAttribute("aria-expanded", ex ? "true" : "false");
+  bx.onclick = function () { escolhaExp = ex ? null : c.id; escolhaMostrar = 10; pintarEscolha(); };
+  var lin = el("div", "lin"); lin.appendChild(b); lin.appendChild(bx); li.appendChild(lin);
+  if (ex) {
+    var sub = el("ul", "sub-listas");
+    if (FAM_ESTADO[c.fam] !== 2) {
+      sub.appendChild(el("li", "vazio", t(FAM_ESTADO[c.fam] === -1 ? "falhaCarregar" : "carregando")));
+      if (FAM_ESTADO[c.fam] === -1) FAM_ESTADO[c.fam] = 0;
+      carregarFamilia(c.fam, function () { if (!$("escolha").hidden && escolhaExp === c.id) pintarEscolha(); });
+    } else {
+      var reais = c.decks.filter(function (x) { return x.real; });
+      reais.slice(0, escolhaMostrar).forEach(function (x) {
+        var sl = el("li"), sb = el("button"); sb.type = "button"; sb.setAttribute("role", "option");
+        sb.setAttribute("aria-selected", sel === x ? "true" : "false");
+        sb.appendChild(el("span", "nm", desempenho(x) + x.jogador + (x === outro ? " · " + rotOutro : "")));
+        if (x.ci) sb.appendChild(simbolos(x.ci));
+        sb.appendChild(el("span", "pc", fmtData(x.data).slice(0, 5) + " · " + t(x.origem)));
+        sb.title = x.evento + (x.apelido ? " · " + t("apelido", { n: x.apelido }) : "");
+        sb.onclick = function () { escolherNoQuadro(x); };
+        sl.appendChild(sb); sub.appendChild(sl);
+      });
+      if (reais.length > escolhaMostrar) {
+        var ml = el("li"), mb = el("button", "mais", t("mostrarMais", { n: reais.length - escolhaMostrar })); mb.type = "button";
+        mb.onclick = function () { escolhaMostrar += 20; pintarEscolha(); };
+        ml.appendChild(mb); sub.appendChild(ml);
+      }
+    }
+    li.appendChild(sub);
+  }
+  return li;
 }
 function escolherNoQuadro(d) {
   var i = escolhaLado;
+  if (escolhaModo === "contra" && !mesa) {
+    var base = deckAtualObj();
+    if (!d) { var livres = decksUnicos().filter(function (x) { return x !== base; }); d = livres[Math.floor(Math.random() * livres.length)]; }
+    $("escolha").hidden = true; escolhaModo = "mesa";
+    contra = { de: base, adv: d, o: calcOtim(base.lista, d.lista) };
+    desenhar();
+    var pn = $("painel"); if (pn.scrollIntoView) pn.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "start" });
+    return;
+  }
   $("escolha").hidden = true;
   porDeck(i, d);
   var w = document.querySelectorAll("#mesa .jogw .jog")[i]; if (w) w.focus({ preventScroll: true });
 }
-$("escolhaBusca").addEventListener("input", function () { $("escolhaLista").scrollTop = 0; pintarEscolha(); });
+$("escolhaBusca").addEventListener("input", function () { carregarPT(); $("escolhaLista").scrollTop = 0; pintarEscolha(); });
 $("escolhaBusca").addEventListener("keydown", function (e) {
   if (e.key === "Enter") { e.preventDefault(); var b = $("escolhaLista").querySelector("button:not(:disabled)"); if (b) b.click(); }
   else if (e.key === "ArrowDown") { e.preventDefault(); var b2 = $("escolhaLista").querySelector("button:not(:disabled)"); if (b2) b2.focus(); }
@@ -1950,8 +2022,14 @@ function valorResp(f, p) {
   return [Math.min(1.5, v), vs[0][1]];
 }
 function otimizar(i) {
-  var eu = blocosDe(mesa.d[i].lista), adv = blocosDe(mesa.d[1 - i].lista), p = perfilDe(adv.main), meu = perfilDe(eu.main);
-  if (!eu.side.length) { mesa.trocas[i] = []; mesa.otim[i] = { semSide: true }; desenhar(); return; }
+  var o = calcOtim(mesa.d[i].lista, mesa.d[1 - i].lista);
+  mesa.trocas[i] = o.trocas; mesa.otim[i] = o;
+  desenhar();
+}
+// Otimização da lista "minha" contra a lista "dele" (texto das listas): { trocas: [{sai, entra, n}], entram, saem, p } ou { semSide, trocas: [] }
+function calcOtim(minha, dele) {
+  var eu = blocosDe(minha), adv = blocosDe(dele), p = perfilDe(adv.main), meu = perfilDe(eu.main);
+  if (!eu.side.length) return { semSide: true, trocas: [] };
   var controle = p.cri < 12 && (p.rem + (p.contra || 0)) >= 10; // poucas criaturas e muita interação
   // cópias do sideboard que podem entrar
   var ent = [];
@@ -1976,9 +2054,21 @@ function otimizar(i) {
   var tr = [], ei = 0, si = 0;
   while (tr.length < MAX_TROCAS && ei < ent.length && si < sai.length && ent[ei].v - sai[si].v >= GANHO_MIN) { tr.push([sai[si], ent[ei]]); si++; ei++; }
   var soma = function (lst) { var m = {}, o = []; lst.forEach(function (x) { if (!m[x.n]) { m[x.n] = { n: x.n, q: 0, mot: x.mot }; o.push(m[x.n]); } m[x.n].q++; }); return o; };
-  mesa.trocas[i] = tr.map(function (x) { return { sai: x[0].n, entra: x[1].n, n: 1 }; });
-  mesa.otim[i] = { entram: soma(tr.map(function (x) { return x[1]; })), saem: soma(tr.map(function (x) { return x[0]; })), p: p };
-  desenhar();
+  return { trocas: tr.map(function (x) { return { sai: x[0].n, entra: x[1].n, n: 1 }; }),
+    entram: soma(tr.map(function (x) { return x[1]; })), saem: soma(tr.map(function (x) { return x[0]; })), p: p };
+}
+// Entram/Saem com o motivo de cada carta (caixa do confronto e painel do "Otimizar contra")
+function listaOtim(o, r) {
+  [["otimEntram", o.entram, "+"], ["otimSaem", o.saem, "−"]].forEach(function (g) {
+    r.appendChild(el("div", "otim-sub", t(g[0])));
+    var ul = el("ul", "otim-lista");
+    g[1].forEach(function (x) {
+      var li = el("li"); li.appendChild(el("span", "otim-n", g[2] + x.q + " " + x.n));
+      var m = motivoOtim(x.mot, o.p); if (m) li.appendChild(el("span", "otim-mot", m));
+      ul.appendChild(li);
+    });
+    r.appendChild(ul);
+  });
 }
 function motivoOtim(mot, p) {
   if (!mot) return "";
@@ -2008,16 +2098,7 @@ function caixaOtim() {
     if (o.semSide) r.appendChild(el("p", "mut", t("otimSemSide", { n: nomeJog(i) })));
     else if (!o.entram.length) r.appendChild(el("p", "mut", t("otimNada", { n: nomeJog(i) })));
     else {
-      [["otimEntram", o.entram, "+"], ["otimSaem", o.saem, "−"]].forEach(function (g) {
-        r.appendChild(el("div", "otim-sub", t(g[0])));
-        var ul = el("ul", "otim-lista");
-        g[1].forEach(function (x) {
-          var li = el("li"); li.appendChild(el("span", "otim-n", g[2] + x.q + " " + x.n));
-          var m = motivoOtim(x.mot, o.p); if (m) li.appendChild(el("span", "otim-mot", m));
-          ul.appendChild(li);
-        });
-        r.appendChild(ul);
-      });
+      listaOtim(o, r);
       var vl = el("button", "ghost otim-ver", t(mesa.sel === i ? "esconderLista" : "verLista")); vl.type = "button";
       vl.onclick = function () { mesa.sel = mesa.sel === i ? -1 : i; desenhar(); var pn = $("painel"); if (mesa.sel === i && pn.scrollIntoView) pn.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "nearest" }); };
       r.appendChild(vl);
