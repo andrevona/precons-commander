@@ -428,7 +428,7 @@
   </div>
   </div>
   <footer id="rodape"></footer>
-  <div class="versao" id="versao">v125</div>
+  <div class="versao" id="versao">v126</div>
 </main>
 <div class="modal" id="guia" hidden>
   <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="guiaTitulo">
@@ -484,7 +484,7 @@ var TXT = {
     titulo: 'Decks de Pauper',
     sub: 'Os arquétipos do Pauper nos últimos 30 dias, do mais jogado ao menos, cada um com as suas variações. Em cada variação, a lista de consenso e as 2 listas reais de torneios (MTGO e papel) de melhor resultado que fogem do consenso, com as cartas que elas trocam. Use a busca (em português ou inglês) ou compare dois decks.',
     busca: 'Carta, arquétipo ou variação…', apagar: 'Apagar busca', grupoCores: 'Variações',
-    outrasVar: 'Outras', outrosArq: 'Mostrar os outros arquétipos', consenso: 'Consenso', nListas: '{n} listas', nLista: '1 lista', mostrarMais: 'Mostrar mais ({n})',
+    outrasVar: 'Outras', outrosArq: 'Mostrar os outros arquétipos', consenso: 'Consenso', nListas: '{n} listas', kDeN: '{k} de {n} listas', nLista: '1 lista', mostrarMais: 'Mostrar mais ({n})',
     carregando: 'Carregando as listas…', falhaCarregar: 'Não consegui carregar as listas agora. Toque no arquétipo para tentar de novo.',
     infoCons: 'Consenso de {n} listas ({m} MTGO, {p} papel) · {pc} das listas · {b} com bom resultado',
     consDica: 'Lista de consenso: cada carta na quantidade média das listas desta variação (as maiores médias até completar 60 + 15). Ninguém jogou exatamente assim, mas mostra o que quase todos usam.',
@@ -542,7 +542,7 @@ var TXT = {
     titulo: 'Pauper decks',
     sub: 'The Pauper archetypes of the last 30 days, from most to least played, each with its variations. In each variation, the consensus list and the 2 best-finishing real tournament lists (MTGO and paper) that stray from the consensus, with the cards they change. Use the search (in Portuguese or English) or compare two decks.',
     busca: 'Card, archetype or variation…', apagar: 'Clear search', grupoCores: 'Variations',
-    outrasVar: 'Others', outrosArq: 'Show the other archetypes', consenso: 'Consensus', nListas: '{n} lists', nLista: '1 list', mostrarMais: 'Show more ({n})',
+    outrasVar: 'Others', outrosArq: 'Show the other archetypes', consenso: 'Consensus', nListas: '{n} lists', kDeN: '{k} of {n} lists', nLista: '1 list', mostrarMais: 'Show more ({n})',
     carregando: 'Loading the lists…', falhaCarregar: 'Could not load the lists now. Tap the archetype to try again.',
     infoCons: 'Consensus of {n} lists ({m} MTGO, {p} paper) · {pc} of the lists · {b} with a good finish',
     consDica: 'Consensus list: each card in the average quantity of this variation\'s lists (the highest averages up to 60 + 15). Nobody played exactly this, but it shows what almost everyone uses.',
@@ -880,7 +880,8 @@ function desenhar() {
     if (ico) { var im = document.createElement("img"); im.className = "ic"; im.alt = ""; im.src = "../icons/" + ico + ".svg"; im.onerror = function () { this.style.display = "none"; }; b.appendChild(im); }
     b.appendChild(document.createTextNode(col.nome));
     if (col.ci) b.appendChild(simbolos(col.ci));
-    var y = document.createElement("span"); y.className = "n"; y.textContent = col.n === 1 ? t("nLista") : t("nListas", { n: col.n }); b.appendChild(y); // nº de listas da variação
+    var y = document.createElement("span"); y.className = "n"; y.textContent = col.outras && col.decks.length && col.decks.length < col.n ? t("kDeN", { k: col.decks.length, n: col.n }) // Outras: as exibidas de quantas há
+      : col.n === 1 ? t("nLista") : t("nListas", { n: col.n }); b.appendChild(y); // nº de listas da variação
     if (colRec && vis.length > 1) {
       var m = document.createElement("span"); m.className = "mais"; m.textContent = "▾ +" + (vis.length - 1); b.appendChild(m);
       b.title = t("outras");
