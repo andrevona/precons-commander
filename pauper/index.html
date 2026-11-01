@@ -491,7 +491,7 @@
   </div>
   </div>
   <footer id="rodape"></footer>
-  <div class="versao" id="versao">v133</div>
+  <div class="versao" id="versao">v134</div>
 </main>
 <div class="modal" id="guia" hidden>
   <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="guiaTitulo">
@@ -1938,11 +1938,12 @@ function desenharMesa() {
     w.appendChild(b); w.appendChild(rr); g.appendChild(w);
   });
   m.appendChild(g);
-  if (completa()) { m.appendChild(caixaOtim()); m.appendChild(infoDuelo(mesa.d[0], mesa.d[1])); }
+  if (completa()) m.appendChild(caixaOtim());
   else m.appendChild(el("p", "duelo-falta", t("faltaDeck")));
   var pn = $("painel");
   pn.hidden = true; // o painel da tela normal não aparece no confronto: cada lado aberto ganha o seu, um abaixo do outro
   [0, 1].forEach(function (k) { if (mesa.ab[k] && mesa.d[k]) m.appendChild(painelMesa(k)); });
+  if (completa()) m.appendChild(infoDuelo(mesa.d[0], mesa.d[1])); // histórico, comparativo e chance de encontro: depois das listas abertas
   mesa.novo = false;
 }
 // Quadro abaixo dos cartões: histórico do confronto, comparativo e chance de encontro.
