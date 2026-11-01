@@ -7,7 +7,7 @@ Entrada:
 Saída:
   pauper_offline.html          -> site/pauper/index.html: famílias e variações, com a lista de consenso de cada variação embutida
   pauper_nomes_pt.json         -> site/pauper/nomes_pt.json (nome da carta -> nome em português, para a busca)
-  pauper_fam/<família>.json    -> site/pauper/fam/: os destaques de cada variação (até 5 listas reais com diferenças relevantes
+  pauper_fam/<família>.json    -> site/pauper/fam/: os destaques de cada variação (até 2 listas reais; 5 em Outras, com diferenças relevantes
                                   do consenso; ver tools/pauper_variacoes.py), carregados quando a família é aberta
 
 Na página: família = grupo (botão com a % das listas), variação = coleção (com as cores e o nº de listas), deck = "Consenso" da
@@ -68,9 +68,29 @@ def montar(texto):
     return lista, tp, st
 
 
-def real(x, col, dif=None):
+BASICOS = {"Plains", "Island", "Swamp", "Mountain", "Forest", "Wastes"} | {"Snow-Covered " + b for b in ("Plains", "Island", "Swamp", "Mountain", "Forest")}
+
+
+def trocas(texto, cons):
+    """Cartas do deck principal (sem básicos, como na contagem do pauper_variacoes.py) que entram e saem em relação ao consenso:
+    [[qtd, carta]] em ordem alfabética."""
+    m = {}
+    for l in texto.strip().split("\n\n")[0].split("\n"):
+        q, c = LINHA.match(l).groups(); m[c] = m.get(c, 0) + int(q)
+    c0 = {c: q for q, c in cons}
+    ks = sorted((set(m) | set(c0)) - BASICOS, key=str.casefold)
+    return ([[m.get(k, 0) - c0.get(k, 0), k] for k in ks if m.get(k, 0) > c0.get(k, 0)],
+            [[c0.get(k, 0) - m.get(k, 0), k] for k in ks if c0.get(k, 0) > m.get(k, 0)])
+
+
+def real(x, col, dif=None, cons=None):
     lista, tp, st = montar(x["lista"])
-    extra = {"dif": dif[0], "difs": dif[1]} if dif else {}  # cartas diferentes do consenso (principal sem básicos, sideboard)
+    extra = {}
+    if dif:  # cartas diferentes do consenso (nº no principal sem básicos, nº no sideboard) e quais entram e saem no principal
+        ent, sai = trocas(x["lista"], cons)
+        if (sum(q for q, _ in ent) + sum(q for q, _ in sai)) // 2 != dif[0]:
+            raise SystemExit("ERRO: trocas da lista %s não batem com a diferença do pauper_variacoes.py" % x["id"])
+        extra = {"dif": dif[0], "difs": dif[1], "ent": ent, "sai": sai}
     return dict(extra, **{"nome": col["nome"], "arquivo": col["id"] + "-" + x["id"], "real": 1, "lista": lista, "ci": x["ci"], "tp": tp, "st": st,
             "jogador": x["jogador"], "evento": x["evento"], "lugar": x["lugar"], "data": x["data"], "origem": x["origem"], "apelido": x["nome"],
                          "placar": x["lugar"] if re.match(r"^\d+-\d+(-\d+)?$", x["lugar"]) else PLACAR.get(x["id"], "")})
@@ -92,7 +112,7 @@ for f in var["familias"]:
                          "n": v["n"], "mtgo": v["mtgo"], "papel": v["papel"], "bons": v["bons"], "primeiros": v["primeiros"],
                          "side": [[c, p] for q, c, p in sorted(v["side"], key=lambda t: (-t[2], t[1]))]}]  # sideboard típico: carta e % das listas
         colecoes.append(col)
-        reais[v["slug"]] = [real(listas[i], col, (d, ds)) for i, d, ds in v["destaques"]]  # só os destaques (até 5)
+        reais[v["slug"]] = [real(listas[i], col, (d, ds), v["consenso"]) for i, d, ds in v["destaques"]]  # só os destaques (até 2)
     if f["outras_destaques"]:
         col = {"id": f["slug"] + "_outras", "nome": "", "outras": 1, "grupo": f["familia"], "fam": f["slug"], "ano": "", "icone": "",
                "n": len(f["outras_ids"]), "decks": []}

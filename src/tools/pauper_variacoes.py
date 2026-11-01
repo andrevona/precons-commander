@@ -124,7 +124,9 @@ def ordenar(ls):
     return sorted(ls, key=ordem_resultado)
 
 
-DESTAQUES, DIF_MIN = 5, 5  # até 5 listas de jogadores por variação, cada uma com 5+ cartas diferentes no principal (pedido do usuário)
+# Variação: só as 2 listas de melhor resultado com 5+ cartas diferentes do consenso no principal (pedido do usuário, 01/11/2026;
+# antes eram 5); "Outras" (sem consenso): as 5 melhores.
+DESTAQUES, DESTAQUES_OUTRAS, DIF_MIN = 2, 5, 5
 
 
 def principal_sem_basicos(x):
@@ -137,7 +139,7 @@ def diferenca(a, b):
 
 
 def destaques(ordenadas, cons=None, cons_side=None):
-    """Até DESTAQUES listas, na ordem de resultado: cada uma com pelo menos DIF_MIN cartas diferentes do consenso no deck
+    """Até DESTAQUES listas (DESTAQUES_OUTRAS sem consenso), na ordem de resultado: cada uma com pelo menos DIF_MIN cartas diferentes do consenso no deck
     principal (sem básicos) e das já escolhidas, e de outro jogador. Sem consenso ("Outras"): só a diferença entre elas.
     Devolve [[id, cartas diferentes no principal, no sideboard]] (as diferenças valem só com consenso)."""
     esc, jog = [], set()
@@ -150,7 +152,7 @@ def destaques(ordenadas, cons=None, cons_side=None):
             continue
         ds = diferenca(x["side"], cons_side) if cons_side is not None else 0
         esc.append((x, d, ds)); jog.add(x["jogador"])
-        if len(esc) == DESTAQUES:
+        if len(esc) == (DESTAQUES if cons is not None else DESTAQUES_OUTRAS):
             break
     return [[x["id"], d, ds] for x, d, ds in esc]
 
