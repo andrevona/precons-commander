@@ -149,6 +149,68 @@ AUDITORIA = {
     "Corrupt": ("x-cri", "", "damage to any target"), "Martyr of Ashes": ("x-t1", "", "damage to each creature without flying"),
     "Rust": ("x-art", "", "from an artifact source"),
     "Grapple with Death": ("", "x-enc x-aura", "destroy target artifact or creature"),  # o MANUAL marcava encantamento por engano
+    # --- 01/11/2026 (2ª leitura): as outras 672 cartas das listas, lidas uma a uma ---
+    # remoção que a regra automática não pegou
+    "Ashes to Ashes": ("x-cri", "", "exile two target nonartifact creatures"),
+    "Bind the Monster": ("x-cri", "", "doesn't untap during its controller's untap step"),
+    "Blossombind": ("x-cri", "", "can't become untapped"),
+    "Cartouche of Strength": ("x-cri", "", "fight target creature an opponent controls"),
+    "Debt to the Kami": ("x-cri x-hex x-enc x-aura", "", "target opponent exiles a creature they control"),
+    "Galvanic Discharge": ("x-cri", "", "choose target creature or planeswalker"),
+    "Oubliette": ("x-cri", "", "target creature phases out"),
+    "Sunlance": ("x-cri", "", "3 damage to target nonwhite creature"),
+    "Unable to Scream": ("x-cri", "", "enchanted creature loses all abilities"),
+    "Utter Insignificance": ("x-cri", "", "enchanted creature loses all abilities"),
+    "Rolling Thunder": ("x-cri dano", "", "x damage divided as you choose among any number of targets"),
+    "Fire // Ice": ("x-t2 alvo", "", "2 damage divided as you choose among one or two targets"),
+    "Fume Spitter": ("x-t1 alvo", "", "put a -1/-1 counter on target creature"),
+    "Aerial Volley": ("x-voo alvo", "", "among one, two, or three target creatures with flying"),
+    "Whiteout": ("x-voo", "", "all creatures lose flying"),
+    "Spidersilk Armor": ("x-voo", "", "have reach"),
+    # encantamentos, terrenos, cores
+    "Aura Flux": ("x-enc x-aura", "", "other enchantments have"),
+    "Reverent Silence": ("x-enc x-aura", "", "destroy all enchantments"),
+    "Contaminated Ground": ("x-terx", "", "enchanted land is a swamp"),
+    "Circle of Protection: Red": ("x-verm x-dano", "", "red source of your choice"),
+    "Circle of Protection: Blue": ("x-azul", "", "blue source of your choice"),
+    "Crimson Acolyte": ("x-verm x-rem", "", "target creature gains protection from red"),
+    "Obsidian Acolyte": ("x-rem", "", "target creature gains protection from black"),
+    "Shield of Duty and Reason": ("x-rem x-azul", "", "protection from green and from blue"),
+    # descarte
+    "Cry of Contrition": ("x-comb", "", "target player discards a card"),
+    "Mind Drain": ("x-comb", "", "target opponent discards two cards"),
+    "Mind Extraction": ("x-comb", "", "reveals their hand and discards all cards"),
+    "Raven's Crime": ("x-comb", "", "target player discards a card"),
+    # protege das remoções
+    "Benevolent Blessing": ("x-rem plano", "", "protection from the chosen color"),
+    "Blacksmith's Skill": ("x-rem plano", "", "gains hexproof and indestructible"),
+    "Octopus Form": ("x-rem", "", "gains hexproof"),
+    "Orcish Medicine": ("x-rem", "", "lifelink or indestructible"),
+    "Whispersilk Cloak": ("x-rem plano", "", "has shroud"),
+    "Your Temple Is Under Attack": ("x-rem", "", "creatures you control gain indestructible"),
+    "Wrap in Vigor": ("x-rem", "", "regenerate each creature you control"),
+    # ganho de vida / prevenção (contra dano)
+    "Arashin Cleric": ("x-dano", "", "you gain 3 life"), "Aven Riftwatcher": ("x-dano", "", "you gain 2 life"),
+    "Boulderbranch Golem": ("x-dano", "", "you gain life equal to its power"), "Feed the Clan": ("x-dano", "", "you gain 5 life"),
+    "Lone Missionary": ("x-dano", "", "you gain 4 life"), "Orim's Cure": ("x-dano", "", "prevent the next 4 damage"),
+    "Peach Garden Oath": ("x-dano", "", "you gain 2 life for each creature you control"), "Renewed Faith": ("x-dano", "", "you gain 6 life"),
+    "Rest for the Weary": ("x-dano", "", "target player gains 4 life"), "Rhystic Circle": ("x-dano", "", "prevent that damage"),
+    "Sunspring Expedition": ("x-dano", "", "you gain 8 life"), "Trufflesnout": ("x-dano", "", "you gain 4 life"),
+    # neblinas que a regra não pegou
+    "Ethereal Haze": ("neb", "", "prevent all damage that would be dealt by creatures"),
+    "Moment of Silence": ("neb", "", "skips their next combat phase"),
+    # perda de vida do adversário (alcance do deck, como dano direto)
+    "Abundant Maw": ("dano", "", "target opponent loses 3 life"), "Alms of the Vein": ("dano", "", "target opponent loses 3 life"),
+    "Bump in the Night": ("dano", "", "target opponent loses 3 life"), "Essence Harvest": ("dano", "", "target player loses x life"),
+    "Foul-Tongue Shriek": ("dano", "", "target opponent loses 1 life for each attacking creature"),
+    "Fruit of Tizerus": ("dano", "", "target player loses 2 life"), "Hopeless Nightmare": ("dano", "", "each opponent discards a card and loses 2 life"),
+    "Rite of Consumption": ("dano", "", "power to target player or planeswalker"), "Tempting Witch": ("dano", "", "target player loses 3 life"),
+    "Vampire's Kiss": ("dano", "", "target player loses 2 life"),
+    # terreno que só dá 1 de dano uma vez não faz do deck um deck de dano
+    "Abraded Bluffs": ("", "dano", "deals 1 damage to target opponent"), "Jagged Barrens": ("", "dano", "deals 1 damage to target opponent"),
+    "Lonely Arroyo": ("", "dano", "deals 1 damage to target opponent"),
+    # usa o cemitério
+    "Exhume": ("cem comb", "", "puts a creature card from their graveyard onto the battlefield"),
 }
 # Contradições que a trava (conferir) acusa mas estão certas, com o motivo
 EXCECOES = {
@@ -166,6 +228,7 @@ EXCECOES = {
     "Crypt Rats": "X de dano em área",
     "Pestilence": "1 de dano em área repetível",
     "Krark-Clan Shaman": "1 de dano em área repetível",
+    "Rolling Thunder": "X de dano dividido entre quaisquer alvos (\"any number of targets\"): mata criaturas, escolhendo alvo",
 }
 
 
@@ -192,12 +255,12 @@ def conferir(n, e, txt):
                                        r"target creature or|up to one target creature|target opponent", t)):
             p.append("x-cri sem alvo de criatura nem sacrifício no texto")
         if re.search(r"-\d+/-0", t) and not re.search(r"-\d+/-[1-9]|destroy|damage|exile|sacrific", t): p.append("x-cri, mas só -N/-0")
-    if "x-hex" in e and not re.search(r"sacrific|counter target creature spell", t): p.append("x-hex sem sacrifício nem contramágica de criatura")
+    if "x-hex" in e and not re.search(r"sacrific|counter target creature spell|exiles a creature they control", t): p.append("x-hex sem sacrifício nem contramágica de criatura")
     precisa = {"x-art": r"artifact|target permanent|nonland permanent", "x-enc": r"enchantment|target permanent|nonland permanent",
                "x-aura": r"aura|enchantment|target permanent|nonland permanent", "x-cem": r"graveyard", "x-azul": r"blue|island",
                "x-verm": r"\bred\b", "x-terx": r"\bland", "x-inst": r"instant", "x-feit": r"sorcery", "x-voo": r"flying",
                "x-ncri": r"noncreature", "x-comb": r"counter target|discard|reveals|choose a nonland", "x-neb": r"prevent|can't be prevented",
-               "x-dano": r"life|prevent|skips", "x-rem": r"hexproof|protection|indestructible|flagbearer|target"}
+               "x-dano": r"life|prevent|skips", "x-rem": r"hexproof|protection|indestructible|flagbearer|regenerate|shroud|target"}
     for k, rx in precisa.items():
         if k in e and not re.search(rx, t): p.append("%s sem '%s' no texto" % (k, rx))
     return p
