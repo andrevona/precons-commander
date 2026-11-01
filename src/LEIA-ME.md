@@ -35,3 +35,6 @@ Para atualizar (nesta ordem; os três primeiros precisam de www.mtggoldfish.com 
 
 - `template_pauper.html` nasceu de uma cópia do `template.html` (sem sorteio em grupo e sem os filtros; família = grupo, variação = coleção, lista = deck): correções de interface comuns às duas páginas precisam ser feitas nos dois arquivos.
 - O `validar.py` confere também as listas de Pauper (todas as de `listas.json.gz` e a cobertura de `variacoes.json`) e, com `--site`, se a página, os nomes em português e cada arquivo de família gerados saem idênticos aos publicados.
+
+## Referência
+- `referencia/regras_20260925.txt`: regras completas do Magic (Comprehensive Rules de 25/09/2026, texto extraído do .docx da Wizards). Só para consulta por trecho, ex. `grep -n "^702.11" src/referencia/regras_20260925.txt` (hexproof); não é publicado no site nem lido pelos scripts. Ao chegar versão nova, trocar o arquivo (mesmo formato, data no nome).
