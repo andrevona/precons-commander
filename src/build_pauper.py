@@ -160,7 +160,18 @@ if confrontos:
     confrontos = {k: v for k, v in confrontos.items() if k != "geral"}  # "geral" (por arquétipo) não é usado na página
     confrontos["m"] = m
 
+# Funções das cartas (pauper/funcoes.json, tools/pauper_funcoes.py) para o Otimizar: só as cartas das listas que a página mostra.
+_fu = os.path.join(P, "funcoes.json")
+FUNCOES = json.load(open(_fu, encoding="utf-8")) if os.path.exists(_fu) else {}
+_vistas = {m.group(1) for c in colecoes for d in c["decks"] for m in re.finditer(r"^\d+ (.+)$", d["lista"], re.M)} | \
+          {m.group(1) for reais in por_fam.values() for ls in reais.values() for d in ls for m in re.finditer(r"^\d+ (.+)$", d["lista"], re.M)}
+_sem_fu = sorted(_vistas - set(FUNCOES))
+if FUNCOES and _sem_fu:
+    raise SystemExit("ERRO: cartas sem funções em pauper/funcoes.json (rodar tools/pauper_funcoes.py): %s" % _sem_fu)
+funcoes = {n: FUNCOES[n] for n in sorted(_vistas) if n in FUNCOES}
+
 html = (open("template_pauper.html", encoding="utf-8").read()
+        .replace("__FUNCOES__", json.dumps(funcoes, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/"))
         .replace("__CONFRONTOS__", json.dumps(confrontos, ensure_ascii=False, sort_keys=True, separators=(",", ":")) if confrontos else "null")
         .replace("__TIPOS__", json.dumps(TIPOS, ensure_ascii=False))
         .replace("__META__", json.dumps(info))

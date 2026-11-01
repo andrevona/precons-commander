@@ -170,6 +170,19 @@
   .duelo-info section + section { margin-top:16px; padding-top:14px; border-top:1px solid var(--line); }
   .duelo-info p { margin:4px 0; font-size:14px; }
   .duelo-info .mut { color:var(--mut); font-size:12.5px; }
+  .otim-btns { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0 4px; }
+  .otim-btn { font:inherit; font-weight:700; font-size:14px; padding:9px 10px; border-radius:10px; cursor:pointer; color:var(--fg); border:1.5px solid transparent; background:var(--tinta, var(--card)) padding-box, var(--brilho, var(--line)) border-box; }
+  .otim-btn:hover { filter:brightness(1.04); }
+  .otim-res { margin-top:12px; padding-top:10px; border-top:1px solid var(--line); }
+  .otim-cab { display:flex; align-items:baseline; justify-content:space-between; gap:8px; font-size:14px; }
+  .otim-desf, .otim-ver { font-size:13px; padding:4px 10px; }
+  .otim-ver { margin-top:8px; }
+  .otim-sub { font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--mut); margin:8px 0 2px; }
+  .otim-lista { list-style:none; margin:0; padding:0; font-size:14px; }
+  .otim-lista li { display:flex; flex-wrap:wrap; gap:0 8px; padding:2px 0; }
+  .otim-n { font-weight:600; }
+  .otim-mot { color:var(--mut); font-size:12.5px; }
+  .jog .otim-tag { color:var(--acc); font-weight:600; }
   .barra { display:flex; height:26px; border-radius:8px; overflow:hidden; font-size:12.5px; font-weight:700; margin:6px 0; }
   .barra span { display:flex; align-items:center; padding:0 8px; white-space:nowrap; min-width:0; color:var(--fg); }
   .barra span + span { justify-content:flex-end; }
@@ -474,6 +487,7 @@ function prepararDeck(d, col) { // lista de "Outras": % da família inteira e se
 COLECOES.forEach(function (c) { COL_POR_ID[c.id] = c; c.decks.forEach(function (d) { prepararDeck(d, c); }); });
 var CONSENSOS = COLECOES.filter(function (c) { return !c.outras; }).map(function (c) { return c.decks[0]; }).sort(function (a, b) { return a.pos - b.pos; });
 function decksUnicos() { return CONSENSOS; } // um por variação (o consenso), da mais jogada para a menos
+var FUNCOES = __FUNCOES__; // funções de cada carta (tools/pauper_funcoes.py), usadas pelo Otimizar
 var TIPOS = __TIPOS__; // tipos das cartas (en/pt); deck.tp tem uma letra por carta da lista, na ordem, apontando para cá (ver build.py)
 var ATUALIZADO = META.data; // data (AAAA-MM-DD) em que as listas foram baixadas do MTGGoldfish
 
@@ -507,8 +521,15 @@ var TXT = {
     confrFonte: 'Fonte: {f}, {p}. Com menos de 20 partidas o número é pouco confiável.',
     semConfr: 'Não há dados suficientes deste confronto.', semConfrFonte: 'O histórico de confrontos ainda não foi carregado nesta página.',
     encontro: '{b} é {p}% das listas: num torneio, quem joga {a} enfrenta {b} em cerca de 1 a cada {k} partidas.',
-    rodExtra: 'Os <b>arquétipos</b> estão em ordem de participação (% das listas dos últimos 30 dias, MTGO e papel); ao tocar num deles os outros recolhem sob ele, e um novo toque mostra todos de novo. Dentro de cada um ficam as <b>variações</b> (agrupadas pelas cores e pelas cartas) e, em cada variação, o <b>Consenso</b> (cada carta na quantidade média, com o sideboard típico e a % de listas que levam cada carta) e as 2 listas reais de melhor resultado, de jogadores diferentes, que trocam pelo menos 5 cartas do deck principal em relação ao consenso (e entre si); o botão mostra o placar (vitórias-derrotas) e o painel, as cartas do deck principal que entram e saem; em <b>Outras</b>, as 2 melhores listas que não formam variação. Ao abrir um arquétipo e uma variação, um texto curto explica a estratégia de cada um. <b>Comparar decks</b> deixa você escolher o deck 1 e o deck 2 (uma variação ou uma lista; pode ser o mesmo dos dois lados) e mostra o histórico do confronto entre os arquétipos (DeckSnipe, papel e MTGO, só entre os mais jogados), um comparativo dos dois decks e a chance de se encontrarem; o lápis no canto de cada cartão troca só aquele deck, e o link do confronto pode ser compartilhado.',
+    rodExtra: 'Os <b>arquétipos</b> estão em ordem de participação (% das listas dos últimos 30 dias, MTGO e papel); ao tocar num deles os outros recolhem sob ele, e um novo toque mostra todos de novo. Dentro de cada um ficam as <b>variações</b> (agrupadas pelas cores e pelas cartas) e, em cada variação, o <b>Consenso</b> (cada carta na quantidade média, com o sideboard típico e a % de listas que levam cada carta) e as 2 listas reais de melhor resultado, de jogadores diferentes, que trocam pelo menos 5 cartas do deck principal em relação ao consenso (e entre si); o botão mostra o placar (vitórias-derrotas) e o painel, as cartas do deck principal que entram e saem; em <b>Outras</b>, as 2 melhores listas que não formam variação. Ao abrir um arquétipo e uma variação, um texto curto explica a estratégia de cada um. <b>Comparar decks</b> deixa você escolher o deck 1 e o deck 2 (uma variação ou uma lista; pode ser o mesmo dos dois lados) e mostra o histórico do confronto entre os arquétipos (DeckSnipe, papel e MTGO, só entre os mais jogados), um comparativo dos dois decks e a chance de se encontrarem; o lápis no canto de cada cartão troca só aquele deck, e o link do confronto pode ser compartilhado. <b>Otimizar</b> troca cartas do deck principal por cartas do sideboard conforme o que o adversário joga (cada carta tem suas funções, tiradas do texto Oracle: contra azul, contra artefatos, contra o cemitério, varredura, ganho de vida etc.) e mostra o motivo de cada troca; a lista, "Copiar lista" e "Criar no endstep.cc" passam a usar o deck otimizado, e "Desfazer" volta ao original.',
     cMeta: 'Metagame', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
+    hOtim: 'Otimizar o sideboard', otimIntro: 'Troca cartas do deck principal por cartas do sideboard conforme o que o adversário joga: cada carta tem suas funções (contra azul, contra artefatos, contra o cemitério, varredura, ganho de vida etc.) e entram as que mais têm alvo no deck adversário, no lugar das que menos rendem neste confronto.',
+    otimizar: 'Otimizar o {n}', desfazer: 'Desfazer', otimTit: '{n} contra o {o}:', otimEntram: 'Entram', otimSaem: 'Saem',
+    otimNada: 'Nenhuma troca recomendada: o sideboard do {n} não tem cartas com mais alvo que as do deck principal.', otimSemSide: 'O {n} não tem sideboard.',
+    otimNota: 'Sugestão automática pelas funções das cartas (texto Oracle), sem contar a mão nem o jogo 1. A lista do deck, "Copiar lista" e "Criar no endstep.cc" já usam o deck otimizado.',
+    otimCartao: 'Otimizado · {k} trocas', otimFraca: 'rende menos neste confronto', otimPouco: 'pouco alvo: {r}', otimSemAlvo: 'sem alvo no adversário',
+    otimAmeaca: 'ameaça contra um deck de controle',
+    dims: { azul: '{n} cartas azuis', verm: '{n} cartas vermelhas', art: '{n} artefatos', enc: '{n} encantamentos', aura: '{n} Auras', cem: '{n} cartas que usam o cemitério', t1: '{n} criaturas de resistência 1', t2: '{n} criaturas de resistência até 2', cri: '{n} criaturas', hex: '{n} criaturas com hexproof', dano: 'deck agressivo ({n} cartas de dano e criaturas)', inst: '{n} mágicas instantâneas', feit: '{n} feitiços', ncri: '{n} mágicas não-criatura', comb: '{n} peças de combo ou motores', terx: '{n} terrenos especiais (Tron, Portões)', voo: '{n} voadoras de resistência 1', neb: '{n} neblinas', rem: '{n} remoções' },
     emComum: 'Cartas em comum no deck principal: {l}.', nadaComum: 'Nenhuma carta em comum no deck principal (fora os terrenos básicos).',
     decks: 'Listas', deck1: 'lista', deckN: 'listas', achou1: '1 variação encontrada', achouN: '{n} variações encontradas',
     nenhum: 'Nenhuma variação encontrada', nenhumTxt: 'Nenhuma variação ou carta com esse nome (a busca olha as listas de consenso).', nenhumFiltro: 'Nenhum deck com esses filtros.',
@@ -565,8 +586,15 @@ var TXT = {
     confrFonte: 'Source: {f}, {p}. With fewer than 20 matches the number is not very reliable.',
     semConfr: 'There is not enough data on this matchup.', semConfrFonte: 'The matchup history has not been loaded on this page yet.',
     encontro: '{b} is {p}% of the lists: in a tournament, a {a} player faces {b} in about 1 of every {k} matches.',
-    rodExtra: 'The <b>archetypes</b> are sorted by share (% of the lists of the last 30 days, MTGO and paper); tapping one tucks the others under it, and another tap shows them all again. Inside each one are its <b>variations</b> (grouped by colors and cards) and, in each variation, the <b>Consensus</b> (each card in the average quantity, with the typical sideboard and the % of lists that run each card) and the 2 best-finishing real lists, from different players, that change at least 5 main-deck cards from the consensus (and from each other); the button shows the win-loss record and the panel, the main-deck cards that come in and go out; in <b>Others</b>, the 2 best lists that do not form a variation. Opening an archetype and a variation shows a short text on the strategy of each. <b>Compare decks</b> lets you pick deck 1 and deck 2 (a variation or a list; it can be the same on both sides) and shows the matchup history between the archetypes (DeckSnipe, paper and MTGO, only among the most played), a comparison of both decks and the odds of meeting; the pencil in the corner of each card changes only that deck, and the matchup link can be shared.',
+    rodExtra: 'The <b>archetypes</b> are sorted by share (% of the lists of the last 30 days, MTGO and paper); tapping one tucks the others under it, and another tap shows them all again. Inside each one are its <b>variations</b> (grouped by colors and cards) and, in each variation, the <b>Consensus</b> (each card in the average quantity, with the typical sideboard and the % of lists that run each card) and the 2 best-finishing real lists, from different players, that change at least 5 main-deck cards from the consensus (and from each other); the button shows the win-loss record and the panel, the main-deck cards that come in and go out; in <b>Others</b>, the 2 best lists that do not form a variation. Opening an archetype and a variation shows a short text on the strategy of each. <b>Compare decks</b> lets you pick deck 1 and deck 2 (a variation or a list; it can be the same on both sides) and shows the matchup history between the archetypes (DeckSnipe, paper and MTGO, only among the most played), a comparison of both decks and the odds of meeting; the pencil in the corner of each card changes only that deck, and the matchup link can be shared. <b>Optimize</b> swaps main-deck cards for sideboard cards based on what the opponent plays (each card has its roles, taken from the Oracle text: against blue, against artifacts, against the graveyard, sweeper, life gain etc.) and shows the reason for each swap; the list, "Copy list" and "Create on endstep.cc" then use the optimized deck, and "Undo" goes back to the original.',
     cMeta: 'Metagame', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
+    hOtim: 'Optimize the sideboard', otimIntro: 'Swaps main-deck cards for sideboard cards based on what the opponent plays: each card has its roles (against blue, against artifacts, against the graveyard, sweeper, life gain etc.), and the ones with the most targets in the opposing deck come in, replacing the ones that do the least in this matchup.',
+    otimizar: 'Optimize {n}', desfazer: 'Undo', otimTit: '{n} against {o}:', otimEntram: 'In', otimSaem: 'Out',
+    otimNada: 'No swaps recommended: the {n} sideboard has no cards with more targets than the main-deck cards.', otimSemSide: '{n} has no sideboard.',
+    otimNota: 'Automatic suggestion based on card roles (Oracle text), without looking at your hand or game 1. The deck list, "Copy list" and "Create on endstep.cc" already use the optimized deck.',
+    otimCartao: 'Optimized · {k} swaps', otimFraca: 'does the least in this matchup', otimPouco: 'few targets: {r}', otimSemAlvo: 'no targets in the opposing deck',
+    otimAmeaca: 'threat against a control deck',
+    dims: { azul: '{n} blue cards', verm: '{n} red cards', art: '{n} artifacts', enc: '{n} enchantments', aura: '{n} Auras', cem: '{n} cards that use the graveyard', t1: '{n} creatures with toughness 1', t2: '{n} creatures with toughness up to 2', cri: '{n} creatures', hex: '{n} hexproof creatures', dano: 'aggressive deck ({n} damage cards and creatures)', inst: '{n} instants', feit: '{n} sorceries', ncri: '{n} noncreature spells', comb: '{n} combo pieces or engines', terx: '{n} special lands (Tron, Gates)', voo: '{n} toughness-1 fliers', neb: '{n} fogs', rem: '{n} removal spells' },
     emComum: 'Cards in common in the main deck: {l}.', nadaComum: 'No cards in common in the main deck (besides basic lands).',
     decks: 'Lists', deck1: 'list', deckN: 'lists', achou1: '1 variation found', achouN: '{n} variations found',
     nenhum: 'No variation found', nenhumTxt: 'No variation or card with that name (the search looks at the consensus lists).', nenhumFiltro: 'No deck matches these filters.',
@@ -1527,7 +1555,7 @@ var mesa = null; // { d: [deck1|null, deck2|null], trocas: [[], []], sel, novo, 
 var ICONE_TROCA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>'; // lápis: escolher outro deck deste lado
 var DADO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg>';
 function deckPorId(id) { var r = null; COLECOES.forEach(function (c) { c.decks.forEach(function (d) { if (!r && idDe(d) === id) r = d; }); }); return r; } // consenso ou lista real já carregada
-function novaMesa(a, b) { return { d: [a || null, b || null], trocas: [[], []], sel: -1, novo: true, rev: [false, false] }; }
+function novaMesa(a, b) { return { d: [a || null, b || null], trocas: [[], []], otim: [null, null], sel: -1, novo: true, rev: [false, false] }; }
 function completa() { return !!(mesa && mesa.d[0] && mesa.d[1]); }
 // Lista do deck i com as trocas aplicadas. Cada troca: { sai: "Nome", entra: "Nome", n: cópias } (sai do principal para o
 // sideboard e entra do sideboard no principal). Sem trocas, devolve a lista original.
@@ -1559,7 +1587,7 @@ function porDeck(i, d) {
     if (!livres.length) { aviso(t("semOutro")); return; }
     d = livres[Math.floor(Math.random() * livres.length)];
   }
-  if (d !== mesa.d[i]) { mesa.d[i] = d; mesa.trocas[i] = []; mesa.rev[i] = true; }
+  if (d !== mesa.d[i]) { mesa.d[i] = d; mesa.trocas = [[], []]; mesa.otim = [null, null]; mesa.rev[i] = true; } // a otimização depende dos dois decks
   try { history.replaceState(null, "", "#" + hashMesa()); } catch (e) {}
   if (mesa.sel >= 0 && !mesa.d[mesa.sel]) mesa.sel = -1;
   desenhar();
@@ -1726,6 +1754,7 @@ function desenharMesa() {
     b.appendChild(dn);
     b.appendChild(el("span", "dinfo", d.real ? t("listaDe", { j: d.jogador, r: rotRes(d) }) : t("consenso") + " · " + t("nListas", { n: d.n })));
     if (d.pos) b.appendChild(el("span", "dinfo", t("posicao", { p: pct(d.pct), k: d.pos })));
+    if (mesa.trocas[i].length) b.appendChild(el("span", "dinfo otim-tag", t("otimCartao", { k: mesa.trocas[i].reduce(function (s1, x) { return s1 + x.n; }, 0) })));
     b.appendChild(el("span", "verlista", t(mesa.sel === i ? "esconderLista" : "verLista")));
     b.onclick = function () {
       if (mesa.sel === i) { mesa.sel = -1; desenhar(); return; }
@@ -1738,7 +1767,7 @@ function desenharMesa() {
     w.appendChild(b); w.appendChild(rr); g.appendChild(w);
   });
   m.appendChild(g);
-  if (completa()) m.appendChild(infoDuelo(mesa.d[0], mesa.d[1]));
+  if (completa()) { m.appendChild(caixaOtim()); m.appendChild(infoDuelo(mesa.d[0], mesa.d[1])); }
   else m.appendChild(el("p", "duelo-falta", t("faltaDeck")));
   var pn = $("painel");
   if (mesa.sel < 0 || !mesa.d[mesa.sel]) pn.hidden = true;
@@ -1805,6 +1834,127 @@ function infoDuelo(a, b) {
     s3.appendChild(el("p", "", t("encontro", { a: a.nome, b: b.nome, p: fmt(b.pct.toFixed(1)), k: Math.max(1, Math.round(100 / b.pct)) })));
     box.appendChild(s3);
   }
+  return box;
+}
+// ---- Otimizar o sideboard ----
+// Perfil do deck adversário (quantas cópias de cada característica no deck principal) e valor de cada carta: uma resposta
+// ("x-<alvo>" em FUNCOES) vale min(1, cópias do alvo / LIM[alvo]); cartas do plano do deck valem pelo menos BASE.
+var LIM = { azul: 14, verm: 14, art: 14, enc: 8, aura: 6, cem: 12, t1: 10, t2: 14, cri: 16, hex: 6, dano: 20, inst: 12, feit: 12, ncri: 18, comb: 6, terx: 8, voo: 6, neb: 6, rem: 8 };
+var BASE = 0.55, GANHO_MIN = 0.25, MAX_TROCAS = 8; // carta do plano: BASE + 0,05 por cópia no deck (as de 4 cópias são as mais protegidas)
+function blocosDe(lista) {
+  var b = lista.split("\n\n"), ler = function (txt) { var r = []; (txt || "").split("\n").forEach(function (l) { var m = /^(\d+)\s+(.+)$/.exec(l); if (m) r.push([+m[1], m[2]]); }); return r; };
+  return { main: ler(b[0]), side: ler(b[1]) };
+}
+function fun(n) { var f = FUNCOES[n]; if (!f) return {}; var o = {}; f.split(" ").forEach(function (x) { o[x] = 1; }); return o; }
+function perfilDe(main) {
+  var p = {}; Object.keys(LIM).forEach(function (k) { p[k] = 0; });
+  main.forEach(function (c) {
+    var q = c[0], f = fun(c[1]);
+    ["azul", "verm", "art", "enc", "aura", "cem", "t1", "t2", "cri", "hex", "inst", "feit", "comb", "terx", "neb"].forEach(function (k) { if (f[k]) p[k] += q; });
+    if (f.voo && f.t1) p.voo += q;
+    if (!f.ter && !f.cri) p.ncri += q;
+    if (f.dano) p.dano += q; if (f.cri) p.dano += 0.5 * q;
+    if (f["x-cri"] || f["x-hex"]) p.rem += q;
+    if (f["x-t1"] || f["x-t2"]) p.varr = (p.varr || 0) + q;
+    if (f["x-cem"]) p.odioCem = (p.odioCem || 0) + q;
+    if (f["x-comb"]) p.contra = (p.contra || 0) + q;
+    if (f.cem && f.comb) p.cem += 2 * q; // combo que depende do cemitério pesa mais
+  });
+  return p;
+}
+// Valor das respostas de uma carta contra o perfil p: [valor, alvo principal]
+function valorResp(f, p) {
+  var vs = [];
+  Object.keys(f).forEach(function (k) {
+    var a = k.slice(2); if (k.indexOf("x-") !== 0 || !LIM[a]) return;
+    if (a === "cri" && (f["x-t1"] || f["x-t2"])) return; // dano pequeno: só mata o que a varredura mataria
+    var x = p[a] / LIM[a]; vs.push([Math.min(1, x) + 0.3 * Math.min(1, Math.max(0, x - 1)), a]); // muito alvo (o dobro do limite) vale até 1,3
+  });
+  if (!vs.length) return [0, null];
+  vs.sort(function (a, b) { return b[0] - a[0]; });
+  var v = vs[0][0]; for (var i = 1; i < vs.length; i++) v += 0.25 * vs[i][0];
+  if (f.mv5) v *= 0.75; // resposta cara
+  return [Math.min(1.5, v), vs[0][1]];
+}
+function otimizar(i) {
+  var eu = blocosDe(mesa.d[i].lista), adv = blocosDe(mesa.d[1 - i].lista), p = perfilDe(adv.main), meu = perfilDe(eu.main);
+  if (!eu.side.length) { mesa.trocas[i] = []; mesa.otim[i] = { semSide: true }; desenhar(); return; }
+  var controle = p.cri < 12 && (p.rem + (p.contra || 0)) >= 10; // poucas criaturas e muita interação
+  // cópias do sideboard que podem entrar
+  var ent = [];
+  eu.side.forEach(function (c) {
+    var f = fun(c[1]), r = valorResp(f, p), v = r[0], mot = r[1] ? "dim:" + r[1] : null;
+    if (!r[1] && f.plano && f.cri && controle && !f.t1) { v = 0.75; mot = "ameaca"; } // ameaça de side contra controle
+    if (r[1] && f.dano && meu.dano >= 20) v += 0.15; // resposta que também dá dano, num deck agressivo (ex. Smash to Smithereens)
+    for (var k = 0; k < c[0]; k++) ent.push({ n: c[1], v: v * (1 - 0.06 * k), mot: mot });
+  });
+  // cópias do principal que podem sair (terrenos nunca)
+  var sai = [];
+  eu.main.forEach(function (c) {
+    var f = fun(c[1]); if (f.ter || BASICOS.indexOf(c[1]) >= 0) return;
+    var base = BASE + 0.05 * Math.min(4, c[0]), r = valorResp(f, p), v = f.plano ? Math.max(base, r[0]) : r[0], mot = f.plano ? "fraca" : (r[1] && r[0] > 0 ? "pouco:" + r[1] : "semAlvo");
+    if (f.plano && f.t1 && f.cri && (p.varr || 0) >= 3) v -= 0.1; // morre para as varreduras do adversário
+    if (f.plano && f.cem && (p.odioCem || 0) >= 3) v -= 0.1; // o adversário tem ódio de cemitério
+    if (f.comb) v += 0.3; // peça do combo ou motor: só sai com muito ganho
+    if (f.art && meu.art >= 16) v += 0.1; // num deck de artefatos, cada artefato ajuda os outros
+    for (var k = 0; k < c[0]; k++) sai.push({ n: c[1], v: v + 0.04 * k, mot: mot });
+  });
+  ent.sort(function (a, b) { return b.v - a.v; }); sai.sort(function (a, b) { return a.v - b.v; });
+  var tr = [], ei = 0, si = 0;
+  while (tr.length < MAX_TROCAS && ei < ent.length && si < sai.length && ent[ei].v - sai[si].v >= GANHO_MIN) { tr.push([sai[si], ent[ei]]); si++; ei++; }
+  var soma = function (lst) { var m = {}, o = []; lst.forEach(function (x) { if (!m[x.n]) { m[x.n] = { n: x.n, q: 0, mot: x.mot }; o.push(m[x.n]); } m[x.n].q++; }); return o; };
+  mesa.trocas[i] = tr.map(function (x) { return { sai: x[0].n, entra: x[1].n, n: 1 }; });
+  mesa.otim[i] = { entram: soma(tr.map(function (x) { return x[1]; })), saem: soma(tr.map(function (x) { return x[0]; })), p: p };
+  desenhar();
+}
+function desfazerOtim(i) { mesa.trocas[i] = []; mesa.otim[i] = null; desenhar(); }
+function motivoOtim(mot, p) {
+  if (!mot) return "";
+  if (mot === "ameaca") return t("otimAmeaca");
+  if (mot === "fraca") return t("otimFraca");
+  if (mot === "semAlvo") return t("otimSemAlvo");
+  var k = mot.split(":"), dim = k[1], n = Math.round(p[dim]), txt = (TXT[IDIOMA].dims || TXT.pt.dims)[dim].replace("{n}", n);
+  return k[0] === "pouco" ? t("otimPouco", { r: txt }) : txt;
+}
+function caixaOtim() {
+  var box = el("div", "duelo-info otim"), s = el("section");
+  s.appendChild(el("h3", "", t("hOtim")));
+  s.appendChild(el("p", "mut", t("otimIntro")));
+  var bt = el("div", "otim-btns");
+  [0, 1].forEach(function (i) {
+    var b = el("button", "otim-btn" + (mesa.otim[i] ? " on" : ""), t("otimizar", { n: nomeJog(i) })); b.type = "button";
+    if (mesa.d[i].ci) contornoCor(b, mesa.d[i].ci, tomDoLado(i));
+    b.onclick = function () { otimizar(i); };
+    bt.appendChild(b);
+  });
+  s.appendChild(bt);
+  [0, 1].forEach(function (i) {
+    var o = mesa.otim[i]; if (!o) return;
+    var r = el("div", "otim-res");
+    var cab = el("div", "otim-cab"); cab.appendChild(el("b", "", t("otimTit", { n: nomeJog(i) + " (" + mesa.d[i].nome + ")", o: nomeJog(1 - i) })));
+    var dz = el("button", "ghost otim-desf", t("desfazer")); dz.type = "button"; dz.onclick = function () { desfazerOtim(i); };
+    cab.appendChild(dz); r.appendChild(cab);
+    if (o.semSide) r.appendChild(el("p", "mut", t("otimSemSide", { n: nomeJog(i) })));
+    else if (!o.entram.length) r.appendChild(el("p", "mut", t("otimNada", { n: nomeJog(i) })));
+    else {
+      [["otimEntram", o.entram, "+"], ["otimSaem", o.saem, "−"]].forEach(function (g) {
+        r.appendChild(el("div", "otim-sub", t(g[0])));
+        var ul = el("ul", "otim-lista");
+        g[1].forEach(function (x) {
+          var li = el("li"); li.appendChild(el("span", "otim-n", g[2] + x.q + " " + x.n));
+          var m = motivoOtim(x.mot, o.p); if (m) li.appendChild(el("span", "otim-mot", m));
+          ul.appendChild(li);
+        });
+        r.appendChild(ul);
+      });
+      var vl = el("button", "ghost otim-ver", t(mesa.sel === i ? "esconderLista" : "verLista")); vl.type = "button";
+      vl.onclick = function () { mesa.sel = mesa.sel === i ? -1 : i; desenhar(); var pn = $("painel"); if (mesa.sel === i && pn.scrollIntoView) pn.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "nearest" }); };
+      r.appendChild(vl);
+    }
+    s.appendChild(r);
+  });
+  if (mesa.otim[0] || mesa.otim[1]) s.appendChild(el("p", "mut", t("otimNota")));
+  box.appendChild(s);
   return box;
 }
 var BASICOS = ["Plains", "Island", "Swamp", "Mountain", "Forest", "Wastes", "Snow-Covered Plains", "Snow-Covered Island", "Snow-Covered Swamp", "Snow-Covered Mountain", "Snow-Covered Forest"];
