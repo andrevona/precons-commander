@@ -40,7 +40,7 @@
   .arq-linha { display:flex; flex-wrap:wrap; gap:4px 6px; }
   .arq-linha .arq-tag { margin-left:0; }
   #titulo .arq-tag { vertical-align:2px; }
-  #titulo .tit-cmd { display:block; font-size:13px; font-weight:400; color:var(--mut); margin-top:2px; }
+  #titulo .tit-cmd, .painel-mesa .tit-cmd { display:block; font-size:13px; font-weight:400; color:var(--mut); margin-top:2px; }
   .panel { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:12px; }
   .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
   .grow { flex:1; min-width:180px; }
@@ -214,7 +214,13 @@
   .otim-btns { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0 4px; }
   .otim-btn { font:inherit; font-weight:700; font-size:14px; padding:9px 10px; border-radius:10px; cursor:pointer; color:var(--fg); border:1.5px solid transparent; background:var(--tinta, var(--card)) padding-box, var(--brilho, var(--line)) border-box; }
   .otim-btn:hover { filter:brightness(1.04); }
-  .otim-res { margin-top:12px; padding-top:10px; border-top:1px solid var(--line); }
+  .otim-res { margin-top:12px; padding:10px 12px 12px; border:2px solid transparent; border-radius:10px; background:linear-gradient(var(--bg), var(--bg)) padding-box, var(--brilho, linear-gradient(var(--line), var(--line))) border-box; }
+  .otim-res .otim-cab { flex-wrap:wrap; justify-content:flex-start; gap:2px 8px; }
+  .otim-cab b .simbolos { margin-left:6px; vertical-align:-3px; } .otim-cab b .simbolos img { width:14px; height:14px; }
+  .otim-vs { color:var(--mut); font-size:13px; }
+  .lista-botoes { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .lista-botoes .dif-copiar { margin-top:0; }
+  .painel-mesa { border:2px solid transparent; background:linear-gradient(var(--card), var(--card)) padding-box, var(--brilho, linear-gradient(var(--line), var(--line))) border-box; }
   .otim-cab { display:flex; align-items:baseline; justify-content:space-between; gap:8px; font-size:14px; }
   .otim-desf, .otim-ver { font-size:13px; padding:4px 10px; }
   .otim-ver { margin-top:8px; }
@@ -485,7 +491,7 @@
   </div>
   </div>
   <footer id="rodape"></footer>
-  <div class="versao" id="versao">v132</div>
+  <div class="versao" id="versao">v133</div>
 </main>
 <div class="modal" id="guia" hidden>
   <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="guiaTitulo">
@@ -567,10 +573,10 @@ var TXT = {
     encontro: '{b} é {p}% das listas: num torneio, quem joga {a} enfrenta {b} em cerca de 1 a cada {k} partidas.',
     rodExtra: 'Os <b>arquétipos</b> estão em ordem de participação (% das listas dos últimos 30 dias, MTGO e papel); ao tocar num deles os outros recolhem sob ele, e um novo toque mostra todos de novo. Dentro de cada um ficam as <b>variações</b> (agrupadas pelas cores e pelas cartas) e, em cada variação, o <b>Consenso</b> (cada carta na quantidade média, com o sideboard típico e a % de listas que levam cada carta) e as 2 listas reais de melhor resultado, de jogadores diferentes, que trocam pelo menos 5 cartas do deck principal em relação ao consenso (e entre si); o botão mostra o placar (vitórias-derrotas) e o painel, as cartas do deck principal que entram e saem; em <b>Outras</b>, as 2 melhores listas que não formam variação. Ao abrir um arquétipo e uma variação, um texto curto explica a estratégia de cada um. <b>Comparar decks</b> deixa você escolher o deck 1 e o deck 2 (uma variação ou uma lista; pode ser o mesmo dos dois lados) e mostra o histórico do confronto entre os arquétipos (DeckSnipe, papel e MTGO, só entre os mais jogados), um comparativo dos dois decks e a chance de se encontrarem; o lápis no canto de cada cartão troca só aquele deck (o quadro de escolha fica agrupado por arquétipo e busca também por carta), e o link do confronto pode ser compartilhado. <b>Otimizar</b> troca cartas do deck principal por cartas do sideboard conforme o que o adversário joga (cada carta tem suas funções, tiradas do texto Oracle: contra azul, contra artefatos, contra o cemitério, varredura, ganho de vida etc.) e mostra o motivo de cada troca; "Ver lista" mostra a lista original e a otimizada (lado a lado no computador; no celular, uma de cada vez) com as cartas trocadas destacadas; o seletor Original | Otimizada escolhe qual delas vai para "Criar no endstep.cc" e para o "Copiar lista" abaixo das listas. O mesmo vale direto no painel de qualquer deck: <b>Otimizar contra…</b> escolhe o adversário sem sair da tela, e \"Ver o confronto completo\" leva ao Comparar decks.',
     cMeta: 'Metagame', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
-    hOtim: 'Otimizar o sideboard', otimIntro: 'Troca cartas do deck principal por cartas do sideboard conforme o que o adversário joga: cada carta tem suas funções (contra azul, contra artefatos, contra o cemitério, varredura, ganho de vida etc.) e entram as que mais têm alvo no deck adversário, no lugar das que menos rendem neste confronto.',
+    hOtim: 'Otimizar o sideboard', otimIntro: 'Troca cartas do principal pelas do sideboard que mais têm alvo no deck adversário.',
     otimizar: 'Otimizar o {n}', otimContra: 'Otimizar contra…', contraTrocar: 'Trocar adversário', contraLinha: 'Otimizado contra', contraTirar: 'Voltar à lista original', contraConfronto: 'Ver o confronto completo', contraTit: 'Otimizar {d} contra:', esteDeck: 'este deck', copiarOtim: 'Copiar lista otimizada', copiarOrig: 'Copiar lista original', difOrigM: 'original', difOtimM: 'otimizada', difOrig: 'Original', difOtim: 'Otimizada', difMain: 'Deck principal ({n})', difSide: 'Sideboard ({n})', difEntra: 'entra no deck principal', difSai: 'sai do deck principal', difContra: 'contra {o}', difAria: 'Ver a lista', otimTit: '{n} contra o {o}:', otimEntram: 'Entram', otimSaem: 'Saem',
     otimNada: 'Nenhuma troca recomendada: o sideboard do {n} não tem cartas com mais alvo que as do deck principal.', otimSemSide: 'O {n} não tem sideboard.',
-    otimNota: 'Sugestão automática pelas funções das cartas (texto Oracle), sem contar a mão nem o jogo 1. "Ver lista" mostra a lista original e a otimizada com as trocas destacadas; "Criar no endstep.cc" e "Copiar lista" usam a que estiver escolhida no seletor Original | Otimizada. Trocar um dos decks volta ao original.',
+    otimNota: 'Sugestão automática pelas funções das cartas; não considera a mão nem o jogo 1.',
     otimCartao: 'Otimizado · {k} trocas', otimFraca: 'rende menos neste confronto', otimPouco: 'pouco alvo: {r}', otimSemAlvo: 'sem alvo no adversário',
     otimAmeaca: 'ameaça contra um deck de controle',
     dims: { azul: '{n} cartas azuis', verm: '{n} cartas vermelhas', art: '{n} artefatos', enc: '{n} encantamentos', aura: '{n} Auras', cem: '{n} cartas que usam o cemitério', t1: '{n} criaturas de resistência 1', t2: '{n} criaturas de resistência até 2', cri: '{n} criaturas', hex: '{n} criaturas com hexproof', dano: 'deck agressivo ({n} cartas de dano e criaturas)', inst: '{n} mágicas instantâneas', feit: '{n} feitiços', ncri: '{n} mágicas não-criatura', comb: '{n} peças de combo ou motores', terx: '{n} terrenos especiais (Tron, Portões)', voo: '{n} voadoras de resistência 1', neb: '{n} neblinas', rem: '{n} remoções' },
@@ -632,10 +638,10 @@ var TXT = {
     encontro: '{b} is {p}% of the lists: in a tournament, a {a} player faces {b} in about 1 of every {k} matches.',
     rodExtra: 'The <b>archetypes</b> are sorted by share (% of the lists of the last 30 days, MTGO and paper); tapping one tucks the others under it, and another tap shows them all again. Inside each one are its <b>variations</b> (grouped by colors and cards) and, in each variation, the <b>Consensus</b> (each card in the average quantity, with the typical sideboard and the % of lists that run each card) and the 2 best-finishing real lists, from different players, that change at least 5 main-deck cards from the consensus (and from each other); the button shows the win-loss record and the panel, the main-deck cards that come in and go out; in <b>Others</b>, the 2 best lists that do not form a variation. Opening an archetype and a variation shows a short text on the strategy of each. <b>Compare decks</b> lets you pick deck 1 and deck 2 (a variation or a list; it can be the same on both sides) and shows the matchup history between the archetypes (DeckSnipe, paper and MTGO, only among the most played), a comparison of both decks and the odds of meeting; the pencil in the corner of each card changes only that deck (the picker is grouped by archetype and also searches by card), and the matchup link can be shared. <b>Optimize</b> swaps main-deck cards for sideboard cards based on what the opponent plays (each card has its roles, taken from the Oracle text: against blue, against artifacts, against the graveyard, sweeper, life gain etc.) and shows the reason for each swap; "View list" shows the original and the optimized list (side by side on a computer; one at a time on a phone) with the swapped cards highlighted; the Original | Optimized switch picks which one goes to "Create on endstep.cc" and to the "Copy list" below the lists. The same works right in the panel of any deck: <b>Optimize against…</b> picks the opponent without leaving the screen, and \"See the full matchup\" opens Compare decks.',
     cMeta: 'Metagame', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
-    hOtim: 'Optimize the sideboard', otimIntro: 'Swaps main-deck cards for sideboard cards based on what the opponent plays: each card has its roles (against blue, against artifacts, against the graveyard, sweeper, life gain etc.), and the ones with the most targets in the opposing deck come in, replacing the ones that do the least in this matchup.',
+    hOtim: 'Optimize the sideboard', otimIntro: 'Swaps main-deck cards for the sideboard cards with the most targets in the opposing deck.',
     otimizar: 'Optimize {n}', otimContra: 'Optimize against…', contraTrocar: 'Change opponent', contraLinha: 'Optimized against', contraTirar: 'Back to the original list', contraConfronto: 'See the full matchup', contraTit: 'Optimize {d} against:', esteDeck: 'this deck', copiarOtim: 'Copy optimized list', copiarOrig: 'Copy original list', difOrigM: 'original', difOtimM: 'optimized', difOrig: 'Original', difOtim: 'Optimized', difMain: 'Main deck ({n})', difSide: 'Sideboard ({n})', difEntra: 'goes into the main deck', difSai: 'leaves the main deck', difContra: 'against {o}', difAria: 'Show the list', otimTit: '{n} against {o}:', otimEntram: 'In', otimSaem: 'Out',
     otimNada: 'No swaps recommended: the {n} sideboard has no cards with more targets than the main-deck cards.', otimSemSide: '{n} has no sideboard.',
-    otimNota: 'Automatic suggestion based on card roles (Oracle text), without looking at your hand or game 1. "View list" shows the original and the optimized list with the swaps highlighted; "Create on endstep.cc" and "Copy list" use the one picked in the Original | Optimized switch. Changing either deck goes back to the original.',
+    otimNota: 'Automatic suggestion from card roles; it ignores your hand and game 1.',
     otimCartao: 'Optimized · {k} swaps', otimFraca: 'does the least in this matchup', otimPouco: 'few targets: {r}', otimSemAlvo: 'no targets in the opposing deck',
     otimAmeaca: 'threat against a control deck',
     dims: { azul: '{n} blue cards', verm: '{n} red cards', art: '{n} artifacts', enc: '{n} enchantments', aura: '{n} Auras', cem: '{n} cards that use the graveyard', t1: '{n} creatures with toughness 1', t2: '{n} creatures with toughness up to 2', cri: '{n} creatures', hex: '{n} hexproof creatures', dano: 'aggressive deck ({n} damage cards and creatures)', inst: '{n} instants', feit: '{n} sorceries', ncri: '{n} noncreature spells', comb: '{n} combo pieces or engines', terx: '{n} special lands (Tron, Gates)', voo: '{n} toughness-1 fliers', neb: '{n} fogs', rem: '{n} removal spells' },
@@ -1023,7 +1029,7 @@ function pintarPainel(deck, prefixo) {
   $("btnCopiar").hidden = otim; $("btnCopiar").textContent = t("copiar"); // otimizado: o copiar fica abaixo das listas
   rotEndstep(otim);
   document.querySelector("#painel .lista").hidden = otim; $("difLista").hidden = !otim;
-  if (otim) pintarDif(deck);
+  if (otim) pintarDif(deck, $("difLista"), estPainel);
   $("saida").value = deck.lista;
   destacar(deck);
   s.textContent = t("contagem", { m: m, s: sd }) + (ok ? " ✓" : t("avisoContagem"));
@@ -1036,10 +1042,14 @@ function pintarPainel(deck, prefixo) {
 }
 
 // Deck otimizado: original e otimizada, com as cartas trocadas destacadas (+N entra no deck principal, −N sai), nas duas listas.
-var difVer = "otim"; // lista escolhida (Original | Otimizada): no celular é a que aparece; no computador fica marcada
-function rotEndstep(otim) { $("btnEndstep").textContent = t("criar") + (otim ? " (" + t(difVer === "orig" ? "difOrigM" : "difOtimM") + ")" : ""); }
-function pintarDif(deck) {
-  var box = $("difLista"), o = blocosDe(deck._orig.lista), n = blocosDe(deck.lista), delta = {};
+// Estado do seletor Original | Otimizada de cada painel: ver = "otim" | "orig" (no celular é a lista que aparece; no
+// computador fica marcada); rot() atualiza o rótulo do "Criar no endstep.cc" daquele painel.
+var estPainel = { ver: "otim", rot: function () { rotEndstep(true); } };
+function rotCriar(ver) { return t("criar") + " (" + t(ver === "orig" ? "difOrigM" : "difOtimM") + ")"; }
+function rotEndstep(otim) { $("btnEndstep").textContent = otim ? rotCriar(estPainel.ver) : t("criar"); }
+// extra: botão posto ao lado do "Copiar lista" (ex. "Ocultar lista" no Comparar decks)
+function pintarDif(deck, box, st, extra) {
+  var o = blocosDe(deck._orig.lista), n = blocosDe(deck.lista), delta = {};
   var qtd = function (lst) { var m = {}; lst.forEach(function (c) { m[c[1]] = (m[c[1]] || 0) + c[0]; }); return m; };
   var mo = qtd(o.main), mn = qtd(n.main);
   Object.keys(mo).concat(Object.keys(mn)).forEach(function (k) { var d = (mn[k] || 0) - (mo[k] || 0); if (d) delta[k] = d; });
@@ -1048,23 +1058,23 @@ function pintarDif(deck) {
   var lg = el("div", "dif-leg"), le = el("span", "e"), ls = el("span", "s");
   le.appendChild(el("i")); le.appendChild(document.createTextNode("+N " + t("difEntra"))); ls.appendChild(el("i")); ls.appendChild(document.createTextNode("−N " + t("difSai")));
   lg.appendChild(le); lg.appendChild(ls); box.appendChild(lg);
-  var seg = el("div", "dif-seg"), cols = el("div", "dif-cols ver-" + difVer);
+  var seg = el("div", "dif-seg"), cols = el("div", "dif-cols ver-" + st.ver);
   [["orig", "difOrig"], ["otim", "difOtim"]].forEach(function (x) {
-    var b = el("button", "", t(x[1])); b.type = "button"; b.setAttribute("aria-pressed", difVer === x[0] ? "true" : "false");
+    var b = el("button", "", t(x[1])); b.type = "button"; b.setAttribute("aria-pressed", st.ver === x[0] ? "true" : "false");
     b.onclick = function () { escolherVer(x[0]); };
     seg.appendChild(b);
   });
   box.appendChild(seg);
   var bcp = el("button", "ghost dif-copiar"); bcp.type = "button";
   function escolherVer(v) {
-    difVer = v; cols.className = "dif-cols ver-" + difVer;
+    st.ver = v; cols.className = "dif-cols ver-" + st.ver;
     [].forEach.call(seg.children, function (y, k) { y.setAttribute("aria-pressed", (k === 0) === (v === "orig") ? "true" : "false"); });
-    clearTimeout(bcp._tm); bcp.textContent = t(v === "orig" ? "copiarOrig" : "copiarOtim"); rotEndstep(true);
+    clearTimeout(bcp._tm); bcp.textContent = t(v === "orig" ? "copiarOrig" : "copiarOtim"); st.rot();
   }
-  bcp.onclick = function () { copiarBotao(bcp, deckEscolhido(), function () { return difVer === "orig" ? "copiarOrig" : "copiarOtim"; }); };
+  bcp.onclick = function () { copiarBotao(bcp, st.ver === "orig" ? deck._orig : deck, function () { return st.ver === "orig" ? "copiarOrig" : "copiarOtim"; }); };
   [["orig", o, "difOrig"], ["otim", n, "difOtim"]].forEach(function (x) {
     var col = el("div", "dif-col " + x[0]), h = el("h4");
-    col.onclick = function () { if (difVer !== x[0]) escolherVer(x[0]); }; // no computador, tocar numa coluna também escolhe
+    col.onclick = function () { if (st.ver !== x[0]) escolherVer(x[0]); }; // no computador, tocar numa coluna também escolhe
     h.appendChild(el("b", "", t(x[2]))); if (x[0] === "otim") h.appendChild(document.createTextNode(" · " + t("difContra", { o: deck._contra })));
     col.appendChild(h);
     [["difMain", x[1].main], ["difSide", x[1].side]].forEach(function (sec) {
@@ -1080,7 +1090,7 @@ function pintarDif(deck) {
     cols.appendChild(col);
   });
   box.appendChild(cols);
-  box.appendChild(bcp); escolherVer(difVer);
+  var rb = el("div", "lista-botoes"); rb.appendChild(bcp); if (extra) rb.appendChild(extra); box.appendChild(rb); escolherVer(st.ver);
 }
 
 // Animação das coleções: as outras entram por baixo do botão clicado (recolher) e saem de baixo dele (expandir).
@@ -1553,7 +1563,7 @@ function copiarBotao(b, deck, rot) {
 }
 $("btnCopiar").onclick = function () { copiarBotao(this, deckDoPainel(), "copiar"); };
 // Deck otimizado: "Criar no endstep.cc" e o "Copiar lista" de baixo usam a lista escolhida no seletor Original | Otimizada
-function deckEscolhido() { var d = deckDoPainel(); return d._orig && difVer === "orig" ? d._orig : d; }
+function deckEscolhido() { var d = deckDoPainel(); return d._orig && estPainel.ver === "orig" ? d._orig : d; }
 $("btnContra").onclick = abrirContra;
 
 
@@ -1579,7 +1589,7 @@ aplicarIdioma();
 })();
 function deckAtualObj() { return COLECOES[colAtual].decks[deckAtual]; }
 // Deck do painel: no confronto, o do lado aberto (com as trocas de sideboard, quando houver); fora dele, o deck atual.
-function deckDoPainel() { return mesa && mesa.sel >= 0 && mesa.d[mesa.sel] ? deckDaMesa(mesa.sel) : (deckContra() || deckAtualObj()); }
+function deckDoPainel() { return deckContra() || deckAtualObj(); } // no Comparar decks cada lado tem o próprio painel (painelMesa)
 // "Otimizar contra…" no painel do deck (fora do Comparar decks): contra = { de: deck olhado, adv: adversário, o: resultado }
 var contra = null;
 function deckContra() {
@@ -1608,7 +1618,7 @@ function pintarContra() {
 function abrirConfronto() {
   var a = contra.de, b = contra.adv; contra = null;
   zerarBuscaEFiltros();
-  mesa = novaMesa(a, b); mesa.sel = 0;
+  mesa = novaMesa(a, b); mesa.ab[0] = true;
   try { history.pushState(null, "", "#" + hashMesa()); } catch (e) {}
   otimizar(0); window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
 }
@@ -1658,8 +1668,9 @@ function guia(abrir) {
   else if (focoAntes && focoAntes.focus) focoAntes.focus();
 }
 function abrirEndstep() { window.open(ENDSTEP, "_blank", "noopener"); }
-$("btnEndstep").onclick = function () {
-  var texto = textoEndstep(deckEscolhido());
+$("btnEndstep").onclick = function () { criarNoEndstep(deckEscolhido()); };
+function criarNoEndstep(deck) {
+  var texto = textoEndstep(deck);
   if (direto()) {
     copiar(texto, function () { aviso(t("direto")); }, function () { aviso(t("usarCopiar")); });
     abrirEndstep();
@@ -1669,7 +1680,7 @@ $("btnEndstep").onclick = function () {
   $("guiaTitulo").textContent = t("listaCopiada"); $("guiaTitulo").className = "ok";
   copiar(texto, function () {}, function () { $("guiaTitulo").textContent = t("falhaLista"); $("guiaTitulo").className = "erro"; });
   guia(true);
-};
+}
 function guardarPreferencia() { if ($("guiaNaoMostrar").checked) { try { localStorage.setItem(CHAVE_DIRETO, "1"); } catch (e) {} } }
 $("guiaAbrir").onclick = function () { guardarPreferencia(); guia(false); abrirEndstep(); };
 $("guiaFechar").onclick = function () { guardarPreferencia(); guia(false); };
@@ -1692,7 +1703,7 @@ var mesa = null; // { d: [deck1|null, deck2|null], trocas: [[], []], sel, novo, 
 var ICONE_TROCA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>'; // lápis: escolher outro deck deste lado
 var DADO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/></svg>';
 function deckPorId(id) { var r = null; COLECOES.forEach(function (c) { c.decks.forEach(function (d) { if (!r && idDe(d) === id) r = d; }); }); return r; } // consenso ou lista real já carregada
-function novaMesa(a, b) { return { d: [a || null, b || null], trocas: [[], []], otim: [null, null], sel: -1, novo: true, rev: [false, false] }; }
+function novaMesa(a, b) { return { d: [a || null, b || null], trocas: [[], []], otim: [null, null], ab: [false, false], ver: [{ ver: "otim" }, { ver: "otim" }], novo: true, rev: [false, false] }; } // ab: lista de cada lado aberta (podem ser as duas)
 function completa() { return !!(mesa && mesa.d[0] && mesa.d[1]); }
 // Lista do deck i com as trocas aplicadas. Cada troca: { sai: "Nome", entra: "Nome", n: cópias } (sai do principal para o
 // sideboard e entra do sideboard no principal). Sem trocas, devolve a lista original.
@@ -1727,7 +1738,7 @@ function porDeck(i, d) {
   }
   if (d !== mesa.d[i]) { mesa.d[i] = d; mesa.trocas = [[], []]; mesa.otim = [null, null]; mesa.rev[i] = true; } // a otimização depende dos dois decks
   try { history.replaceState(null, "", "#" + hashMesa()); } catch (e) {}
-  if (mesa.sel >= 0 && !mesa.d[mesa.sel]) mesa.sel = -1;
+  if (!mesa.d[i]) mesa.ab[i] = false;
   desenhar();
 }
 function hashMesa() { return "duelo/" + (mesa.d[0] ? idDe(mesa.d[0]) : "-") + "/" + (mesa.d[1] ? idDe(mesa.d[1]) : "-"); }
@@ -1840,7 +1851,7 @@ function escolherNoQuadro(d) {
     var base = deckAtualObj();
     if (!d) { var livres = decksUnicos().filter(function (x) { return x !== base; }); d = livres[Math.floor(Math.random() * livres.length)]; }
     $("escolha").hidden = true; escolhaModo = "mesa";
-    contra = { de: base, adv: d, o: calcOtim(base.lista, d.lista) }; difVer = "otim";
+    contra = { de: base, adv: d, o: calcOtim(base.lista, d.lista) }; estPainel.ver = "otim";
     desenhar();
     var pn = $("painel"); if (pn.scrollIntoView) pn.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "start" });
     return;
@@ -1899,7 +1910,7 @@ function desenharMesa() {
   ac.appendChild(bc); cab.appendChild(tit); cab.appendChild(ac); m.appendChild(cab);
   var g = el("div", "mesa-grade duelo-grade");
   mesa.d.forEach(function (d, i) {
-    var b = el("button", "jog" + (d ? "" : " vazio") + (d && mesa.sel === i ? " on" : "")), w = el("div", "jogw" + (d && (mesa.novo || mesa.rev[i]) ? " rev" : ""));
+    var b = el("button", "jog" + (d ? "" : " vazio") + (d && mesa.ab[i] ? " on" : "")), w = el("div", "jogw" + (d && (mesa.novo || mesa.rev[i]) ? " rev" : ""));
     b.type = "button";
     if (mesa.novo) w.style.animationDelay = (i * 0.3) + "s";
     mesa.rev[i] = false;
@@ -1910,18 +1921,16 @@ function desenharMesa() {
       b.onclick = function () { abrirEscolha(i); };
       w.appendChild(b); g.appendChild(w); return;
     }
-    b.setAttribute("aria-pressed", mesa.sel === i ? "true" : "false");
+    b.setAttribute("aria-pressed", mesa.ab[i] ? "true" : "false");
     if (d.ci) contornoCor(b, d.ci, tomDoLado(i));
     var dn = el("span", "dnome", d.nome); if (d.ci) dn.appendChild(simbolos(d.ci));
     b.appendChild(dn);
     b.appendChild(el("span", "dinfo", d.real ? t("listaDe", { j: d.jogador, r: rotRes(d) }) : t("consenso") + " · " + t("nListas", { n: d.n })));
     if (d.pos) b.appendChild(el("span", "dinfo", t("posicao", { p: pct(d.pct), k: d.pos })));
     if (mesa.trocas[i].length) b.appendChild(el("span", "dinfo otim-tag", t("otimCartao", { k: mesa.trocas[i].reduce(function (s1, x) { return s1 + x.n; }, 0) })));
-    b.appendChild(el("span", "verlista", t(mesa.sel === i ? "esconderLista" : "verLista")));
+    b.appendChild(el("span", "verlista", t(mesa.ab[i] ? "esconderLista" : "verLista")));
     b.onclick = function () {
-      if (mesa.sel === i) { mesa.sel = -1; desenhar(); return; }
-      mesa.sel = i; desenhar();
-      var pn = $("painel"); if (pn.scrollIntoView) pn.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "nearest" });
+      alternarLista(i);
     };
     var rr = el("button", "reroll"); rr.type = "button"; rr.innerHTML = ICONE_TROCA;
     rr.setAttribute("aria-label", t("trocarDeck", { n: nomeJog(i) })); rr.title = t("trocarDeck", { n: nomeJog(i) });
@@ -1932,12 +1941,8 @@ function desenharMesa() {
   if (completa()) { m.appendChild(caixaOtim()); m.appendChild(infoDuelo(mesa.d[0], mesa.d[1])); }
   else m.appendChild(el("p", "duelo-falta", t("faltaDeck")));
   var pn = $("painel");
-  if (mesa.sel < 0 || !mesa.d[mesa.sel]) pn.hidden = true;
-  else {
-    var d = mesa.d[mesa.sel];
-    colAtual = d._col._i; deckAtual = d._col.decks.indexOf(d); // o compartilhar do deck usa este deck
-    pn.hidden = false; pintarPainel(deckDaMesa(mesa.sel), nomeJog(mesa.sel) + ": ");
-  }
+  pn.hidden = true; // o painel da tela normal não aparece no confronto: cada lado aberto ganha o seu, um abaixo do outro
+  [0, 1].forEach(function (k) { if (mesa.ab[k] && mesa.d[k]) m.appendChild(painelMesa(k)); });
   mesa.novo = false;
 }
 // Quadro abaixo dos cartões: histórico do confronto, comparativo e chance de encontro.
@@ -1998,6 +2003,41 @@ function infoDuelo(a, b) {
   }
   return box;
 }
+// Painel de um lado do Comparar decks (os dois podem estar abertos, um abaixo do outro): título, Criar no endstep.cc,
+// contagem, sideboard típico e a lista (ou original × otimizada), com "Copiar lista" e "Ocultar lista" embaixo.
+function painelMesa(i) {
+  var base = mesa.d[i], d = deckDaMesa(i), otim = !!d._orig, st = mesa.ver[i];
+  var pn = el("div", "panel painel-mesa"); pn.id = "painelMesa" + i;
+  if (base.ci) contornoCor(pn, base.ci, tomDoLado(i));
+  var row = el("div", "row"), ti = el("strong", "grow", nomeJog(i) + ": " + base.nome);
+  ti.appendChild(el("span", "tit-cmd", base.real ? t("infoReal", { j: base.jogador, r: rotRes(base), e: base.evento, d: fmtData(base.data), o: t(base.origem) })
+    : t("infoCons", { n: base.n, m: base.mtgo, p: base.papel, pc: pct(base.pct), b: base.bons })));
+  row.appendChild(ti); pn.appendChild(row);
+  var ac = el("div", "row acoes"), bE = el("button", "go", otim ? rotCriar(st.ver) : t("criar")); bE.type = "button";
+  bE.onclick = function () { criarNoEndstep(otim && st.ver === "orig" ? base : d); };
+  ac.appendChild(bE); pn.appendChild(ac);
+  var bl = d.lista.split("\n\n"), mm = contar(bl[0]), sd = bl[1] ? contar(bl[1]) : 0, ok = mm >= 60 && sd <= 15;
+  pn.appendChild(el("div", "status " + (ok ? "ok" : "warn"), t("contagem", { m: mm, s: sd }) + (ok ? " ✓" : t("avisoContagem"))));
+  if (base.side && base.side.length) pn.appendChild(el("div", "status", t("sideTipico", { l: base.side.map(function (x) { return x[0] + " " + x[1] + "%"; }).join(", ") })));
+  var oc = el("button", "ghost", t("esconderLista")); oc.type = "button"; oc.onclick = function () { alternarLista(i); };
+  if (otim) {
+    var box = el("div", "dif"); st.rot = function () { bE.textContent = rotCriar(st.ver); };
+    pintarDif(d, box, st, oc); pn.appendChild(box);
+  } else {
+    var ls = el("div", "lista"), ta = el("textarea"); ta.readOnly = true; ta.spellcheck = false; ta.setAttribute("wrap", "off"); ta.value = d.lista;
+    ls.appendChild(ta); pn.appendChild(ls);
+    var rb = el("div", "lista-botoes"), bc = el("button", "ghost", t("copiar")); bc.type = "button"; bc.onclick = function () { copiarBotao(bc, d, "copiar"); };
+    rb.appendChild(bc); rb.appendChild(oc); pn.appendChild(rb);
+  }
+  return pn;
+}
+// Abre ou fecha a lista do lado i (cartão, "Ver lista" da caixa de otimização ou "Ocultar lista" do painel)
+function alternarLista(i) {
+  mesa.ab[i] = !mesa.ab[i]; desenhar();
+  var alvo = mesa.ab[i] ? $("painelMesa" + i) : document.querySelectorAll("#mesa .jogw")[i];
+  if (alvo && alvo.scrollIntoView) alvo.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: mesa.ab[i] ? "start" : "nearest" });
+}
+
 // ---- Otimizar o sideboard ----
 // Perfil do deck adversário (quantas cópias de cada característica no deck principal) e valor de cada carta: uma resposta
 // ("x-<alvo>" em FUNCOES) vale min(1, cópias do alvo / LIM[alvo]); cartas do plano do deck valem pelo menos BASE.
@@ -2039,7 +2079,7 @@ function valorResp(f, p) {
   return [Math.min(1.5, v), vs[0][1]];
 }
 function otimizar(i) {
-  var o = calcOtim(mesa.d[i].lista, mesa.d[1 - i].lista); difVer = "otim";
+  var o = calcOtim(mesa.d[i].lista, mesa.d[1 - i].lista); mesa.ver[i].ver = "otim";
   mesa.trocas[i] = o.trocas; mesa.otim[i] = o;
   desenhar();
 }
@@ -2110,14 +2150,16 @@ function caixaOtim() {
   [0, 1].forEach(function (i) {
     var o = mesa.otim[i]; if (!o) return;
     var r = el("div", "otim-res");
-    var cab = el("div", "otim-cab"); cab.appendChild(el("b", "", t("otimTit", { n: nomeJog(i) + " (" + mesa.d[i].nome + ")", o: nomeJog(1 - i) })));
+    if (mesa.d[i].ci) contornoCor(r, mesa.d[i].ci, tomDoLado(i)); // cada deck otimizado num bloco com a borda nas cores dele
+    var cab = el("div", "otim-cab"), tb = el("b", "", nomeJog(i) + " · " + mesa.d[i].nome); if (mesa.d[i].ci) tb.appendChild(simbolos(mesa.d[i].ci));
+    cab.appendChild(tb); cab.appendChild(el("span", "otim-vs", t("difContra", { o: mesa.d[1 - i].nome })));
     r.appendChild(cab);
     if (o.semSide) r.appendChild(el("p", "mut", t("otimSemSide", { n: nomeJog(i) })));
     else if (!o.entram.length) r.appendChild(el("p", "mut", t("otimNada", { n: nomeJog(i) })));
     else {
       listaOtim(o, r);
-      var vl = el("button", "ghost otim-ver", t(mesa.sel === i ? "esconderLista" : "verLista")); vl.type = "button";
-      vl.onclick = function () { mesa.sel = mesa.sel === i ? -1 : i; desenhar(); var pn = $("painel"); if (mesa.sel === i && pn.scrollIntoView) pn.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "nearest" }); };
+      var vl = el("button", "ghost otim-ver", t(mesa.ab[i] ? "esconderLista" : "verLista")); vl.type = "button";
+      vl.onclick = function () { alternarLista(i); };
       r.appendChild(vl);
     }
     s.appendChild(r);
