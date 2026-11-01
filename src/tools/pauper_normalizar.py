@@ -2,7 +2,7 @@
 formato do site e confere tudo pelo Scryfall. Reescrito em 31/10/2026 para a reorganização por famílias e variações.
 
 Entrada: raw_pauper/indice/<slug>.json e raw_pauper/todas/<id>.txt (tools/pauper_listas.py) e pauper/metagame.json
-         (a lista de arquétipos do MTGGoldfish, de tools/pauper_raspar.py; se existir raw_pauper/metagame.json, ele é copiado antes).
+         (a lista de arquétipos do MTGGoldfish, gravada por tools/pauper_raspar.py).
 Saída (pasta pauper/ da pasta de trabalho):
   pauper/listas.json.gz  todas as listas válidas: {raspado_em, dias, listas: [{id, arquetipo, data, nome (dado pelo jogador),
                          jogador, evento, lugar, origem (mtgo/papel), ci (cores do deck), lista}]}, em ordem de id; a lista é
@@ -92,8 +92,6 @@ def main():
     raw = os.path.join(RAIZ, "raw_pauper")
     saida = os.path.join(RAIZ, "pauper")
     os.makedirs(saida, exist_ok=True)
-    if os.path.exists(os.path.join(raw, "metagame.json")):
-        shutil.copy(os.path.join(raw, "metagame.json"), os.path.join(saida, "metagame.json"))
     meta = json.load(open(os.path.join(saida, "metagame.json"), encoding="utf-8"))
 
     por_nome, por_oracle = {}, {}

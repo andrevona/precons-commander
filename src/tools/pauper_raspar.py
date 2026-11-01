@@ -1,18 +1,16 @@
-"""Raspa o metagame de Pauper do MTGGoldfish (base MTGO, últimos 30 dias, o padrão do site).
+"""Raspa o metagame de Pauper do MTGGoldfish (últimos 30 dias, o padrão do site): a lista de arquétipos.
 
-Para cada arquétipo com pelo menos MIN_DECKS decks no período, baixa a lista representativa que o
-MTGGoldfish mostra na página do arquétipo (uma lista real de um jogador), só com quantidade e nome.
-
-Saída (na pasta de trabalho):
-  raw_pauper/<slug>.txt      lista como o MTGGoldfish exporta ("qtd Nome"; linha em branco; sideboard)
-  raw_pauper/metagame.json   arquétipos (nome, slug, %, nº de decks, deck de origem, jogador, evento, data)
+Grava pauper/metagame.json (na pasta de trabalho) com os arquétipos que têm pelo menos MIN_DECKS decks no período
+(id, nome, url, pct, decks, slug), a data da raspagem e os totais. É o primeiro passo da atualização: o
+tools/pauper_listas.py lê este arquivo (a data de corte das listas sai de "raspado_em").
+Desde 01/11/2026 não baixa mais a lista representativa de cada arquétipo (não era usada pela página).
 
 Uso: python3 tools/pauper_raspar.py [--min 5]
 """
 import html, json, os, re, sys, time, urllib.request
 
 RAIZ = os.environ.get("PRECONS_RAIZ") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SAIDA = os.path.join(RAIZ, "raw_pauper")
+SAIDA = os.path.join(RAIZ, "pauper", "metagame.json")
 BASE = "https://www.mtggoldfish.com"
 MIN_DECKS = int(sys.argv[sys.argv.index("--min") + 1]) if "--min" in sys.argv else 5
 UA = {"User-Agent": "Mozilla/5.0 (precons-commander; projeto pessoal)"}
@@ -59,7 +57,6 @@ def metagame():
 
 
 def main():
-    os.makedirs(SAIDA, exist_ok=True)
     arqs = metagame()
     total = sum(a["decks"] for a in arqs)
     escolhidos = [a for a in arqs if a["decks"] >= MIN_DECKS]
@@ -67,31 +64,20 @@ def main():
         len(arqs), total, len(escolhidos), MIN_DECKS, 100 * sum(a["decks"] for a in escolhidos) / total))
     vistos = set()
     for a in escolhidos:
-        time.sleep(1)
-        s = baixar("/archetype/" + a["id"])
-        d = re.search(r'href="(?:https://www\.mtggoldfish\.com)?/deck/(\d+)">(?:(?!</a>).)*?Deck Page', s, re.S)
-        if not d:
-            raise SystemExit("ERRO: sem lista na página do arquétipo " + a["nome"])
-        a["deck"] = d.group(1)
-        quem = re.search(r"<span class='author'>by ([^<]+)</span>", s)
-        ev = re.search(r'Event:\s*<a href="[^"]*">([^<]+)</a>,?[ \t]*([^<\n]*)', s)
-        dt = re.search(r"Deck Date:\s*([A-Z][a-z]{2} \d{1,2}, \d{4})", s)
-        a["jogador"] = html.unescape(quem.group(1)) if quem else ""
-        a["evento"] = html.unescape(ev.group(1)).strip() if ev else ""
-        a["res"] = html.unescape(ev.group(2)).strip() if ev else ""  # resultado: "5-0", "6-1", "1st"...
-        a["data"] = time.strftime("%Y-%m-%d", time.strptime(dt.group(1), "%b %d, %Y")) if dt else ""
         a["slug"] = slug_de(a["nome"])
         if a["slug"] in vistos:
             raise SystemExit("ERRO: slug repetido " + a["slug"])
         vistos.add(a["slug"])
-        time.sleep(1)
-        lista = baixar("/deck/download/%s" % a["deck"]).replace("\r", "").strip() + "\n"
-        open(os.path.join(SAIDA, a["slug"] + ".txt"), "w", encoding="utf-8").write(lista)
-        print("%5.1f%% %4d  %-28s deck %s  %s  %s" % (a["pct"], a["decks"], a["nome"], a["deck"], a["data"], a["jogador"]))
+        print("%5.1f%% %4d  %s" % (a["pct"], a["decks"], a["nome"]))
+    antigo = json.load(open(SAIDA, encoding="utf-8")) if os.path.exists(SAIDA) else {"arquetipos": []}
+    velhos, novos = {a["nome"] for a in antigo["arquetipos"]}, {a["nome"] for a in escolhidos}
+    if novos - velhos: print("ARQUÉTIPOS NOVOS (conferir FAMILIAS no pauper_variacoes.py e NOMES no pauper_confrontos.py):", sorted(novos - velhos))
+    if velhos - novos: print("Arquétipos que saíram (abaixo de %d decks):" % MIN_DECKS, sorted(velhos - novos))
     info = {"fonte": BASE + "/metagame/pauper/full", "periodo_dias": 30, "base": "online (MTGO)",
             "raspado_em": time.strftime("%Y-%m-%d"), "min_decks": MIN_DECKS,
             "total_arquetipos": len(arqs), "total_decks": total, "arquetipos": escolhidos}
-    json.dump(info, open(os.path.join(SAIDA, "metagame.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    os.makedirs(os.path.dirname(SAIDA), exist_ok=True)
+    json.dump(info, open(SAIDA, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
 
 if __name__ == "__main__":
