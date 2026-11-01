@@ -124,9 +124,9 @@ def ordenar(ls):
     return sorted(ls, key=ordem_resultado)
 
 
-# Variação: só as 2 listas de melhor resultado com 5+ cartas diferentes do consenso no principal (pedido do usuário, 01/11/2026;
-# antes eram 5); "Outras" (sem consenso): as 5 melhores.
-DESTAQUES, DESTAQUES_OUTRAS, DIF_MIN = 2, 5, 5
+# Só as 2 listas de melhor resultado (antes eram 5; pedido do usuário, 01/11/2026): na variação, com 5+ cartas diferentes do
+# consenso no principal; em "Outras" (sem consenso), as 2 melhores, diferentes entre si.
+DESTAQUES, DESTAQUES_OUTRAS, DIF_MIN = 2, 2, 5
 
 
 def principal_sem_basicos(x):

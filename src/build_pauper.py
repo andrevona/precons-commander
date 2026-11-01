@@ -3,11 +3,12 @@
 Entrada:
   pauper/listas.json.gz   todas as listas dos últimos 30 dias, normalizadas (tools/pauper_normalizar.py)
   pauper/variacoes.json   famílias, variações, consensos e a ordem das listas (tools/pauper_variacoes.py)
+  pauper/estrategias.json (textos de estratégia de cada arquétipo e variação, em pt e en)
   pauper/cartas.csv, pauper/banidas.csv, pauper/confrontos.json (DeckSnipe, tools/pauper_confrontos.py), pauper/metagame.json
 Saída:
   pauper_offline.html          -> site/pauper/index.html: famílias e variações, com a lista de consenso de cada variação embutida
   pauper_nomes_pt.json         -> site/pauper/nomes_pt.json (nome da carta -> nome em português, para a busca)
-  pauper_fam/<família>.json    -> site/pauper/fam/: os destaques de cada variação (até 2 listas reais; 5 em Outras, com diferenças relevantes
+  pauper_fam/<família>.json    -> site/pauper/fam/: os destaques de cada variação (até 2 listas reais, também em Outras; com diferenças relevantes
                                   do consenso; ver tools/pauper_variacoes.py), carregados quando a família é aberta
 
 Na página: família = grupo (botão com a % das listas), variação = coleção (com as cores e o nº de listas), deck = "Consenso" da
@@ -96,18 +97,28 @@ def real(x, col, dif=None, cons=None):
                          "placar": x["lugar"] if re.match(r"^\d+-\d+(-\d+)?$", x["lugar"]) else PLACAR.get(x["id"], "")})
 
 
+# Texto de estratégia de cada arquétipo e variação ([pt, en]; pauper/estrategias.json, escrito à mão): o que faltar só é avisado
+# (ex. variação nova depois de raspar de novo) e a página não mostra texto para ela.
+_es = os.path.join(P, "estrategias.json")
+ESTRAT = json.load(open(_es, encoding="utf-8")) if os.path.exists(_es) else {"familias": {}, "variacoes": {}}
+_sem = [f["slug"] for f in var["familias"] if f["slug"] not in ESTRAT["familias"]] + \
+       [v["slug"] for f in var["familias"] for v in f["variacoes"] if v["slug"] not in ESTRAT["variacoes"]]
+if _sem:
+    print("AVISO: sem texto de estratégia em pauper/estrategias.json:", ", ".join(_sem))
 colecoes, familias, por_fam = [], [], {}
 pos = 0
 todas_var = sorted((v for f in var["familias"] for v in f["variacoes"]), key=lambda v: -v["n"])
 posicao = {v["slug"]: i + 1 for i, v in enumerate(todas_var)}  # posição da variação entre todas (mais listas = 1ª)
 for f in var["familias"]:
-    familias.append({"nome": f["familia"], "slug": f["slug"], "n": f["n"], "mtgo": f["mtgo"], "papel": f["papel"], "pct": f["pct"]})
+    familias.append({"nome": f["familia"], "slug": f["slug"], "n": f["n"], "mtgo": f["mtgo"], "papel": f["papel"], "pct": f["pct"],
+                     "sobre": ESTRAT["familias"].get(f["slug"])})
     reais = {}
     for v in f["variacoes"]:
         texto = "\n".join(f"{q} {c}" for q, c in v["consenso"]) + ("\n\n" + "\n".join(f"{q} {c}" for q, c, _ in v["side"]) if v["side"] else "")
         lista, tp, st = montar(texto)
         col = {"id": v["slug"], "nome": v["nome"], "grupo": f["familia"], "fam": f["slug"], "ano": "", "icone": "", "ci": v["cores"],
-               "n": v["n"], "mtgo": v["mtgo"], "papel": v["papel"], "pct": v["pct"], "pos": posicao[v["slug"]]}
+               "n": v["n"], "mtgo": v["mtgo"], "papel": v["papel"], "pct": v["pct"], "pos": posicao[v["slug"]],
+               "sobre": ESTRAT["variacoes"].get(v["slug"])}
         col["decks"] = [{"nome": v["nome"], "arquivo": v["slug"], "lista": lista, "ci": v["cores"], "tp": tp, "st": st,
                          "n": v["n"], "mtgo": v["mtgo"], "papel": v["papel"], "bons": v["bons"], "primeiros": v["primeiros"],
                          "side": [[c, p] for q, c, p in sorted(v["side"], key=lambda t: (-t[2], t[1]))]}]  # sideboard típico: carta e % das listas

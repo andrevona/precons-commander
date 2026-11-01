@@ -56,6 +56,7 @@
   input.filtro::placeholder { color:var(--mut); opacity:1; }
   input.filtro:focus { outline:none; border-color:var(--f-acc); box-shadow:0 0 0 3px var(--inAnel); }
   .status { color:var(--mut); margin-bottom:8px; }
+  .sobre { color:var(--mut); font-size:14px; line-height:1.45; margin:0 0 12px; } /* estratégia do arquétipo e da variação */
   .status.ok { color:var(--ok); } .status.warn { color:var(--warn); }
   .sec { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--mut); font-weight:600; margin:16px 0 8px; }
   hr.div { border:0; border-top:2px solid var(--line); margin:18px 0 0; }
@@ -266,7 +267,7 @@
   #mesa { display:none; }
   body.modo-mesa #mesa { display:block; }
   body.modo-mesa #grupos, body.modo-mesa #caixaBusca, body.modo-mesa #cxCor, body.modo-mesa #cxAno, body.modo-mesa #cxArq, body.modo-mesa .sorte-grupo, body.modo-mesa #contagem,
-  body.modo-mesa #secCol, body.modo-mesa #colecoes, body.modo-mesa hr.div, body.modo-mesa #secDecks, body.modo-mesa #decks { display:none !important; }
+  body.modo-mesa #secCol, body.modo-mesa #colecoes, body.modo-mesa .sobre, body.modo-mesa hr.div, body.modo-mesa #secDecks, body.modo-mesa #decks { display:none !important; }
   .mesa-cab { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; justify-content:space-between; margin:2px 0 12px; }
   .mesa-cab .sec { margin:0; }
   .mesa-cab .sec .inteiro { white-space:nowrap; }
@@ -402,9 +403,11 @@
   <div class="status" id="contagem" style="margin:-6px 0 10px"></div>
   <div class="tabs" id="grupos"></div>
   <div id="conteudo" hidden>
+  <p class="sobre" id="sobreFam" hidden></p>
   <div id="mesa"></div>
   <div class="sec sec-col" id="secCol"><span data-t="grupoCores">Variações</span></div>
   <div class="tabs" id="colecoes"></div>
+  <p class="sobre" id="sobreVar" hidden></p>
   <hr class="div">
   <div class="sec" id="secDecks" data-t="decks">Decks</div>
 
@@ -504,7 +507,7 @@ var TXT = {
     confrFonte: 'Fonte: {f}, {p}. Com menos de 20 partidas o número é pouco confiável.',
     semConfr: 'Não há dados suficientes deste confronto.', semConfrFonte: 'O histórico de confrontos ainda não foi carregado nesta página.',
     encontro: '{b} é {p}% das listas: num torneio, quem joga {a} enfrenta {b} em cerca de 1 a cada {k} partidas.',
-    rodExtra: 'Os <b>arquétipos</b> estão em ordem de participação (% das listas dos últimos 30 dias, MTGO e papel); ao tocar num deles os outros recolhem sob ele, e um novo toque mostra todos de novo. Dentro de cada um ficam as <b>variações</b> (agrupadas pelas cores e pelas cartas) e, em cada variação, o <b>Consenso</b> (cada carta na quantidade média, com o sideboard típico e a % de listas que levam cada carta) e as 2 listas reais de melhor resultado, de jogadores diferentes, que trocam pelo menos 5 cartas do deck principal em relação ao consenso (e entre si); o botão mostra o placar (vitórias-derrotas) e o painel, as cartas do deck principal que entram e saem; em <b>Outras</b>, as 5 melhores listas que não formam variação. <b>Comparar decks</b> deixa você escolher o deck 1 e o deck 2 (uma variação ou uma lista; pode ser o mesmo dos dois lados) e mostra o histórico do confronto entre os arquétipos (DeckSnipe, papel e MTGO, só entre os mais jogados), um comparativo dos dois decks e a chance de se encontrarem; o lápis no canto de cada cartão troca só aquele deck, e o link do confronto pode ser compartilhado.',
+    rodExtra: 'Os <b>arquétipos</b> estão em ordem de participação (% das listas dos últimos 30 dias, MTGO e papel); ao tocar num deles os outros recolhem sob ele, e um novo toque mostra todos de novo. Dentro de cada um ficam as <b>variações</b> (agrupadas pelas cores e pelas cartas) e, em cada variação, o <b>Consenso</b> (cada carta na quantidade média, com o sideboard típico e a % de listas que levam cada carta) e as 2 listas reais de melhor resultado, de jogadores diferentes, que trocam pelo menos 5 cartas do deck principal em relação ao consenso (e entre si); o botão mostra o placar (vitórias-derrotas) e o painel, as cartas do deck principal que entram e saem; em <b>Outras</b>, as 2 melhores listas que não formam variação. Ao abrir um arquétipo e uma variação, um texto curto explica a estratégia de cada um. <b>Comparar decks</b> deixa você escolher o deck 1 e o deck 2 (uma variação ou uma lista; pode ser o mesmo dos dois lados) e mostra o histórico do confronto entre os arquétipos (DeckSnipe, papel e MTGO, só entre os mais jogados), um comparativo dos dois decks e a chance de se encontrarem; o lápis no canto de cada cartão troca só aquele deck, e o link do confronto pode ser compartilhado.',
     cMeta: 'Metagame', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
     emComum: 'Cartas em comum no deck principal: {l}.', nadaComum: 'Nenhuma carta em comum no deck principal (fora os terrenos básicos).',
     decks: 'Listas', deck1: 'lista', deckN: 'listas', achou1: '1 variação encontrada', achouN: '{n} variações encontradas',
@@ -562,7 +565,7 @@ var TXT = {
     confrFonte: 'Source: {f}, {p}. With fewer than 20 matches the number is not very reliable.',
     semConfr: 'There is not enough data on this matchup.', semConfrFonte: 'The matchup history has not been loaded on this page yet.',
     encontro: '{b} is {p}% of the lists: in a tournament, a {a} player faces {b} in about 1 of every {k} matches.',
-    rodExtra: 'The <b>archetypes</b> are sorted by share (% of the lists of the last 30 days, MTGO and paper); tapping one tucks the others under it, and another tap shows them all again. Inside each one are its <b>variations</b> (grouped by colors and cards) and, in each variation, the <b>Consensus</b> (each card in the average quantity, with the typical sideboard and the % of lists that run each card) and the 2 best-finishing real lists, from different players, that change at least 5 main-deck cards from the consensus (and from each other); the button shows the win-loss record and the panel, the main-deck cards that come in and go out; in <b>Others</b>, the 5 best lists that do not form a variation. <b>Compare decks</b> lets you pick deck 1 and deck 2 (a variation or a list; it can be the same on both sides) and shows the matchup history between the archetypes (DeckSnipe, paper and MTGO, only among the most played), a comparison of both decks and the odds of meeting; the pencil in the corner of each card changes only that deck, and the matchup link can be shared.',
+    rodExtra: 'The <b>archetypes</b> are sorted by share (% of the lists of the last 30 days, MTGO and paper); tapping one tucks the others under it, and another tap shows them all again. Inside each one are its <b>variations</b> (grouped by colors and cards) and, in each variation, the <b>Consensus</b> (each card in the average quantity, with the typical sideboard and the % of lists that run each card) and the 2 best-finishing real lists, from different players, that change at least 5 main-deck cards from the consensus (and from each other); the button shows the win-loss record and the panel, the main-deck cards that come in and go out; in <b>Others</b>, the 2 best lists that do not form a variation. Opening an archetype and a variation shows a short text on the strategy of each. <b>Compare decks</b> lets you pick deck 1 and deck 2 (a variation or a list; it can be the same on both sides) and shows the matchup history between the archetypes (DeckSnipe, paper and MTGO, only among the most played), a comparison of both decks and the odds of meeting; the pencil in the corner of each card changes only that deck, and the matchup link can be shared.',
     cMeta: 'Metagame', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
     emComum: 'Cards in common in the main deck: {l}.', nadaComum: 'No cards in common in the main deck (besides basic lands).',
     decks: 'Lists', deck1: 'list', deckN: 'lists', achou1: '1 variation found', achouN: '{n} variations found',
@@ -848,8 +851,12 @@ function desenhar() {
   var d = $("decks"); d.innerHTML = "";
   var s = $("status");
   var famAt = famDoGrupo(grpAtual);
+  // Estratégia do arquétipo aberto e da variação escolhida ([pt, en]); some com filtro/busca entre arquétipos e no quadro
+  var sf = $("sobreFam"), sFam = !todas && aberto && FAM[grpAtual] && FAM[grpAtual].sobre;
+  sf.hidden = !sFam; sf.textContent = sFam ? sFam[IDIOMA === "en" ? 1 : 0] : "";
   if (aberto && famAt && !FAM_ESTADO[famAt]) carregarFamilia(famAt, function () { if (!mesa) desenhar(); });
   if (!vis.length) {
+    $("sobreVar").hidden = true;
     var carr = !buscando() && FAM_ESTADO[famAt] !== 2;
     $("secDecks").hidden = $("decks").hidden = carr; $("painel").hidden = false;
     $("titulo").textContent = carr ? "" : t("nenhum");
@@ -887,6 +894,8 @@ function desenhar() {
     };
     c.appendChild(b);
   });
+  var sv = $("sobreVar"), sVar = !sem && !semCol && COLECOES[colAtual].sobre;
+  sv.hidden = !sVar; sv.textContent = sVar ? sVar[IDIOMA === "en" ? 1 : 0] : "";
   // Botões das listas: o Consenso e as listas reais (melhores colocações primeiro), 10 de cada vez com "Mostrar mais".
   var col0 = sem ? null : COLECOES[colAtual], reais = 0;
   if (col0 && deckAtual >= col0.mostrar + (col0.outras ? 0 : 1)) col0.mostrar = deckAtual + 1; // o deck aberto por link fica à vista
