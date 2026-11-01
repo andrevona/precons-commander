@@ -16,6 +16,10 @@ Etiquetas de resposta, "x-<alvo>" (o que a carta enfrenta):
   (mágicas não-criatura), x-comb (descarte, contramágica ampla), x-terx (destruição de terreno), x-voo, x-neb, x-rem
   (protege das remoções do adversário).
 As regras automáticas olham o texto Oracle; as listas MANUAL corrigem e completam (sempre vencem).
+AUDITORIA (01/11/2026) corrige depois do MANUAL e cada entrada cita o TRECHO do Oracle que a justifica (o script para se o trecho
+não estiver na carta). A trava conferir() compara as etiquetas de resposta com o texto e PARA com erro em contradições (ex. x-t1 de
+área numa carta que escolhe alvo, x-cri num efeito -N/-0 ou de 1 de dano, x-enc sem "enchantment"); casos certos ficam em EXCECOES,
+com o motivo. Carta nova: ler o Oracle antes de marcar (regra do usuário: "ler a carta explica a carta").
 Uso: python3 tools/pauper_funcoes.py [--ver]   (--ver imprime as cartas com resposta, para revisar)
 """
 import csv, json, os, re, sys, time, urllib.request
@@ -106,6 +110,98 @@ MANUAL = {
 }
 TRON = {"Urza's Tower", "Urza's Mine", "Urza's Power Plant"}
 
+# Auditoria de 01/11/2026 (leitura do texto Oracle de todas as cartas com resposta e das correções do MANUAL, depois do erro do
+# Cast into the Fire): carta -> (etiquetas a acrescentar, a tirar, TRECHO do Oracle que justifica). Aplicada depois do MANUAL.
+# O trecho tem de estar no texto da carta (minúsculas), senão o script para: correção nova SEMPRE com o trecho lido na carta.
+AUDITORIA = {
+    # -N/-0 não mata nada: não é remoção
+    "Brinebarrow Intruder": ("", "x-cri", "gets -2/-0"), "Cogwork Wrestler": ("", "x-cri", "gets -2/-0"),
+    "Humbling Elder": ("", "x-cri", "gets -2/-0"), "Dizzy Spell": ("", "x-cri", "gets -3/-0"),
+    # dano pequeno COM alvo: só mata resistência 1 (ou 2) e não passa por hexproof
+    "Cuombajj Witches": ("x-t1 alvo", "", "deals 1 damage to any target"), "Flame Jab": ("x-t1 alvo", "", "deals 1 damage to any target"),
+    "Granger Guildmage": ("x-t1 alvo", "", "deals 1 damage to any target"), "Icatian Javelineers": ("x-t1 alvo", "", "deals 1 damage to any target"),
+    "Viridian Longbow": ("x-t1 alvo", "", "deals 1 damage to any target"), "Peppersmoke": ("x-t1 alvo", "", "target creature gets -1/-1"),
+    "Shambling Ghast": ("x-t1 alvo", "", "gets -1/-1"), "Piracy Charm": ("x-t1 alvo", "", "target creature gets +2/-1"),
+    "Grim Bauble": ("x-t2 alvo", "", "gets -2/-2"), "Pyrite Spellbomb": ("x-t2 alvo", "", "deals 2 damage to any target"),
+    "Stab": ("x-t2 alvo", "", "target creature gets -2/-2"), "Desert": ("alvo", "", "target attacking creature"),
+    # contramágica de criatura: passa por hexproof (não alveja a criatura)
+    "Remove Soul": ("x-hex", "", "counter target creature spell"), "Essence Scatter": ("x-cri x-hex", "", "counter target creature spell"),
+    "Exclude": ("x-cri x-hex", "", "counter target creature spell"), "Preemptive Strike": ("x-cri x-hex", "", "counter target creature spell"),
+    "Glorious Gale": ("x-cri x-hex", "", "counter target creature spell"), "Soul Manipulation": ("x-cri x-hex", "", "counter target creature spell"),
+    # alcance real do efeito
+    "Befoul": ("x-cri", "", "destroy target land or nonblack creature"), "Fire of Orthanc": ("x-terx", "", "destroy target artifact or land"),
+    "Pillage": ("x-terx", "", "destroy target artifact or land"), "Kenku Artificer": ("", "x-art", "on up to one target noncreature artifact"),
+    "Confound": ("x-rem", "x-comb", "counter target spell that targets a creature"),
+    "Disrupt": ("x-feit", "", "instant or sorcery spell"), "Judge's Familiar": ("x-feit", "", "instant or sorcery spell"),
+    "Muddle the Mixture": ("x-feit", "", "instant or sorcery spell"),
+    "Pick Your Poison": ("x-art x-enc x-aura x-voo", "x-cri x-hex", "sacrifices a creature with flying"),
+    "Guerrilla Gorilla": ("x-enc x-aura", "", "noncreature enchantment"), "Pinnacle Kill-Ship": ("x-cri", "", "10 damage to up to one target creature"),
+    "Sagittars' Volley": ("", "x-cri x-t1", "destroy target creature with flying"), "Smash to Dust": ("", "x-cri", "target creature with defender"),
+    "Spider Food": ("x-enc x-aura x-voo", "", "artifact, enchantment, or creature with flying"),
+    "Stonehorn Dignitary": ("", "x-t2", "skips their next combat phase"), "Tinder Wall": ("", "x-cri", "target creature it's blocking"),
+    "Tyrant's Choice": ("", "x-cri x-hex", "or the vote is tied"),  # 2 jogadores: o adversário empata e escolhe perder 4 de vida
+    # respostas que a regra automática não pegou
+    "Banishing Light": ("x-cri x-art x-enc x-aura", "", "exile target nonland permanent an opponent controls"),
+    "Celestial Flare": ("x-cri x-hex", "", "sacrifices an attacking or blocking creature"), "Choking Sands": ("x-terx", "", "destroy target non-swamp land"),
+    "Coercion": ("x-comb", "", "reveals their hand"), "Divest": ("x-comb", "", "artifact or creature card"),
+    "Solve for Disappointment": ("x-comb", "", "nonland permanent card"), "Ebony Charm": ("x-cem", "", "from a single graveyard"),
+    "Faerie Trickery": ("x-comb", "", "counter target non-faerie spell"), "Harsh Sustenance": ("x-cri", "", "x damage to any target"),
+    "Corrupt": ("x-cri", "", "damage to any target"), "Martyr of Ashes": ("x-t1", "", "damage to each creature without flying"),
+    "Rust": ("x-art", "", "from an artifact source"),
+    "Grapple with Death": ("", "x-enc x-aura", "destroy target artifact or creature"),  # o MANUAL marcava encantamento por engano
+}
+# Contradições que a trava (conferir) acusa mas estão certas, com o motivo
+EXCECOES = {
+    "Smash to Dust": "modo 3 é dano em área sem alvo; os outros modos alvejam artefato/defensor",
+    "Tragic Slip": "-1/-1, mas -13/-13 com morbid",
+    "Plagued Rusalka": "-1/-1 repetível (um sacrifício por ativação)",
+    "Scattershot": "1 de dano por cópia, com storm",
+    "Makeshift Munitions": "1 de dano repetível, um sacrifício por vez",
+    "Arms of Hadar": "alveja o JOGADOR (criaturas dele ganham -2/-2): passa por hexproof",
+    "Rancid Earth": "dano em área só com limiar",
+    "Electrickery": "com overload não tem alvo",
+    "Vandalblast": "com overload não tem alvo",
+    "Swirling Sandstorm": "5 de dano em área só com limiar",
+    "Martyr of Ashes": "X de dano em área, X = cartas vermelhas reveladas",
+    "Crypt Rats": "X de dano em área",
+    "Pestilence": "1 de dano em área repetível",
+    "Krark-Clan Shaman": "1 de dano em área repetível",
+}
+
+
+def conferir(n, e, txt):
+    """Trava: confere as etiquetas de resposta contra o texto Oracle. Devolve a lista de problemas."""
+    t, p = txt.lower(), []
+    alvo_cri = re.search(r"target [\w ,-]*creatures?|any target|each of (up to )?\w+ target", t)
+    area = re.search(r"(each|all) (other )?(non-?[\w-]+ )?(attacking )?creatures?|creatures [^.]*get -\d|overload", t)
+    if "alvo" in e and "target" not in t: p.append("marcada com alvo, mas o texto não diz target")
+    for k in ("x-t1", "x-t2"):
+        if k in e and "alvo" not in e:
+            if not area: p.append("%s (dano/-X em área) sem efeito em área no texto" % k)
+            elif re.search(r"each of (up to )?\w+ target", t): p.append("%s: 'each of ... target' escolhe alvo (marcar alvo)" % k)
+            elif alvo_cri and not re.search(r"(each|all) (other )?(non-?[\w-]+ )?creatures?|creatures [^.]*get -\d", t): p.append("%s: só efeito com alvo (marcar alvo)" % k)
+    # tamanho do efeito: maior dano ou maior -X na resistência (efeito variável, "for each", ou que destrói/exila não conta)
+    ks = [int(a or b) for a, b in re.findall(r"deals (\d+) damage to (?:each|all|any target|target creature|up to one target creature)|gets? -\d+/-(\d+)", t)]
+    if ks and not re.search(r"for each|equal to|destroy|exile|sacrific", t):
+        k = max(ks)
+        if "x-t2" in e and k <= 1: p.append("x-t2, mas o efeito é de %d" % k)
+        if "x-t1" in e and k >= 2 and "x-t2" not in e: p.append("x-t1, mas o efeito é de %d (x-t2?)" % k)
+        if "x-cri" in e and not ({"x-t1", "x-t2", "x-hex"} & e) and k <= 1 and "morbid" not in t: p.append("x-cri com efeito de só %d (usar x-t1 alvo)" % k)
+    if "x-cri" in e:
+        if not (alvo_cri or re.search(r"sacrifices?|fights?|counter target creature|target (nonland )?permanent|enchant creature|"
+                                       r"target creature or|up to one target creature|target opponent", t)):
+            p.append("x-cri sem alvo de criatura nem sacrifício no texto")
+        if re.search(r"-\d+/-0", t) and not re.search(r"-\d+/-[1-9]|destroy|damage|exile|sacrific", t): p.append("x-cri, mas só -N/-0")
+    if "x-hex" in e and not re.search(r"sacrific|counter target creature spell", t): p.append("x-hex sem sacrifício nem contramágica de criatura")
+    precisa = {"x-art": r"artifact|target permanent|nonland permanent", "x-enc": r"enchantment|target permanent|nonland permanent",
+               "x-aura": r"aura|enchantment|target permanent|nonland permanent", "x-cem": r"graveyard", "x-azul": r"blue|island",
+               "x-verm": r"\bred\b", "x-terx": r"\bland", "x-inst": r"instant", "x-feit": r"sorcery", "x-voo": r"flying",
+               "x-ncri": r"noncreature", "x-comb": r"counter target|discard|reveals|choose a nonland", "x-neb": r"prevent|can't be prevented",
+               "x-dano": r"life|prevent|skips", "x-rem": r"hexproof|protection|indestructible|flagbearer|target"}
+    for k, rx in precisa.items():
+        if k in e and not re.search(rx, t): p.append("%s sem '%s' no texto" % (k, rx))
+    return p
+
 
 def oracle(nomes):
     d = json.load(open(CACHE)) if os.path.exists(CACHE) else {}
@@ -177,6 +273,10 @@ def etiquetas(n, c, cores):
     if tira == "*": e = {x for x in e if not x.startswith("x-")}
     else: e -= set(tira.split())
     e |= set(add.split())
+    if n in AUDITORIA:
+        add, tira, trecho = AUDITORIA[n]
+        if trecho.lower() not in txt.lower(): raise SystemExit("ERRO: AUDITORIA de %s cita %r, que não está no texto Oracle" % (n, trecho))
+        e -= set(tira.split()); e |= set(add.split())
     # plano: carta do plano (não sai por falta de alvo). Respostas estreitas (não-criatura, sem dano ao jogador) não são.
     resp = any(x.startswith("x-") for x in e)
     if not terreno and (not resp or "cri" in e or "dano" in e): e.add("plano")
@@ -193,6 +293,10 @@ def main():
     nomes = {r["carta"] for r in cartas}
     fora = sorted(k for k in MANUAL if k not in nomes and k.strip() == k)
     out = {r["carta"]: etiquetas(r["carta"], achar(d, r["carta"]), r["cores"]) for r in cartas}
+    prob = [(k, x) for k in sorted(out) if k not in EXCECOES for x in conferir(k, set(out[k].split()), achar(d, k)["txt"])]
+    if prob:
+        raise SystemExit("ERRO: etiquetas que contradizem o texto Oracle (corrigir em MANUAL/AUDITORIA, com o trecho lido na carta, "
+                         "ou justificar em EXCECOES):\n" + "\n".join("  %s: %s" % x for x in prob))
     json.dump(out, open(os.path.join(P, "funcoes.json"), "w", encoding="utf-8"), ensure_ascii=False, sort_keys=True, indent=0)
     print("%d cartas; %d com alguma resposta" % (len(out), sum(1 for v in out.values() if "x-" in v)))
     if fora: print("(MANUAL com cartas fora das listas atuais: %d)" % len(fora))
