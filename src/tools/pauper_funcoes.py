@@ -211,6 +211,9 @@ AUDITORIA = {
     "Lonely Arroyo": ("", "dano", "deals 1 damage to target opponent"),
     # revisão do estrategia_pauper.md (01/11/2026): proteção só contra criaturas, não contra mágicas de remoção
     "Spare from Evil": ("", "x-rem", "protection from non-human creatures"),
+    # ganho de vida pequeno (2) não conta como resposta contra dano (decisão do usuário, 01/11/2026); o MANUAL marcava x-dano
+    "Primordial Pachyderm": ("", "x-dano", "you gain 2 life"),
+    "Vitu-Ghazi Inspector": ("", "x-dano", "you gain 2 life"),
     # usa o cemitério
     "Exhume": ("cem comb", "", "puts a creature card from their graveyard onto the battlefield"),
 }
