@@ -230,7 +230,11 @@
   .otim-lista { list-style:none; margin:0; padding:0; font-size:14px; }
   .otim-lista li { display:flex; flex-wrap:wrap; gap:0 8px; padding:2px 0; }
   .otim-n { font-weight:600; }
-  .otim-mot { color:var(--mut); font-size:12.5px; }
+  .otim-mot { color:var(--mut); font-size:12.5px; align-self:center; flex:1 1 0; min-width:0; }
+  .otim-gr { display:flex; align-items:stretch; gap:8px; padding:3px 0; }
+  .otim-gr .otim-lista { flex:0 0 auto; max-width:68%; }
+  .otim-chave { flex:0 0 9px; position:relative; margin:3px 0; border:2px solid var(--mut); border-left:0; border-radius:0 6px 6px 0; opacity:.7; } /* a chave } que engloba as cartas do mesmo motivo */
+  .otim-chave::after { content:""; position:absolute; left:100%; top:50%; width:5px; border-top:2px solid var(--mut); transform:translateY(-50%); }
   .jog .otim-tag { color:var(--acc); font-weight:600; }
   .barra { display:flex; height:26px; border-radius:8px; overflow:hidden; font-size:12.5px; font-weight:700; margin:6px 0; }
   .barra span { display:flex; align-items:center; padding:0 8px; white-space:nowrap; min-width:0; color:var(--fg); }
@@ -493,7 +497,7 @@
   </div>
   </div>
   <footer id="rodape"></footer>
-  <div class="versao" id="versao">v144</div>
+  <div class="versao" id="versao">v145</div>
 </main>
 <div class="modal" id="guia" hidden>
   <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="guiaTitulo">
@@ -2134,13 +2138,21 @@ function calcOtim(minha, dele) {
 function listaOtim(o, r) {
   [["otimEntram", o.entram, "+"], ["otimSaem", o.saem, "−"]].forEach(function (g) {
     r.appendChild(el("div", "otim-sub", t(g[0])));
-    var ul = el("ul", "otim-lista");
+    var gr = [], ix = {}; // agrupa pelo texto do motivo (ordem da primeira aparição)
     g[1].forEach(function (x) {
-      var li = el("li"); li.appendChild(el("span", "otim-n", g[2] + x.q + " " + x.n));
-      var m = motivoOtim(x.mot, o.p); if (m) li.appendChild(el("span", "otim-mot", m));
-      ul.appendChild(li);
+      var m = motivoOtim(x.mot, o.p) || "";
+      if (ix[m] === undefined) { ix[m] = gr.length; gr.push({ m: m, c: [] }); }
+      gr[ix[m]].c.push(x);
     });
-    r.appendChild(ul);
+    var box = el("div", "otim-grupos");
+    gr.forEach(function (q) {
+      var row = el("div", "otim-gr"), ul = el("ul", "otim-lista");
+      q.c.forEach(function (x) { var li = el("li"); li.appendChild(el("span", "otim-n", g[2] + x.q + " " + x.n)); ul.appendChild(li); });
+      row.appendChild(ul);
+      if (q.m) { row.appendChild(el("span", "otim-chave", "")); row.appendChild(el("span", "otim-mot", q.m)); }
+      box.appendChild(row);
+    });
+    r.appendChild(box);
   });
 }
 function motivoOtim(mot, p) {
