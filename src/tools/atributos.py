@@ -9,10 +9,11 @@ Lê todos os decks (RAIZ/<pasta>/<deck>.txt, ignorando raw, site, tools e precon
   impressoes.csv  uma linha por impressão (edição + número, como no mtg.wtf):
                   set, numero, nome_lista, carta (nome canônico do Scryfall)
   cartas.csv      uma linha por carta (chave = carta):
-                  carta, identidade, nome_pt, origem_pt
+                  carta, identidade, tipo, mv, nome_pt, origem_pt
 
 Convenções:
   identidade:         identidade de cor, letras na ordem WUBRG (ex. "WU"); "C" = incolor.
+  mv:                 valor de mana (cmc do Scryfall); vazio nos terrenos. Usado nas estatísticas abaixo da lista (v153).
   nome_pt / origem_pt: nome impresso em português no Scryfall ("papel"); vazio se nunca foi impresso em português.
                       (Tradução do Arena: ainda sem fonte.)
 
@@ -157,7 +158,8 @@ def main():
         if canon in cartas:
             cartas[canon]["oids"].add(oid)
             continue
-        cartas[canon] = {"oids": {oid}, "identidade": cores_de(c.get("color_identity") or []), "tipo": tipo_de(c)}
+        cartas[canon] = {"oids": {oid}, "identidade": cores_de(c.get("color_identity") or []), "tipo": tipo_de(c),
+                         "mv": "" if "Land" in tipo_de(c) else "%g" % (c.get("cmc") or 0)}  # valor de mana (vazio nos terrenos), como no Pauper
     if sem:
         print("SEM CORRESPONDÊNCIA:", len(sem), sem[:10])
         sys.exit(1)
@@ -182,11 +184,11 @@ def main():
         w = csv.writer(f); w.writerow(["set", "numero", "nome_lista", "carta"]); w.writerows(linhas_impr)
     with open(os.path.join(a.pasta, "cartas.csv"), "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["carta", "identidade", "tipo", "nome_pt", "origem_pt"])
+        w.writerow(["carta", "identidade", "tipo", "mv", "nome_pt", "origem_pt"])
         for nome in sorted(cartas):
             d = cartas[nome]
             p = pt.get(nome)
-            w.writerow([nome, d["identidade"], d["tipo"], p or "", "papel" if p else ""])
+            w.writerow([nome, d["identidade"], d["tipo"], d["mv"], p or "", "papel" if p else ""])
     com_pt = len(pt)
     print("impressões:", len(linhas_impr), "| cartas:", len(cartas), "| com nome em português:", com_pt)
 

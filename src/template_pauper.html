@@ -91,6 +91,7 @@
   .cor-caixa.on .cor-btn::after { color:var(--f-accfg); }
   /* Celular: grade fixa de 2 colunas, para as pílulas não mudarem de lugar quando o texto muda (símbolos, nome do arquétipo,
      × de tirar o filtro, "Limpar tudo" que aparece e some). O × fica por cima da seta, sem aumentar a pílula. */
+  @media (min-width:521px) { .filtros .sorte-grupo:not(.minha-grupo) { order:1; margin-left:auto; } } /* botão colorido na margem direita, alinhado com o fim da busca; "Limpar tudo" fica antes dele (v153) */
   @media (max-width:520px) {
     .filtros { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 6px; }
     .filtros .cor-caixa { min-width:0; }
@@ -98,7 +99,8 @@
     .filtros .limpar-cor { position:absolute; right:3px; top:50%; transform:translateY(-50%); margin:0; width:20px; height:20px; font-size:14px; z-index:1; }
     .filtros .cor-caixa.on .cor-btn::after { visibility:hidden; }
     .filtros .limpar-tudo { justify-self:center; grid-column:1 / -1; }
-    .filtros .sorte-grupo { justify-self:start; }
+    .filtros .sorte-grupo { justify-self:end; } /* botão colorido na margem direita, alinhado com o fim da busca (v153) */
+    .filtros .minha-grupo { justify-self:start; }
     .filtros .sorte-grupo #btnSorte { white-space:nowrap; gap:4px; padding:4px 12px 4px 9px; }
     .filtros .sorte-grupo .mesa-btn { padding:4px 8px 4px 7px; }
     .filtros .cor-btn { gap:4px; }
@@ -490,12 +492,12 @@
 <body>
 <main>
   <nav class="formato" aria-label="Commander / Pauper"><a href="../">Commander</a><a href="./" aria-current="page">Pauper</a></nav>
-  <h1 data-t="titulo">Decks de Pauper</h1>
+  <h1 data-t="titulo">Pauper</h1>
   <p class="sub" id="sub" data-t="sub"></p>
 
   <div class="filtros" id="filtros" hidden>
-        <span class="sorte-grupo"><button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="8" height="12" rx="1.6"/><rect x="14" y="8" width="8" height="12" rx="1.6"/><path d="M11.5 19.5h-5l1.6-1.6"/><path d="M12.5 4.5h5l-1.6 1.6"/></svg><span data-t="surpresa">Comparar decks</span></button></span>
         <span class="sorte-grupo minha-grupo"><button type="button" class="cor-btn minha-btn" id="btnMinha" data-ta="minhaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 10h6M9 14h6M9 18h3"/></svg><span data-t="minhaBtn">Minha lista</span></button></span>
+        <span class="sorte-grupo"><button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="8" height="12" rx="1.6"/><rect x="14" y="8" width="8" height="12" rx="1.6"/><path d="M11.5 19.5h-5l1.6-1.6"/><path d="M12.5 4.5h5l-1.6 1.6"/></svg><span data-t="surpresa">Comparar decks</span></button></span>
     <button type="button" class="limpar-tudo" id="btnLimparTudo" data-ta="limparTudoDica" hidden><span aria-hidden="true">↺</span> <span data-t="limparTudo">Limpar tudo</span></button>
   </div>
   <div class="busca" id="caixaBusca">
@@ -599,10 +601,10 @@ var ATUALIZADO = META.data; // data (AAAA-MM-DD) em que as listas foram baixadas
 // Nomes de decks, cartas, coleções e grupos ficam sempre em inglês.
 var TXT = {
   pt: {
-    titulo: 'Decks de Pauper',
+    titulo: 'Pauper',
     sub: 'Os arquétipos do Pauper nos últimos 30 dias, do mais ao menos jogado, com o consenso de cada variação e 2 listas reais de torneios. Use a busca, compare dois decks ou cole a sua lista.',
     busca: 'Carta, arquétipo ou variação…', apagar: 'Apagar busca', grupoCores: 'Variações',
-    outrasVar: 'Outras', outrosArq: 'Mostrar os outros arquétipos', consenso: 'Consenso', nListas: '{n} listas', kDeN: '{k} de {n} listas', nLista: '1 lista', mostrarMais: 'Mostrar mais ({n})',
+    outrasVar: 'Outras', outrosArq: 'Voltar à tela inicial', consenso: 'Consenso', nListas: '{n} listas', kDeN: '{k} de {n} listas', nLista: '1 lista', mostrarMais: 'Mostrar mais ({n})',
     carregando: 'Carregando as listas…', falhaCarregar: 'Não consegui carregar as listas agora. Toque no arquétipo para tentar de novo.',
     infoCons: 'Consenso de {n} listas ({m} MTGO, {p} papel) · {pc} das listas · {b} com bom resultado',
     consDica: 'Lista de consenso: cada carta na quantidade média das listas desta variação (as maiores médias até completar 60 + 15). Ninguém jogou exatamente assim, mas mostra o que quase todos usam.',
@@ -639,13 +641,13 @@ var TXT = {
     otimNota: 'Sugestão automática pelas funções das cartas; não considera a mão nem o jogo 1.',
     otimCartao: 'Otimizado · {k} trocas', otimFraca: 'rende menos neste confronto', otimPouco: 'pouco alvo: {r}', otimSemAlvo: 'sem alvo no adversário',
     otimAmeaca: 'ameaça contra um deck de controle',
-    dims: { azul: '{n} cartas azuis', verm: '{n} cartas vermelhas', art: '{n} artefatos', enc: '{n} encantamentos', aura: '{n} Auras', cem: '{n} cartas que usam o cemitério', t1: '{n} criaturas de resistência 1', t2: '{n} criaturas de resistência até 2', cri: '{n} criaturas', hex: '{n} criaturas com hexproof', dano: 'deck agressivo ({n} cartas de dano e criaturas)', inst: '{n} mágicas instantâneas', feit: '{n} feitiços', ncri: '{n} mágicas não-criatura', comb: '{n} peças de combo ou motores', terx: '{n} terrenos especiais (Tron, Portões)', voo: '{n} voadoras de resistência 1', neb: '{n} neblinas', rem: '{n} remoções' },
+    dims: { azul: '{n} cartas azuis', verm: '{n} cartas vermelhas', art: '{n} artefatos', enc: '{n} encantamentos', aura: '{n} Auras', cem: '{n} cartas que usam o cemitério', t1: '{n} criaturas de resistência 1', t2: '{n} criaturas de resistência até 2', cri: '{n} criaturas', hex: '{n} criaturas com hexproof', dano: 'deck agressivo ({n} cartas de dano e criaturas)', inst: '{n} mágicas instantâneas', feit: '{n} feitiços', ncri: '{n} mágicas não-criatura', comb: '{n} peças de combo ou motores', terx: '{n} terrenos especiais (Tron, Portões)', voo: '{n} criaturas com voar de resistência 1', neb: '{n} neblinas', rem: '{n} remoções' },
     emComum: 'Cartas em comum no deck principal: {l}.', nadaComum: 'Nenhuma carta em comum no deck principal (fora os terrenos básicos).',
     decks: 'Listas', deck1: 'lista', deckN: 'listas', achou1: '1 variação encontrada', achouN: '{n} variações encontradas',
     nenhum: 'Nenhuma variação encontrada', nenhumTxt: 'Nenhuma variação ou carta com esse nome (a busca olha as listas de consenso).', nenhumFiltro: 'Nenhum deck com esses filtros.',
     contagem: '{m} cartas + {s} no sideboard', avisoContagem: ' (atenção: o esperado era 60 + até 15)', encontrado: 'encontrado',
     infoDeck: '{p}% do metagame ({n} decks) · lista de {j}{r}, {d}', infoRes: ' ({r})',
-    outras: 'Mostrar os outros grupos', compartilhar: 'Compartilhar o link do deck', criar: 'Criar no endstep.cc',
+    outras: 'Mostrar as outras variações', compartilhar: 'Compartilhar o link do deck', criar: 'Criar no endstep.cc',
     copiar: 'Copiar lista', copiado: 'Copiado ✓', falhaCopiar: 'Não consegui copiar: selecione o texto e copie manualmente.',
     linkCopiado: 'Link do deck copiado ✓', copieLink: 'Copie o link do deck:',
     listaCopiada: 'Lista copiada ✓', falhaLista: 'Não consegui copiar a lista', usarCopiar: 'Não consegui copiar: use Copiar lista',
@@ -692,10 +694,10 @@ var TXT = {
     limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e recolhe tudo'
   },
   en: {
-    titulo: 'Pauper decks',
+    titulo: 'Pauper',
     sub: 'The Pauper archetypes of the last 30 days, from most to least played, with each variation\'s consensus and 2 real tournament lists. Use the search, compare two decks or paste your list.',
     busca: 'Card, archetype or variation…', apagar: 'Clear search', grupoCores: 'Variations',
-    outrasVar: 'Others', outrosArq: 'Show the other archetypes', consenso: 'Consensus', nListas: '{n} lists', kDeN: '{k} of {n} lists', nLista: '1 list', mostrarMais: 'Show more ({n})',
+    outrasVar: 'Others', outrosArq: 'Back to the start', consenso: 'Consensus', nListas: '{n} lists', kDeN: '{k} of {n} lists', nLista: '1 list', mostrarMais: 'Show more ({n})',
     carregando: 'Loading the lists…', falhaCarregar: 'Could not load the lists now. Tap the archetype to try again.',
     infoCons: 'Consensus of {n} lists ({m} MTGO, {p} paper) · {pc} of the lists · {b} with a good finish',
     consDica: 'Consensus list: each card in the average quantity of this variation\'s lists (the highest averages up to 60 + 15). Nobody played exactly this, but it shows what almost everyone uses.',
@@ -738,7 +740,7 @@ var TXT = {
     nenhum: 'No variation found', nenhumTxt: 'No variation or card with that name (the search looks at the consensus lists).', nenhumFiltro: 'No deck matches these filters.',
     contagem: '{m} cards + {s} in the sideboard', avisoContagem: ' (warning: 60 + up to 15 expected)', encontrado: 'found',
     infoDeck: '{p}% of the metagame ({n} decks) · list by {j}{r}, {d}', infoRes: ' ({r})',
-    outras: 'Show the other groups', compartilhar: 'Share the deck link', criar: 'Create on endstep.cc',
+    outras: 'Show the other variations', compartilhar: 'Share the deck link', criar: 'Create on endstep.cc',
     copiar: 'Copy list', copiado: 'Copied ✓', falhaCopiar: 'Could not copy: select the text and copy it manually.',
     linkCopiado: 'Deck link copied ✓', copieLink: 'Copy the deck link:',
     listaCopiada: 'List copied ✓', falhaLista: 'Could not copy the list', usarCopiar: 'Could not copy: use Copy list',
@@ -790,7 +792,9 @@ var IDIOMA = (function () {
   for (var i = 0; i < ls.length; i++) { var c = String(ls[i]).slice(0, 2).toLowerCase(); if (TXT[c]) return c; }
   return "en";
 })();
-function t(k, v) { var s = TXT[IDIOMA][k]; if (v) for (var x in v) s = s.split("{" + x + "}").join(v[x]); return s; }
+// Números inteiros a partir de 1000 saem com separador de milhar no idioma da página ("3.346" em português, "3,346" em inglês; v153).
+function milhar(x) { return typeof x === "number" && Number.isInteger(x) && Math.abs(x) >= 1000 ? x.toLocaleString(IDIOMA === "pt" ? "pt-BR" : "en-US") : x; }
+function t(k, v) { var s = TXT[IDIOMA][k]; if (v) for (var x in v) s = s.split("{" + x + "}").join(milhar(v[x])); return s; }
 // Como colar neste aparelho: atalho do teclado no computador, toque longo no celular.
 function atalhoColar() {
   var pl = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "", ua = navigator.userAgent || "";

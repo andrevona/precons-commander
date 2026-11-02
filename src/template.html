@@ -90,6 +90,7 @@
   .cor-caixa.on .cor-btn::after { color:var(--f-accfg); }
   /* Celular: grade fixa de 2 colunas, para as pílulas não mudarem de lugar quando o texto muda (símbolos, nome do arquétipo,
      × de tirar o filtro, "Limpar tudo" que aparece e some). O × fica por cima da seta, sem aumentar a pílula. */
+  @media (min-width:521px) { .filtros .sorte-grupo:not(.minha-grupo) { order:1; margin-left:auto; } } /* botão colorido na margem direita, alinhado com o fim da busca; "Limpar tudo" fica antes dele (v153) */
   @media (max-width:520px) {
     .filtros { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 6px; }
     .filtros .cor-caixa { min-width:0; }
@@ -97,7 +98,7 @@
     .filtros .limpar-cor { position:absolute; right:3px; top:50%; transform:translateY(-50%); margin:0; width:20px; height:20px; font-size:14px; z-index:1; }
     .filtros .cor-caixa.on .cor-btn::after { visibility:hidden; }
     .filtros .limpar-tudo { justify-self:center; grid-column:1 / -1; }
-    .filtros .sorte-grupo { justify-self:start; }
+    .filtros .sorte-grupo { justify-self:end; } /* botão colorido na margem direita, alinhado com o fim da busca (v153) */
     .filtros .sorte-grupo #btnSorte { white-space:nowrap; gap:4px; padding:4px 5px 4px 9px; }
     .filtros .sorte-grupo .mesa-btn { padding:4px 8px 4px 7px; }
     .filtros .cor-btn { gap:4px; }
@@ -132,6 +133,24 @@
   button.icone svg { width:18px; height:18px; display:block; }
   .acoes { margin-bottom:8px; }
   #btnCopiar { margin-top:10px; } /* abaixo da lista (pedido do usuário em 01/11/2026, como na página de Pauper) */
+  /* Estatísticas abaixo da lista e "Voltar ao topo" (v153, as mesmas regras da página de Pauper) */
+  .duelo-info { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:12px; }
+  .duelo-info h3 { font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--mut); margin:0 0 8px; }
+  .comp { width:100%; border-collapse:collapse; font-size:14px; }
+  .comp th, .comp td { padding:5px 4px; border-bottom:1px solid var(--line); vertical-align:middle; }
+  .comp tr:last-child th, .comp tr:last-child td { border-bottom:0; }
+  .comp th { text-align:center; font-weight:400; color:var(--mut); font-size:12.5px; }
+  .comp td { width:38%; text-align:center; }
+  .voltar-topo { display:block; margin:14px auto 0; }
+  .comp1 th { text-align:left; }
+  .comp1 td { width:auto; text-align:right; }
+  .comp1 .curva-c { text-align:right; }
+  .comp1 .curva-c .curva { justify-content:flex-end; }
+  .comp1 .curva-c .curva-rot { justify-content:flex-end; }
+  .curva { display:inline-flex; align-items:flex-end; gap:2px; height:34px; }
+  .curva i { display:block; width:9px; background:var(--acc); border-radius:2px 2px 0 0; opacity:.75; }
+  .curva-rot { display:flex; gap:2px; justify-content:center; font-size:9.5px; color:var(--mut); }
+  .curva-rot b { width:9px; font-weight:400; text-align:center; }
   .modal { position:fixed; inset:0; z-index:50; background:rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center; padding:16px; }
   .modal-caixa { background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:14px; padding:20px; width:100%; max-width:430px; box-shadow:0 12px 40px rgba(0,0,0,.35); }
   .modal-caixa h2 { font-size:18px; margin:0 0 6px; }
@@ -326,7 +345,7 @@
 <main>
   <nav class="formato" aria-label="Commander / Pauper"><a href="./" aria-current="page">Commander</a><a href="pauper/">Pauper</a></nav>
   <h1>Precons Commander</h1>
-  <p class="sub" id="sub" data-t="sub">Navegue por coleção, utilize os filtros ou use a busca (em português ou inglês).</p>
+  <p class="sub" id="sub" data-t="sub">Todos os decks precon de Commander desde 2011, por coleção, em ordem de lançamento. Use os filtros, a busca (em português ou inglês) ou sorteie um deck.</p>
 
   <div class="filtros" id="filtros" hidden>
     <div class="cor-caixa" id="cxCor"><button type="button" class="cor-btn" id="fCor" aria-haspopup="listbox" aria-expanded="false" aria-controls="corMenu"></button><ul class="cor-menu" id="corMenu" role="listbox" tabindex="-1" hidden></ul><button type="button" class="limpar-cor" id="limparCor" data-ta="tirarCor" hidden>×</button></div>
@@ -364,6 +383,7 @@
     <div class="lista"><div class="espelho" id="espelho" aria-hidden="true"></div><textarea id="saida" readonly spellcheck="false" wrap="off"></textarea></div>
     <button class="ghost" id="btnCopiar" data-t="copiar">Copiar lista</button>
   </div>
+  <div class="duelo-info" id="statsDeck" hidden></div>
   </div>
   <footer id="rodape"></footer>
   <div class="versao" id="versao">__VERSAO__</div>
@@ -430,7 +450,7 @@ var ATUALIZADO = "__ATUALIZADO__"; // data (AAAA-MM-DD) da última conferência 
 // Nomes de decks, cartas, coleções e grupos ficam sempre em inglês.
 var TXT = {
   pt: {
-    sub: 'Navegue por coleção, utilize os filtros ou use a busca (em português ou inglês).',
+    sub: 'Todos os decks precon de Commander desde 2011, por coleção, em ordem de lançamento. Use os filtros, a busca (em português ou inglês) ou sorteie um deck.',
     busca: 'Carta, deck, comandante ou coleção…', apagar: 'Apagar busca', colecoes: 'Coleções', filtroAno: 'Filtrar os decks pelo ano de lançamento', porAno: 'Por ano', tirarAno: 'Tirar o filtro de ano',
     decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck encontrado', achouN: '{n} decks encontrados',
     nenhum: 'Nenhum deck encontrado', nenhumTxt: 'Nenhum deck, comandante ou carta com esse nome.', nenhumFiltro: 'Nenhum deck com esses filtros.',
@@ -453,6 +473,9 @@ var TXT = {
       'Em <b>Set format</b>, escolha <b>Commander</b>.'],
     rodNota: '* O nome do deck vem no formato <i>Deck - Comandante (SIGLA ano)</i>, com a sigla de três letras da coleção e o ano de lançamento. Exemplo: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'sobre o projeto',
+    rodExtra: '<li><b>Coleções</b> em ordem de lançamento; os filtros mostram os decks por <b>cor</b>, <b>ano</b> ou <b>arquétipo</b>.</li><li><b>Busca</b>: carta, deck, comandante ou coleção, em português ou inglês.</li><li><b>Sortear deck</b>: abre um deck aleatório.</li><li><b>Sorteio em grupo</b> (botão ao lado): um deck diferente para cada jogador, de 2 a 4.</li>',
+    hEstat: 'Estatísticas', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
+    voltarTopo: '↑ Voltar ao topo',
     problemas: 'Encontrou um problema ou tem uma sugestão? Avise por {email} ou abra uma {github}.', lkEmail: 'e-mail', lkGithub: 'issue no GitHub',
     tCol: 'coleção', tDeck: 'deck', tCmd: 'comandantes', tCarta: 'carta',
     filtroArq: 'Filtrar os decks pelo arquétipo (estilo de jogo)', porArq: 'Por arquétipo', tirarArq: 'Tirar o filtro de arquétipo',
@@ -473,7 +496,7 @@ var TXT = {
     exclAbrir: 'Mostrar as coleções do grupo {g}', exclAbrirDecks: 'Mostrar os decks de {c}', verLista: 'Ver lista', esconderLista: 'Ocultar lista', trocarDeck: 'Sortear outro deck para {n}', semOutro: 'Não há outro deck disponível para sortear.'
   },
   en: {
-    sub: 'Browse by set, use the filters or use the search (in Portuguese or English).',
+    sub: 'Every Commander precon deck since 2011, by set, in release order. Use the filters, the search (in Portuguese or English) or draw a random deck.',
     busca: 'Card, deck, commander or set…', apagar: 'Clear search', colecoes: 'Sets', filtroAno: 'Filter decks by release year', porAno: 'By year', tirarAno: 'Clear the year filter',
     decks: 'Decks', deck1: 'deck', deckN: 'decks', achou1: '1 deck found', achouN: '{n} decks found',
     nenhum: 'No deck found', nenhumTxt: 'No deck, commander or card with that name.', nenhumFiltro: 'No deck matches these filters.',
@@ -496,6 +519,9 @@ var TXT = {
       'In <b>Set format</b>, choose <b>Commander</b>.'],
     rodNota: '* The deck name comes in the format <i>Deck - Commander (CODE year)</i>, with the set\'s three-letter code and the release year. Example: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'about the project',
+    rodExtra: '<li><b>Sets</b> in release order; the filters show decks by <b>color</b>, <b>year</b> or <b>archetype</b>.</li><li><b>Search</b>: card, deck, commander or set, in Portuguese or English.</li><li><b>Random deck</b>: opens a random deck.</li><li><b>Group draw</b> (button next to it): a different deck for each player, 2 to 4.</li>',
+    hEstat: 'Statistics', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
+    voltarTopo: '↑ Back to top',
     problemas: 'Found a problem or have a suggestion? Let me know by {email} or open an {github}.', lkEmail: 'email', lkGithub: 'issue on GitHub',
     tCol: 'set', tDeck: 'deck', tCmd: 'commanders', tCarta: 'card',
     filtroArq: 'Filter decks by archetype (play style)', porArq: 'By archetype', tirarArq: 'Clear the archetype filter',
@@ -521,7 +547,9 @@ var IDIOMA = (function () {
   for (var i = 0; i < ls.length; i++) { var c = String(ls[i]).slice(0, 2).toLowerCase(); if (TXT[c]) return c; }
   return "en";
 })();
-function t(k, v) { var s = TXT[IDIOMA][k]; if (v) for (var x in v) s = s.split("{" + x + "}").join(v[x]); return s; }
+// Números inteiros a partir de 1000 saem com separador de milhar no idioma da página ("3.346" em português, "3,346" em inglês; v153).
+function milhar(x) { return typeof x === "number" && Number.isInteger(x) && Math.abs(x) >= 1000 ? x.toLocaleString(IDIOMA === "pt" ? "pt-BR" : "en-US") : x; }
+function t(k, v) { var s = TXT[IDIOMA][k]; if (v) for (var x in v) s = s.split("{" + x + "}").join(milhar(v[x])); return s; }
 // Como colar neste aparelho: atalho do teclado no computador, toque longo no celular.
 function atalhoColar() {
   var pl = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "", ua = navigator.userAgent || "";
@@ -546,7 +574,7 @@ function aplicarIdioma() {
   $("rodape").innerHTML = '<div>' + t("rodape", { nd: nd, nc: COLECOES.length, data: data, mtgwtf: ln.mtgwtf,
     sobre: '<a href="https://github.com/andrevona/precons-commander"' + NA + '>' + t("sobre") + '</a>' }) + '</div>' +
     '<div class="como"><details><summary>' + t("dicaUso") + '</summary><p class="intro">' + t("rodIntro", ln) + '</p><ol>' +
-    TXT[IDIOMA].rodPassos.map(function (x) { return '<li>' + x.split("{endstep}").join(ln.endstep).split("{colar}").join(atalhoColar()) + '</li>'; }).join("") + '</ol><p class="nota">' + t("rodNota") + '</p><p class="nota">' + problemas + '</p></details></div>';
+    TXT[IDIOMA].rodPassos.map(function (x) { return '<li>' + x.split("{endstep}").join(ln.endstep).split("{colar}").join(atalhoColar()) + '</li>'; }).join("") + '</ol><p class="nota">' + t("rodNota") + '</p><ul>' + t("rodExtra") + '</ul><p class="nota">' + problemas + '</p></details></div>';
 }
 var GRUPOS = __GRUPOS__;
 var grpAtual = GRUPOS[0];
@@ -667,6 +695,7 @@ function aplicarId(id) {
 function idDoEndereco() { try { return decodeURIComponent(location.hash.replace(/^#/, "")); } catch (e) { return ""; } }
 
 function desenhar() {
+  $("statsDeck").hidden = true; // só reaparece no fim, com um deck escolhido (pintarStats); some no sorteio em grupo e sem deck
   var sb = $("sub"), sm = mesa ? "mesaToque" : "sub"; // na tela do sorteio, o subtítulo vira a dica "Toque num jogador…"
   if (sb.getAttribute("data-t") !== sm) { sb.setAttribute("data-t", sm); sb.innerHTML = t(sm); }
   if (mesa) { desenharMesa(); return; } // sorteio em grupo: tela própria (ver "Sorteio em grupo")
@@ -766,6 +795,28 @@ function desenhar() {
   var deck = decks[deckAtual];
   if (aberto) guardarSelecao(deck);
   pintarPainel(deck, "");
+  pintarStats(deck);
+}
+// Estatísticas abaixo da lista (v153, como na página de Pauper): as 100 cartas, comandante(s) inclusive; "st" vem do build.py
+// (criaturas, instantâneas e feitiços, outras mágicas, terrenos, valor de mana médio sem terrenos e curva 0–5 e 6+).
+// No fim, o botão "Voltar ao topo".
+function pintarStats(d) {
+  var box = $("statsDeck"); box.innerHTML = "";
+  if (!d || !d.st) { box.hidden = true; return; }
+  function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; }
+  var st = d.st, fmt = function (x) { return String(x).replace(".", IDIOMA === "pt" ? "," : "."); };
+  var s1 = el("section"); s1.appendChild(el("h3", "", t("hEstat")));
+  var tb = el("table", "comp comp1"), tbd = el("tbody");
+  function linha(rot, v) { var r = el("tr"); r.appendChild(el("th", "", rot)); r.appendChild(el("td", "", v)); tbd.appendChild(r); }
+  linha(t("cMv"), fmt(st.mv)); linha(t("cCri"), st.cri); linha(t("cMag"), st.mag); linha(t("cOut"), st.out); linha(t("cTer"), st.ter);
+  var rc = el("tr"), td = el("td", "curva-c"), cv = el("div", "curva"), rt = el("div", "curva-rot"), mx = Math.max.apply(null, st.curva) || 1;
+  st.curva.forEach(function (v, j) { var bar = el("i"); bar.style.height = Math.max(2, Math.round(34 * v / mx)) + "px"; bar.title = v; cv.appendChild(bar); rt.appendChild(el("b", "", j === 6 ? "6+" : String(j))); });
+  td.appendChild(cv); td.appendChild(rt); rc.appendChild(el("th", "", t("cCurva"))); rc.appendChild(td); tbd.appendChild(rc);
+  tb.appendChild(tbd); s1.appendChild(tb); box.appendChild(s1);
+  var bt = el("button", "ghost voltar-topo", t("voltarTopo")); bt.type = "button";
+  bt.onclick = function () { window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" }); };
+  box.appendChild(bt);
+  box.hidden = false;
 }
 // Painel do deck (título, lista, contagem, nota); usado na tela normal e no sorteio em grupo (com o nome do jogador antes).
 function pintarPainel(deck, prefixo) {
