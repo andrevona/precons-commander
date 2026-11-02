@@ -2147,7 +2147,7 @@ var NUCLEO_BONUS = 0.5; // carta do núcleo da variação (85%+ das listas, col.
 function ctxOtim(meu, dele) { return { nuc: meu && meu._col && meu._col.nuc, vence: dele && dele._col && dele._col.vence }; }
 // Quanto a proteção contra dano vale contra a forma de vitória do adversário: cobre a principal = 1; só uma secundária = 0,6; nenhuma = 0,15.
 // so-comb (neblina, pular combate) cobre c e i; so-mag (só dano de mágica) cobre d; prev (previne dano em geral) cobre c, i e d;
-// ganho de vida (o resto) cobre c e d (veneno e moinho não se resolvem com vida).
+// ganho de vida (o resto) cobre c e d (veneno e triturar/mill não se resolvem com vida).
 function cobreDano(f, vence) {
   if (!vence) return 1;
   var c = f["so-comb"] ? "ci" : f["so-mag"] ? "d" : f.prev ? "cid" : "cd";
@@ -2320,7 +2320,7 @@ function compartilharMesa() {
 // cópias, banidas), acha a variação mais parecida e roda o Otimizar contra o consenso de cada variação. Nomes em inglês ou
 // português (nomes_pt.json); carta fora de FUNCOES (fora das listas dos últimos 30 dias) fica na lista, mas fora das trocas.
 var minha = null, CHAVE_MINHA = "precons-pauper-minha", CHAVE_TRAVA = "precons-pauper-minha-trava", MINHA_TOPO = 12, PARECIDA = 0.5;
-function novaMinha() { return { res: null, todos: false, lido: false, trava: {} }; }
+function novaMinha() { return { res: null, todos: false, lido: false, trava: {}, ab: {}, ver: {} }; } // ab/ver: lista aberta e seletor de cada variação do guia
 // Travas (v147): cartas do principal que o Otimizar nunca tira, em todas as variações; guardadas neste aparelho com a lista
 function lerTravas() { var o = {}; try { (JSON.parse(localStorage.getItem(CHAVE_TRAVA) || "[]") || []).forEach(function (n) { if (typeof n === "string") o[n] = 1; }); } catch (e) {} return o; }
 function gravarTravas() { try { var k = Object.keys(minha.trava); if (k.length) localStorage.setItem(CHAVE_TRAVA, JSON.stringify(k.sort())); else localStorage.removeItem(CHAVE_TRAVA); } catch (e) {} }
@@ -2425,7 +2425,7 @@ function gerarMinha() {
   b.disabled = true;
   carregarPtTodos(function () {
     b.disabled = false; if (!minha) return;
-    minha.res = analisarMinha(txt); minha.todos = false;
+    minha.res = analisarMinha(txt); minha.todos = false; minha.ab = {}; minha.ver = {};
     if (!minha.res.erros.length) { var ok = {}; travaveis(minha.res).forEach(function (c) { if (minha.trava[c[1]]) ok[c[1]] = 1; }); minha.trava = ok; gravarTravas(); } // lista nova: só ficam as travas das cartas que continuam no principal
     pintarMinha(true);
     var r = $("minhaRes"); if (r.scrollIntoView) r.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "start" });
@@ -2502,14 +2502,35 @@ function guiaMinha(r, abertos) {
       if (c && c[0] + c[1] > 0) { var h = el("span", "gd-hist", t("mHist", { p: pct(Math.round(100 * c[0] / (c[0] + c[1]))) })); h.title = t("mHistTit", { v: c[0], n: c[0] + c[1] + c[2] }); meta.appendChild(h); }
     }
     sm.appendChild(nm); sm.appendChild(meta); det.appendChild(sm);
-    var corpo = el("div", "gd-corpo");
+    sm.onclick = function () { // abre uma variação de cada vez (v149): fecha as outras do guia, mantendo a clicada no mesmo lugar da tela
+      if (det.open) return;
+      var y0 = sm.getBoundingClientRect().top;
+      [].forEach.call(s.querySelectorAll("details.gd[open]"), function (x) { if (x !== det) x.open = false; });
+      window.scrollBy(0, sm.getBoundingClientRect().top - y0);
+    };
+    var corpo = el("div", "gd-corpo"), id = idDe(d);
     if (!n) corpo.appendChild(el("p", "mut", t("mNada")));
     else {
-      listaOtim(o, corpo);
-      var deck = { nome: t("mNome"), _contra: d.nome, lista: aplicarTrocas(r.lista, o.trocas) }, ac = el("div", "row acoes gd-acoes");
-      var bc = el("button", "go", t("criar")), bp = el("button", "ghost", t("copiar")); bc.type = bp.type = "button";
-      bc.onclick = function () { criarNoEndstep(deck); }; bp.onclick = function () { copiarBotao(bp, deck, "copiar"); };
-      ac.appendChild(bc); ac.appendChild(bp); corpo.appendChild(ac);
+      var orig = { nome: t("mNome"), lista: r.lista }, deck = { nome: t("mNome"), _contra: d.nome, _orig: orig, lista: aplicarTrocas(r.lista, o.trocas) };
+      var montar = function () { // como o bloco do Otimizar: "Ver lista" abre original × otimizada aqui mesmo, com "Ocultar lista" no pé
+        corpo.innerHTML = ""; listaOtim(o, corpo);
+        if (!minha.ab[id]) {
+          var vl = el("button", "ghost otim-ver", t("verLista")); vl.type = "button";
+          vl.onclick = function () { minha.ab[id] = true; montar(); var pn = corpo.querySelector(".painel-mesa"); if (pn && pn.scrollIntoView) pn.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "start" }); };
+          corpo.appendChild(vl); return;
+        }
+        var st = minha.ver[id] || (minha.ver[id] = { ver: "otim" }), pn = el("div", "panel painel-mesa");
+        var ac = el("div", "row acoes"), bE = el("button", "go", rotCriar(st.ver)); bE.type = "button";
+        bE.onclick = function () { criarNoEndstep(st.ver === "orig" ? orig : deck); };
+        ac.appendChild(bE); pn.appendChild(ac);
+        var bl = deck.lista.split("\n\n"), mm = contar(bl[0]), sd = bl[1] ? contar(bl[1]) : 0, ok = mm >= 60 && sd <= 15;
+        pn.appendChild(el("div", "status " + (ok ? "ok" : "warn"), t("contagem", { m: mm, s: sd }) + (ok ? " ✓" : t("avisoContagem"))));
+        var oc = el("button", "ghost", t("esconderLista")); oc.type = "button";
+        oc.onclick = function () { minha.ab[id] = false; montar(); if (sm.scrollIntoView) sm.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "nearest" }); };
+        var box = el("div", "dif"); st.rot = function () { bE.textContent = rotCriar(st.ver); };
+        pintarDif(deck, box, st, oc); pn.appendChild(box); corpo.appendChild(pn);
+      };
+      montar();
     }
     det.appendChild(corpo); s.appendChild(det);
   });
@@ -2523,7 +2544,7 @@ function guiaMinha(r, abertos) {
 $("btnMinha").onclick = abrirMinha;
 $("btnGerar").onclick = gerarMinha;
 $("btnMinhaApagar").onclick = function () {
-  $("minhaTxt").value = ""; if (minha) { minha.res = null; minha.trava = {}; }
+  $("minhaTxt").value = ""; if (minha) { minha.res = null; minha.trava = {}; minha.ab = {}; minha.ver = {}; }
   try { localStorage.removeItem(CHAVE_MINHA); localStorage.removeItem(CHAVE_TRAVA); } catch (e) {}
   pintarMinha(true); $("minhaTxt").focus();
 };
