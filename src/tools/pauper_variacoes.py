@@ -28,7 +28,8 @@ BASICOS = {"Plains", "Island", "Swamp", "Mountain", "Forest", "Wastes", "Snow-Co
 FAMILIAS = {  # revisada com o usuário em 31/10/2026 (semelhança medida entre arquétipos + decisões dele)
     "Mono Red Madness": "Madness", "Rakdos Madness": "Madness",
     "Blue Terror": "Terror", "Izzet Terror": "Terror", "Dimir Terror": "Terror",
-    "Dimir Faeries": "Faeries", "Grixis Faeries": "Faeries",            # Mono-Blue Faeries: família própria (decisão do usuário)
+    "Dimir Faeries": "Faeries", "Grixis Faeries": "Faeries",
+    "Mono-Blue Faeries": "Faeries",  # era família própria (decisão de 31/10/2026); variação de Faeries desde a v154 (pedido do usuário, 02/11/2026)
     "Tron": "Tron", "Ephemerate Tron": "Tron",
     "Grixis Affinity": "Affinity", "Esper Affinity": "Affinity", "Dimir Affinity": "Affinity", "4c Affinity": "Affinity",  # Glintblade: própria
     "Grixis Control": "Control", "Dimir Control": "Control",            # semelhança 0,98
