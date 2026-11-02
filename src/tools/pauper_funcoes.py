@@ -10,6 +10,9 @@ Etiquetas de "o que a carta é" (montam o perfil do adversário):
   dano (dano direto no adversário), neb (neblina), terx (terreno especial: Tron, Gates), comb (peça de combo ou motor),
   ter (terreno: nunca sai), mv5 (custa 5 ou mais), azul, verm (cor), plano (carta do plano do deck: não sai por falta de alvo).
   alvo (a resposta a criaturas ESCOLHE alvo: não funciona contra hexproof; usada com x-cri e x-t1/x-t2. Dano em área sem alvo, como End the Festivities, não leva).
+  Alcance do x-dano (02/11/2026, v148; sem nenhuma delas é ganho de vida, que vale contra combate e dano direto, não contra veneno):
+  so-comb (só previne/pula o COMBATE: neblina, Stonehorn Dignitary), so-mag (só dano de MÁGICA: Hallow), prev (previne dano em
+  geral, inclusive o de infect). O template_pauper.html pesa isso contra a forma de vitória de cada variação (VENCE no build_pauper.py).
 Etiquetas de resposta, "x-<alvo>" (o que a carta enfrenta):
   x-azul, x-verm, x-art, x-enc, x-aura, x-cem, x-t1 / x-t2 (varredura que mata resistência 1 / 2), x-cri (remoção pontual),
   x-hex (sacrifício: passa por hexproof), x-dano (ganho de vida / prevenção contra dano), x-inst, x-feit, x-ncri
@@ -50,7 +53,7 @@ MANUAL = {
     # remoção / varredura
     "Arms of Hadar": ("x-t2", ""), "Krark-Clan Shaman": ("x-t1 plano", "x-voo"), "Scattershot Archer": ("x-voo", "x-t1 x-t2"),
     "Tithing Blade // Consuming Sepulcher": ("x-hex x-cri", "x-cem x-dano"), "Accursed Marauder": ("x-hex x-cri", ""),
-    "Diabolic Edict": ("x-hex x-cri", ""), "Grim Bauble": ("x-cri", "x-cem"), "Nihil Spellbomb": ("plano", ""), "Lifelink": ("x-dano plano", ""),
+    "Diabolic Edict": ("x-hex x-cri", ""), "Grim Bauble": ("x-cri", "x-cem"), "Nihil Spellbomb": ("plano", ""),
     "Structural Distortion": ("x-terx", ""), "Mortician Beetle": ("", "x-cri"), "Desert": ("x-t1", "x-cri"),
     "Gut Shot": ("x-cri x-t1 alvo", ""), "Electrickery": ("x-t1", ""), "End the Festivities": ("x-t1", ""),
     "Suffocating Fumes": ("x-t1", ""), "Dry Spell": ("x-t1", ""), "Shrivel": ("x-t1", ""), "Holy Light": ("x-t1", ""),
@@ -138,7 +141,7 @@ AUDITORIA = {
     "Guerrilla Gorilla": ("x-enc x-aura", "", "noncreature enchantment"), "Pinnacle Kill-Ship": ("x-cri", "", "10 damage to up to one target creature"),
     "Sagittars' Volley": ("", "x-cri x-t1", "destroy target creature with flying"), "Smash to Dust": ("", "x-cri", "target creature with defender"),
     "Spider Food": ("x-enc x-aura x-voo", "", "artifact, enchantment, or creature with flying"),
-    "Stonehorn Dignitary": ("", "x-t2", "skips their next combat phase"), "Tinder Wall": ("", "x-cri", "target creature it's blocking"),
+    "Stonehorn Dignitary": ("so-comb", "x-t2", "skips their next combat phase"), "Tinder Wall": ("", "x-cri", "target creature it's blocking"),
     "Tyrant's Choice": ("", "x-cri x-hex", "or the vote is tied"),  # 2 jogadores: o adversário empata e escolhe perder 4 de vida
     # respostas que a regra automática não pegou
     "Banishing Light": ("x-cri x-art x-enc x-aura", "", "exile target nonland permanent an opponent controls"),
@@ -171,7 +174,7 @@ AUDITORIA = {
     "Aura Flux": ("x-enc x-aura", "", "other enchantments have"),
     "Reverent Silence": ("x-enc x-aura", "", "destroy all enchantments"),
     "Contaminated Ground": ("x-terx", "", "enchanted land is a swamp"),
-    "Circle of Protection: Red": ("x-verm x-dano", "", "red source of your choice"),
+    "Circle of Protection: Red": ("x-verm x-dano prev", "", "red source of your choice"),
     "Circle of Protection: Blue": ("x-azul", "", "blue source of your choice"),
     "Crimson Acolyte": ("x-verm x-rem", "", "target creature gains protection from red"),
     "Obsidian Acolyte": ("x-rem", "", "target creature gains protection from black"),
@@ -192,9 +195,9 @@ AUDITORIA = {
     # ganho de vida / prevenção (contra dano)
     "Arashin Cleric": ("x-dano", "", "you gain 3 life"), "Aven Riftwatcher": ("x-dano", "", "you gain 2 life"),
     "Boulderbranch Golem": ("x-dano", "", "you gain life equal to its power"), "Feed the Clan": ("x-dano", "", "you gain 5 life"),
-    "Lone Missionary": ("x-dano", "", "you gain 4 life"), "Orim's Cure": ("x-dano", "", "prevent the next 4 damage"),
+    "Lone Missionary": ("x-dano", "", "you gain 4 life"), "Orim's Cure": ("x-dano prev", "", "prevent the next 4 damage"),
     "Peach Garden Oath": ("x-dano", "", "you gain 2 life for each creature you control"), "Renewed Faith": ("x-dano", "", "you gain 6 life"),
-    "Rest for the Weary": ("x-dano", "", "target player gains 4 life"), "Rhystic Circle": ("x-dano", "", "prevent that damage"),
+    "Rest for the Weary": ("x-dano", "", "target player gains 4 life"), "Rhystic Circle": ("x-dano prev", "", "prevent that damage"),
     "Sunspring Expedition": ("x-dano", "", "you gain 8 life"), "Trufflesnout": ("x-dano", "", "you gain 4 life"),
     # neblinas que a regra não pegou
     "Ethereal Haze": ("neb", "", "prevent all damage that would be dealt by creatures"),
@@ -223,6 +226,12 @@ AUDITORIA = {
     "Plated Sliver": ("", "t1", "All Sliver creatures get +0/+1"),          # 1/1 impresso, 1/2 em jogo
     "Winged Sliver": ("voo", "", "All Sliver creatures have flying"),       # ele mesmo voa (o Scryfall não lista Flying como palavra-chave)
     "Benevolent Bodyguard": ("x-rem", "", "gains protection from the color of your choice"),  # sacrifica para proteger a criatura de remoção da cor escolhida
+    # Alcance da proteção contra dano (02/11/2026, v148; caso do usuário: Moment's Peace contra o Golgari Spy Combo, que vence com o
+    # dano ao entrar do Lotleth Giant, não em combate). Stonehorn Dignitary, Orim's Cure, Circle of Protection: Red e Rhystic Circle
+    # já tinham entrada acima: as etiquetas novas (so-comb, prev) foram juntadas lá.
+    "Moment's Peace": ("so-comb", "", "prevent all combat damage"),
+    "Hallow": ("so-mag", "", "prevent all damage target spell would deal"),
+    "Prismatic Strands": ("prev", "", "prevent all damage that sources of the color of your choice would deal"),
 }
 # Contradições que a trava (conferir) acusa mas estão certas, com o motivo
 EXCECOES = {
@@ -275,6 +284,10 @@ def conferir(n, e, txt):
                "x-dano": r"life|prevent|skips", "x-rem": r"hexproof|protection|indestructible|flagbearer|regenerate|shroud|target"}
     for k, rx in precisa.items():
         if k in e and not re.search(rx, t): p.append("%s sem '%s' no texto" % (k, rx))
+    if "x-dano" in e and re.search(r"combat damage|combat phase", t) and not re.search(r"gain|lifelink", t) and "so-comb" not in e:
+        p.append("x-dano que só vale no combate sem so-comb")
+    if "so-comb" in e and not re.search(r"combat damage|combat phase", t): p.append("so-comb sem 'combat' no texto")
+    if "prev" in e and "prevent" not in t: p.append("prev sem 'prevent' no texto")
     return p
 
 
@@ -360,7 +373,19 @@ def etiquetas(n, c, cores):
     return " ".join(sorted(e))
 
 
+def chaves_repetidas():
+    """Trava: chave repetida em MANUAL/AUDITORIA/EXCECOES (num dicionário do Python a última some com a anterior sem aviso)."""
+    import ast
+    rep = []
+    for no in ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()).body:
+        if isinstance(no, ast.Assign) and isinstance(no.value, ast.Dict) and no.targets[0].id in ("MANUAL", "AUDITORIA", "EXCECOES"):
+            ks = [k.value for k in no.value.keys if isinstance(k, ast.Constant)]
+            rep += ["%s: %s" % (no.targets[0].id, k) for k in sorted({k for k in ks if ks.count(k) > 1})]
+    if rep: raise SystemExit("ERRO: chave repetida (juntar numa entrada só):\n  " + "\n  ".join(rep))
+
+
 def main():
+    chaves_repetidas()
     cartas = list(csv.DictReader(open(os.path.join(P, "cartas.csv"), encoding="utf-8")))
     d = oracle([r["carta"] for r in cartas])
     sem = [r["carta"] for r in cartas if achar(d, r["carta"]) is None]

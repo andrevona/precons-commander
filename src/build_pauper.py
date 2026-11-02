@@ -172,6 +172,44 @@ if FUNCOES and _sem_fu:
 funcoes = {n: FUNCOES[n] for n in sorted(FUNCOES)}
 livres = {n: 1 for n, r in cartas.items() if r.get("livre") == "1"}  # podem ter mais de 4 cópias (básicos e afins)
 
+# Núcleo e forma de vitória de cada variação (v148, 02/11/2026; caso do usuário: Poison Storm otimizado tirava Snap e Prologue to
+# Phyresis contra o Madness, e punha Moment's Peace contra o Golgari Spy Combo, que vence com o dano ao entrar do Lotleth Giant).
+# nuc: cartas (sem terrenos) presentes em NUCLEO_MIN ou mais das listas da variação: o Otimizar só as tira com ganho muito alto.
+# vence: letras, a principal primeiro: c = combate, i = combate com infect (veneno), d = dano direto ou perda de vida fora do
+# combate, v = veneno fora do combate, m = moinho. Automático pelo consenso (c com 8+ criaturas; d com carta "dano"); VENCE corrige,
+# com as cartas lidas no Oracle que mostram a vitória. O Otimizar pesa a proteção contra dano (x-dano, so-comb, so-mag, prev) por isso.
+NUCLEO_MIN = 0.85
+VENCE = {
+    "golgari_spy_combo": ("d", "Lotleth Giant: 'When this creature enters, it deals 1 damage to target opponent for each creature card in your graveyard' (Dread Return depois do Balustrade Spy)"),
+    "4c_dredge_wbrg": ("dc", "Lotleth Giant (dano ao entrar) e Molten Gatekeeper ('deals 1 damage to each opponent'); criaturas atacam também"),
+    "mono_green_walls_combo": ("d", "Valakut Invoker: '{8}: This creature deals 3 damage to any target', com a mana do Axebane Guardian e das paredes"),
+    "simic_turbo_fog": ("m", "Stream of Thought: 'Target player mills four cards' (replicate); sem criaturas"),
+    "sultai_turbo_fog": ("dm", "Crypt Rats: 'deals X damage to each creature and each player'; Stream of Thought (moinho)"),
+    "golgari_tron": ("cd", "Golem Foundry (Golems 3/3) e Pactdoll Terror ('each opponent loses 1 life')"),
+    "ephemerate_tron": ("cd", "Visionary's Dance (dois 3/3 voadores), Bramble Wurm 7/6; Rolling Thunder (X de dano)"),
+    "gruul_ruby_storm": ("c", "Seize the Storm: ficha com atropelar do tamanho das mágicas no cemitério; First Day of Class dá ímpeto"),
+    "mono_green_infect": ("i", "criaturas com Infect ('damage ... to players in the form of poison counters')"),
+    "food_gardens": ("dc", "Cauldron Familiar ('each opponent loses 1 life', volta com Food), Pestilence ('1 damage to each creature and each player'); Troll of Khazad-dûm 6/5"),
+    "sultai_poison_storm": ("v", "Infectious Inquiry e Prologue to Phyresis ('Each opponent gets a poison counter') e proliferar"),
+}
+_col_de = {c["id"]: c for c in colecoes if not c.get("outras")}
+for f in var["familias"]:
+    for v in f["variacoes"]:
+        col = _col_de[v["slug"]]
+        ids = [i if i in listas else str(i) for i in v["listas"]]
+        pres = {}
+        for i in ids:
+            for n in {m.group(1) for m in re.finditer(r"^\d+ (.+)$", listas[i]["lista"].split("\n\n")[0], re.M)}:
+                pres[n] = pres.get(n, 0) + 1
+        col["nuc"] = sorted(n for n, k in pres.items() if k / len(ids) >= NUCLEO_MIN and "ter" not in FUNCOES.get(n, "").split())
+        cri = sum(q for q, n in v["consenso"] if "cri" in FUNCOES[n].split())
+        auto = ("c" if cri >= 8 else "") + ("d" if any("dano" in FUNCOES[n].split() for q, n in v["consenso"]) else "")
+        col["vence"] = VENCE[v["slug"]][0] if v["slug"] in VENCE else auto
+        if not col["vence"]:
+            raise SystemExit("ERRO: variação sem forma de vitória (ler o Oracle das cartas do consenso e pôr em VENCE): %s" % v["slug"])
+_fora_v = sorted(set(VENCE) - set(_col_de))
+if _fora_v: print("AVISO: VENCE com variações que não existem mais (conferir depois de atualizar as listas):", ", ".join(_fora_v))
+
 html = (open("template_pauper.html", encoding="utf-8").read()
         .replace("__LIVRES__", json.dumps(livres, ensure_ascii=False, sort_keys=True, separators=(",", ":")))
         .replace("__FUNCOES__", json.dumps(funcoes, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/"))
