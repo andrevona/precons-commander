@@ -619,7 +619,7 @@ var TXT = {
     confrFonte: 'Fonte: {f}, {p}. Com menos de 20 partidas o número é pouco confiável.',
     semConfr: 'Não há dados suficientes deste confronto.', semConfrFonte: 'O histórico de confrontos ainda não foi carregado nesta página.',
     encontro: '{b} é {p}% das listas: num torneio, quem joga {a} enfrenta {b} em cerca de 1 a cada {k} partidas.',
-    rodExtra: '<li><b>Arquétipos</b> do mais ao menos jogado; cada um tem <b>variações</b>, com a lista de <b>Consenso</b> e 2 listas reais de torneios.</li><li><b>Comparar decks</b>: histórico do confronto entre dois decks.</li><li><b>Otimizar</b>: troca cartas do principal pelas do sideboard conforme o adversário.</li><li><b>Minha lista</b>: cole o seu deck e veja o que trocar contra cada variação.</li>',
+    rodExtra: '<li><b>Arquétipos</b> do mais ao menos jogado; cada um tem <b>variações</b>, com a lista de <b>Consenso</b> e 2 listas reais de torneios.</li><li><b>Comparar decks</b>: histórico do confronto entre dois decks.</li><li><b>Pós-side</b>: troca cartas do principal pelas do sideboard conforme o adversário, do jogo 2 em diante.</li><li><b>Minha lista</b>: cole o seu deck e veja o que trocar contra cada variação.</li>',
     cMeta: 'Metagame', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cEnc: 'Encantamentos', cArt: 'Artefatos', cPw: 'Planeswalkers', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
     hEstat: 'Estatísticas', hVence: 'Forma de vitória', hFunc: 'Funções no deck principal',
     vencePrin: 'Principal: {p}', venceTamb: 'também: {p}', venceNota: 'Da variação, pelas cartas do consenso.',
@@ -627,11 +627,11 @@ var TXT = {
     fVoo: 'Criaturas com voar', fRem: 'Remoção de criaturas', fComb: 'Descarte e contramágicas', fDano: 'Dano direto no adversário', fArt: 'Respostas a artefatos e encantamentos', fCem: 'Usam o cemitério', fOdio: 'Ódio de cemitério', fProt: 'Proteção contra dano',
     voltarTopo: '↑ Voltar ao topo',
     funcNota: 'Cópias no deck principal, pelas funções lidas no texto das cartas; uma carta pode entrar em mais de uma linha.',
-    hOtim: 'Otimizar o sideboard', otimIntro: 'Troca cartas do principal pelas do sideboard que mais têm alvo no deck adversário.',
-    otimizar: 'Otimizar o {n}', desfazerOtim: '↺ Desfazer otimização do {n}', desfazerTit: 'Volta o {n} à lista original', desfeito: 'Otimização do {n} desfeita: lista original de volta', otimContra: 'Comparar com…', contraTit: 'Comparar {d} com:', esteDeck: 'este deck', copiarOtim: 'Copiar lista otimizada', copiarOrig: 'Copiar lista original', difOrigM: 'original', difOtimM: 'otimizada', difOrig: 'Original', difOtim: 'Otimizada', difMain: 'Deck principal ({n})', difSide: 'Sideboard ({n})', difEntra: 'entra no deck principal', difSai: 'sai do deck principal', difContra: 'contra {o}', difAria: 'Ver a lista', otimTit: '{n} contra o {o}:', otimEntram: 'Entram', otimSaem: 'Saem',
+    hOtim: 'Pós-side (jogo 2 em diante)', otimIntro: 'Troca cartas do principal pelas do sideboard que mais têm alvo no deck adversário.',
+    otimizar: 'Pós-side do {n}', desfazerOtim: '↺ Desfazer pós-side do {n}', desfazerTit: 'Volta o {n} à lista do jogo 1', desfeito: 'Pós-side do {n} desfeito: lista do jogo 1 de volta', otimContra: 'Comparar com…', contraTit: 'Comparar {d} com:', esteDeck: 'este deck', copiarOtim: 'Copiar lista pós-side', copiarOrig: 'Copiar lista do jogo 1', difOrigM: 'jogo 1', difOtimM: 'pós-side', difOrig: 'Jogo 1', difOtim: 'Pós-side', difMain: 'Deck principal ({n})', difSide: 'Sideboard ({n})', difEntra: 'entra no deck principal', difSai: 'sai do deck principal', difContra: 'contra {o}', difAria: 'Ver a lista', otimTit: '{n} contra o {o}:', otimEntram: 'Entram', otimSaem: 'Saem',
     otimNada: 'Nenhuma troca recomendada: o sideboard do {n} não tem cartas com mais alvo que as do deck principal.', otimSemSide: 'O {n} não tem sideboard.',
     otimNota: 'Sugestão automática pelas funções das cartas; não considera a mão nem o jogo 1.',
-    otimCartao: 'Otimizado · {k} trocas', otimFraca: 'rende menos neste confronto', otimPouco: 'pouco alvo: {r}', otimSemAlvo: 'sem alvo no adversário',
+    otimCartao: 'Pós-side · {k} trocas', otimCartao1: 'Pós-side · 1 troca', otimFraca: 'rende menos neste confronto', otimPouco: 'pouco alvo: {r}', otimSemAlvo: 'sem alvo no adversário',
     otimAmeaca: 'ameaça contra um deck de controle',
     dims: { azul: '{n} cartas azuis', verm: '{n} cartas vermelhas', art: '{n} artefatos', enc: '{n} encantamentos', aura: '{n} Auras', cem: '{n} cartas que usam o cemitério', t1: '{n} criaturas de resistência 1', t2: '{n} criaturas de resistência até 2', cri: '{n} criaturas', hex: '{n} criaturas com hexproof', dano: 'deck agressivo ({n} cartas de dano e criaturas)', inst: '{n} mágicas instantâneas', feit: '{n} feitiços', ncri: '{n} mágicas não-criatura', comb: '{n} peças de combo ou motores', terx: '{n} terrenos especiais (Tron, Portões)', voo: '{n} criaturas com voar de resistência 1', neb: '{n} neblinas', rem: '{n} remoções' },
     emComum: 'Cartas em comum no deck principal: {l}.', nadaComum: 'Nenhuma carta em comum no deck principal (fora os terrenos básicos).',
@@ -712,7 +712,7 @@ var TXT = {
     confrFonte: 'Source: {f}, {p}. With fewer than 20 matches the number is not very reliable.',
     semConfr: 'There is not enough data on this matchup.', semConfrFonte: 'The matchup history has not been loaded on this page yet.',
     encontro: '{b} is {p}% of the lists: in a tournament, a {a} player faces {b} in about 1 of every {k} matches.',
-    rodExtra: '<li><b>Archetypes</b> from most to least played; each has <b>variations</b>, with a <b>Consensus</b> list and 2 real tournament lists.</li><li><b>Compare decks</b>: matchup history between two decks.</li><li><b>Optimize</b>: swaps main-deck cards for sideboard cards based on the opponent.</li><li><b>My list</b>: paste your deck and see what to swap against each variation.</li>',
+    rodExtra: '<li><b>Archetypes</b> from most to least played; each has <b>variations</b>, with a <b>Consensus</b> list and 2 real tournament lists.</li><li><b>Compare decks</b>: matchup history between two decks.</li><li><b>Post-board</b>: swaps main-deck cards for sideboard cards based on the opponent, from game 2 onward.</li><li><b>My list</b>: paste your deck and see what to swap against each variation.</li>',
     cMeta: 'Metagame', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cEnc: 'Enchantments', cArt: 'Artifacts', cPw: 'Planeswalkers', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
     hEstat: 'Statistics', hVence: 'Win condition', hFunc: 'Roles in the main deck',
     vencePrin: 'Main: {p}', venceTamb: 'also: {p}', venceNota: "From the variation's consensus cards.",
@@ -720,11 +720,11 @@ var TXT = {
     fVoo: 'Creatures with flying', fRem: 'Creature removal', fComb: 'Discard and counterspells', fDano: 'Direct damage to the opponent', fArt: 'Answers to artifacts and enchantments', fCem: 'Use the graveyard', fOdio: 'Graveyard hate', fProt: 'Damage protection',
     voltarTopo: '↑ Back to top',
     funcNota: "Copies in the main deck, by the roles read from the cards' text; a card can count in more than one row.",
-    hOtim: 'Optimize the sideboard', otimIntro: 'Swaps main-deck cards for the sideboard cards with the most targets in the opposing deck.',
-    otimizar: 'Optimize {n}', desfazerOtim: '↺ Undo {n} optimization', desfazerTit: 'Puts {n} back to the original list', desfeito: '{n} optimization undone: original list restored', otimContra: 'Compare with…', contraTit: 'Compare {d} with:', esteDeck: 'this deck', copiarOtim: 'Copy optimized list', copiarOrig: 'Copy original list', difOrigM: 'original', difOtimM: 'optimized', difOrig: 'Original', difOtim: 'Optimized', difMain: 'Main deck ({n})', difSide: 'Sideboard ({n})', difEntra: 'goes into the main deck', difSai: 'leaves the main deck', difContra: 'against {o}', difAria: 'Show the list', otimTit: '{n} against {o}:', otimEntram: 'In', otimSaem: 'Out',
+    hOtim: 'Post-board (game 2 onward)', otimIntro: 'Swaps main-deck cards for the sideboard cards with the most targets in the opposing deck.',
+    otimizar: 'Post-board {n}', desfazerOtim: '↺ Undo {n} post-board', desfazerTit: 'Puts {n} back to the game 1 list', desfeito: '{n} post-board undone: game 1 list restored', otimContra: 'Compare with…', contraTit: 'Compare {d} with:', esteDeck: 'this deck', copiarOtim: 'Copy post-board list', copiarOrig: 'Copy game 1 list', difOrigM: 'game 1', difOtimM: 'post-board', difOrig: 'Game 1', difOtim: 'Post-board', difMain: 'Main deck ({n})', difSide: 'Sideboard ({n})', difEntra: 'goes into the main deck', difSai: 'leaves the main deck', difContra: 'against {o}', difAria: 'Show the list', otimTit: '{n} against {o}:', otimEntram: 'In', otimSaem: 'Out',
     otimNada: 'No swaps recommended: the {n} sideboard has no cards with more targets than the main-deck cards.', otimSemSide: '{n} has no sideboard.',
     otimNota: 'Automatic suggestion from card roles; it ignores your hand and game 1.',
-    otimCartao: 'Optimized · {k} swaps', otimFraca: 'does the least in this matchup', otimPouco: 'few targets: {r}', otimSemAlvo: 'no targets in the opposing deck',
+    otimCartao: 'Post-board · {k} swaps', otimCartao1: 'Post-board · 1 swap', otimFraca: 'does the least in this matchup', otimPouco: 'few targets: {r}', otimSemAlvo: 'no targets in the opposing deck',
     otimAmeaca: 'threat against a control deck',
     dims: { azul: '{n} blue cards', verm: '{n} red cards', art: '{n} artifacts', enc: '{n} enchantments', aura: '{n} Auras', cem: '{n} cards that use the graveyard', t1: '{n} creatures with toughness 1', t2: '{n} creatures with toughness up to 2', cri: '{n} creatures', hex: '{n} hexproof creatures', dano: 'aggressive deck ({n} damage cards and creatures)', inst: '{n} instants', feit: '{n} sorceries', ncri: '{n} noncreature spells', comb: '{n} combo pieces or engines', terx: '{n} special lands (Tron, Gates)', voo: '{n} toughness-1 fliers', neb: '{n} fogs', rem: '{n} removal spells' },
     emComum: 'Cards in common in the main deck: {l}.', nadaComum: 'No cards in common in the main deck (besides basic lands).',
@@ -2010,7 +2010,7 @@ function desenharMesa() {
     b.appendChild(dn);
     b.appendChild(el("span", "dinfo", d.real ? t("listaDe", { j: d.jogador, r: rotRes(d) }) : t("consenso") + " · " + t("nListas", { n: d.n })));
     if (d.pos) b.appendChild(el("span", "dinfo", t("posicao", { p: pct(d.pct), k: d.pos })));
-    if (mesa.trocas[i].length) b.appendChild(el("span", "dinfo otim-tag", t("otimCartao", { k: mesa.trocas[i].reduce(function (s1, x) { return s1 + x.n; }, 0) })));
+    if (mesa.trocas[i].length) b.appendChild(el("span", "dinfo otim-tag", (function (k) { return t(k === 1 ? "otimCartao1" : "otimCartao", { k: k }); })(mesa.trocas[i].reduce(function (s1, x) { return s1 + x.n; }, 0))));
     b.appendChild(el("span", "verlista", t(mesa.ab[i] ? "esconderLista" : "verLista")));
     b.onclick = function () {
       alternarLista(i);
