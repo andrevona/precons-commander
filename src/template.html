@@ -136,12 +136,22 @@
   /* Estatísticas abaixo da lista e "Voltar ao topo" (v153, as mesmas regras da página de Pauper) */
   .duelo-info { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:12px; }
   .duelo-info h3 { font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--mut); margin:0 0 8px; }
+  .duelo-info h3 + * { margin-top:0; }
+  .duelo-info section + section { margin-top:16px; padding-top:14px; border-top:1px solid var(--line); }
+  .duelo-info p { margin:4px 0; font-size:14px; }
+  .duelo-info .mut { color:var(--mut); font-size:12.5px; }
   .comp { width:100%; border-collapse:collapse; font-size:14px; }
   .comp th, .comp td { padding:5px 4px; border-bottom:1px solid var(--line); vertical-align:middle; }
   .comp tr:last-child th, .comp tr:last-child td { border-bottom:0; }
   .comp th { text-align:center; font-weight:400; color:var(--mut); font-size:12.5px; }
   .comp td { width:38%; text-align:center; }
   .voltar-topo { display:block; margin:14px auto 0; }
+  .comp thead td { font-weight:700; }
+  .comp thead td .mut { display:block; font-weight:400; }
+  .comp-rolo { overflow-x:auto; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain; } /* sorteio com 3 ou 4 decks: rolagem lateral (v155) */
+  .compN { width:auto; min-width:100%; }
+  .compN th:first-child { position:sticky; left:0; z-index:1; background:var(--card); text-align:left; min-width:96px; max-width:120px; padding-right:8px; }
+  .compN td { width:auto; min-width:110px; }
   .comp1 th { text-align:left; }
   .comp1 td { width:auto; text-align:right; }
   .comp1 .curva-c { text-align:right; }
@@ -476,6 +486,7 @@ var TXT = {
     rodExtra: '<li><b>Coleções</b> em ordem de lançamento; os filtros mostram os decks por <b>cor</b>, <b>ano</b> ou <b>arquétipo</b>.</li><li><b>Busca</b>: carta, deck, comandante ou coleção, em português ou inglês.</li><li><b>Sortear deck</b>: abre um deck aleatório.</li><li><b>Sorteio em grupo</b> (botão ao lado): um deck diferente para cada jogador, de 2 a 4.</li>',
     hEstat: 'Estatísticas', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
     voltarTopo: '↑ Voltar ao topo',
+    hComparativo: 'Comparativo', emComum: 'Cartas em comum: {l}.', nadaComum: 'Nenhuma carta em comum (fora os terrenos básicos).', emComumT: 'Cartas em comum a todos os decks: {l}.', nadaComumT: 'Nenhuma carta em comum a todos os decks (fora os terrenos básicos).',
     problemas: 'Encontrou um problema ou tem uma sugestão? Avise por {email} ou abra uma {github}.', lkEmail: 'e-mail', lkGithub: 'issue no GitHub',
     tCol: 'coleção', tDeck: 'deck', tCmd: 'comandantes', tCarta: 'carta',
     filtroArq: 'Filtrar os decks pelo arquétipo (estilo de jogo)', porArq: 'Por arquétipo', tirarArq: 'Tirar o filtro de arquétipo',
@@ -522,6 +533,7 @@ var TXT = {
     rodExtra: '<li><b>Sets</b> in release order; the filters show decks by <b>color</b>, <b>year</b> or <b>archetype</b>.</li><li><b>Search</b>: card, deck, commander or set, in Portuguese or English.</li><li><b>Random deck</b>: opens a random deck.</li><li><b>Group draw</b> (button next to it): a different deck for each player, 2 to 4.</li>',
     hEstat: 'Statistics', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
     voltarTopo: '↑ Back to top',
+    hComparativo: 'Comparison', emComum: 'Cards in common: {l}.', nadaComum: 'No cards in common (besides basic lands).', emComumT: 'Cards common to every deck: {l}.', nadaComumT: 'No cards common to every deck (besides basic lands).',
     problemas: 'Found a problem or have a suggestion? Let me know by {email} or open an {github}.', lkEmail: 'email', lkGithub: 'issue on GitHub',
     tCol: 'set', tDeck: 'deck', tCmd: 'commanders', tCarta: 'card',
     filtroArq: 'Filter decks by archetype (play style)', porArq: 'By archetype', tirarArq: 'Clear the archetype filter',
@@ -797,21 +809,25 @@ function desenhar() {
   pintarPainel(deck, "");
   pintarStats(deck);
 }
+function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; }
+// Curva de mana do deck principal (barras de 0 a 6+, sem terrenos) dentro de uma célula da tabela de estatísticas.
+function curvaEm(td, d) {
+  var cv = el("div", "curva"), rt = el("div", "curva-rot"), mx = Math.max.apply(null, d.st.curva) || 1;
+  d.st.curva.forEach(function (v, j) { var bar = el("i"); bar.style.height = Math.max(2, Math.round(34 * v / mx)) + "px"; bar.title = v; cv.appendChild(bar); rt.appendChild(el("b", "", j === 6 ? "6+" : String(j))); });
+  td.appendChild(cv); td.appendChild(rt);
+}
 // Estatísticas abaixo da lista (v153, como na página de Pauper): as 100 cartas, comandante(s) inclusive; "st" vem do build.py
 // (criaturas, instantâneas e feitiços, outras mágicas, terrenos, valor de mana médio sem terrenos e curva 0–5 e 6+).
 // No fim, o botão "Voltar ao topo".
 function pintarStats(d) {
   var box = $("statsDeck"); box.innerHTML = "";
   if (!d || !d.st) { box.hidden = true; return; }
-  function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; }
   var st = d.st, fmt = function (x) { return String(x).replace(".", IDIOMA === "pt" ? "," : "."); };
   var s1 = el("section"); s1.appendChild(el("h3", "", t("hEstat")));
   var tb = el("table", "comp comp1"), tbd = el("tbody");
   function linha(rot, v) { var r = el("tr"); r.appendChild(el("th", "", rot)); r.appendChild(el("td", "", v)); tbd.appendChild(r); }
   linha(t("cMv"), fmt(st.mv)); linha(t("cCri"), st.cri); linha(t("cMag"), st.mag); linha(t("cOut"), st.out); linha(t("cTer"), st.ter);
-  var rc = el("tr"), td = el("td", "curva-c"), cv = el("div", "curva"), rt = el("div", "curva-rot"), mx = Math.max.apply(null, st.curva) || 1;
-  st.curva.forEach(function (v, j) { var bar = el("i"); bar.style.height = Math.max(2, Math.round(34 * v / mx)) + "px"; bar.title = v; cv.appendChild(bar); rt.appendChild(el("b", "", j === 6 ? "6+" : String(j))); });
-  td.appendChild(cv); td.appendChild(rt); rc.appendChild(el("th", "", t("cCurva"))); rc.appendChild(td); tbd.appendChild(rc);
+  var rc = el("tr"), tdc = el("td", "curva-c"); curvaEm(tdc, d); rc.appendChild(el("th", "", t("cCurva"))); rc.appendChild(tdc); tbd.appendChild(rc);
   tb.appendChild(tbd); s1.appendChild(tb); box.appendChild(s1);
   var bt = el("button", "ghost voltar-topo", t("voltarTopo")); bt.type = "button";
   bt.onclick = function () { window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" }); };
@@ -1886,7 +1902,45 @@ function desenharMesa() {
     colAtual = js.d._col._i; deckAtual = js.d._di; // o painel (copiar, endstep, compartilhar o deck) usa o deck deste jogador
     pn.hidden = false; pintarPainel(js.d, nomeJog(js) + ": ");
   }
+  pintarCompMesa();
   mesa.novo = false;
+}
+// Comparativo do sorteio em grupo (v155, pedido do usuário; como o do Comparar decks do Pauper, só com os dados dos decks):
+// abaixo dos cartões e da lista aberta, no mesmo #statsDeck. Com 2 decks, deck | rótulo | deck; com 3 ou 4, rótulos fixos à
+// esquerda e uma coluna por deck, com rolagem lateral quando não couber. Números das 100 cartas ("st" do build.py).
+var BASICOS = ["Plains", "Island", "Swamp", "Mountain", "Forest", "Wastes", "Snow-Covered Plains", "Snow-Covered Island", "Snow-Covered Swamp", "Snow-Covered Mountain", "Snow-Covered Forest"];
+function pintarCompMesa() {
+  var box = $("statsDeck"); box.innerHTML = "";
+  var js = mesa.jog.filter(function (j) { return j.d && j.d.st; });
+  if (js.length < 2) { box.hidden = true; return; }
+  var fmt = function (x) { return String(x).replace(".", IDIOMA === "pt" ? "," : "."); };
+  var dois = js.length === 2, s = el("section"); s.appendChild(el("h3", "", t("hComparativo")));
+  var tb = el("table", "comp" + (dois ? "" : " compN")), th = el("thead"), hr = el("tr"), tbd = el("tbody");
+  function cab(j) { var c = el("td"); c.appendChild(el("span", "mut", nomeJog(j) + (mesa.duplas ? " · " + t("dupla", { x: mesa.jog.indexOf(j) < 2 ? "A" : "B" }) : ""))); c.appendChild(document.createTextNode(j.d.nome)); return c; }
+  function rotulo(r, txt) { r.appendChild(el("th", "", txt)); }
+  if (dois) { hr.appendChild(cab(js[0])); hr.appendChild(el("th", "", "")); hr.appendChild(cab(js[1])); }
+  else { hr.appendChild(el("th", "", "")); js.forEach(function (j) { hr.appendChild(cab(j)); }); }
+  th.appendChild(hr); tb.appendChild(th);
+  function linha(rot, f) {
+    var r = el("tr");
+    if (!dois) rotulo(r, rot);
+    js.forEach(function (j, k) { if (dois && k === 1) rotulo(r, rot); var c = el("td"); f(c, j.d.st); r.appendChild(c); });
+    tbd.appendChild(r);
+  }
+  function txt(k) { return function (c, st) { c.textContent = k === "mv" ? fmt(st.mv) : st[k]; }; }
+  linha(t("cMv"), txt("mv")); linha(t("cCri"), txt("cri")); linha(t("cMag"), txt("mag")); linha(t("cOut"), txt("out")); linha(t("cTer"), txt("ter"));
+  linha(t("cCurva"), function (c, st) { curvaEm(c, { st: st }); });
+  tb.appendChild(tbd);
+  if (dois) s.appendChild(tb); else { var rolo = el("div", "comp-rolo"); rolo.appendChild(tb); s.appendChild(rolo); }
+  // cartas em comum (com 3 ou 4 decks, as que estão em todos), sem os terrenos básicos, em ordem alfabética
+  var conta = {}, comuns = [];
+  js.forEach(function (j) { var vistos = {}; nomesDe(j.d).forEach(function (x) { if (!vistos[x]) { vistos[x] = 1; conta[x] = (conta[x] || 0) + 1; } }); });
+  Object.keys(conta).forEach(function (x) { if (conta[x] === js.length && BASICOS.indexOf(x) < 0) comuns.push(x); });
+  comuns.sort();
+  var iguais = js.every(function (j) { return j.d === js[0].d; }); // mesmo deck em todos: tudo é comum, não lista
+  if (!iguais) s.appendChild(el("p", "mut", comuns.length ? t(dois ? "emComum" : "emComumT", { l: comuns.join(", ") }) : t(dois ? "nadaComum" : "nadaComumT")));
+  box.appendChild(s);
+  box.hidden = false;
 }
 function rotulosGrupo(g) { // [[chave do rótulo, chave do texto compartilhado, valor]] na ordem coleção, ano, arquétipo
   var r = []; if (!g) return r;
