@@ -278,6 +278,11 @@
   .comp td { width:38%; text-align:center; }
   .comp td.melhor { font-weight:700; }
   .comp thead td { font-weight:700; }
+  .comp1 th { text-align:left; }
+  .comp1 td { width:auto; text-align:right; }
+  .comp1 .curva-c { text-align:right; }
+  .comp1 .curva-c .curva { justify-content:flex-end; }
+  .comp1 .curva-c .curva-rot { justify-content:flex-end; }
   .curva { display:inline-flex; align-items:flex-end; gap:2px; height:34px; }
   .curva i { display:block; width:9px; background:var(--acc); border-radius:2px 2px 0 0; opacity:.75; }
   .curva-rot { display:flex; gap:2px; justify-content:center; font-size:9.5px; color:var(--mut); }
@@ -526,6 +531,7 @@
     <button class="ghost" id="btnCopiar" data-t="copiar">Copiar lista</button>
     <div class="dif" id="difLista" hidden></div>
   </div>
+  <div class="duelo-info" id="statsDeck" hidden></div>
   </div>
   <div id="minha" hidden>
     <div class="panel minha-cx">
@@ -619,6 +625,11 @@ var TXT = {
     encontro: '{b} é {p}% das listas: num torneio, quem joga {a} enfrenta {b} em cerca de 1 a cada {k} partidas.',
     rodExtra: '<li><b>Arquétipos</b> do mais ao menos jogado; cada um tem <b>variações</b>, com a lista de <b>Consenso</b> e 2 listas reais de torneios.</li><li><b>Comparar decks</b>: histórico do confronto entre dois decks.</li><li><b>Otimizar</b>: troca cartas do principal pelas do sideboard conforme o adversário.</li><li><b>Minha lista</b>: cole o seu deck e veja o que trocar contra cada variação.</li>',
     cMeta: 'Metagame', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
+    hEstat: 'Estatísticas', hVence: 'Forma de vitória', hFunc: 'Funções no deck principal',
+    vencePrin: 'Principal: {p}', venceTamb: 'também: {p}', venceNota: 'Da variação, pelas cartas do consenso.',
+    vc: 'combate', vi: 'combate com Infectar (veneno)', vd: 'dano direto ou perda de vida fora do combate', vv: 'veneno fora do combate', vm: 'triturar',
+    fVoo: 'Cartas com voo', fRem: 'Remoção de criaturas', fComb: 'Descarte e contramágicas', fDano: 'Dano direto no adversário', fArt: 'Respostas a artefatos e encantamentos', fCem: 'Usam o cemitério', fOdio: 'Ódio de cemitério', fProt: 'Proteção contra dano',
+    funcNota: 'Cópias no deck principal, pelas funções lidas no texto das cartas; uma carta pode entrar em mais de uma linha.',
     hOtim: 'Otimizar o sideboard', otimIntro: 'Troca cartas do principal pelas do sideboard que mais têm alvo no deck adversário.',
     otimizar: 'Otimizar o {n}', desfazerOtim: '↺ Desfazer otimização do {n}', desfazerTit: 'Volta o {n} à lista original', desfeito: 'Otimização do {n} desfeita: lista original de volta', otimContra: 'Otimizar contra…', contraTrocar: 'Trocar adversário', contraLinha: 'Otimizado contra', contraTirar: 'Voltar à lista original', contraConfronto: 'Ver o confronto completo', contraTit: 'Otimizar {d} contra:', esteDeck: 'este deck', copiarOtim: 'Copiar lista otimizada', copiarOrig: 'Copiar lista original', difOrigM: 'original', difOtimM: 'otimizada', difOrig: 'Original', difOtim: 'Otimizada', difMain: 'Deck principal ({n})', difSide: 'Sideboard ({n})', difEntra: 'entra no deck principal', difSai: 'sai do deck principal', difContra: 'contra {o}', difAria: 'Ver a lista', otimTit: '{n} contra o {o}:', otimEntram: 'Entram', otimSaem: 'Saem',
     otimNada: 'Nenhuma troca recomendada: o sideboard do {n} não tem cartas com mais alvo que as do deck principal.', otimSemSide: 'O {n} não tem sideboard.',
@@ -706,6 +717,11 @@ var TXT = {
     encontro: '{b} is {p}% of the lists: in a tournament, a {a} player faces {b} in about 1 of every {k} matches.',
     rodExtra: '<li><b>Archetypes</b> from most to least played; each has <b>variations</b>, with a <b>Consensus</b> list and 2 real tournament lists.</li><li><b>Compare decks</b>: matchup history between two decks.</li><li><b>Optimize</b>: swaps main-deck cards for sideboard cards based on the opponent.</li><li><b>My list</b>: paste your deck and see what to swap against each variation.</li>',
     cMeta: 'Metagame', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
+    hEstat: 'Statistics', hVence: 'Win condition', hFunc: 'Roles in the main deck',
+    vencePrin: 'Main: {p}', venceTamb: 'also: {p}', venceNota: "From the variation's consensus cards.",
+    vc: 'combat', vi: 'combat with Infect (poison)', vd: 'direct damage or life loss outside combat', vv: 'poison outside combat', vm: 'milling',
+    fVoo: 'Cards with flying', fRem: 'Creature removal', fComb: 'Discard and counterspells', fDano: 'Direct damage to the opponent', fArt: 'Answers to artifacts and enchantments', fCem: 'Use the graveyard', fOdio: 'Graveyard hate', fProt: 'Damage protection',
+    funcNota: "Copies in the main deck, by the roles read from the cards' text; a card can count in more than one row.",
     hOtim: 'Optimize the sideboard', otimIntro: 'Swaps main-deck cards for the sideboard cards with the most targets in the opposing deck.',
     otimizar: 'Optimize {n}', desfazerOtim: '↺ Undo {n} optimization', desfazerTit: 'Puts {n} back to the original list', desfeito: '{n} optimization undone: original list restored', otimContra: 'Optimize against…', contraTrocar: 'Change opponent', contraLinha: 'Optimized against', contraTirar: 'Back to the original list', contraConfronto: 'See the full matchup', contraTit: 'Optimize {d} against:', esteDeck: 'this deck', copiarOtim: 'Copy optimized list', copiarOrig: 'Copy original list', difOrigM: 'original', difOtimM: 'optimized', difOrig: 'Original', difOtim: 'Optimized', difMain: 'Main deck ({n})', difSide: 'Sideboard ({n})', difEntra: 'goes into the main deck', difSai: 'leaves the main deck', difContra: 'against {o}', difAria: 'Show the list', otimTit: '{n} against {o}:', otimEntram: 'In', otimSaem: 'Out',
     otimNada: 'No swaps recommended: the {n} sideboard has no cards with more targets than the main-deck cards.', otimSemSide: '{n} has no sideboard.',
@@ -965,6 +981,7 @@ function abrirId(id) {
 }
 
 function desenhar() {
+  $("statsDeck").hidden = true; // só reaparece no fim, com um deck escolhido (pintarStats); some no Comparar decks, na Minha lista e sem deck
   var sb = $("sub"), sm = mesa ? "mesaToque" : minha ? "minhaSub" : "sub"; // na tela do sorteio, o subtítulo vira a dica "Toque num jogador…"
   if (sb.getAttribute("data-t") !== sm) { sb.setAttribute("data-t", sm); sb.innerHTML = t(sm); }
   if (mesa) { desenharMesa(); return; } // sorteio em grupo: tela própria (ver "Sorteio em grupo")
@@ -998,7 +1015,7 @@ function desenhar() {
     b.setAttribute("aria-expanded", gRec ? "false" : "true");
     b.onclick = function () {
       if (animando) return;
-      if (gRec) { expandirEm(gEl, function () { gruposRec = false; desenhar(); }); return; } // toque no recolhido: mostra todos de novo
+      if (gRec) { $("btnLimparTudo").onclick(); return; } // toque no arquétipo aberto (os outros recolhidos): volta à tela inicial, como o "Limpar tudo" (pedido do usuário, 02/11/2026)
       if (FAM_ESTADO[famDoGrupo(g)] === -1) FAM_ESTADO[famDoGrupo(g)] = 0; // falhou antes: tenta de novo
       if (g !== grpAtual) { grpAtual = g; colAtual = -1; deckAtual = 0; recolhido = false; }
       if (buscando() || gvis.length < 2) { if (aberto) desenhar(); else abrirConteudo(); return; }
@@ -1095,6 +1112,7 @@ function desenhar() {
   if (contra && contra.de !== deck) contra = null; // trocou de deck: o "otimizar contra" era do outro
   pintarPainel(deckContra() || deck, "");
   pintarContra();
+  pintarStats(deck);
 }
 // Painel do deck (título, lista, contagem, nota); usado na tela normal e no sorteio em grupo (com o nome do jogador antes).
 function pintarPainel(deck, prefixo) {
@@ -2038,6 +2056,56 @@ function desenharMesa() {
   if (completa()) m.appendChild(infoDuelo(mesa.d[0], mesa.d[1])); // histórico, comparativo e chance de encontro: depois das listas abertas
   mesa.novo = false;
 }
+// Curva de mana do deck principal (barras de 0 a 6+, sem terrenos) dentro de uma célula da tabela de estatísticas.
+function curvaEm(td, d) {
+  var cv = el("div", "curva"), rt = el("div", "curva-rot"), mx = Math.max.apply(null, d.st.curva) || 1;
+  d.st.curva.forEach(function (v, j) { var bar = el("i"); bar.style.height = Math.max(2, Math.round(34 * v / mx)) + "px"; bar.title = v; cv.appendChild(bar); rt.appendChild(el("b", "", j === 6 ? "6+" : String(j))); });
+  td.appendChild(cv); td.appendChild(rt);
+}
+// Funções contadas no deck principal (estatísticas abaixo da lista): cada linha soma as cópias das cartas que têm alguma das etiquetas
+// de FUNCOES (tools/pauper_funcoes.py, lidas no Oracle); uma carta pode entrar em mais de uma linha; linha com zero não aparece.
+var FUNC_LINHAS = [
+  ["fVoo", ["voo"]], ["fRem", ["x-cri", "x-hex", "x-t1", "x-t2"]], ["fComb", ["x-comb"]], ["fDano", ["dano"]],
+  ["fArt", ["x-art", "x-enc", "x-aura"]], ["fCem", ["cem"]], ["fOdio", ["x-cem"]], ["fProt", ["x-dano"]]
+];
+// Estatísticas do deck selecionado, abaixo da lista (pedido do usuário, 02/11/2026): a tabela do Comparar decks de um lado só,
+// a forma de vitória da variação (col.vence, do build_pauper.py) e a contagem por função. "Outras" não tem forma de vitória.
+// Com a lista otimizada na tela, as estatísticas continuam as do deck selecionado (a lista original).
+function pintarStats(d) {
+  var box = $("statsDeck"); box.innerHTML = "";
+  if (!d || !d.st) { box.hidden = true; return; }
+  var fmt = function (x) { return String(x).replace(".", IDIOMA === "pt" ? "," : "."); };
+  var ord = function (k) { return IDIOMA === "pt" ? k + "º" : "#" + k; };
+  // 1. estatísticas
+  var s1 = el("section"); s1.appendChild(el("h3", "", t("hEstat")));
+  var tb = el("table", "comp comp1"), tbd = el("tbody");
+  function linha(rot, v) { var r = el("tr"); r.appendChild(el("th", "", rot)); r.appendChild(el("td", "", v)); tbd.appendChild(r); }
+  linha(t("cMeta"), pct(d.pct) + (d.pos ? " · " + ord(d.pos) : ""));
+  linha(t("cMv"), fmt(d.st.mv)); linha(t("cCri"), d.st.cri); linha(t("cMag"), d.st.mag); linha(t("cOut"), d.st.out); linha(t("cTer"), d.st.ter);
+  var rc = el("tr"), tdc = el("td", "curva-c"); curvaEm(tdc, d); rc.appendChild(el("th", "", t("cCurva"))); rc.appendChild(tdc); tbd.appendChild(rc);
+  tb.appendChild(tbd); s1.appendChild(tb); box.appendChild(s1);
+  // 2. forma de vitória (só variações; "Outras" não tem)
+  var v = d._col && d._col.vence;
+  if (v) {
+    var s2 = el("section"); s2.appendChild(el("h3", "", t("hVence")));
+    var tx = t("vencePrin", { p: t("v" + v[0]) });
+    if (v.length > 1) tx += " · " + t("venceTamb", { p: v.slice(1).split("").map(function (c) { return t("v" + c); }).join("; ") });
+    s2.appendChild(el("p", "", tx)); s2.appendChild(el("p", "mut", t("venceNota"))); box.appendChild(s2);
+  }
+  // 3. contagem por função no deck principal
+  var main = blocosDe(d.lista).main, linhas = [];
+  FUNC_LINHAS.forEach(function (fl) {
+    var n = 0; main.forEach(function (c) { var f = fun(c[1]); if (fl[1].some(function (k) { return f[k]; })) n += c[0]; });
+    if (n) linhas.push([t(fl[0]), n]);
+  });
+  if (linhas.length) {
+    var s3 = el("section"); s3.appendChild(el("h3", "", t("hFunc")));
+    var t3 = el("table", "comp comp1"), b3 = el("tbody");
+    linhas.forEach(function (x) { var r = el("tr"); r.appendChild(el("th", "", x[0])); r.appendChild(el("td", "", x[1])); b3.appendChild(r); });
+    t3.appendChild(b3); s3.appendChild(t3); s3.appendChild(el("p", "mut", t("funcNota"))); box.appendChild(s3);
+  }
+  box.hidden = false;
+}
 // Quadro abaixo dos cartões: histórico do confronto, comparativo e chance de encontro.
 function infoDuelo(a, b) {
   var box = el("div", "duelo-info"), s1 = el("section"), s2 = el("section"), s3 = el("section");
@@ -2076,9 +2144,7 @@ function infoDuelo(a, b) {
   linha(t("cMv"), fmt(a.st.mv), fmt(b.st.mv));
   linha(t("cCri"), a.st.cri, b.st.cri); linha(t("cMag"), a.st.mag, b.st.mag); linha(t("cOut"), a.st.out, b.st.out); linha(t("cTer"), a.st.ter, b.st.ter);
   var rc = el("tr"); [a, b].forEach(function (d, k) {
-    var td = el("td"), cv = el("div", "curva"), rt = el("div", "curva-rot"), mx = Math.max.apply(null, d.st.curva) || 1;
-    d.st.curva.forEach(function (v, j) { var bar = el("i"); bar.style.height = Math.max(2, Math.round(34 * v / mx)) + "px"; bar.title = v; cv.appendChild(bar); rt.appendChild(el("b", "", j === 6 ? "6+" : String(j))); });
-    td.appendChild(cv); td.appendChild(rt);
+    var td = el("td"); curvaEm(td, d);
     if (k === 1) rc.appendChild(el("th", "", t("cCurva")));
     rc.appendChild(td);
   }); tbd.appendChild(rc);
