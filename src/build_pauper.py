@@ -51,19 +51,32 @@ if len(TIPOS["en"]) > len(LETRAS):
 cod = {x: LETRAS[i] for i, x in enumerate(TIPOS["en"])}
 
 
+# Categoria de uma carta que não é terreno (v155): criatura > instantânea/feitiço > encantamento > artefato > planeswalker > outra.
+# Criatura artefato/encantamento conta como criatura; encantamento artefato como encantamento (decisão do usuário, 02/11/2026).
+CATS = ["ter", "cri", "mag", "out", "enc", "art", "pw"]  # índice = código no ATRIB do site
+
+
+def categoria(tipo):
+    if "Creature" in tipo: return "cri"
+    if tipo.split()[-1] in ("Instant", "Sorcery"): return "mag"
+    for w, k in (("Enchantment", "enc"), ("Artifact", "art"), ("Planeswalker", "pw")):
+        if w in tipo.split(): return k
+    return "out"
+
+
 def montar(texto):
     """Lista para a tela ("Sideboard" antes do sideboard), tipos (uma letra por carta) e números do deck principal para o
-    comparativo: criaturas, instantâneas e feitiços, outras mágicas, terrenos, valor de mana médio e curva (0–5 e 6+, sem terrenos)."""
+    comparativo: criaturas, instantâneas e feitiços, encantamentos, artefatos, planeswalkers, outras mágicas, terrenos, valor de mana médio e curva (0–5 e 6+, sem terrenos)."""
     blocos = texto.strip().split("\n\n")
     lista = blocos[0] + ("\n\nSideboard\n" + blocos[1] if len(blocos) > 1 else "") + "\n"
     tp = "".join(cod[cartas[LINHA.match(l).group(2)]["tipo"]] for l in lista.split("\n") if LINHA.match(l))
-    st = {"cri": 0, "mag": 0, "out": 0, "ter": 0, "curva": [0] * 7}
+    st = {"cri": 0, "mag": 0, "enc": 0, "art": 0, "pw": 0, "out": 0, "ter": 0, "curva": [0] * 7}
     soma = n = 0
     for l in blocos[0].split("\n"):
         q, nome = LINHA.match(l).groups(); q = int(q); c = cartas[nome]
         if "Land" in c["tipo"]:
             st["ter"] += q; continue
-        k = "cri" if "Creature" in c["tipo"] else ("mag" if c["tipo"].split()[-1] in ("Instant", "Sorcery") else "out")
+        k = categoria(c["tipo"])
         st[k] += q; mv = float(c["mv"] or 0); soma += q * mv; n += q; st["curva"][min(6, int(mv))] += q
     st["mv"] = round(soma / n, 2) if n else 0
     return lista, tp, st
@@ -170,11 +183,12 @@ if FUNCOES and _sem_fu:
     raise SystemExit("ERRO: cartas sem funções em pauper/funcoes.json (rodar tools/pauper_funcoes.py): %s" % _sem_fu)
 # Desde a v146 vão TODAS as cartas de funcoes.json (não só as das listas exibidas): a "Minha lista" lê qualquer carta das listas dos 30 dias.
 funcoes = {n: FUNCOES[n] for n in sorted(FUNCOES)}
-# Valor de mana e categoria de cada carta (0 terreno, 1 criatura, 2 instantânea/feitiço, 3 outra), a mesma regra do montar():
+# Valor de mana e categoria de cada carta (índice em CATS: 0 terreno, 1 criatura, 2 instantânea/feitiço, 3 outra, 4 encantamento,
+# 5 artefato, 6 planeswalker; v155), a mesma regra do montar():
 # o site recalcula as estatísticas da lista otimizada (v151).
 atrib = {}
 for n, c in cartas.items():
-    k = 0 if "Land" in c["tipo"] else 1 if "Creature" in c["tipo"] else 2 if c["tipo"].split()[-1] in ("Instant", "Sorcery") else 3
+    k = 0 if "Land" in c["tipo"] else CATS.index(categoria(c["tipo"]))
     atrib[n] = [float(c["mv"] or 0), k]
 livres = {n: 1 for n, r in cartas.items() if r.get("livre") == "1"}  # podem ter mais de 4 cópias (básicos e afins)
 

@@ -484,7 +484,7 @@ var TXT = {
     rodNota: '* O nome do deck vem no formato <i>Deck - Comandante (SIGLA ano)</i>, com a sigla de três letras da coleção e o ano de lançamento. Exemplo: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'sobre o projeto',
     rodExtra: '<li><b>Coleções</b> em ordem de lançamento; os filtros mostram os decks por <b>cor</b>, <b>ano</b> ou <b>arquétipo</b>.</li><li><b>Busca</b>: carta, deck, comandante ou coleção, em português ou inglês.</li><li><b>Sortear deck</b>: abre um deck aleatório.</li><li><b>Sorteio em grupo</b> (botão ao lado): um deck diferente para cada jogador, de 2 a 4.</li>',
-    hEstat: 'Estatísticas', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
+    hEstat: 'Estatísticas', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cEnc: 'Encantamentos', cArt: 'Artefatos', cPw: 'Planeswalkers', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
     voltarTopo: '↑ Voltar ao topo',
     hComparativo: 'Comparativo', emComum: 'Cartas em comum: {l}.', nadaComum: 'Nenhuma carta em comum (fora os terrenos básicos).', emComumT: 'Cartas em comum a todos os decks: {l}.', nadaComumT: 'Nenhuma carta em comum a todos os decks (fora os terrenos básicos).',
     problemas: 'Encontrou um problema ou tem uma sugestão? Avise por {email} ou abra uma {github}.', lkEmail: 'e-mail', lkGithub: 'issue no GitHub',
@@ -531,7 +531,7 @@ var TXT = {
     rodNota: '* The deck name comes in the format <i>Deck - Commander (CODE year)</i>, with the set\'s three-letter code and the release year. Example: <i>Heavenly Inferno - Kaalia of the Vast (CMD 2011)</i>.',
     sobre: 'about the project',
     rodExtra: '<li><b>Sets</b> in release order; the filters show decks by <b>color</b>, <b>year</b> or <b>archetype</b>.</li><li><b>Search</b>: card, deck, commander or set, in Portuguese or English.</li><li><b>Random deck</b>: opens a random deck.</li><li><b>Group draw</b> (button next to it): a different deck for each player, 2 to 4.</li>',
-    hEstat: 'Statistics', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
+    hEstat: 'Statistics', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cEnc: 'Enchantments', cArt: 'Artifacts', cPw: 'Planeswalkers', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
     voltarTopo: '↑ Back to top',
     hComparativo: 'Comparison', emComum: 'Cards in common: {l}.', nadaComum: 'No cards in common (besides basic lands).', emComumT: 'Cards common to every deck: {l}.', nadaComumT: 'No cards common to every deck (besides basic lands).',
     problemas: 'Found a problem or have a suggestion? Let me know by {email} or open an {github}.', lkEmail: 'email', lkGithub: 'issue on GitHub',
@@ -810,6 +810,10 @@ function desenhar() {
   pintarStats(deck);
 }
 function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; }
+// Linhas das tabelas de estatísticas (v155): [rótulo, chave, opcional]; as opcionais (encantamentos, artefatos, planeswalkers e
+// outras mágicas, ex. batalha) só aparecem quando algum dos decks da tabela tem a carta (pedido do usuário, 02/11/2026).
+var ST_LINHAS = [["cCri", "cri"], ["cMag", "mag"], ["cEnc", "enc", 1], ["cArt", "art", 1], ["cPw", "pw", 1], ["cOut", "out", 1], ["cTer", "ter"]];
+function linhasSt(sts) { return ST_LINHAS.filter(function (x) { return !x[2] || sts.some(function (st) { return st[x[1]] > 0; }); }); }
 // Curva de mana do deck principal (barras de 0 a 6+, sem terrenos) dentro de uma célula da tabela de estatísticas.
 function curvaEm(td, d) {
   var cv = el("div", "curva"), rt = el("div", "curva-rot"), mx = Math.max.apply(null, d.st.curva) || 1;
@@ -817,7 +821,7 @@ function curvaEm(td, d) {
   td.appendChild(cv); td.appendChild(rt);
 }
 // Estatísticas abaixo da lista (v153, como na página de Pauper): as 100 cartas, comandante(s) inclusive; "st" vem do build.py
-// (criaturas, instantâneas e feitiços, outras mágicas, terrenos, valor de mana médio sem terrenos e curva 0–5 e 6+).
+// (criaturas, instantâneas e feitiços, encantamentos, artefatos, planeswalkers, outras mágicas, terrenos, valor de mana médio sem terrenos e curva 0–5 e 6+).
 // No fim, o botão "Voltar ao topo".
 function pintarStats(d) {
   var box = $("statsDeck"); box.innerHTML = "";
@@ -826,7 +830,7 @@ function pintarStats(d) {
   var s1 = el("section"); s1.appendChild(el("h3", "", t("hEstat")));
   var tb = el("table", "comp comp1"), tbd = el("tbody");
   function linha(rot, v) { var r = el("tr"); r.appendChild(el("th", "", rot)); r.appendChild(el("td", "", v)); tbd.appendChild(r); }
-  linha(t("cMv"), fmt(st.mv)); linha(t("cCri"), st.cri); linha(t("cMag"), st.mag); linha(t("cOut"), st.out); linha(t("cTer"), st.ter);
+  linha(t("cMv"), fmt(st.mv)); linhasSt([st]).forEach(function (x) { linha(t(x[0]), st[x[1]]); });
   var rc = el("tr"), tdc = el("td", "curva-c"); curvaEm(tdc, d); rc.appendChild(el("th", "", t("cCurva"))); rc.appendChild(tdc); tbd.appendChild(rc);
   tb.appendChild(tbd); s1.appendChild(tb); box.appendChild(s1);
   var bt = el("button", "ghost voltar-topo", t("voltarTopo")); bt.type = "button";
@@ -1928,7 +1932,7 @@ function pintarCompMesa() {
     tbd.appendChild(r);
   }
   function txt(k) { return function (c, st) { c.textContent = k === "mv" ? fmt(st.mv) : st[k]; }; }
-  linha(t("cMv"), txt("mv")); linha(t("cCri"), txt("cri")); linha(t("cMag"), txt("mag")); linha(t("cOut"), txt("out")); linha(t("cTer"), txt("ter"));
+  linha(t("cMv"), txt("mv")); linhasSt(js.map(function (j) { return j.d.st; })).forEach(function (x) { linha(t(x[0]), txt(x[1])); });
   linha(t("cCurva"), function (c, st) { curvaEm(c, { st: st }); });
   tb.appendChild(tbd);
   if (dois) s.appendChild(tb); else { var rolo = el("div", "comp-rolo"); rolo.appendChild(tb); s.appendChild(rolo); }

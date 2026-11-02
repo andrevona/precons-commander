@@ -136,15 +136,23 @@ if os.path.exists("cartas.csv") and os.path.exists("impressoes.csv"):
     # Estatísticas abaixo da lista (v153, como no Pauper): todas as 100 cartas, comandante(s) inclusive; mesma regra do montar()
     # do build_pauper.py (terreno = "Land" no tipo; criatura; instantânea/feitiço; outra), valor de mana médio sem terrenos
     # e curva de 0 a 5 e 6+. "mv" vem de cartas.csv (tools/atributos.py).
+    # Categoria (v155): terreno > criatura > instantânea/feitiço > encantamento > artefato > planeswalker > outra (ex. batalha).
+    # Criatura artefato/encantamento conta como criatura; encantamento artefato (Bident of Thassa) como encantamento (decisão do usuário).
+    def categoria(tipo):
+        if "Creature" in tipo: return "cri"
+        if tipo.split()[-1] in ("Instant","Sorcery"): return "mag"
+        for w,k in (("Enchantment","enc"),("Artifact","art"),("Planeswalker","pw")):
+            if w in tipo.split(): return k
+        return "out"
     if "mv" not in next(iter(cartas.values())): raise SystemExit("ERRO: cartas.csv sem a coluna mv (rode tools/atributos.py)")
     for col in data:
         for d in col["decks"]:
-            st={"cri":0,"mag":0,"out":0,"ter":0,"curva":[0]*7}; soma=n=0
+            st={"cri":0,"mag":0,"enc":0,"art":0,"pw":0,"out":0,"ter":0,"curva":[0]*7}; soma=n=0
             for l in d["lista"].split("\n"):
                 if not LINHA.match(l): continue
                 q=int(l.split()[0]); s_,nn=l.rsplit(" (",1)[1].split(") "); c=cartas[impr[(s_,nn)]["carta"]]
                 if "Land" in c["tipo"]: st["ter"]+=q; continue
-                k="cri" if "Creature" in c["tipo"] else ("mag" if c["tipo"].split()[-1] in ("Instant","Sorcery") else "out")
+                k=categoria(c["tipo"])
                 mv=float(c["mv"] or 0); st[k]+=q; soma+=q*mv; n+=q; st["curva"][min(6,int(mv))]+=q
             st["mv"]=round(soma/n,2) if n else 0
             d["st"]=st

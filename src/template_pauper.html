@@ -628,7 +628,7 @@ var TXT = {
     semConfr: 'Não há dados suficientes deste confronto.', semConfrFonte: 'O histórico de confrontos ainda não foi carregado nesta página.',
     encontro: '{b} é {p}% das listas: num torneio, quem joga {a} enfrenta {b} em cerca de 1 a cada {k} partidas.',
     rodExtra: '<li><b>Arquétipos</b> do mais ao menos jogado; cada um tem <b>variações</b>, com a lista de <b>Consenso</b> e 2 listas reais de torneios.</li><li><b>Comparar decks</b>: histórico do confronto entre dois decks.</li><li><b>Otimizar</b>: troca cartas do principal pelas do sideboard conforme o adversário.</li><li><b>Minha lista</b>: cole o seu deck e veja o que trocar contra cada variação.</li>',
-    cMeta: 'Metagame', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
+    cMeta: 'Metagame', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cEnc: 'Encantamentos', cArt: 'Artefatos', cPw: 'Planeswalkers', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
     hEstat: 'Estatísticas', hVence: 'Forma de vitória', hFunc: 'Funções no deck principal',
     vencePrin: 'Principal: {p}', venceTamb: 'também: {p}', venceNota: 'Da variação, pelas cartas do consenso.',
     vc: 'combate', vi: 'combate com Infectar (veneno)', vd: 'dano direto ou perda de vida fora do combate', vv: 'veneno fora do combate', vm: 'triturar',
@@ -721,7 +721,7 @@ var TXT = {
     semConfr: 'There is not enough data on this matchup.', semConfrFonte: 'The matchup history has not been loaded on this page yet.',
     encontro: '{b} is {p}% of the lists: in a tournament, a {a} player faces {b} in about 1 of every {k} matches.',
     rodExtra: '<li><b>Archetypes</b> from most to least played; each has <b>variations</b>, with a <b>Consensus</b> list and 2 real tournament lists.</li><li><b>Compare decks</b>: matchup history between two decks.</li><li><b>Optimize</b>: swaps main-deck cards for sideboard cards based on the opponent.</li><li><b>My list</b>: paste your deck and see what to swap against each variation.</li>',
-    cMeta: 'Metagame', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
+    cMeta: 'Metagame', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cEnc: 'Enchantments', cArt: 'Artifacts', cPw: 'Planeswalkers', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
     hEstat: 'Statistics', hVence: 'Win condition', hFunc: 'Roles in the main deck',
     vencePrin: 'Main: {p}', venceTamb: 'also: {p}', venceNota: "From the variation's consensus cards.",
     vc: 'combat', vi: 'combat with Infect (poison)', vd: 'direct damage or life loss outside combat', vv: 'poison outside combat', vm: 'milling',
@@ -2064,6 +2064,10 @@ function desenharMesa() {
   if (completa()) m.appendChild(infoDuelo(mesa.d[0], mesa.d[1])); // histórico, comparativo e chance de encontro: depois das listas abertas
   mesa.novo = false;
 }
+// Linhas das tabelas de estatísticas (v155): [rótulo, chave, opcional]; as opcionais (encantamentos, artefatos, planeswalkers e
+// outras mágicas, ex. batalha) só aparecem quando algum dos decks da tabela tem a carta (pedido do usuário, 02/11/2026).
+var ST_LINHAS = [["cCri", "cri"], ["cMag", "mag"], ["cEnc", "enc", 1], ["cArt", "art", 1], ["cPw", "pw", 1], ["cOut", "out", 1], ["cTer", "ter"]];
+function linhasSt(sts) { return ST_LINHAS.filter(function (x) { return !x[2] || sts.some(function (st) { return st[x[1]] > 0; }); }); }
 // Curva de mana do deck principal (barras de 0 a 6+, sem terrenos) dentro de uma célula da tabela de estatísticas.
 function curvaEm(td, d) {
   var cv = el("div", "curva"), rt = el("div", "curva-rot"), mx = Math.max.apply(null, d.st.curva) || 1;
@@ -2076,14 +2080,15 @@ var FUNC_LINHAS = [
   ["fVoo", ["voo"]], ["fRem", ["x-cri", "x-hex", "x-t1", "x-t2"]], ["fComb", ["x-comb"]], ["fDano", ["dano"]],
   ["fArt", ["x-art", "x-enc", "x-aura"]], ["fCem", ["cem"]], ["fOdio", ["x-cem"]], ["fProt", ["x-dano"]]
 ];
-// Números do deck principal de uma lista (mesma regra do montar() do build_pauper.py): criaturas, instantâneas e feitiços, outras mágicas,
+// Números do deck principal de uma lista (mesma regra do montar() do build_pauper.py): criaturas, instantâneas e feitiços, encantamentos,
+// artefatos, planeswalkers, outras mágicas (v155),
 // terrenos, valor de mana médio e curva (0–5 e 6+, sem terrenos). Serve para a lista original e para a otimizada.
 function statsDe(lista) {
-  var st = { cri: 0, mag: 0, out: 0, ter: 0, curva: [0, 0, 0, 0, 0, 0, 0] }, soma = 0, n = 0;
+  var st = { cri: 0, mag: 0, enc: 0, art: 0, pw: 0, out: 0, ter: 0, curva: [0, 0, 0, 0, 0, 0, 0] }, soma = 0, n = 0;
   blocosDe(lista).main.forEach(function (c) {
     var a = ATRIB[c[1]]; if (!a) return;
     if (a[1] === 0) { st.ter += c[0]; return; }
-    st[a[1] === 1 ? "cri" : a[1] === 2 ? "mag" : "out"] += c[0]; soma += c[0] * a[0]; n += c[0]; st.curva[Math.min(6, Math.floor(a[0]))] += c[0];
+    st[["ter", "cri", "mag", "out", "enc", "art", "pw"][a[1]]] += c[0]; soma += c[0] * a[0]; n += c[0]; st.curva[Math.min(6, Math.floor(a[0]))] += c[0];
   });
   var x = n ? soma / n : 0, y = x * 100; // arredonda como o round() do Python: toFixed, e empate exato (ex. 1,625) para o par (1,62)
   st.mv = Number.isInteger(x * 8) && y % 1 === 0.5 ? (Math.floor(y) % 2 === 0 ? Math.floor(y) : Math.ceil(y)) / 100 : +x.toFixed(2);
@@ -2103,7 +2108,7 @@ function pintarStats(d) {
   var tb = el("table", "comp comp1"), tbd = el("tbody");
   function linha(rot, v) { var r = el("tr"); r.appendChild(el("th", "", rot)); r.appendChild(el("td", "", v)); tbd.appendChild(r); }
   linha(t("cMeta"), pct(d.pct) + (d.pos ? " · " + ord(d.pos) : ""));
-  linha(t("cMv"), fmt(st.mv)); linha(t("cCri"), st.cri); linha(t("cMag"), st.mag); linha(t("cOut"), st.out); linha(t("cTer"), st.ter);
+  linha(t("cMv"), fmt(st.mv)); linhasSt([st]).forEach(function (x) { linha(t(x[0]), st[x[1]]); });
   var rc = el("tr"), tdc = el("td", "curva-c"); curvaEm(tdc, { st: st }); rc.appendChild(el("th", "", t("cCurva"))); rc.appendChild(tdc); tbd.appendChild(rc);
   tb.appendChild(tbd); s1.appendChild(tb); box.appendChild(s1);
   // 2. forma de vitória (só variações; "Outras" não tem)
@@ -2167,7 +2172,7 @@ function infoDuelo(a, b) {
   var ord = function (k) { return IDIOMA === "pt" ? k + "º" : "#" + k; };
   linha(t("cMeta"), pct(a.pct) + (a.pos ? " · " + ord(a.pos) : ""), pct(b.pct) + (b.pos ? " · " + ord(b.pos) : ""), a.pct > b.pct, b.pct > a.pct);
   linha(t("cMv"), fmt(a.st.mv), fmt(b.st.mv));
-  linha(t("cCri"), a.st.cri, b.st.cri); linha(t("cMag"), a.st.mag, b.st.mag); linha(t("cOut"), a.st.out, b.st.out); linha(t("cTer"), a.st.ter, b.st.ter);
+  linhasSt([a.st, b.st]).forEach(function (x) { linha(t(x[0]), a.st[x[1]], b.st[x[1]]); });
   var rc = el("tr"); [a, b].forEach(function (d, k) {
     var td = el("td"); curvaEm(td, d);
     if (k === 1) rc.appendChild(el("th", "", t("cCurva")));
