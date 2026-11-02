@@ -253,6 +253,13 @@
   .gd-corpo { padding:2px 10px 10px; }
   .gd-acoes { margin:10px 0 0; }
   .gd-todas { margin-top:8px; }
+  .gd-trava { margin:10px 0 0; }
+  .travas { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0 2px; }
+  .trava-c { display:inline-flex; align-items:center; gap:5px; font-size:13px; padding:5px 10px; border:1px solid var(--line); border-radius:999px; background:var(--bg); color:var(--mut); cursor:pointer; }
+  .trava-c svg { width:14px; height:14px; flex:none; }
+  .trava-c.on { color:var(--fg); border-color:var(--acc); font-weight:600; }
+  .trava-c.on svg { color:var(--acc); }
+  .fora-lista { margin:6px 0 0; padding-left:20px; font-size:13.5px; }
   .otim-mot { color:var(--mut); font-size:12.5px; align-self:center; flex:1 1 0; min-width:0; }
   .otim-gr { display:flex; align-items:stretch; gap:8px; padding:3px 0; }
   .otim-gr .otim-lista { flex:0 0 auto; max-width:68%; }
@@ -655,7 +662,6 @@ var TXT = {
     mMin: 'O principal tem {n} cartas (mínimo 60).', mSide: 'O sideboard tem {n} cartas (máximo 15).',
     mSemSide: 'Sem sideboard não há o que trocar: inclua o sideboard depois de uma linha em branco.',
     mCopias: 'Mais de 4 cópias: {c}.', mBanidas: 'Banida no Pauper: {c}.',
-    mDesc: 'O site não conhece estas cartas (fora das listas dos últimos 30 dias); elas ficam na lista, mas fora das trocas: {c}.',
     mIgn: 'Linhas ignoradas: {c}.',
     mParecida: 'Mais parecida com <b>{v}</b> ({p} das cartas do principal); o histórico é o desse arquétipo.',
     mLonge: 'Nenhuma variação parecida (a mais próxima é {v}, com {p} das cartas do principal); sem histórico de confrontos.',
@@ -665,6 +671,10 @@ var TXT = {
     mNada: 'Nenhuma troca vale a pena neste confronto.', mTodas: 'Mostrar todas as variações ({n})',
     mNota: 'Sugestão calculada pelas funções das cartas (texto Oracle) contra o consenso de cada variação; confira antes de jogar.',
     mNome: 'Minha lista',
+    mhTravar: 'Travar cartas', mTravarIntro: 'Carta travada nunca sai do principal, em nenhuma variação. Terrenos e cartas fora do guia já não saem.',
+    mTravadas0: 'nenhuma travada', mTravadas1: '1 travada', mTravadasN: '{n} travadas', mTravar: 'Travar: não sai do principal', mDestravar: 'Destravar',
+    mhFora: 'Cartas fora do guia ({n})', mFora: 'O site ainda não leu estas cartas (não aparecem nas listas dos últimos 30 dias): ficam na lista, mas nunca entram nem saem. Copie os nomes e mande para que sejam lidas.',
+    mCopiarNomes: 'Copiar nomes', mFalhaNomes: 'Copie os nomes:',
     limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e recolhe tudo'
   },
   en: {
@@ -739,7 +749,6 @@ var TXT = {
     mMin: 'The main deck has {n} cards (minimum 60).', mSide: 'The sideboard has {n} cards (maximum 15).',
     mSemSide: 'Without a sideboard there is nothing to swap: add the sideboard after a blank line.',
     mCopias: 'More than 4 copies: {c}.', mBanidas: 'Banned in Pauper: {c}.',
-    mDesc: 'The site does not know these cards (not in the lists of the last 30 days); they stay in the list, but out of the swaps: {c}.',
     mIgn: 'Ignored lines: {c}.',
     mParecida: 'Closest to <b>{v}</b> ({p} of the main-deck cards); the history is that archetype\'s.',
     mLonge: 'No similar variation (the closest is {v}, with {p} of the main-deck cards); no matchup history.',
@@ -749,6 +758,10 @@ var TXT = {
     mNada: 'No swap is worth it in this matchup.', mTodas: 'Show all variations ({n})',
     mNota: 'Suggestion computed from the card roles (Oracle text) against each variation\'s consensus; check before playing.',
     mNome: 'My list',
+    mhTravar: 'Lock cards', mTravarIntro: 'A locked card never leaves the main deck, against any variation. Lands and cards outside the guide never leave anyway.',
+    mTravadas0: 'none locked', mTravadas1: '1 locked', mTravadasN: '{n} locked', mTravar: 'Lock: stays in the main deck', mDestravar: 'Unlock',
+    mhFora: 'Cards outside the guide ({n})', mFora: 'The site has not read these cards yet (they are not in the lists of the last 30 days): they stay in the list, but never come in or go out. Copy the names and send them so they can be read.',
+    mCopiarNomes: 'Copy names', mFalhaNomes: 'Copy the names:',
     limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and collapses everything'
   }
 };
@@ -2176,8 +2189,8 @@ function otimizar(i) {
   mesa.trocas[i] = o.trocas; mesa.otim[i] = o;
   desenhar();
 }
-// Otimização da lista "minha" contra a lista "dele" (texto das listas): { trocas: [{sai, entra, n}], entram, saem, p } ou { semSide, trocas: [] }
-function calcOtim(minha, dele) {
+// Otimização da lista "minha" contra a lista "dele" (texto das listas; trava opcional): { trocas: [{sai, entra, n}], entram, saem, p } ou { semSide, trocas: [] }
+function calcOtim(minha, dele, trava) { // trava (Minha lista): { nome: 1 } das cartas que não saem do principal
   var eu = blocosDe(minha), adv = blocosDe(dele), p = perfilDe(adv.main), meu = perfilDe(eu.main);
   if (!eu.side.length) return { semSide: true, trocas: [] };
   var controle = p.cri < 12 && (p.rem + (p.contra || 0)) >= 10; // poucas criaturas e muita interação
@@ -2193,7 +2206,7 @@ function calcOtim(minha, dele) {
   // cópias do principal que podem sair (terrenos nunca)
   var sai = [];
   eu.main.forEach(function (c) {
-    if (!FUNCOES[c[1]]) return; // carta que o site não conhece (Minha lista): não sai sem saber o que faz
+    if (!FUNCOES[c[1]] || (trava && trava[c[1]])) return; // carta que o site não conhece ou travada (Minha lista): não sai
     var f = fun(c[1]); if (f.ter || BASICOS.indexOf(c[1]) >= 0) return;
     var base = BASE + 0.05 * Math.min(4, c[0]), r = valorResp(f, p), v = f.plano ? Math.max(base, r[0]) : r[0], mot = f.plano ? "fraca" : (r[1] && r[0] > 0 ? "pouco:" + r[1] : "semAlvo");
     if (f.plano && f.t1 && f.cri && (p.varr || 0) >= 3) v -= 0.1; // morre para as varreduras do adversário
@@ -2289,8 +2302,12 @@ function compartilharMesa() {
 // Minha lista (v146, etapa 1 do guia de sideboard): o usuário cola principal + sideboard; o site valida (60+, até 15, até 4
 // cópias, banidas), acha a variação mais parecida e roda o Otimizar contra o consenso de cada variação. Nomes em inglês ou
 // português (nomes_pt.json); carta fora de FUNCOES (fora das listas dos últimos 30 dias) fica na lista, mas fora das trocas.
-var minha = null, CHAVE_MINHA = "precons-pauper-minha", MINHA_TOPO = 12, PARECIDA = 0.5;
-function novaMinha() { return { res: null, todos: false, lido: false }; }
+var minha = null, CHAVE_MINHA = "precons-pauper-minha", CHAVE_TRAVA = "precons-pauper-minha-trava", MINHA_TOPO = 12, PARECIDA = 0.5;
+function novaMinha() { return { res: null, todos: false, lido: false, trava: {} }; }
+// Travas (v147): cartas do principal que o Otimizar nunca tira, em todas as variações; guardadas neste aparelho com a lista
+function lerTravas() { var o = {}; try { (JSON.parse(localStorage.getItem(CHAVE_TRAVA) || "[]") || []).forEach(function (n) { if (typeof n === "string") o[n] = 1; }); } catch (e) {} return o; }
+function gravarTravas() { try { var k = Object.keys(minha.trava); if (k.length) localStorage.setItem(CHAVE_TRAVA, JSON.stringify(k.sort())); else localStorage.removeItem(CHAVE_TRAVA); } catch (e) {} }
+function travaveis(r) { return (r.main || []).filter(function (c) { return FUNCOES[c[1]] && !fun(c[1]).ter && BASICOS.indexOf(c[1]) < 0; }); } // o que o Otimizar poderia tirar
 var PT_TODOS = null, ptTodosEst = 0, ptTodosCb = [], IDX_NOMES = null;
 function carregarPtTodos(cb) { // nomes em português de todas as cartas (para ler listas em português), com ou sem português no navegador
   if (cb) ptTodosCb.push(cb);
@@ -2350,7 +2367,7 @@ function analisarMinha(txt) {
   if (cop.length) r.erros.push(t("mCopias", { c: cop.map(function (n) { return n + " (" + qtd[n] + ")"; }).join(", ") }));
   var bn = Object.keys(qtd).filter(function (n) { return ban[n]; });
   if (bn.length) r.erros.push(t("mBanidas", { c: bn.join(", ") }));
-  if (desc.length) r.avisos.push(t("mDesc", { c: desc.join(", ") }));
+  r.desc = desc; r.main = blocos[0];
   if (ign.length) r.avisos.push(t("mIgn", { c: ign.slice(0, 5).join(" · ") + (ign.length > 5 ? " …" : "") }));
   r.lista = blocos[0].map(linha).join("\n") + "\n\n" + blocos[1].map(linha).join("\n");
   r.par = parecida(blocos[0]);
@@ -2382,7 +2399,7 @@ function desenharMinha() {
   document.body.classList.remove("modo-mesa"); document.body.classList.add("modo-minha");
   $("minha").hidden = false; $("btnLimparTudo").hidden = false; $("contagem").textContent = ""; $("escolha").hidden = true;
   var ta = $("minhaTxt");
-  if (!minha.lido) { minha.lido = true; if (!ta.value) { try { ta.value = localStorage.getItem(CHAVE_MINHA) || ""; } catch (e) {} } } // a última lista colada, só neste aparelho
+  if (!minha.lido) { minha.lido = true; minha.trava = lerTravas(); if (!ta.value) { try { ta.value = localStorage.getItem(CHAVE_MINHA) || ""; } catch (e) {} } } // a última lista colada e as travas, só neste aparelho
   pintarMinha();
 }
 function gerarMinha() {
@@ -2391,7 +2408,9 @@ function gerarMinha() {
   b.disabled = true;
   carregarPtTodos(function () {
     b.disabled = false; if (!minha) return;
-    minha.res = analisarMinha(txt); minha.todos = false; pintarMinha(true);
+    minha.res = analisarMinha(txt); minha.todos = false;
+    if (!minha.res.erros.length) { var ok = {}; travaveis(minha.res).forEach(function (c) { if (minha.trava[c[1]]) ok[c[1]] = 1; }); minha.trava = ok; gravarTravas(); } // lista nova: só ficam as travas das cartas que continuam no principal
+    pintarMinha(true);
     var r = $("minhaRes"); if (r.scrollIntoView) r.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "start" });
   });
 }
@@ -2406,16 +2425,56 @@ function pintarMinha(novo) {
   r.erros.forEach(function (x) { s1.appendChild(el("p", "minha-erro", x)); });
   r.avisos.forEach(function (x) { s1.appendChild(el("p", "mut", x)); });
   if (r.par) { var pp = el("p"); pp.innerHTML = t(r.par.p >= PARECIDA ? "mParecida" : "mLonge", { v: esc(r.par.d.nome), p: pct(Math.round(100 * r.par.p)) }); s1.appendChild(pp); }
+  if (!r.erros.length && travaveis(r).length) s1.appendChild(travasMinha(r, abertos));
   cx.appendChild(s1);
+  if (r.desc && r.desc.length) cx.appendChild(foraMinha(r));
   if (!r.erros.length) cx.appendChild(guiaMinha(r, abertos));
   box.appendChild(cx);
+}
+// Cartas que o site não leu (fora de FUNCOES): nomes para copiar e mandar
+function foraMinha(r) {
+  var s = el("section"), bt = el("button", "ghost", t("mCopiarNomes")), txt = r.desc.join("\n"); bt.type = "button";
+  s.appendChild(el("h3", "", t("mhFora", { n: r.desc.length })));
+  s.appendChild(el("p", "mut", t("mFora")));
+  var ul = el("ul", "fora-lista"); r.desc.forEach(function (n) { ul.appendChild(el("li", "", n)); }); s.appendChild(ul);
+  bt.onclick = function () {
+    copiar(txt, function () { bt.textContent = t("copiado"); clearTimeout(bt._tm); bt._tm = setTimeout(function () { bt.textContent = t("mCopiarNomes"); }, 1500); },
+      function () { prompt(t("mFalhaNomes"), txt); });
+  };
+  var ac = el("div", "row acoes"); ac.appendChild(bt); s.appendChild(ac);
+  return s;
+}
+var CADEADO = ['<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>', '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/>'];
+function travasMinha(r, abertos) { // cadeado em cada carta do principal que o Otimizar poderia tirar
+  var lst = travaveis(r), n = lst.filter(function (c) { return minha.trava[c[1]]; }).length;
+  var det = el("details", "gd gd-trava"), sm = el("summary"), meta = el("span", "gd-meta"), corpo = el("div", "gd-corpo");
+  det.setAttribute("data-v", "__trava"); if (abertos.__trava) det.open = true;
+  sm.appendChild(el("span", "gd-nome", "")).appendChild(el("b", "", t("mhTravar")));
+  meta.appendChild(el("span", n ? "gd-n" : "gd-n zero", n === 1 ? t("mTravadas1") : n ? t("mTravadasN", { n: n }) : t("mTravadas0")));
+  sm.appendChild(meta); det.appendChild(sm);
+  corpo.appendChild(el("p", "mut", t("mTravarIntro")));
+  var box = el("div", "travas");
+  lst.forEach(function (c) {
+    var on = !!minha.trava[c[1]], b = el("button", "trava-c" + (on ? " on" : "")); b.type = "button";
+    b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + CADEADO[on ? 0 : 1] + '</svg>';
+    b.appendChild(el("span", "", c[0] + " " + c[1]));
+    b.setAttribute("aria-pressed", on ? "true" : "false"); b.title = t(on ? "mDestravar" : "mTravar"); b.setAttribute("data-c", c[1]);
+    b.onclick = function () {
+      if (minha.trava[c[1]]) delete minha.trava[c[1]]; else minha.trava[c[1]] = 1;
+      gravarTravas(); pintarMinha();
+      var nb = $("minhaRes").querySelector('.trava-c[data-c="' + c[1].replace(/["\\]/g, "\\$&") + '"]'); if (nb) nb.focus({ preventScroll: true }); // o foco fica na mesma carta
+    };
+    box.appendChild(b);
+  });
+  corpo.appendChild(box); det.appendChild(corpo);
+  return det;
 }
 function guiaMinha(r, abertos) {
   var s = el("section"), fam = r.par && r.par.p >= PARECIDA ? r.par.d.fam : "";
   s.appendChild(el("h3", "", t("mhGuia")));
   s.appendChild(el("p", "mut", t("mIntro")));
   (minha.todos ? CONSENSOS : CONSENSOS.slice(0, MINHA_TOPO)).forEach(function (d) {
-    var o = calcOtim(r.lista, d.lista), n = o.semSide ? 0 : o.trocas.length;
+    var o = calcOtim(r.lista, d.lista, minha.trava), n = o.semSide ? 0 : o.trocas.length;
     var det = el("details", "gd"), sm = el("summary"), nm = el("span", "gd-nome"), meta = el("span", "gd-meta");
     det.setAttribute("data-v", idDe(d)); if (abertos[idDe(d)]) det.open = true;
     nm.appendChild(el("b", "", d.nome)); if (d.ci) nm.appendChild(simbolos(d.ci)); nm.appendChild(el("span", "gd-pct", pct(d.pct)));
@@ -2447,8 +2506,8 @@ function guiaMinha(r, abertos) {
 $("btnMinha").onclick = abrirMinha;
 $("btnGerar").onclick = gerarMinha;
 $("btnMinhaApagar").onclick = function () {
-  $("minhaTxt").value = ""; if (minha) minha.res = null;
-  try { localStorage.removeItem(CHAVE_MINHA); } catch (e) {}
+  $("minhaTxt").value = ""; if (minha) { minha.res = null; minha.trava = {}; }
+  try { localStorage.removeItem(CHAVE_MINHA); localStorage.removeItem(CHAVE_TRAVA); } catch (e) {}
   pintarMinha(true); $("minhaTxt").focus();
 };
 
