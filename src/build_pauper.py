@@ -176,7 +176,7 @@ livres = {n: 1 for n, r in cartas.items() if r.get("livre") == "1"}  # podem ter
 # Phyresis contra o Madness, e punha Moment's Peace contra o Golgari Spy Combo, que vence com o dano ao entrar do Lotleth Giant).
 # nuc: cartas (sem terrenos) presentes em NUCLEO_MIN ou mais das listas da variação: o Otimizar só as tira com ganho muito alto.
 # vence: letras, a principal primeiro: c = combate, i = combate com infect (veneno), d = dano direto ou perda de vida fora do
-# combate, v = veneno fora do combate, m = moinho. Automático pelo consenso (c com 8+ criaturas; d com carta "dano"); VENCE corrige,
+# combate, v = veneno fora do combate, m = triturar (mill). Automático pelo consenso (c com 8+ criaturas; d com carta "dano"); VENCE corrige,
 # com as cartas lidas no Oracle que mostram a vitória. O Otimizar pesa a proteção contra dano (x-dano, so-comb, so-mag, prev) por isso.
 NUCLEO_MIN = 0.85
 VENCE = {
@@ -184,7 +184,7 @@ VENCE = {
     "4c_dredge_wbrg": ("dc", "Lotleth Giant (dano ao entrar) e Molten Gatekeeper ('deals 1 damage to each opponent'); criaturas atacam também"),
     "mono_green_walls_combo": ("d", "Valakut Invoker: '{8}: This creature deals 3 damage to any target', com a mana do Axebane Guardian e das paredes"),
     "simic_turbo_fog": ("m", "Stream of Thought: 'Target player mills four cards' (replicate); sem criaturas"),
-    "sultai_turbo_fog": ("dm", "Crypt Rats: 'deals X damage to each creature and each player'; Stream of Thought (moinho)"),
+    "sultai_turbo_fog": ("dm", "Crypt Rats: 'deals X damage to each creature and each player'; Stream of Thought (triturar)"),
     "golgari_tron": ("cd", "Golem Foundry (Golems 3/3) e Pactdoll Terror ('each opponent loses 1 life')"),
     "ephemerate_tron": ("cd", "Visionary's Dance (dois 3/3 voadores), Bramble Wurm 7/6; Rolling Thunder (X de dano)"),
     "gruul_ruby_storm": ("c", "Seize the Storm: ficha com atropelar do tamanho das mágicas no cemitério; First Day of Class dá ímpeto"),
