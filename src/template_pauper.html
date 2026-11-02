@@ -278,6 +278,7 @@
   .comp td { width:38%; text-align:center; }
   .comp td.melhor { font-weight:700; }
   .comp thead td { font-weight:700; }
+  .voltar-topo { display:block; margin:14px auto 0; }
   .comp1 th { text-align:left; }
   .comp1 td { width:auto; text-align:right; }
   .comp1 .curva-c { text-align:right; }
@@ -589,6 +590,7 @@ COLECOES.forEach(function (c) { COL_POR_ID[c.id] = c; c.decks.forEach(function (
 var CONSENSOS = COLECOES.filter(function (c) { return !c.outras; }).map(function (c) { return c.decks[0]; }).sort(function (a, b) { return a.pos - b.pos; });
 function decksUnicos() { return CONSENSOS; } // um por variação (o consenso), da mais jogada para a menos
 var LIVRES = __LIVRES__; // cartas que podem ter mais de 4 cópias (cartas.csv, coluna livre)
+var ATRIB = __ATRIB__; // [valor de mana, categoria (0 terreno, 1 criatura, 2 instantânea/feitiço, 3 outra)] de cada carta: estatísticas da lista exibida
 var FUNCOES = __FUNCOES__; // funções de cada carta (tools/pauper_funcoes.py), usadas pelo Otimizar
 var TIPOS = __TIPOS__; // tipos das cartas (en/pt); deck.tp tem uma letra por carta da lista, na ordem, apontando para cá (ver build.py)
 var ATUALIZADO = META.data; // data (AAAA-MM-DD) em que as listas foram baixadas do MTGGoldfish
@@ -629,6 +631,7 @@ var TXT = {
     vencePrin: 'Principal: {p}', venceTamb: 'também: {p}', venceNota: 'Da variação, pelas cartas do consenso.',
     vc: 'combate', vi: 'combate com Infectar (veneno)', vd: 'dano direto ou perda de vida fora do combate', vv: 'veneno fora do combate', vm: 'triturar',
     fVoo: 'Cartas com voo', fRem: 'Remoção de criaturas', fComb: 'Descarte e contramágicas', fDano: 'Dano direto no adversário', fArt: 'Respostas a artefatos e encantamentos', fCem: 'Usam o cemitério', fOdio: 'Ódio de cemitério', fProt: 'Proteção contra dano',
+    voltarTopo: '↑ Voltar ao topo',
     funcNota: 'Cópias no deck principal, pelas funções lidas no texto das cartas; uma carta pode entrar em mais de uma linha.',
     hOtim: 'Otimizar o sideboard', otimIntro: 'Troca cartas do principal pelas do sideboard que mais têm alvo no deck adversário.',
     otimizar: 'Otimizar o {n}', desfazerOtim: '↺ Desfazer otimização do {n}', desfazerTit: 'Volta o {n} à lista original', desfeito: 'Otimização do {n} desfeita: lista original de volta', otimContra: 'Otimizar contra…', contraTrocar: 'Trocar adversário', contraLinha: 'Otimizado contra', contraTirar: 'Voltar à lista original', contraConfronto: 'Ver o confronto completo', contraTit: 'Otimizar {d} contra:', esteDeck: 'este deck', copiarOtim: 'Copiar lista otimizada', copiarOrig: 'Copiar lista original', difOrigM: 'original', difOtimM: 'otimizada', difOrig: 'Original', difOtim: 'Otimizada', difMain: 'Deck principal ({n})', difSide: 'Sideboard ({n})', difEntra: 'entra no deck principal', difSai: 'sai do deck principal', difContra: 'contra {o}', difAria: 'Ver a lista', otimTit: '{n} contra o {o}:', otimEntram: 'Entram', otimSaem: 'Saem',
@@ -721,6 +724,7 @@ var TXT = {
     vencePrin: 'Main: {p}', venceTamb: 'also: {p}', venceNota: "From the variation's consensus cards.",
     vc: 'combat', vi: 'combat with Infect (poison)', vd: 'direct damage or life loss outside combat', vv: 'poison outside combat', vm: 'milling',
     fVoo: 'Cards with flying', fRem: 'Creature removal', fComb: 'Discard and counterspells', fDano: 'Direct damage to the opponent', fArt: 'Answers to artifacts and enchantments', fCem: 'Use the graveyard', fOdio: 'Graveyard hate', fProt: 'Damage protection',
+    voltarTopo: '↑ Back to top',
     funcNota: "Copies in the main deck, by the roles read from the cards' text; a card can count in more than one row.",
     hOtim: 'Optimize the sideboard', otimIntro: 'Swaps main-deck cards for the sideboard cards with the most targets in the opposing deck.',
     otimizar: 'Optimize {n}', desfazerOtim: '↺ Undo {n} optimization', desfazerTit: 'Puts {n} back to the original list', desfeito: '{n} optimization undone: original list restored', otimContra: 'Optimize against…', contraTrocar: 'Change opponent', contraLinha: 'Optimized against', contraTirar: 'Back to the original list', contraConfronto: 'See the full matchup', contraTit: 'Optimize {d} against:', esteDeck: 'this deck', copiarOtim: 'Copy optimized list', copiarOrig: 'Copy original list', difOrigM: 'original', difOtimM: 'optimized', difOrig: 'Original', difOtim: 'Optimized', difMain: 'Main deck ({n})', difSide: 'Sideboard ({n})', difEntra: 'goes into the main deck', difSai: 'leaves the main deck', difContra: 'against {o}', difAria: 'Show the list', otimTit: '{n} against {o}:', otimEntram: 'In', otimSaem: 'Out',
@@ -1153,7 +1157,7 @@ function pintarPainel(deck, prefixo) {
 // Deck otimizado: original e otimizada, com as cartas trocadas destacadas (+N entra no deck principal, −N sai), nas duas listas.
 // Estado do seletor Original | Otimizada de cada painel: ver = "otim" | "orig" (no celular é a lista que aparece; no
 // computador fica marcada); rot() atualiza o rótulo do "Criar no endstep.cc" daquele painel.
-var estPainel = { ver: "otim", rot: function () { rotEndstep(true); } };
+var estPainel = { ver: "otim", rot: function () { rotEndstep(true); pintarStats(deckAtualObj()); } }; // o seletor também refaz as estatísticas abaixo da lista (v151)
 function rotCriar(ver) { return t("criar") + " (" + t(ver === "orig" ? "difOrigM" : "difOtimM") + ")"; }
 function rotEndstep(otim) { $("btnEndstep").textContent = otim ? rotCriar(estPainel.ver) : t("criar"); }
 // extra: botão posto ao lado do "Copiar lista" (ex. "Ocultar lista" no Comparar decks)
@@ -2068,21 +2072,35 @@ var FUNC_LINHAS = [
   ["fVoo", ["voo"]], ["fRem", ["x-cri", "x-hex", "x-t1", "x-t2"]], ["fComb", ["x-comb"]], ["fDano", ["dano"]],
   ["fArt", ["x-art", "x-enc", "x-aura"]], ["fCem", ["cem"]], ["fOdio", ["x-cem"]], ["fProt", ["x-dano"]]
 ];
+// Números do deck principal de uma lista (mesma regra do montar() do build_pauper.py): criaturas, instantâneas e feitiços, outras mágicas,
+// terrenos, valor de mana médio e curva (0–5 e 6+, sem terrenos). Serve para a lista original e para a otimizada.
+function statsDe(lista) {
+  var st = { cri: 0, mag: 0, out: 0, ter: 0, curva: [0, 0, 0, 0, 0, 0, 0] }, soma = 0, n = 0;
+  blocosDe(lista).main.forEach(function (c) {
+    var a = ATRIB[c[1]]; if (!a) return;
+    if (a[1] === 0) { st.ter += c[0]; return; }
+    st[a[1] === 1 ? "cri" : a[1] === 2 ? "mag" : "out"] += c[0]; soma += c[0] * a[0]; n += c[0]; st.curva[Math.min(6, Math.floor(a[0]))] += c[0];
+  });
+  var x = n ? soma / n : 0, y = x * 100; // arredonda como o round() do Python: toFixed, e empate exato (ex. 1,625) para o par (1,62)
+  st.mv = Number.isInteger(x * 8) && y % 1 === 0.5 ? (Math.floor(y) % 2 === 0 ? Math.floor(y) : Math.ceil(y)) / 100 : +x.toFixed(2);
+  return st;
+}
 // Estatísticas do deck selecionado, abaixo da lista (pedido do usuário, 02/11/2026): a tabela do Comparar decks de um lado só,
 // a forma de vitória da variação (col.vence, do build_pauper.py) e a contagem por função. "Outras" não tem forma de vitória.
-// Com a lista otimizada na tela, as estatísticas continuam as do deck selecionado (a lista original).
+// Com o deck otimizado, os números e a contagem seguem o seletor Original | Otimizada (v151; participação e forma de vitória são do deck).
 function pintarStats(d) {
   var box = $("statsDeck"); box.innerHTML = "";
   if (!d || !d.st) { box.hidden = true; return; }
+  var oc = deckContra(), lista = oc ? (estPainel.ver === "orig" ? oc._orig.lista : oc.lista) : d.lista, st = oc ? statsDe(lista) : d.st;
   var fmt = function (x) { return String(x).replace(".", IDIOMA === "pt" ? "," : "."); };
   var ord = function (k) { return IDIOMA === "pt" ? k + "º" : "#" + k; };
   // 1. estatísticas
-  var s1 = el("section"); s1.appendChild(el("h3", "", t("hEstat")));
+  var s1 = el("section"); s1.appendChild(el("h3", "", t("hEstat") + (oc ? " · " + t(estPainel.ver === "orig" ? "difOrig" : "difOtim") : "")));
   var tb = el("table", "comp comp1"), tbd = el("tbody");
   function linha(rot, v) { var r = el("tr"); r.appendChild(el("th", "", rot)); r.appendChild(el("td", "", v)); tbd.appendChild(r); }
   linha(t("cMeta"), pct(d.pct) + (d.pos ? " · " + ord(d.pos) : ""));
-  linha(t("cMv"), fmt(d.st.mv)); linha(t("cCri"), d.st.cri); linha(t("cMag"), d.st.mag); linha(t("cOut"), d.st.out); linha(t("cTer"), d.st.ter);
-  var rc = el("tr"), tdc = el("td", "curva-c"); curvaEm(tdc, d); rc.appendChild(el("th", "", t("cCurva"))); rc.appendChild(tdc); tbd.appendChild(rc);
+  linha(t("cMv"), fmt(st.mv)); linha(t("cCri"), st.cri); linha(t("cMag"), st.mag); linha(t("cOut"), st.out); linha(t("cTer"), st.ter);
+  var rc = el("tr"), tdc = el("td", "curva-c"); curvaEm(tdc, { st: st }); rc.appendChild(el("th", "", t("cCurva"))); rc.appendChild(tdc); tbd.appendChild(rc);
   tb.appendChild(tbd); s1.appendChild(tb); box.appendChild(s1);
   // 2. forma de vitória (só variações; "Outras" não tem)
   var v = d._col && d._col.vence;
@@ -2093,7 +2111,7 @@ function pintarStats(d) {
     s2.appendChild(el("p", "", tx)); s2.appendChild(el("p", "mut", t("venceNota"))); box.appendChild(s2);
   }
   // 3. contagem por função no deck principal
-  var main = blocosDe(d.lista).main, linhas = [];
+  var main = blocosDe(lista).main, linhas = [];
   FUNC_LINHAS.forEach(function (fl) {
     var n = 0; main.forEach(function (c) { var f = fun(c[1]); if (fl[1].some(function (k) { return f[k]; })) n += c[0]; });
     if (n) linhas.push([t(fl[0]), n]);
@@ -2104,6 +2122,9 @@ function pintarStats(d) {
     linhas.forEach(function (x) { var r = el("tr"); r.appendChild(el("th", "", x[0])); r.appendChild(el("td", "", x[1])); b3.appendChild(r); });
     t3.appendChild(b3); s3.appendChild(t3); s3.appendChild(el("p", "mut", t("funcNota"))); box.appendChild(s3);
   }
+  var bt = el("button", "ghost voltar-topo", t("voltarTopo")); bt.type = "button";
+  bt.onclick = function () { window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" }); };
+  box.appendChild(bt);
   box.hidden = false;
 }
 // Quadro abaixo dos cartões: histórico do confronto, comparativo e chance de encontro.

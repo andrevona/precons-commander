@@ -170,6 +170,12 @@ if FUNCOES and _sem_fu:
     raise SystemExit("ERRO: cartas sem funções em pauper/funcoes.json (rodar tools/pauper_funcoes.py): %s" % _sem_fu)
 # Desde a v146 vão TODAS as cartas de funcoes.json (não só as das listas exibidas): a "Minha lista" lê qualquer carta das listas dos 30 dias.
 funcoes = {n: FUNCOES[n] for n in sorted(FUNCOES)}
+# Valor de mana e categoria de cada carta (0 terreno, 1 criatura, 2 instantânea/feitiço, 3 outra), a mesma regra do montar():
+# o site recalcula as estatísticas da lista otimizada (v151).
+atrib = {}
+for n, c in cartas.items():
+    k = 0 if "Land" in c["tipo"] else 1 if "Creature" in c["tipo"] else 2 if c["tipo"].split()[-1] in ("Instant", "Sorcery") else 3
+    atrib[n] = [float(c["mv"] or 0), k]
 livres = {n: 1 for n, r in cartas.items() if r.get("livre") == "1"}  # podem ter mais de 4 cópias (básicos e afins)
 
 # Núcleo e forma de vitória de cada variação (v148, 02/11/2026; caso do usuário: Poison Storm otimizado tirava Snap e Prologue to
@@ -212,6 +218,7 @@ if _fora_v: print("AVISO: VENCE com variações que não existem mais (conferir 
 
 html = (open("template_pauper.html", encoding="utf-8").read()
         .replace("__LIVRES__", json.dumps(livres, ensure_ascii=False, sort_keys=True, separators=(",", ":")))
+        .replace("__ATRIB__", json.dumps(atrib, ensure_ascii=False, sort_keys=True, separators=(",", ":")).replace("</", "<\\/"))
         .replace("__FUNCOES__", json.dumps(funcoes, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/"))
         .replace("__CONFRONTOS__", json.dumps(confrontos, ensure_ascii=False, sort_keys=True, separators=(",", ":")) if confrontos else "null")
         .replace("__TIPOS__", json.dumps(TIPOS, ensure_ascii=False))
