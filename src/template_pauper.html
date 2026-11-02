@@ -230,6 +230,29 @@
   .otim-lista { list-style:none; margin:0; padding:0; font-size:14px; }
   .otim-lista li { display:flex; flex-wrap:wrap; gap:0 8px; padding:2px 0; }
   .otim-n { font-weight:600; }
+  /* Minha lista (guia de sideboard da lista do usuário, v146) */
+  #minha[hidden] { display:none; }
+  body.modo-minha #grupos, body.modo-minha #caixaBusca, body.modo-minha .sorte-grupo, body.modo-minha #contagem, body.modo-minha #conteudo { display:none !important; }
+  .minha-btn { padding-right:12px; } .minha-btn::after { content:none; } .minha-btn svg { width:16px; height:16px; flex:none; }
+  .minha-rot { display:block; font-size:13px; color:var(--mut); margin:0 0 6px; }
+  #minhaTxt { display:block; width:100%; box-sizing:border-box; min-height:220px; resize:vertical; font:13px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color:var(--fg); background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:8px 10px; }
+  #minhaTxt:focus { outline:2px solid var(--acc); outline-offset:-1px; }
+  .minha-cx .acoes { margin:10px 0 0; }
+  .minha-erro { color:var(--warn); }
+  .gd { border:1px solid var(--line); border-radius:10px; margin:6px 0; background:var(--bg); }
+  .gd > summary { list-style:none; cursor:pointer; padding:8px 30px 8px 10px; position:relative; display:flex; flex-wrap:wrap; align-items:center; gap:2px 10px; font-size:14px; }
+  .gd > summary::-webkit-details-marker { display:none; }
+  .gd > summary::after { content:"▾"; position:absolute; right:11px; top:50%; transform:translateY(-50%); color:var(--mut); font-size:12px; }
+  .gd[open] > summary::after { content:"▴"; }
+  .gd[open] > summary { border-bottom:1px solid var(--line); }
+  .gd-nome { display:inline-flex; align-items:center; gap:6px; flex-wrap:wrap; min-width:0; }
+  .gd-nome .simbolos img { width:14px; height:14px; }
+  .gd-pct, .gd-meta { color:var(--mut); font-size:12.5px; }
+  .gd-meta { margin-left:auto; display:inline-flex; gap:8px; white-space:nowrap; }
+  .gd-n { color:var(--acc); font-weight:600; } .gd-n.zero { color:var(--mut); font-weight:400; }
+  .gd-corpo { padding:2px 10px 10px; }
+  .gd-acoes { margin:10px 0 0; }
+  .gd-todas { margin-top:8px; }
   .otim-mot { color:var(--mut); font-size:12.5px; align-self:center; flex:1 1 0; min-width:0; }
   .otim-gr { display:flex; align-items:stretch; gap:8px; padding:3px 0; }
   .otim-gr .otim-lista { flex:0 0 auto; max-width:68%; }
@@ -459,6 +482,7 @@
 
   <div class="filtros" id="filtros" hidden>
         <span class="sorte-grupo"><button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="8" height="12" rx="1.6"/><rect x="14" y="8" width="8" height="12" rx="1.6"/><path d="M11.5 19.5h-5l1.6-1.6"/><path d="M12.5 4.5h5l-1.6 1.6"/></svg><span data-t="surpresa">Comparar decks</span></button></span>
+        <span class="sorte-grupo minha-grupo"><button type="button" class="cor-btn minha-btn" id="btnMinha" data-ta="minhaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 10h6M9 14h6M9 18h3"/></svg><span data-t="minhaBtn">Minha lista</span></button></span>
     <button type="button" class="limpar-tudo" id="btnLimparTudo" data-ta="limparTudoDica" hidden><span aria-hidden="true">↺</span> <span data-t="limparTudo">Limpar tudo</span></button>
   </div>
   <div class="busca" id="caixaBusca">
@@ -495,6 +519,14 @@
     <button class="ghost" id="btnCopiar" data-t="copiar">Copiar lista</button>
     <div class="dif" id="difLista" hidden></div>
   </div>
+  </div>
+  <div id="minha" hidden>
+    <div class="panel minha-cx">
+      <label class="minha-rot" for="minhaTxt" data-t="minhaRot"></label>
+      <textarea id="minhaTxt" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" data-tp="minhaPh"></textarea>
+      <div class="row acoes"><button type="button" class="go" id="btnGerar" data-t="minhaGerar">Gerar guia</button><button type="button" class="ghost" id="btnMinhaApagar" data-t="minhaApagar">Apagar</button></div>
+    </div>
+    <div id="minhaRes"></div>
   </div>
   <footer id="rodape"></footer>
   <div class="versao" id="versao">__VERSAO__</div>
@@ -543,6 +575,7 @@ function prepararDeck(d, col) { // lista de "Outras": % da família inteira e se
 COLECOES.forEach(function (c) { COL_POR_ID[c.id] = c; c.decks.forEach(function (d) { prepararDeck(d, c); }); });
 var CONSENSOS = COLECOES.filter(function (c) { return !c.outras; }).map(function (c) { return c.decks[0]; }).sort(function (a, b) { return a.pos - b.pos; });
 function decksUnicos() { return CONSENSOS; } // um por variação (o consenso), da mais jogada para a menos
+var LIVRES = __LIVRES__; // cartas que podem ter mais de 4 cópias (cartas.csv, coluna livre)
 var FUNCOES = __FUNCOES__; // funções de cada carta (tools/pauper_funcoes.py), usadas pelo Otimizar
 var TIPOS = __TIPOS__; // tipos das cartas (en/pt); deck.tp tem uma letra por carta da lista, na ordem, apontando para cá (ver build.py)
 var ATUALIZADO = META.data; // data (AAAA-MM-DD) em que as listas foram baixadas do MTGGoldfish
@@ -552,7 +585,7 @@ var ATUALIZADO = META.data; // data (AAAA-MM-DD) em que as listas foram baixadas
 var TXT = {
   pt: {
     titulo: 'Decks de Pauper',
-    sub: 'Os arquétipos do Pauper nos últimos 30 dias, do mais ao menos jogado, com o consenso de cada variação e 2 listas reais de torneios. Use a busca ou compare dois decks.',
+    sub: 'Os arquétipos do Pauper nos últimos 30 dias, do mais ao menos jogado, com o consenso de cada variação e 2 listas reais de torneios. Use a busca, compare dois decks ou cole a sua lista.',
     busca: 'Carta, arquétipo ou variação…', apagar: 'Apagar busca', grupoCores: 'Variações',
     outrasVar: 'Outras', outrosArq: 'Mostrar os outros arquétipos', consenso: 'Consenso', nListas: '{n} listas', kDeN: '{k} de {n} listas', nLista: '1 lista', mostrarMais: 'Mostrar mais ({n})',
     carregando: 'Carregando as listas…', falhaCarregar: 'Não consegui carregar as listas agora. Toque no arquétipo para tentar de novo.',
@@ -577,7 +610,7 @@ var TXT = {
     confrFonte: 'Fonte: {f}, {p}. Com menos de 20 partidas o número é pouco confiável.',
     semConfr: 'Não há dados suficientes deste confronto.', semConfrFonte: 'O histórico de confrontos ainda não foi carregado nesta página.',
     encontro: '{b} é {p}% das listas: num torneio, quem joga {a} enfrenta {b} em cerca de 1 a cada {k} partidas.',
-    rodExtra: '<li><b>Arquétipos</b> do mais ao menos jogado; cada um tem <b>variações</b>, com a lista de <b>Consenso</b> e 2 listas reais de torneios.</li><li><b>Comparar decks</b>: histórico do confronto entre dois decks.</li><li><b>Otimizar</b>: troca cartas do principal pelas do sideboard conforme o adversário.</li>',
+    rodExtra: '<li><b>Arquétipos</b> do mais ao menos jogado; cada um tem <b>variações</b>, com a lista de <b>Consenso</b> e 2 listas reais de torneios.</li><li><b>Comparar decks</b>: histórico do confronto entre dois decks.</li><li><b>Otimizar</b>: troca cartas do principal pelas do sideboard conforme o adversário.</li><li><b>Minha lista</b>: cole o seu deck e veja o que trocar contra cada variação.</li>',
     cMeta: 'Metagame', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
     hOtim: 'Otimizar o sideboard', otimIntro: 'Troca cartas do principal pelas do sideboard que mais têm alvo no deck adversário.',
     otimizar: 'Otimizar o {n}', desfazerOtim: '↺ Desfazer otimização do {n}', desfazerTit: 'Volta o {n} à lista original', desfeito: 'Otimização do {n} desfeita: lista original de volta', otimContra: 'Otimizar contra…', contraTrocar: 'Trocar adversário', contraLinha: 'Otimizado contra', contraTirar: 'Voltar à lista original', contraConfronto: 'Ver o confronto completo', contraTit: 'Otimizar {d} contra:', esteDeck: 'este deck', copiarOtim: 'Copiar lista otimizada', copiarOrig: 'Copiar lista original', difOrigM: 'original', difOtimM: 'otimizada', difOrig: 'Original', difOtim: 'Otimizada', difMain: 'Deck principal ({n})', difSide: 'Sideboard ({n})', difEntra: 'entra no deck principal', difSai: 'sai do deck principal', difContra: 'contra {o}', difAria: 'Ver a lista', otimTit: '{n} contra o {o}:', otimEntram: 'Entram', otimSaem: 'Saem',
@@ -613,11 +646,30 @@ var TXT = {
     tCol: 'variação', tDeck: 'variação', tCmd: 'deck', tCarta: 'carta',
     filtroCor: 'Filtrar os decks pelas cores que usam', todasCores: 'Por cor', tirarCor: 'Tirar o filtro de cores',
     cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'WUBRG',
+    minhaBtn: 'Minha lista', minhaDica: 'Cole a sua lista e veja um guia de sideboard contra cada variação',
+    minhaSub: 'Cole o seu deck (principal e sideboard) e veja o que trocar contra cada variação do metagame.',
+    minhaRot: 'Sua lista: principal, uma linha em branco (ou “Sideboard”) e o sideboard. Nomes em inglês ou português.',
+    minhaPh: '4 Lightning Bolt\n4 Kessig Flamebreather\n…\n\nSideboard\n3 Pyroblast\n…', minhaGerar: 'Gerar guia', minhaApagar: 'Apagar',
+    mhLista: 'Sua lista', mhGuia: 'Guia de sideboard', mTotais: '{m} cartas no principal e {s} no sideboard.',
+    mVazia: 'Nenhuma carta reconhecida. Use uma linha por carta, com a quantidade na frente (ex. 4 Lightning Bolt).',
+    mMin: 'O principal tem {n} cartas (mínimo 60).', mSide: 'O sideboard tem {n} cartas (máximo 15).',
+    mSemSide: 'Sem sideboard não há o que trocar: inclua o sideboard depois de uma linha em branco.',
+    mCopias: 'Mais de 4 cópias: {c}.', mBanidas: 'Banida no Pauper: {c}.',
+    mDesc: 'O site não conhece estas cartas (fora das listas dos últimos 30 dias); elas ficam na lista, mas fora das trocas: {c}.',
+    mIgn: 'Linhas ignoradas: {c}.',
+    mParecida: 'Mais parecida com <b>{v}</b> ({p} das cartas do principal); o histórico é o desse arquétipo.',
+    mLonge: 'Nenhuma variação parecida (a mais próxima é {v}, com {p} das cartas do principal); sem histórico de confrontos.',
+    mIntro: 'Toque numa variação para ver o que entra e o que sai.',
+    mTrocas1: '1 troca', mTrocasN: '{n} trocas', mTrocas0: 'sem trocas', mHist: 'hist. {p}', mEspelho: 'espelho',
+    mHistTit: 'Histórico do confronto entre os arquétipos (DeckSnipe): {v} vitórias em {n} partidas',
+    mNada: 'Nenhuma troca vale a pena neste confronto.', mTodas: 'Mostrar todas as variações ({n})',
+    mNota: 'Sugestão calculada pelas funções das cartas (texto Oracle) contra o consenso de cada variação; confira antes de jogar.',
+    mNome: 'Minha lista',
     limparTudo: 'Limpar tudo', limparTudoDica: 'Volta à tela inicial: limpa a busca e recolhe tudo'
   },
   en: {
     titulo: 'Pauper decks',
-    sub: 'The Pauper archetypes of the last 30 days, from most to least played, with each variation\'s consensus and 2 real tournament lists. Use the search or compare two decks.',
+    sub: 'The Pauper archetypes of the last 30 days, from most to least played, with each variation\'s consensus and 2 real tournament lists. Use the search, compare two decks or paste your list.',
     busca: 'Card, archetype or variation…', apagar: 'Clear search', grupoCores: 'Variations',
     outrasVar: 'Others', outrosArq: 'Show the other archetypes', consenso: 'Consensus', nListas: '{n} lists', kDeN: '{k} of {n} lists', nLista: '1 list', mostrarMais: 'Show more ({n})',
     carregando: 'Loading the lists…', falhaCarregar: 'Could not load the lists now. Tap the archetype to try again.',
@@ -642,7 +694,7 @@ var TXT = {
     confrFonte: 'Source: {f}, {p}. With fewer than 20 matches the number is not very reliable.',
     semConfr: 'There is not enough data on this matchup.', semConfrFonte: 'The matchup history has not been loaded on this page yet.',
     encontro: '{b} is {p}% of the lists: in a tournament, a {a} player faces {b} in about 1 of every {k} matches.',
-    rodExtra: '<li><b>Archetypes</b> from most to least played; each has <b>variations</b>, with a <b>Consensus</b> list and 2 real tournament lists.</li><li><b>Compare decks</b>: matchup history between two decks.</li><li><b>Optimize</b>: swaps main-deck cards for sideboard cards based on the opponent.</li>',
+    rodExtra: '<li><b>Archetypes</b> from most to least played; each has <b>variations</b>, with a <b>Consensus</b> list and 2 real tournament lists.</li><li><b>Compare decks</b>: matchup history between two decks.</li><li><b>Optimize</b>: swaps main-deck cards for sideboard cards based on the opponent.</li><li><b>My list</b>: paste your deck and see what to swap against each variation.</li>',
     cMeta: 'Metagame', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
     hOtim: 'Optimize the sideboard', otimIntro: 'Swaps main-deck cards for the sideboard cards with the most targets in the opposing deck.',
     otimizar: 'Optimize {n}', desfazerOtim: '↺ Undo {n} optimization', desfazerTit: 'Puts {n} back to the original list', desfeito: '{n} optimization undone: original list restored', otimContra: 'Optimize against…', contraTrocar: 'Change opponent', contraLinha: 'Optimized against', contraTirar: 'Back to the original list', contraConfronto: 'See the full matchup', contraTit: 'Optimize {d} against:', esteDeck: 'this deck', copiarOtim: 'Copy optimized list', copiarOrig: 'Copy original list', difOrigM: 'original', difOtimM: 'optimized', difOrig: 'Original', difOtim: 'Optimized', difMain: 'Main deck ({n})', difSide: 'Sideboard ({n})', difEntra: 'goes into the main deck', difSai: 'leaves the main deck', difContra: 'against {o}', difAria: 'Show the list', otimTit: '{n} against {o}:', otimEntram: 'In', otimSaem: 'Out',
@@ -678,6 +730,25 @@ var TXT = {
     tCol: 'variation', tDeck: 'variation', tCmd: 'deck', tCarta: 'card',
     filtroCor: 'Filter decks by the colors they use', todasCores: 'By color', tirarCor: 'Clear the color filter',
     cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'WUBRG',
+    minhaBtn: 'My list', minhaDica: 'Paste your list and get a sideboard guide against each variation',
+    minhaSub: 'Paste your deck (main deck and sideboard) and see what to swap against each variation of the metagame.',
+    minhaRot: 'Your list: main deck, a blank line (or “Sideboard”) and the sideboard. Names in English or Portuguese.',
+    minhaPh: '4 Lightning Bolt\n4 Kessig Flamebreather\n…\n\nSideboard\n3 Pyroblast\n…', minhaGerar: 'Build guide', minhaApagar: 'Clear',
+    mhLista: 'Your list', mhGuia: 'Sideboard guide', mTotais: '{m} main-deck cards and {s} in the sideboard.',
+    mVazia: 'No card recognized. Use one line per card, with the quantity first (e.g. 4 Lightning Bolt).',
+    mMin: 'The main deck has {n} cards (minimum 60).', mSide: 'The sideboard has {n} cards (maximum 15).',
+    mSemSide: 'Without a sideboard there is nothing to swap: add the sideboard after a blank line.',
+    mCopias: 'More than 4 copies: {c}.', mBanidas: 'Banned in Pauper: {c}.',
+    mDesc: 'The site does not know these cards (not in the lists of the last 30 days); they stay in the list, but out of the swaps: {c}.',
+    mIgn: 'Ignored lines: {c}.',
+    mParecida: 'Closest to <b>{v}</b> ({p} of the main-deck cards); the history is that archetype\'s.',
+    mLonge: 'No similar variation (the closest is {v}, with {p} of the main-deck cards); no matchup history.',
+    mIntro: 'Tap a variation to see what comes in and what goes out.',
+    mTrocas1: '1 swap', mTrocasN: '{n} swaps', mTrocas0: 'no swaps', mHist: 'hist. {p}', mEspelho: 'mirror',
+    mHistTit: 'Matchup history between the archetypes (DeckSnipe): {v} wins in {n} games',
+    mNada: 'No swap is worth it in this matchup.', mTodas: 'Show all variations ({n})',
+    mNota: 'Suggestion computed from the card roles (Oracle text) against each variation\'s consensus; check before playing.',
+    mNome: 'My list',
     limparTudo: 'Clear all', limparTudoDica: 'Back to the start: clears the search and collapses everything'
   }
 };
@@ -881,10 +952,11 @@ function abrirId(id) {
 }
 
 function desenhar() {
-  var sb = $("sub"), sm = mesa ? "mesaToque" : "sub"; // na tela do sorteio, o subtítulo vira a dica "Toque num jogador…"
+  var sb = $("sub"), sm = mesa ? "mesaToque" : minha ? "minhaSub" : "sub"; // na tela do sorteio, o subtítulo vira a dica "Toque num jogador…"
   if (sb.getAttribute("data-t") !== sm) { sb.setAttribute("data-t", sm); sb.innerHTML = t(sm); }
   if (mesa) { desenharMesa(); return; } // sorteio em grupo: tela própria (ver "Sorteio em grupo")
-  document.body.classList.remove("modo-mesa"); $("painel").hidden = false;
+  if (minha) { desenharMinha(); return; } // Minha lista: tela própria
+  document.body.classList.remove("modo-mesa"); document.body.classList.remove("modo-minha"); $("minha").hidden = true; $("painel").hidden = false;
   $("conteudo").hidden = !aberto;
   $("btnLimparTudo").hidden = !(aberto || buscando()); // só fora da tela inicial
   var vis = [];
@@ -1552,6 +1624,7 @@ function zerarBuscaEFiltros() {
 $("btnLimparTudo").onclick = function () {
   if (animando) return;
   contra = null; // o "Otimizar contra" também é limpo
+  if (minha) { sairMinha(); return; }
   if (mesa) { sairMesa(); return; }
   zerarBuscaEFiltros(); recolhido = false; gruposRec = false; grpAtual = GRUPOS[0]; colAtual = 0; deckAtual = 0; ultimaSorte = null;
   if (aberto) fecharConteudo(); else desenhar();
@@ -1902,7 +1975,7 @@ function confronto(a, b) {
   return x ? [x[1], x[0], x[2]] : null;
 }
 function desenharMesa() {
-  document.body.classList.add("modo-mesa");
+  document.body.classList.add("modo-mesa"); document.body.classList.remove("modo-minha"); $("minha").hidden = true;
   aberto = true; $("conteudo").hidden = false; $("btnLimparTudo").hidden = false; $("contagem").textContent = "";
   var m = $("mesa"); m.innerHTML = "";
   var cab = el("div", "mesa-cab"), tit = el("div", "sec"), tx = el("span");
@@ -2111,6 +2184,7 @@ function calcOtim(minha, dele) {
   // cópias do sideboard que podem entrar
   var ent = [];
   eu.side.forEach(function (c) {
+    if (!FUNCOES[c[1]]) return; // carta que o site não conhece (Minha lista): fora das trocas
     var f = fun(c[1]), r = valorResp(f, p), v = r[0], mot = r[1] ? "dim:" + r[1] : null;
     if (!r[1] && f.plano && f.cri && controle && !f.t1) { v = 0.75; mot = "ameaca"; } // ameaça de side contra controle
     if (r[1] && f.dano && meu.dano >= 20) v += 0.15; // resposta que também dá dano, num deck agressivo (ex. Smash to Smithereens)
@@ -2119,6 +2193,7 @@ function calcOtim(minha, dele) {
   // cópias do principal que podem sair (terrenos nunca)
   var sai = [];
   eu.main.forEach(function (c) {
+    if (!FUNCOES[c[1]]) return; // carta que o site não conhece (Minha lista): não sai sem saber o que faz
     var f = fun(c[1]); if (f.ter || BASICOS.indexOf(c[1]) >= 0) return;
     var base = BASE + 0.05 * Math.min(4, c[0]), r = valorResp(f, p), v = f.plano ? Math.max(base, r[0]) : r[0], mot = f.plano ? "fraca" : (r[1] && r[0] > 0 ? "pouco:" + r[1] : "semAlvo");
     if (f.plano && f.t1 && f.cri && (p.varr || 0) >= 3) v -= 0.1; // morre para as varreduras do adversário
@@ -2211,11 +2286,180 @@ function compartilharMesa() {
   } else copia();
 }
 
+// Minha lista (v146, etapa 1 do guia de sideboard): o usuário cola principal + sideboard; o site valida (60+, até 15, até 4
+// cópias, banidas), acha a variação mais parecida e roda o Otimizar contra o consenso de cada variação. Nomes em inglês ou
+// português (nomes_pt.json); carta fora de FUNCOES (fora das listas dos últimos 30 dias) fica na lista, mas fora das trocas.
+var minha = null, CHAVE_MINHA = "precons-pauper-minha", MINHA_TOPO = 12, PARECIDA = 0.5;
+function novaMinha() { return { res: null, todos: false, lido: false }; }
+var PT_TODOS = null, ptTodosEst = 0, ptTodosCb = [], IDX_NOMES = null;
+function carregarPtTodos(cb) { // nomes em português de todas as cartas (para ler listas em português), com ou sem português no navegador
+  if (cb) ptTodosCb.push(cb);
+  if (ptTodosEst === 1) return;
+  function fim() { var l = ptTodosCb; ptTodosCb = []; l.forEach(function (f) { f(); }); }
+  if (PT_TODOS || ptTodosEst === -1 || !window.fetch) { fim(); return; }
+  ptTodosEst = 1;
+  fetch("nomes_pt.json").then(function (r) { if (!r.ok) throw 0; return r.json(); })
+    .then(function (o) { PT_TODOS = o; IDX_NOMES = null; ptTodosEst = 2; fim(); })
+    .catch(function () { ptTodosEst = -1; fim(); }); // sem os nomes em português, continua só com os nomes em inglês
+}
+function nzNome(x) { return nz(x.replace(/[’‘`´]/g, "'")).replace(/\s+/g, " ").trim(); }
+function indiceNomes() { // nome normalizado (inglês, 1ª face, português) -> nome da carta como nas listas
+  if (IDX_NOMES) return IDX_NOMES;
+  var m = {}, todos = Object.keys(FUNCOES).concat(BASICOS);
+  function pos(k, n) { k = nzNome(k); if (k && !(k in m)) m[k] = n; }
+  todos.forEach(function (n) { pos(n, n); });
+  BANIDAS.forEach(function (b) { pos(b[0], b[0]); });
+  todos.forEach(function (n) { if (n.indexOf(" // ") > 0) pos(n.split(" // ")[0], n); });
+  if (PT_TODOS) Object.keys(PT_TODOS).forEach(function (n) { var x = PT_TODOS[n]; pos(x, n); if (x.indexOf(" // ") > 0) pos(x.split(" // ")[0], n); });
+  BANIDAS.forEach(function (b) { if (b[1]) pos(b[1], b[0]); });
+  return (IDX_NOMES = m);
+}
+function analisarMinha(txt) {
+  var linhas = txt.replace(/\r/g, "").split("\n"), cab = /^(sideboard|reserva)\s*:?$/i;
+  var temCab = linhas.some(function (l) { return cab.test(l.trim()); }), bl = [[], []], ign = [], lado = 0;
+  linhas.forEach(function (l0) {
+    var l = l0.trim();
+    if (!l) { if (!temCab && bl[0].length) lado = 1; return; } // sem "Sideboard", a 1ª linha em branco depois do principal separa
+    if (cab.test(l)) { lado = 1; return; }
+    if (/^(deck|main ?deck|main|principal|about|companion)\s*:?$/i.test(l) || /^name\s/i.test(l)) return; // cabeçalhos (MTG Arena, endstep.cc)
+    var sb = /^sb:\s*/i.test(l); if (sb) l = l.replace(/^sb:\s*/i, ""); // "SB: 2 Carta" (MTGO)
+    var m = /^(\d+)\s*x?\s+(.+)$/i.exec(l);
+    if (!m || +m[1] < 1) { ign.push(l); return; }
+    var nome = m[2].replace(/\s+\*[^*]+\*\s*$/, "").replace(/\s+\([A-Za-z0-9]{2,6}\)(\s+\S+)?\s*$/, "").trim(); // tira "(SET) 123" e "*F*"
+    bl[sb ? 1 : lado].push([+m[1], nome]);
+  });
+  var idx = indiceNomes(), ban = {}, desc = [], qtd = {}, r = { erros: [], avisos: [] };
+  BANIDAS.forEach(function (b) { ban[b[0]] = 1; });
+  var blocos = bl.map(function (b) {
+    var mp = {}, ord = [];
+    b.forEach(function (c) {
+      var n = idx[nzNome(c[1])] || c[1];
+      if (!mp[n]) { mp[n] = 0; ord.push(n); }
+      mp[n] += c[0]; qtd[n] = (qtd[n] || 0) + c[0];
+      if (!FUNCOES[n] && BASICOS.indexOf(n) < 0 && !ban[n] && desc.indexOf(n) < 0) desc.push(n);
+    });
+    return ord.sort().map(function (n) { return [mp[n], n]; });
+  });
+  var soma = function (b) { return b.reduce(function (a, c) { return a + c[0]; }, 0); }, linha = function (c) { return c[0] + " " + c[1]; };
+  r.m = soma(blocos[0]); r.s = soma(blocos[1]);
+  if (!r.m) { r.erros.push(t("mVazia")); return r; }
+  if (r.m < 60) r.erros.push(t("mMin", { n: r.m }));
+  if (r.s > 15) r.erros.push(t("mSide", { n: r.s }));
+  if (!r.s) r.erros.push(t("mSemSide"));
+  var cop = Object.keys(qtd).filter(function (n) { return qtd[n] > 4 && BASICOS.indexOf(n) < 0 && !LIVRES[n]; });
+  if (cop.length) r.erros.push(t("mCopias", { c: cop.map(function (n) { return n + " (" + qtd[n] + ")"; }).join(", ") }));
+  var bn = Object.keys(qtd).filter(function (n) { return ban[n]; });
+  if (bn.length) r.erros.push(t("mBanidas", { c: bn.join(", ") }));
+  if (desc.length) r.avisos.push(t("mDesc", { c: desc.join(", ") }));
+  if (ign.length) r.avisos.push(t("mIgn", { c: ign.slice(0, 5).join(" · ") + (ign.length > 5 ? " …" : "") }));
+  r.lista = blocos[0].map(linha).join("\n") + "\n\n" + blocos[1].map(linha).join("\n");
+  r.par = parecida(blocos[0]);
+  return r;
+}
+// Variação cujo consenso mais se parece com o principal colado: soma das cópias em comum / cópias do principal (sem básicos)
+function parecida(main) {
+  var meu = {}, tot = 0, best = null, bs = -1;
+  main.forEach(function (c) { if (BASICOS.indexOf(c[1]) < 0) { meu[c[1]] = c[0]; tot += c[0]; } });
+  if (!tot) return null;
+  CONSENSOS.forEach(function (d) {
+    var s = 0; (d._main || (d._main = blocosDe(d.lista).main)).forEach(function (c) { if (meu[c[1]]) s += Math.min(meu[c[1]], c[0]); });
+    if (s > bs) { bs = s; best = d; }
+  });
+  return { d: best, p: bs / tot };
+}
+function abrirMinha() {
+  mesa = null; contra = null; zerarBuscaEFiltros(); minha = novaMinha();
+  try { history.pushState(null, "", "#minha"); } catch (e) {}
+  carregarPtTodos(); desenhar(); window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
+}
+function sairMinha() {
+  minha = null; document.body.classList.remove("modo-minha"); $("minha").hidden = true;
+  zerarBuscaEFiltros(); recolhido = false; gruposRec = false; grpAtual = GRUPOS[0]; colAtual = 0; deckAtual = 0; aberto = false;
+  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+  desenhar(); window.scrollTo({ top: 0, behavior: semAnim() ? "auto" : "smooth" });
+}
+function desenharMinha() {
+  document.body.classList.remove("modo-mesa"); document.body.classList.add("modo-minha");
+  $("minha").hidden = false; $("btnLimparTudo").hidden = false; $("contagem").textContent = ""; $("escolha").hidden = true;
+  var ta = $("minhaTxt");
+  if (!minha.lido) { minha.lido = true; if (!ta.value) { try { ta.value = localStorage.getItem(CHAVE_MINHA) || ""; } catch (e) {} } } // a última lista colada, só neste aparelho
+  pintarMinha();
+}
+function gerarMinha() {
+  var txt = $("minhaTxt").value, b = $("btnGerar");
+  try { localStorage.setItem(CHAVE_MINHA, txt); } catch (e) {}
+  b.disabled = true;
+  carregarPtTodos(function () {
+    b.disabled = false; if (!minha) return;
+    minha.res = analisarMinha(txt); minha.todos = false; pintarMinha(true);
+    var r = $("minhaRes"); if (r.scrollIntoView) r.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "start" });
+  });
+}
+function pintarMinha(novo) {
+  var box = $("minhaRes"), abertos = {};
+  if (!novo) [].forEach.call(box.querySelectorAll("details.gd[open]"), function (d) { abertos[d.getAttribute("data-v")] = 1; }); // "Mostrar todas" mantém o que estava aberto
+  box.innerHTML = "";
+  var r = minha && minha.res; if (!r) return;
+  var cx = el("div", "duelo-info minha-res"), s1 = el("section");
+  s1.appendChild(el("h3", "", t("mhLista")));
+  if (r.m) s1.appendChild(el("p", "", t("mTotais", { m: r.m, s: r.s })));
+  r.erros.forEach(function (x) { s1.appendChild(el("p", "minha-erro", x)); });
+  r.avisos.forEach(function (x) { s1.appendChild(el("p", "mut", x)); });
+  if (r.par) { var pp = el("p"); pp.innerHTML = t(r.par.p >= PARECIDA ? "mParecida" : "mLonge", { v: esc(r.par.d.nome), p: pct(Math.round(100 * r.par.p)) }); s1.appendChild(pp); }
+  cx.appendChild(s1);
+  if (!r.erros.length) cx.appendChild(guiaMinha(r, abertos));
+  box.appendChild(cx);
+}
+function guiaMinha(r, abertos) {
+  var s = el("section"), fam = r.par && r.par.p >= PARECIDA ? r.par.d.fam : "";
+  s.appendChild(el("h3", "", t("mhGuia")));
+  s.appendChild(el("p", "mut", t("mIntro")));
+  (minha.todos ? CONSENSOS : CONSENSOS.slice(0, MINHA_TOPO)).forEach(function (d) {
+    var o = calcOtim(r.lista, d.lista), n = o.semSide ? 0 : o.trocas.length;
+    var det = el("details", "gd"), sm = el("summary"), nm = el("span", "gd-nome"), meta = el("span", "gd-meta");
+    det.setAttribute("data-v", idDe(d)); if (abertos[idDe(d)]) det.open = true;
+    nm.appendChild(el("b", "", d.nome)); if (d.ci) nm.appendChild(simbolos(d.ci)); nm.appendChild(el("span", "gd-pct", pct(d.pct)));
+    meta.appendChild(el("span", n ? "gd-n" : "gd-n zero", n === 1 ? t("mTrocas1") : n ? t("mTrocasN", { n: n }) : t("mTrocas0")));
+    if (fam && fam === d.fam) meta.appendChild(el("span", "gd-hist", t("mEspelho")));
+    else if (fam) {
+      var c = confronto({ fam: fam }, d);
+      if (c && c[0] + c[1] > 0) { var h = el("span", "gd-hist", t("mHist", { p: pct(Math.round(100 * c[0] / (c[0] + c[1]))) })); h.title = t("mHistTit", { v: c[0], n: c[0] + c[1] + c[2] }); meta.appendChild(h); }
+    }
+    sm.appendChild(nm); sm.appendChild(meta); det.appendChild(sm);
+    var corpo = el("div", "gd-corpo");
+    if (!n) corpo.appendChild(el("p", "mut", t("mNada")));
+    else {
+      listaOtim(o, corpo);
+      var deck = { nome: t("mNome"), _contra: d.nome, lista: aplicarTrocas(r.lista, o.trocas) }, ac = el("div", "row acoes gd-acoes");
+      var bc = el("button", "go", t("criar")), bp = el("button", "ghost", t("copiar")); bc.type = bp.type = "button";
+      bc.onclick = function () { criarNoEndstep(deck); }; bp.onclick = function () { copiarBotao(bp, deck, "copiar"); };
+      ac.appendChild(bc); ac.appendChild(bp); corpo.appendChild(ac);
+    }
+    det.appendChild(corpo); s.appendChild(det);
+  });
+  if (!minha.todos && CONSENSOS.length > MINHA_TOPO) {
+    var bt = el("button", "ghost gd-todas", t("mTodas", { n: CONSENSOS.length })); bt.type = "button";
+    bt.onclick = function () { minha.todos = true; pintarMinha(); }; s.appendChild(bt);
+  }
+  s.appendChild(el("p", "mut", t("mNota")));
+  return s;
+}
+$("btnMinha").onclick = abrirMinha;
+$("btnGerar").onclick = gerarMinha;
+$("btnMinhaApagar").onclick = function () {
+  $("minhaTxt").value = ""; if (minha) minha.res = null;
+  try { localStorage.removeItem(CHAVE_MINHA); } catch (e) {}
+  pintarMinha(true); $("minhaTxt").focus();
+};
+
 montarFiltros();
 abrirId(idDoEndereco());
 mesa = mesaDoEndereco(); // link de confronto
+if (!mesa && location.hash === "#minha") { minha = novaMinha(); carregarPtTodos(); }
 desenhar();
 window.addEventListener("hashchange", function () {
+  if (location.hash === "#minha") { if (!minha) { mesa = null; zerarBuscaEFiltros(); minha = novaMinha(); carregarPtTodos(); desenhar(); window.scrollTo(0, 0); } return; }
+  if (minha) { if (!location.hash) { sairMinha(); return; } minha = null; desenhar(); } // saindo da Minha lista por outro link
   var mm = mesaDoEndereco();
   if (mm) { if (mesa && hashMesa() === location.hash.slice(1)) return; zerarBuscaEFiltros(); mesa = mm; desenhar(); window.scrollTo(0, 0); return; }
   if (mesa && !location.hash) { sairMesa(); return; } // voltar (navegador) a partir do duelo
@@ -2225,6 +2469,8 @@ window.addEventListener("hashchange", function () {
 });
 // Voltar/avançar do navegador entre a tela inicial e o duelo (o duelo entra com pushState, que não dispara hashchange)
 window.addEventListener("popstate", function () {
+  if (location.hash === "#minha") { if (!minha) { mesa = null; $("escolha").hidden = true; minha = novaMinha(); desenhar(); } return; }
+  if (minha && !location.hash) { sairMinha(); return; }
   var mm = mesaDoEndereco();
   if (mm) { $("escolha").hidden = true; zerarBuscaEFiltros(); mesa = mm; desenhar(); }
   else if (mesa && !location.hash) sairMesa(); // link de deck: quem trata é o hashchange

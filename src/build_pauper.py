@@ -168,9 +168,12 @@ _vistas = {m.group(1) for c in colecoes for d in c["decks"] for m in re.finditer
 _sem_fu = sorted(_vistas - set(FUNCOES))
 if FUNCOES and _sem_fu:
     raise SystemExit("ERRO: cartas sem funções em pauper/funcoes.json (rodar tools/pauper_funcoes.py): %s" % _sem_fu)
-funcoes = {n: FUNCOES[n] for n in sorted(_vistas) if n in FUNCOES}
+# Desde a v146 vão TODAS as cartas de funcoes.json (não só as das listas exibidas): a "Minha lista" lê qualquer carta das listas dos 30 dias.
+funcoes = {n: FUNCOES[n] for n in sorted(FUNCOES)}
+livres = {n: 1 for n, r in cartas.items() if r.get("livre") == "1"}  # podem ter mais de 4 cópias (básicos e afins)
 
 html = (open("template_pauper.html", encoding="utf-8").read()
+        .replace("__LIVRES__", json.dumps(livres, ensure_ascii=False, sort_keys=True, separators=(",", ":")))
         .replace("__FUNCOES__", json.dumps(funcoes, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/"))
         .replace("__CONFRONTOS__", json.dumps(confrontos, ensure_ascii=False, sort_keys=True, separators=(",", ":")) if confrontos else "null")
         .replace("__TIPOS__", json.dumps(TIPOS, ensure_ascii=False))
