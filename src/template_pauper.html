@@ -533,6 +533,7 @@
   </div>
   <div id="minha" hidden>
     <div class="panel minha-cx">
+      <input class="escolha-busca" id="minhaNome" type="text" maxlength="40" data-tp="escolhaNomePh" autocomplete="off" autocapitalize="words" spellcheck="false" aria-label="Nome do deck">
       <label class="minha-rot" for="minhaTxt" data-t="minhaRot"></label>
       <textarea id="minhaTxt" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" data-tp="minhaPh"></textarea>
       <div class="row acoes"><button type="button" class="go" id="btnGerar" data-t="minhaGerar">Gerar guia</button><button type="button" class="ghost" id="btnMinhaApagar" data-t="minhaApagar">Apagar</button></div>
@@ -2549,16 +2550,16 @@ function desenharMinha() {
   document.body.classList.remove("modo-mesa"); document.body.classList.add("modo-minha");
   $("minha").hidden = false; $("btnLimparTudo").hidden = false; $("contagem").textContent = ""; $("escolha").hidden = true;
   var ta = $("minhaTxt");
-  if (!minha.lido) { minha.lido = true; minha.trava = lerTravas(); if (!ta.value) { try { ta.value = localStorage.getItem(CHAVE_MINHA) || ""; } catch (e) {} } } // a última lista colada e as travas, só neste aparelho
+  if (!minha.lido) { minha.lido = true; minha.trava = lerTravas(); if (!ta.value) { try { ta.value = localStorage.getItem(CHAVE_MINHA) || ""; } catch (e) {} } if (!$("minhaNome").value) $("minhaNome").value = nomeGuardado(); } // a última lista colada, o nome e as travas, só neste aparelho
   pintarMinha();
 }
 function gerarMinha() {
-  var txt = $("minhaTxt").value, b = $("btnGerar");
-  try { localStorage.setItem(CHAVE_MINHA, txt); } catch (e) {}
+  var txt = $("minhaTxt").value, b = $("btnGerar"), nome = $("minhaNome").value.replace(/\s+/g, " ").trim();
+  try { localStorage.setItem(CHAVE_MINHA, txt); if (nome) localStorage.setItem(CHAVE_NOME, nome); else localStorage.removeItem(CHAVE_NOME); } catch (e) {} // o nome é o mesmo do quadro de escolha do Comparar decks
   b.disabled = true;
   carregarPtTodos(function () {
     b.disabled = false; if (!minha) return;
-    minha.res = analisarMinha(txt); minha.todos = false; minha.ab = {}; minha.ver = {};
+    minha.res = analisarMinha(txt); minha.nome = nome; minha.todos = false; minha.ab = {}; minha.ver = {};
     if (!minha.res.erros.length) { var ok = {}; travaveis(minha.res).forEach(function (c) { if (minha.trava[c[1]]) ok[c[1]] = 1; }); minha.trava = ok; gravarTravas(); } // lista nova: só ficam as travas das cartas que continuam no principal
     pintarMinha(true);
     var r = $("minhaRes"); if (r.scrollIntoView) r.scrollIntoView({ behavior: semAnim() ? "auto" : "smooth", block: "start" });
@@ -2644,7 +2645,7 @@ function guiaMinha(r, abertos) {
     var corpo = el("div", "gd-corpo"), id = idDe(d);
     if (!n) corpo.appendChild(el("p", "mut", t("mNada")));
     else {
-      var orig = { nome: t("mNome"), lista: r.lista }, deck = { nome: t("mNome"), _contra: d.nome, _orig: orig, lista: aplicarTrocas(r.lista, o.trocas) };
+      var nmd = minha.nome || t("mNome"), orig = { nome: nmd, lista: r.lista }, deck = { nome: nmd, _contra: d.nome, _orig: orig, lista: aplicarTrocas(r.lista, o.trocas) };
       var montar = function () { // como o bloco do Otimizar: "Ver lista" abre original × otimizada aqui mesmo, com "Ocultar lista" no pé
         corpo.innerHTML = ""; listaOtim(o, corpo);
         if (!minha.ab[id]) {
@@ -2677,8 +2678,8 @@ function guiaMinha(r, abertos) {
 $("btnMinha").onclick = abrirMinha;
 $("btnGerar").onclick = gerarMinha;
 $("btnMinhaApagar").onclick = function () {
-  $("minhaTxt").value = ""; if (minha) { minha.res = null; minha.trava = {}; minha.ab = {}; minha.ver = {}; }
-  try { localStorage.removeItem(CHAVE_MINHA); localStorage.removeItem(CHAVE_TRAVA); } catch (e) {}
+  $("minhaTxt").value = ""; $("minhaNome").value = ""; if (minha) { minha.res = null; minha.trava = {}; minha.ab = {}; minha.ver = {}; }
+  try { localStorage.removeItem(CHAVE_MINHA); localStorage.removeItem(CHAVE_TRAVA); localStorage.removeItem(CHAVE_NOME); } catch (e) {}
   pintarMinha(true); $("minhaTxt").focus();
 };
 
