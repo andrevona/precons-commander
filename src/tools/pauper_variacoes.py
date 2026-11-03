@@ -223,7 +223,11 @@ def main():
                 for c, k in x["main"].items(): med_m[c] += k / n
                 for c, k in x["side"].items(): med_s[c] += k / n; pres_s[c] += 1
             teto = lambda c: 99 if c in BASICOS else 4
-            cons = alocar(med_m, 60, teto); side = alocar(med_s, 15, teto)
+            cons = alocar(med_m, 60, teto)
+            # principal + sideboard somam no máximo 4 cópias de cada carta (regra do formato): o side típico só fica com o que
+            # sobrou depois do consenso (ex. Mono-White Aggro: 4 Thraben Charm no principal, nenhuma no side)
+            teto_s = lambda c: 99 if c in BASICOS else max(0, 4 - cons.get(c, 0))
+            side = alocar(med_s, 15, teto_s)
             b = [bom(x["lugar"]) for x in g]
             vs.append({"nome": nome_variacao(cores, fam), "cores": cores, "n": n,
                        "mtgo": sum(1 for x in g if x["origem"] == "mtgo"), "pct": round(100 * n / total, 1),
