@@ -207,16 +207,16 @@
   .duelo-info p { margin:4px 0; font-size:14px; }
   .duelo-info .mut { color:var(--mut); font-size:12.5px; }
   .otim-btns { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0 4px; }
-  .otim-btn { font:inherit; font-weight:700; font-size:14px; padding:9px 10px; border-radius:10px; cursor:pointer; color:var(--fg); border:1.5px solid transparent; background:var(--tinta, var(--card)) padding-box, var(--brilho, var(--line)) border-box; }
+  .otim-btn { font:inherit; font-weight:700; font-size:14px; padding:9px 10px; border-radius:10px; cursor:pointer; color:var(--fg); border:1.5px solid transparent; background:var(--tinta, linear-gradient(var(--card), var(--card))) padding-box, var(--brilho, linear-gradient(var(--deckBorda), var(--deckBorda))) border-box; } /* sem cor (lista colada, v162): o contorno dos cartões */
   .otim-btn:hover { filter:brightness(1.04); }
   .otim-btn.on { font-weight:600; color:var(--mut); background:var(--card); border:1.5px dashed var(--mut); } /* já otimizado: o botão vira "Desfazer" */
-  .otim-res { margin-top:12px; padding:10px 12px 12px; border:2px solid transparent; border-radius:10px; background:linear-gradient(var(--bg), var(--bg)) padding-box, var(--brilho, linear-gradient(var(--line), var(--line))) border-box; }
+  .otim-res { margin-top:12px; padding:10px 12px 12px; border:2px solid transparent; border-radius:10px; background:linear-gradient(var(--bg), var(--bg)) padding-box, var(--brilho, linear-gradient(var(--deckBorda), var(--deckBorda))) border-box; }
   .otim-res .otim-cab { flex-wrap:wrap; justify-content:flex-start; gap:2px 8px; }
   .otim-cab b .simbolos { margin-left:6px; vertical-align:-3px; } .otim-cab b .simbolos img { width:14px; height:14px; }
   .otim-vs { color:var(--mut); font-size:13px; }
   .lista-botoes { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
   .lista-botoes .dif-copiar { margin-top:0; }
-  .painel-mesa { border:2px solid transparent; background:linear-gradient(var(--card), var(--card)) padding-box, var(--brilho, linear-gradient(var(--line), var(--line))) border-box; }
+  .painel-mesa { border:2px solid transparent; background:linear-gradient(var(--card), var(--card)) padding-box, var(--brilho, linear-gradient(var(--deckBorda), var(--deckBorda))) border-box; }
   .otim-cab { display:flex; align-items:baseline; justify-content:space-between; gap:8px; font-size:14px; }
   .otim-desf, .otim-ver { font-size:13px; padding:4px 10px; }
   .otim-ver { margin-top:8px; }
