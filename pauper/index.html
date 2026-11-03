@@ -540,7 +540,7 @@
     <div id="minhaRes"></div>
   </div>
   <footer id="rodape"></footer>
-  <div class="versao" id="versao">v162</div>
+  <div class="versao" id="versao">v163</div>
 </main>
 <div class="modal" id="guia" hidden>
   <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="guiaTitulo">
@@ -562,6 +562,7 @@
     <input class="escolha-busca" id="escolhaBusca" type="search" data-tp="escolhaBusca" autocomplete="off" autocapitalize="off" spellcheck="false" aria-controls="escolhaLista">
     <ul class="escolha-lista" id="escolhaLista" role="listbox" aria-labelledby="escolhaTit"></ul>
     <div class="escolha-colar" id="escolhaColar" hidden>
+      <input class="escolha-busca" id="escolhaNome" type="text" maxlength="40" data-tp="escolhaNomePh" autocomplete="off" autocapitalize="words" spellcheck="false" aria-label="Nome do deck">
       <label class="minha-rot" for="escolhaTxt" data-t="escolhaColarRot"></label>
       <textarea id="escolhaTxt" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" data-tp="minhaPh"></textarea>
       <div id="escolhaErros" aria-live="polite"></div>
@@ -616,7 +617,7 @@ var TXT = {
     duelo: 'Comparar decks', jogador: 'Deck {n}', verLista: 'Ver lista', esconderLista: 'Ocultar lista',
     trocarDeck: 'Trocar o {n}',
     escolher: 'Escolher deck…', tocarEscolher: 'Toque para escolher', escolhaTit: 'Escolher o {n}', escolhaBusca: 'Buscar arquétipo, variação ou carta…',
-    escolhaMinha: 'Minha lista', escolhaVoltar: 'Voltar', escolhaUsar: 'Usar esta lista',
+    escolhaNomePh: 'Nome do deck (opcional)', escolhaMinha: 'Minha lista', escolhaVoltar: 'Voltar', escolhaUsar: 'Usar esta lista',
     escolhaColarRot: 'Cole a sua lista: principal, uma linha em branco (ou “Sideboard”) e o sideboard, que é opcional (sem ele, o seu deck fica sem Pós-side). Nomes em inglês ou português.',
     minhaCartao: 'Sua lista · {m} + {s} cartas', minhaParec: 'Parecida com {v} ({p})',
     minhaFora1: '1 carta fora do guia: não entra nas estatísticas nem no Pós-side', minhaForaN: '{n} cartas fora do guia: não entram nas estatísticas nem no Pós-side',
@@ -714,7 +715,7 @@ var TXT = {
     duelo: 'Compare decks', jogador: 'Deck {n}', verLista: 'View list', esconderLista: 'Hide list',
     trocarDeck: 'Change {n}',
     escolher: 'Pick a deck…', tocarEscolher: 'Tap to pick', escolhaTit: 'Pick {n}', escolhaBusca: 'Search archetype, variation or card…',
-    escolhaMinha: 'My list', escolhaVoltar: 'Back', escolhaUsar: 'Use this list',
+    escolhaNomePh: 'Deck name (optional)', escolhaMinha: 'My list', escolhaVoltar: 'Back', escolhaUsar: 'Use this list',
     escolhaColarRot: 'Paste your list: main deck, a blank line (or “Sideboard”) and the sideboard, which is optional (without it, your deck has no post-board). Names in English or Portuguese.',
     minhaCartao: 'Your list · {m} + {s} cards', minhaParec: 'Close to {v} ({p})',
     minhaFora1: '1 card outside the guide: left out of the stats and the post-board', minhaForaN: '{n} cards outside the guide: left out of the stats and the post-board',
@@ -1861,7 +1862,7 @@ function mesaDoEndereco() {
   if (pendM.length) carregarPtTodos(function () {
     var txt = ""; try { txt = localStorage.getItem(CHAVE_MINHA) || ""; } catch (e) {}
     var r = txt ? analisarMinha(txt) : null; if (mesa !== nm || !r || errosMinha(r).length) return;
-    pendM.forEach(function (k) { nm.d[k] = deckMinha(r); nm.rev[k] = true; }); desenhar();
+    pendM.forEach(function (k) { nm.d[k] = deckMinha(r, nomeGuardado()); nm.rev[k] = true; }); desenhar();
   });
   return nm;
 }
@@ -1981,9 +1982,11 @@ $("escolhaLista").addEventListener("keydown", function (e) {
 // para o Pós-side vêm da variação parecida (PARECIDA, como no guia da Minha lista); as travas da Minha lista valem aqui também.
 // Cores: o cartão fica sem cor (as cores do deck dependem do custo de mana e dos terrenos, que a página não tem).
 function errosMinha(r) { var sem = t("mSemSide"); return r.erros.filter(function (x) { return x !== sem; }); }
-function deckMinha(r) {
+var CHAVE_NOME = "precons-pauper-minha-nome"; // nome dado à lista colada no quadro de escolha (v163; só neste aparelho)
+function nomeGuardado() { try { return (localStorage.getItem(CHAVE_NOME) || "").trim(); } catch (e) { return ""; } }
+function deckMinha(r, nome) {
   var par = r.par && r.par.p >= PARECIDA ? r.par.d : null, lista = r.s ? r.lista : r.lista.split("\n\n")[0];
-  return { nome: t("mNome"), arquivo: "minha.txt", minha: true, lista: lista, m: r.m, s: r.s, desc: r.desc || [], par: r.par,
+  return { nome: nome || t("mNome"), arquivo: "minha.txt", minha: true, lista: lista, m: r.m, s: r.s, desc: r.desc || [], par: r.par,
     st: statsDe(lista), _col: { nuc: par ? par._col.nuc : null, vence: par ? par._col.vence : "" } };
 }
 function rotForaMinha(d) { var n = d.desc.length; return n === 1 ? t("minhaFora1") : t("minhaForaN", { n: n }); }
@@ -1994,6 +1997,7 @@ function modoColar(on) {
   if (!on) return;
   var ta = $("escolhaTxt"); $("escolhaErros").innerHTML = "";
   if (!ta.value) { try { ta.value = localStorage.getItem(CHAVE_MINHA) || ""; } catch (e) {} } // a última lista colada (aqui ou na Minha lista)
+  if (!$("escolhaNome").value) $("escolhaNome").value = nomeGuardado();
   carregarPtTodos();
   if (!(window.matchMedia && matchMedia("(pointer: coarse)").matches)) ta.focus(); // no celular o teclado não abre sozinho
 }
@@ -2005,8 +2009,9 @@ function usarMinha() {
     var r = analisarMinha(txt), er = errosMinha(r), box = $("escolhaErros");
     box.innerHTML = "";
     if (er.length) { er.forEach(function (x) { box.appendChild(el("p", "minha-erro", x)); }); return; }
-    try { localStorage.setItem(CHAVE_MINHA, txt); } catch (e) {}
-    escolherNoQuadro(deckMinha(r));
+    var nome = $("escolhaNome").value.replace(/\s+/g, " ").trim();
+    try { localStorage.setItem(CHAVE_MINHA, txt); if (nome) localStorage.setItem(CHAVE_NOME, nome); else localStorage.removeItem(CHAVE_NOME); } catch (e) {}
+    escolherNoQuadro(deckMinha(r, nome));
   });
 }
 $("escolhaMinha").onclick = function () { modoColar($("escolhaColar").hidden); if ($("escolhaColar").hidden && !(window.matchMedia && matchMedia("(pointer: coarse)").matches)) $("escolhaBusca").focus(); };
