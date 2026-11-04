@@ -91,7 +91,7 @@
   .cor-caixa.on .cor-btn::after { color:var(--f-accfg); }
   /* Celular: grade fixa de 2 colunas, para as pílulas não mudarem de lugar quando o texto muda (símbolos, nome do arquétipo,
      × de tirar o filtro, "Limpar tudo" que aparece e some). O × fica por cima da seta, sem aumentar a pílula. */
-  @media (min-width:521px) { .filtros .sorte-grupo:not(.minha-grupo) { order:1; margin-left:auto; } } /* botão colorido na margem direita, alinhado com o fim da busca; "Limpar tudo" fica antes dele (v153) */
+  @media (min-width:521px) { .filtros .sorte-grupo { order:1; margin-left:auto; } } /* botão colorido na margem direita, alinhado com o fim da busca; "Limpar tudo" fica antes dele (v153) */
   @media (max-width:520px) {
     .filtros { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 6px; }
     .filtros .cor-caixa { min-width:0; }
@@ -99,8 +99,7 @@
     .filtros .limpar-cor { position:absolute; right:3px; top:50%; transform:translateY(-50%); margin:0; width:20px; height:20px; font-size:14px; z-index:1; }
     .filtros .cor-caixa.on .cor-btn::after { visibility:hidden; }
     .filtros .limpar-tudo { justify-self:center; grid-column:1 / -1; }
-    .filtros .sorte-grupo { justify-self:end; } /* botão colorido na margem direita, alinhado com o fim da busca (v153) */
-    .filtros .minha-grupo { justify-self:start; }
+    .filtros .sorte-grupo { justify-self:end; grid-column:2; } /* botão colorido na margem direita, alinhado com o fim da busca (v153); sozinho na 2ª coluna desde que o "Minha lista" saiu (v165) */
     .filtros .sorte-grupo #btnSorte { white-space:nowrap; gap:4px; padding:4px 12px 4px 9px; }
     .filtros .sorte-grupo .mesa-btn { padding:4px 8px 4px 7px; }
     .filtros .cor-btn { gap:4px; }
@@ -228,7 +227,6 @@
   /* Minha lista (guia de sideboard da lista do usuário, v146) */
   #minha[hidden] { display:none; }
   body.modo-minha #grupos, body.modo-minha #caixaBusca, body.modo-minha .sorte-grupo, body.modo-minha #contagem, body.modo-minha #conteudo { display:none !important; }
-  .minha-btn { padding-right:12px; } .minha-btn::after { content:none; } .minha-btn svg { width:16px; height:16px; flex:none; }
   .minha-rot { display:block; font-size:13px; color:var(--mut); margin:0 0 6px; }
   #minhaTxt, #escolhaTxt { display:block; width:100%; box-sizing:border-box; min-height:220px; resize:vertical; font:13px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color:var(--fg); background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:8px 10px; }
   #minhaTxt:focus, #escolhaTxt:focus { outline:2px solid var(--acc); outline-offset:-1px; }
@@ -492,7 +490,6 @@
   <p class="sub" id="sub" data-t="sub"></p>
 
   <div class="filtros" id="filtros" hidden>
-        <span class="sorte-grupo minha-grupo"><button type="button" class="cor-btn minha-btn" id="btnMinha" data-ta="minhaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 10h6M9 14h6M9 18h3"/></svg><span data-t="minhaBtn">Minha lista</span></button></span>
         <span class="sorte-grupo"><button type="button" class="cor-btn sorte" id="btnSorte" data-ta="surpresaDica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="8" height="12" rx="1.6"/><rect x="14" y="8" width="8" height="12" rx="1.6"/><path d="M11.5 19.5h-5l1.6-1.6"/><path d="M12.5 4.5h5l-1.6 1.6"/></svg><span data-t="surpresa">Comparar decks</span></button></span>
     <button type="button" class="limpar-tudo" id="btnLimparTudo" data-ta="limparTudoDica" hidden><span aria-hidden="true">↺</span> <span data-t="limparTudo">Limpar tudo</span></button>
   </div>
@@ -604,7 +601,7 @@ var ATUALIZADO = META.data; // data (AAAA-MM-DD) em que as listas foram baixadas
 var TXT = {
   pt: {
     titulo: 'Pauper',
-    sub: 'Os arquétipos do Pauper nos últimos 30 dias, do mais ao menos jogado, com o consenso de cada variação e 2 listas reais de torneios. Use a busca, compare dois decks ou cole a sua lista.',
+    sub: 'Os arquétipos do Pauper nos últimos 30 dias, do mais ao menos jogado, com o consenso de cada variação e 2 listas reais de torneios. Use a busca ou compare dois decks, inclusive com a sua lista.',
     busca: 'Carta, arquétipo ou variação…', apagar: 'Apagar busca', grupoCores: 'Variações',
     outrasVar: 'Outras', outrosArq: 'Voltar à tela inicial', consenso: 'Consenso', nListas: '{n} listas', kDeN: '{k} de {n} listas', nLista: '1 lista', mostrarMais: 'Mostrar mais ({n})',
     carregando: 'Carregando as listas…', falhaCarregar: 'Não consegui carregar as listas agora. Toque no arquétipo para tentar de novo.',
@@ -614,7 +611,7 @@ var TXT = {
     sideTipico: 'Sideboard típico (% das listas da variação que levam a carta): {l}.', listaDe: 'Lista de {j}{r}', escolhaListas: 'Listas',
     confrNivel: 'Números do arquétipo inteiro ({a} x {b}, todas as variações), segundo o DeckSnipe.', outrasDe: '{f} (outras)',
     ban_unf: '{n} cartas do Unfinity com adesivos ou atrações', ban_conspiracy: '{n} cartas do tipo Conspiracy:',
-    surpresa: 'Comparar decks', surpresaDica: 'Escolha dois decks (variação ou lista) e compare o confronto (limpa a busca)',
+    surpresa: 'Comparar decks', surpresaDica: 'Escolha dois decks (variação, lista real ou a sua lista) e compare o confronto (limpa a busca)',
     duelo: 'Comparar decks', jogador: 'Deck {n}', verLista: 'Ver lista', esconderLista: 'Ocultar lista',
     trocarDeck: 'Trocar o {n}',
     escolher: 'Escolher deck…', tocarEscolher: 'Toque para escolher', escolhaTit: 'Escolher o {n}', escolhaBusca: 'Buscar arquétipo, variação ou carta…',
@@ -626,7 +623,7 @@ var TXT = {
     escolhaNenhum: 'Nenhum deck com esse nome ou carta.', tambemNoOutro: 'É também o {n} (duelo espelhado)',
     espelho: 'Mesmo arquétipo dos dois lados: o histórico de confrontos não traz partidas de um arquétipo contra ele mesmo.',
     faltaDeck: 'Escolha os dois decks para ver o histórico do confronto, o comparativo e a chance de encontro.',
-    mesaToque: 'Escolha o deck 1 e o deck 2. Depois, toque num deck para ver a lista e criar no endstep.cc.',
+    mesaToque: 'Escolha o deck 1 e o deck 2 (ou cole a sua lista). Depois, toque num deck para ver a lista e criar no endstep.cc.',
     compSorteio: 'Compartilhar o confronto', linkSorteio: 'Link do confronto copiado ✓', copieSorteio: 'Copie o link do confronto:',
     posicao: '{p} das listas · {k}ª variação mais jogada',
     hConfronto: 'Histórico do confronto', hComparativo: 'Comparativo', hEncontro: 'Chance de encontro',
@@ -634,7 +631,7 @@ var TXT = {
     confrFonte: 'Fonte: {f}, {p}. Com menos de 20 partidas o número é pouco confiável.',
     semConfr: 'Não há dados suficientes deste confronto.', semConfrFonte: 'O histórico de confrontos ainda não foi carregado nesta página.',
     encontro: '{b} é {p}% das listas: num torneio, quem joga {a} enfrenta {b} em cerca de 1 a cada {k} partidas.',
-    rodExtra: '<li><b>Arquétipos</b> do mais ao menos jogado; cada um tem <b>variações</b>, com a lista de <b>Consenso</b> e 2 listas reais de torneios.</li><li><b>Comparar decks</b>: histórico do confronto entre dois decks.</li><li><b>Pós-side</b>: troca cartas do principal pelas do sideboard conforme o adversário, do jogo 2 em diante.</li><li><b>Minha lista</b>: cole o seu deck e veja o que trocar contra cada variação.</li>',
+    rodExtra: '<li><b>Arquétipos</b> do mais ao menos jogado; cada um tem <b>variações</b>, com a lista de <b>Consenso</b> e 2 listas reais de torneios.</li><li><b>Comparar decks</b> e <b>Comparar com…</b>: confronto entre dois decks; em qualquer lado dá para colar a <b>sua lista</b>.</li><li><b>Pós-side</b>: troca cartas do principal pelas do sideboard conforme o adversário, do jogo 2 em diante.</li>',
     cMeta: 'Metagame', cMv: 'Valor de mana médio', cCri: 'Criaturas', cMag: 'Instantâneas e feitiços', cEnc: 'Encantamentos', cArt: 'Artefatos', cPw: 'Planeswalkers', cOut: 'Outras mágicas', cTer: 'Terrenos', cCurva: 'Curva de mana',
     hEstat: 'Estatísticas', hVence: 'Forma de vitória', hFunc: 'Funções no deck principal',
     vencePrin: 'Principal: {p}', venceTamb: 'também: {p}', venceNota: 'Da variação, pelas cartas do consenso.',
@@ -676,7 +673,6 @@ var TXT = {
     tCol: 'variação', tDeck: 'variação', tCmd: 'deck', tCarta: 'carta',
     filtroCor: 'Filtrar os decks pelas cores que usam', todasCores: 'Por cor', tirarCor: 'Tirar o filtro de cores',
     cores: { W: 'Branco', U: 'Azul', B: 'Preto', R: 'Vermelho', G: 'Verde', C: 'Incolor' }, cinco: 'WUBRG',
-    minhaBtn: 'Minha lista', minhaDica: 'Cole a sua lista e veja um guia de sideboard contra cada variação',
     minhaSub: 'Cole o seu deck (principal e sideboard) e veja o que trocar contra cada variação do metagame.',
     minhaRot: 'Sua lista: principal, uma linha em branco (ou “Sideboard”) e o sideboard. Nomes em inglês ou português.',
     minhaPh: '4 Lightning Bolt\n4 Kessig Flamebreather\n…\n\nSideboard\n3 Pyroblast\n…', minhaGerar: 'Gerar guia', minhaApagar: 'Apagar',
@@ -702,7 +698,7 @@ var TXT = {
   },
   en: {
     titulo: 'Pauper',
-    sub: 'The Pauper archetypes of the last 30 days, from most to least played, with each variation\'s consensus and 2 real tournament lists. Use the search, compare two decks or paste your list.',
+    sub: 'The Pauper archetypes of the last 30 days, from most to least played, with each variation\'s consensus and 2 real tournament lists. Use the search or compare two decks, your own list included.',
     busca: 'Card, archetype or variation…', apagar: 'Clear search', grupoCores: 'Variations',
     outrasVar: 'Others', outrosArq: 'Back to the start', consenso: 'Consensus', nListas: '{n} lists', kDeN: '{k} of {n} lists', nLista: '1 list', mostrarMais: 'Show more ({n})',
     carregando: 'Loading the lists…', falhaCarregar: 'Could not load the lists now. Tap the archetype to try again.',
@@ -712,7 +708,7 @@ var TXT = {
     sideTipico: 'Typical sideboard (% of the variation\'s lists that run the card): {l}.', listaDe: 'List by {j}{r}', escolhaListas: 'Lists',
     confrNivel: 'Numbers for the whole archetype ({a} vs {b}, all variations), according to DeckSnipe.', outrasDe: '{f} (others)',
     ban_unf: '{n} Unfinity cards with stickers or attractions', ban_conspiracy: '{n} Conspiracy cards:',
-    surpresa: 'Compare decks', surpresaDica: 'Pick two decks (variation or list) and compare the matchup (clears the search)',
+    surpresa: 'Compare decks', surpresaDica: 'Pick two decks (variation, real list or your own list) and compare the matchup (clears the search)',
     duelo: 'Compare decks', jogador: 'Deck {n}', verLista: 'View list', esconderLista: 'Hide list',
     trocarDeck: 'Change {n}',
     escolher: 'Pick a deck…', tocarEscolher: 'Tap to pick', escolhaTit: 'Pick {n}', escolhaBusca: 'Search archetype, variation or card…',
@@ -724,7 +720,7 @@ var TXT = {
     escolhaNenhum: 'No deck with that name or card.', tambemNoOutro: 'Also {n} (mirror match)',
     espelho: 'Same archetype on both sides: the matchup history has no games of an archetype against itself.',
     faltaDeck: 'Pick both decks to see the matchup history, the comparison and the odds of meeting.',
-    mesaToque: 'Pick deck 1 and deck 2. Then tap a deck to see the list and create it on endstep.cc.',
+    mesaToque: 'Pick deck 1 and deck 2 (or paste your list). Then tap a deck to see the list and create it on endstep.cc.',
     compSorteio: 'Share the matchup', linkSorteio: 'Matchup link copied ✓', copieSorteio: 'Copy the matchup link:',
     posicao: '{p} of the lists · #{k} most played variation',
     hConfronto: 'Matchup history', hComparativo: 'Comparison', hEncontro: 'Odds of meeting',
@@ -732,7 +728,7 @@ var TXT = {
     confrFonte: 'Source: {f}, {p}. With fewer than 20 matches the number is not very reliable.',
     semConfr: 'There is not enough data on this matchup.', semConfrFonte: 'The matchup history has not been loaded on this page yet.',
     encontro: '{b} is {p}% of the lists: in a tournament, a {a} player faces {b} in about 1 of every {k} matches.',
-    rodExtra: '<li><b>Archetypes</b> from most to least played; each has <b>variations</b>, with a <b>Consensus</b> list and 2 real tournament lists.</li><li><b>Compare decks</b>: matchup history between two decks.</li><li><b>Post-board</b>: swaps main-deck cards for sideboard cards based on the opponent, from game 2 onward.</li><li><b>My list</b>: paste your deck and see what to swap against each variation.</li>',
+    rodExtra: '<li><b>Archetypes</b> from most to least played; each has <b>variations</b>, with a <b>Consensus</b> list and 2 real tournament lists.</li><li><b>Compare decks</b> and <b>Compare with…</b>: matchup between two decks; either side can be <b>your own list</b>, pasted in.</li><li><b>Post-board</b>: swaps main-deck cards for sideboard cards based on the opponent, from game 2 onward.</li>',
     cMeta: 'Metagame', cMv: 'Average mana value', cCri: 'Creatures', cMag: 'Instants and sorceries', cEnc: 'Enchantments', cArt: 'Artifacts', cPw: 'Planeswalkers', cOut: 'Other spells', cTer: 'Lands', cCurva: 'Mana curve',
     hEstat: 'Statistics', hVence: 'Win condition', hFunc: 'Roles in the main deck',
     vencePrin: 'Main: {p}', venceTamb: 'also: {p}', venceNota: "From the variation's consensus cards.",
@@ -774,7 +770,6 @@ var TXT = {
     tCol: 'variation', tDeck: 'variation', tCmd: 'deck', tCarta: 'card',
     filtroCor: 'Filter decks by the colors they use', todasCores: 'By color', tirarCor: 'Clear the color filter',
     cores: { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green', C: 'Colorless' }, cinco: 'WUBRG',
-    minhaBtn: 'My list', minhaDica: 'Paste your list and get a sideboard guide against each variation',
     minhaSub: 'Paste your deck (main deck and sideboard) and see what to swap against each variation of the metagame.',
     minhaRot: 'Your list: main deck, a blank line (or “Sideboard”) and the sideboard. Names in English or Portuguese.',
     minhaPh: '4 Lightning Bolt\n4 Kessig Flamebreather\n…\n\nSideboard\n3 Pyroblast\n…', minhaGerar: 'Build guide', minhaApagar: 'Clear',
@@ -2535,6 +2530,8 @@ function parecida(main) {
   });
   return { d: best, p: bs / tot };
 }
+// Sem botão na página inicial desde a v165 (pedido do usuário, 04/11/2026): a tela abre só pelo endereço #minha; a lista própria
+// entra pelo quadro de escolha do Comparar decks e do Comparar com…
 function abrirMinha() {
   mesa = null; zerarBuscaEFiltros(); minha = novaMinha();
   try { history.pushState(null, "", "#minha"); } catch (e) {}
@@ -2675,7 +2672,6 @@ function guiaMinha(r, abertos) {
   s.appendChild(el("p", "mut", t("mNota")));
   return s;
 }
-$("btnMinha").onclick = abrirMinha;
 $("btnGerar").onclick = gerarMinha;
 $("btnMinhaApagar").onclick = function () {
   $("minhaTxt").value = ""; $("minhaNome").value = ""; if (minha) { minha.res = null; minha.trava = {}; minha.ab = {}; minha.ver = {}; }
